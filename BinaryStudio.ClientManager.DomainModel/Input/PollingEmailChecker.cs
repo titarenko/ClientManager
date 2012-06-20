@@ -35,7 +35,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 {
                     EmailReceived(this, new EmailReceivedEventArgs
                     {
-                        Mail = message
+                        Message = message
                     });
                 }
             }
