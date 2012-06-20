@@ -1,4 +1,5 @@
 using System;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Tests
 {

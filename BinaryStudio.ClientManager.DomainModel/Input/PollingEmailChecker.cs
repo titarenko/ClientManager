@@ -1,6 +1,7 @@
 using System;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
-namespace BinaryStudio.ClientManager.DomainModel
+namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     /// <summary>
     /// Receives emails by periodic polling of server.

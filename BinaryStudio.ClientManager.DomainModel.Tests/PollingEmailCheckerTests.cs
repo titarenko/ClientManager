@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
+using BinaryStudio.ClientManager.DomainModel.Input;
 using Moq;
 using NUnit.Framework;
 
