@@ -1,0 +1,10 @@
+bin
+obj
+*ReSharper*
+packages
+*.pyc
+*.db
+*.html
+*.suo
+*.user
+*.dotCover
