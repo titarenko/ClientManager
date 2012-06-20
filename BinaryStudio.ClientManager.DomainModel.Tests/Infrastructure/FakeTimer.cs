@@ -1,7 +1,7 @@
 using System;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
-namespace BinaryStudio.ClientManager.DomainModel.Tests
+namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
 {
     /// <summary>
     /// Timer implementation for testing purposes.

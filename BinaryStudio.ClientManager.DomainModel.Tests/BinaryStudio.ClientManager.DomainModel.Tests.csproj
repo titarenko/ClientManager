@@ -41,8 +41,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FakeTimer.cs" />
-    <Compile Include="PollingEmailCheckerTests.cs" />
+    <Compile Include="Infrastructure\FakeTimer.cs" />
+    <Compile Include="Input\PollingEmailCheckerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

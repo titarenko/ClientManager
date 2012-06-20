@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.Input;
+using BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure;
 using Moq;
 using NUnit.Framework;
 
-namespace BinaryStudio.ClientManager.DomainModel.Tests
+namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
     [TestFixture]
     public class PollingEmailCheckerTests
