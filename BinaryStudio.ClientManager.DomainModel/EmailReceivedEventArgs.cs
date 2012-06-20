@@ -1,7 +1,7 @@
 using System;
 using System.Net.Mail;
 
-namespace BinaryStudio.ClientManager.DomainModel.Tests
+namespace BinaryStudio.ClientManager.DomainModel
 {
     public class EmailReceivedEventArgs : EventArgs
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace BinaryStudio.ClientManager.DomainModel.Tests
+namespace BinaryStudio.ClientManager.DomainModel
 {
     public class Timer
     {
