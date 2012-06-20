@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreServiceTests.cs" />
     <Compile Include="EmailClient.cs" />
     <Compile Include="EmailReceivedEventArgs.cs" />
     <Compile Include="FakeTimer.cs" />
