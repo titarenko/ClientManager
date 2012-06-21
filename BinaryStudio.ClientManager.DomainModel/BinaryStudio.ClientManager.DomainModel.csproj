@@ -35,12 +35,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ThreadingTimer.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
     <Compile Include="Input\EmailClient.cs" />
     <Compile Include="Input\EmailReceivedEventArgs.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\PollingEmailChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
