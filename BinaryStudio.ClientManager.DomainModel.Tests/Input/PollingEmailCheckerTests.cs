@@ -16,7 +16,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             // arrange
             var timer = new FakeTimer();
             var clientMock = new Mock<IEmailClient>();
-            clientMock.Setup(x => x.GetMessages()).Returns(new List<MailMessage>());
+            clientMock.Setup(x => x.GetUnreadMessages()).Returns(new List<MailMessage>());
 
             var checker = new PollingEmailChecker(timer, clientMock.Object);
 
@@ -36,7 +36,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             // arrange
             var timer = new FakeTimer();
             var clientMock = new Mock<IEmailClient>();
-            clientMock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
+            clientMock.Setup(x => x.GetUnreadMessages()).Returns(new MailMessage[10]);
 
             var checker = new PollingEmailChecker(timer, clientMock.Object);
 
@@ -56,7 +56,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             // arrange
             var timer = new FakeTimer();
             var mock = new Mock<IEmailClient>();
-            mock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
+            mock.Setup(x => x.GetUnreadMessages()).Returns(new MailMessage[10]);
 
             var checker = new PollingEmailChecker(timer, mock.Object);
 
