@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Net.Mail;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {

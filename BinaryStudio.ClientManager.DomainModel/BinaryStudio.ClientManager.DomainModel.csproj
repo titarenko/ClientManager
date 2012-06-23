@@ -33,17 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActiveUp.Net.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6cceae6a4844c51b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveUp.Net.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ActiveUp.Net.Imap4, Version=5.0.3454.364, Culture=neutral, PublicKeyToken=9d424b1770e92b68, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveUp.Net.Imap4.dll</HintPath>
-    </Reference>
-    <Reference Include="ActiveUp.Net.Mail, Version=5.0.3454.364, Culture=neutral, PublicKeyToken=851b9e39ef2572fb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveUp.Net.Mail.dll</HintPath>
+    <Reference Include="AE.Net.Mail">
+      <HintPath>..\packages\AE.Net.Mail.1.6.0.0\lib\net40\AE.Net.Mail.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
@@ -55,9 +46,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\MailMessage.cs" />
+    <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\ThreadingTimer.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
-    <Compile Include="Input\EmailClient.cs" />
+    <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\EmailReceivedEventArgs.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\PollingEmailChecker.cs" />

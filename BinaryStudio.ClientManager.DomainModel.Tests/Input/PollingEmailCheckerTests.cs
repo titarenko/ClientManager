@@ -21,14 +21,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        [TestCaseSource("Source")]
+        [TestCaseSource("EmailReceivedEventTestDataSource")]
         public void EmailReceivedEventTest(
             string description,
-            IList<MailMessage> messagesReturnedFromServer, 
+            IList<Entities.MailMessage> messagesReturnedFromServer, 
             bool shouldRaiseReceived)
         {
             // arrange
-            clientMock.Setup(x => x.GetMessages()).Returns(messagesReturnedFromServer);
+            clientMock.Setup(x => x.GetUnreadMessages()).Returns(messagesReturnedFromServer);
 
             var checker = new PollingEmailChecker(timer, clientMock.Object);
 
@@ -46,7 +46,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         public void ShouldNot_ThrowNullReferenceException_WhenNoHandlersExistForEmailReceived()
         {
             // arrange
-            clientMock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
+            clientMock.Setup(x => x.GetUnreadMessages()).Returns(new Entities.MailMessage[10]);
 
             new PollingEmailChecker(timer, clientMock.Object);
 
@@ -57,16 +57,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             Assert.Pass();
         }
 
-        public IEnumerable<TestCaseData> Source()
+        public IEnumerable<TestCaseData> EmailReceivedEventTestDataSource()
         {
             yield return new TestCaseData(
                 "Should Not Raise Email Received Event When No Messages Are Received From Server", 
-                new MailMessage[0], 
+                new Entities.MailMessage[0], 
                 false);
 
             yield return new TestCaseData(
                 "Should Raise Email Received Event When Messages Are Received From Server",
-                new MailMessage[5], 
+                new Entities.MailMessage[5], 
                 true);
         }
     }
