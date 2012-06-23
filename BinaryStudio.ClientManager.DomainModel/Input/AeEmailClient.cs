@@ -10,13 +10,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     /// Email client based on Andy Edinborough's AE.Net.Mail library. 
     /// </summary>
     /// <remarks>
-    /// https://github.com/andyedinborough/aenetmail
+    /// Link to repository https://github.com/andyedinborough/aenetmail.
     /// </remarks>
     public class AeEmailClient : IEmailClient, IDisposable
     {
         private readonly ImapClient client;
-        private IList<MailMessage> messages = new List<MailMessage>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AeEmailClient"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public AeEmailClient(IConfiguration configuration)
         {
             configuration = configuration.GetSubsection("EmailClient");
@@ -35,7 +38,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// </returns>
         public IEnumerable<Entities.MailMessage> GetUnreadMessages()
         {
-            return client.SearchMessages(SearchCondition.New()).Select(message => new Entities.MailMessage
+            return client
+                .SearchMessages(SearchCondition.New())
+                .Select(message => new Entities.MailMessage
                 {
                     Date = message.Value.Date,
                     Sender = message.Value.From,
@@ -45,6 +50,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 });
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, 
+        /// releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             client.Dispose();
