@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.Input;
 using BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure;
 using Moq;

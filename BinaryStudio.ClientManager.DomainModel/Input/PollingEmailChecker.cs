@@ -28,8 +28,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private void OnTick(object sender, EventArgs eventArgs)
         {
-            var messages = emailClient.GetUnreadMessages();
-            foreach (var message in messages)
+            foreach (var message in emailClient.GetUnreadMessages())
             {
                 if (EmailReceived != null)
                 {

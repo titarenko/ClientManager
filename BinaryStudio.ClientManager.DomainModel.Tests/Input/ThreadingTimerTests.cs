@@ -5,7 +5,7 @@ using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     class ThreadingTimerTests
     {
         [Test]
