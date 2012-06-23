@@ -10,33 +10,25 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     [TestFixture]
     public class PollingEmailCheckerTests
     {
-        [Test]
-        public void ShouldNot_RaiseEmailReceivedEvent_WhenNoMessagesAreReceivedFromServer()
+        private FakeTimer timer;
+        private Mock<IEmailClient> clientMock;
+
+        [SetUp]
+        public void SetUp()
         {
-            // arrange
-            var timer = new FakeTimer();
-            var clientMock = new Mock<IEmailClient>();
-            clientMock.Setup(x => x.GetMessages()).Returns(new List<MailMessage>());
-
-            var checker = new PollingEmailChecker(timer, clientMock.Object);
-
-            var received = false;
-            checker.EmailReceived += (sender, args) => received = true;
-
-            // act
-            timer.RaiseOnTick();
-
-            // assert
-            Assert.That(!received);
+            timer = new FakeTimer();
+            clientMock = new Mock<IEmailClient>();
         }
 
         [Test]
-        public void Should_RaiseEmailReceivedEvent_WhenMessagesAreReceivedFromServer()
+        [TestCaseSource("Source")]
+        public void EmailReceivedEventTest(
+            string description,
+            IList<MailMessage> messagesReturnedFromServer, 
+            bool shouldRaiseReceived)
         {
             // arrange
-            var timer = new FakeTimer();
-            var clientMock = new Mock<IEmailClient>();
-            clientMock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
+            clientMock.Setup(x => x.GetMessages()).Returns(messagesReturnedFromServer);
 
             var checker = new PollingEmailChecker(timer, clientMock.Object);
 
@@ -47,25 +39,35 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             timer.RaiseOnTick();
 
             // assert
-            Assert.That(received);
+            Assert.AreEqual(shouldRaiseReceived, received, description);
         }
 
         [Test]
         public void ShouldNot_ThrowNullReferenceException_WhenNoHandlersExistForEmailReceived()
         {
             // arrange
-            var timer = new FakeTimer();
-            var mock = new Mock<IEmailClient>();
-            mock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
+            clientMock.Setup(x => x.GetMessages()).Returns(new MailMessage[10]);
 
-            var checker = new PollingEmailChecker(timer, mock.Object);
+            new PollingEmailChecker(timer, clientMock.Object);
 
             // act
             timer.RaiseOnTick();
 
             // assert
-            Assert.NotNull(checker);
             Assert.Pass();
+        }
+
+        public IEnumerable<TestCaseData> Source()
+        {
+            yield return new TestCaseData(
+                "Should Not Raise Email Received Event When No Messages Are Received From Server", 
+                new MailMessage[0], 
+                false);
+
+            yield return new TestCaseData(
+                "Should Raise Email Received Event When Messages Are Received From Server",
+                new MailMessage[5], 
+                true);
         }
     }
 }

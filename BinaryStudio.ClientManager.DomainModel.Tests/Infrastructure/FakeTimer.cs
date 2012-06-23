@@ -6,7 +6,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
     /// <summary>
     /// Timer implementation for testing purposes.
     /// </summary>
-    class FakeTimer : Timer
+    public class FakeTimer : Timer
     {
         /// <summary>
         /// Raises OnTick event when called.
