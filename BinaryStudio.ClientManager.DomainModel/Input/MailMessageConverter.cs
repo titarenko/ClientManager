@@ -14,12 +14,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <returns>Entities.MailMessage type of mail message</returns>
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(Input.MailMessage message, Person sender, ICollection<Person> receivers)
         {
-            var returnMessage = new Entities.MailMessage();
-            returnMessage.Sender = sender;
-            returnMessage.Date = message.Date;
-            returnMessage.Subject = message.Subject;
-            returnMessage.Receivers = receivers;
+            var returnMessage = new Entities.MailMessage
+                                    {
+                                        Sender = sender,
+                                        Date = message.Date,
+                                        Subject = message.Subject,
+                                        Receivers = receivers
+                                    };
             return returnMessage;         
+        }
+
+        public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

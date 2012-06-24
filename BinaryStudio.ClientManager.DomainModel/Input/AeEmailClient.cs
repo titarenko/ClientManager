@@ -28,7 +28,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 configuration.GetValue("Username"),
                 configuration.GetValue("Password"));
         }
-
+            
         /// <summary>
         /// Obtains messages from the server.
         /// </summary>
@@ -36,11 +36,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Collection of messages.
         /// Empty collection is returned if there are no new messages on the server.
         /// </returns>
-        public IEnumerable<Entities.MailMessage> GetUnreadMessages()
+        public IEnumerable<Input.MailMessage> GetUnreadMessages()
         {
             return client
                 .SearchMessages(SearchCondition.New())
-                .Select(message => new Entities.MailMessage
+                .Select(message => new Input.MailMessage
                 {
                     Date = message.Value.Date,
                     Sender = message.Value.From,
