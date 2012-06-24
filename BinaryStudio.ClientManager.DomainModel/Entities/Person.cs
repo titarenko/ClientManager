@@ -31,5 +31,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Email adress of person
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Person role in the system (e.g., client, 
+        /// for full list see <see cref="PersonRole"/> enumeration).
+        /// </summary>
+        public PersonRole Role { get; set; }
     }
 }
