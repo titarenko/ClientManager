@@ -15,7 +15,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     class MailMessageConverterTests
     {
         [Test]
-        public void Should_ReturnMailMessageWithPersonAndReceivers_WhenCallingConvertMailMessageFromInputTypeToEntityType()
+        public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMailMessageFromInputTypeToEntityType()
         {
             //arrange
             var converter = new MailMessageConverter();
