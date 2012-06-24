@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
@@ -21,17 +18,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// </returns>
         public bool Equals(Person person1, Person person2)
         {
-            if (person1.FirstName == person2.FirstName && person1.CreationDate == person2.CreationDate &&
-                person1.Email == person2.Email && person1.Id == person2.Id
-                && person1.LastName == person2.LastName)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-
-            }
+            return person1.FirstName == person2.FirstName && person1.CreationDate == person2.CreationDate &&
+                   person1.Email == person2.Email && person1.Id == person2.Id
+                   && person1.LastName == person2.LastName;
         }
 
         /// <summary>
@@ -41,8 +30,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>Hashcode of the object</returns>
         public int GetHashCode(Person person)
         {
-            int hCode = person.Id;
-            return hCode.GetHashCode();
+            return person.Id.GetHashCode();
         }
     }
 }
