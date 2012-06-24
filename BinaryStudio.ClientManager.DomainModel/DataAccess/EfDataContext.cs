@@ -13,19 +13,19 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             collections = new Dictionary<Type, object>
                 {
-                    {typeof (Story), Stories},
-                    {typeof (Domain), Domains},
-                    {typeof (User), Users}
+                    //{typeof (Story), Stories},
+                    //{typeof (Domain), Domains},
+                    //{typeof (User), Users}
                 };
         }
 
         // classes Story, User, Domain should be implemented
                   
-        public DbSet<Story> Stories { get; set; }
+        //public DbSet<Story> Stories { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
 
-        public DbSet<Domain> Domains { get; set; }
+        //public DbSet<Domain> Domains { get; set; }
 
         public DbSet<T> GetDbSet<T>() where T : class
         {
@@ -34,7 +34,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            EfConnectionFactory.Enable(true);
+            //EfConnectionFactory.Enable(true);
 
 #if DEBUG
             Database.SetInitializer(new CreateDatabaseIfNotExists<EfDataContext>());
