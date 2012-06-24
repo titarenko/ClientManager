@@ -1,5 +1,4 @@
 using System;
-using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {

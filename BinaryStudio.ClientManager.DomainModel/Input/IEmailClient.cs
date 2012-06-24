@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
@@ -15,6 +14,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Collection of messages. 
         /// Empty collection is returned if there are no new messages on the server.
         /// </returns>
-        IEnumerable<Input.MailMessage> GetUnreadMessages();
+        IEnumerable<MailMessage> GetUnreadMessages();
     }
 }

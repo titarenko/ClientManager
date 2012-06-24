@@ -12,16 +12,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <param name="sender">Represents sender as Person class</param>
         /// <param name="receivers">Represents reveivers as ICollection of Person class</param>
         /// <returns>Entities.MailMessage type of mail message</returns>
-        public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(Input.MailMessage message, Person sender, ICollection<Person> receivers)
+        public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage message, Person sender, ICollection<Person> receivers)
         {
-            var returnMessage = new Entities.MailMessage
+            return new Entities.MailMessage
                                     {
                                         Sender = sender,
                                         Date = message.Date,
                                         Subject = message.Subject,
                                         Receivers = receivers
-                                    };
-            return returnMessage;         
+                                    };        
         }
 
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)

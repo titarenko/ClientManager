@@ -6,7 +6,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// <summary>
     /// Comparer class that compares Persons
     /// </summary>
-    public class PersonComparer:IEqualityComparer<Person>
+    public class PersonComparer : IEqualityComparer<Person>
     {
         /// <summary>
         /// Compare 2 objects of person class
