@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Entities\MailMessage.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
-    <Compile Include="Infrastructure\ThreadingTimer.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\EmailReceivedEventArgs.cs" />
