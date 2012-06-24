@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README = README
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryStudio.ClientManager.WebUi", "BinaryStudio.ClientManager.WebUi\BinaryStudio.ClientManager.WebUi.csproj", "{004DEF19-487F-4ABF-AB76-F35840B000F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryStudio.ClientManager.WebUi.Tests", "BinaryStudio.ClientManager.WebUi.Tests\BinaryStudio.ClientManager.WebUi.Tests.csproj", "{5DD5DD10-BAE9-44CD-9284-B6DB59BDABCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{B7987FBB-413D-4C30-8C13-CC3F324379F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7987FBB-413D-4C30-8C13-CC3F324379F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7987FBB-413D-4C30-8C13-CC3F324379F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{004DEF19-487F-4ABF-AB76-F35840B000F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004DEF19-487F-4ABF-AB76-F35840B000F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004DEF19-487F-4ABF-AB76-F35840B000F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004DEF19-487F-4ABF-AB76-F35840B000F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD5DD10-BAE9-44CD-9284-B6DB59BDABCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD5DD10-BAE9-44CD-9284-B6DB59BDABCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD5DD10-BAE9-44CD-9284-B6DB59BDABCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD5DD10-BAE9-44CD-9284-B6DB59BDABCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
