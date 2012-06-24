@@ -15,6 +15,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Collection of messages. 
         /// Empty collection is returned if there are no new messages on the server.
         /// </returns>
-        IEnumerable<MailMessage> GetUnreadMessages();
+        IEnumerable<Input.MailMessage> GetUnreadMessages();
     }
 }

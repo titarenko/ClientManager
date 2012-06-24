@@ -17,12 +17,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Author of this message.
         /// </summary>
-        public MailAddress Sender { get; set; }
+        public Person Sender { get; set; }
 
         /// <summary>
         /// List of all receivers.
         /// </summary>
-        public ICollection<MailAddress> Receivers { get; set; }
+        public ICollection<Person> Receivers { get; set; }
 
         /// <summary>
         /// Subject of the message.
