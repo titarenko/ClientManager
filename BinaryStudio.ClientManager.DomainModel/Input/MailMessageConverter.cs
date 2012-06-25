@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
@@ -33,7 +36,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
         {
-            throw new System.NotImplementedException();
+            var returnMessage = new Entities.MailMessage
+                                    {
+                                        Body = mailMessage.Body, 
+                                        Date = mailMessage.Date, 
+                                        Subject = mailMessage.Subject
+                                    };
+            //find a Sender in Database
+            Expression<Func<Person, object>> expr = x => x.Email == mailMessage.Sender.Address;
+            var sender = repository.Query(expr);
+            return returnMessage;
         }
     }
 }

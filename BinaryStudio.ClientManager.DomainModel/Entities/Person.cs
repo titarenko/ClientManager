@@ -1,11 +1,12 @@
 ﻿using System;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
     /// <summary>
     /// Class that represents model of person
     /// </summary>
-    public class Person
+    public class Person:IIdentifiable<int>
     {
         /// <summary>
         /// Id of person. It is a primary key
