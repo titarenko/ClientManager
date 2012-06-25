@@ -8,6 +8,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// </summary>
     public class AppConfiguration : IConfiguration
     {
+        private readonly string prefix;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="prefix">Prefix.</param>
+        public AppConfiguration(string prefix)
+        {
+            this.prefix = prefix;
+        }
+
         /// <summary>
         /// Returns subsection by name.
         /// </summary>
@@ -15,7 +26,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>Configuration instance representing requested subsection.</returns>
         public IConfiguration GetSubsection(string name)
         {
-            return ConfigurationManager.GetSection(name) as IConfiguration;
+            return new AppConfiguration(name);
         }
 
         /// <summary>
@@ -25,7 +36,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>The value if key exists. Otherwise null.</returns>
         public string GetValue(string key)
         {
-            return ConfigurationManager.AppSettings[key];
+            return ConfigurationManager.AppSettings[String.Format("{0}.{1}", prefix, key)];
         }
 
         /// <summary>
@@ -36,19 +47,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>Value converted to requested type.</returns>
         public T GetValue<T>(string key)
         {
-            string value = ConfigurationManager.AppSettings[key];
+            string value = GetValue(key);
 
-            try
-            {
-                return (T)Convert.ChangeType(
-                    value,
-                    typeof(T),
-                    System.Globalization.CultureInfo.InvariantCulture);
-            }
-            catch (Exception exception)
-            {
-                throw exception;
-            }
+            return (T)Convert.ChangeType(
+                value,
+                typeof(T),
+                System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }
