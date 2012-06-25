@@ -17,14 +17,14 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             return e.Member.Name;
         }
 
-        public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable<int>
+        public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
         {
             return eagerlyLoadedProperties.Aggregate(
                 (DbQuery<T>)context.GetDbSet<T>(),
                 (current, property) => current.Include(GetPath(property)));
         }
 
-        public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable<int>
+        public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
         {
             var set = context.GetDbSet<T>();
 
@@ -38,7 +38,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 (current, property) => current.Include(GetPath(property))).First(x => x.Id == id);
         }
 
-        public void Save<T>(T instance) where T : class, IIdentifiable<int>
+        public void Save<T>(T instance) where T : class, IIdentifiable
         {
             if (instance.Id == default(int))
             {
@@ -52,7 +52,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             context.SaveChanges();
         }
 
-        public void Delete<T>(T instance) where T : class, IIdentifiable<int>
+        public void Delete<T>(T instance) where T : class, IIdentifiable
         {
             context.GetDbSet<T>().Remove(instance);
             context.SaveChanges();

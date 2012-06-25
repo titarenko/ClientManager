@@ -5,7 +5,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Details about both inquiry
     /// </summary>
-    public class Inquiry : IIdentifiable<int>
+    public class Inquiry : IIdentifiable
     {
         public Inquiry(Person person, MailMessage mailMessage, int id)
         {

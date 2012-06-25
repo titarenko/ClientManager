@@ -1,7 +1,7 @@
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
-    public interface IIdentifiable<out TKey>
+    public interface IIdentifiable
     {
-        TKey Id { get; }
+        int Id { get; }
     }
 }
