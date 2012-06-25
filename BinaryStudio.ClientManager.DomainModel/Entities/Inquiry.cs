@@ -7,10 +7,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Inquiry : IIdentifiable<int>
     {
-        public Inquiry(Person person, MailMessage mailMessage, int id)
+        public Inquiry(Person issuer, MailMessage issue, int id)
         {
-            this.Issuer = person;
-            this.Issue = mailMessage;
+            this.Issuer = issuer;
+            this.Issue = issue;
             this.Id = id;
         }
 
@@ -25,7 +25,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public MailMessage Issue { get; set; }
 
         /// <summary>
-        /// implementation of the IIdentifiable for sorting
+        /// implementation of the IIdentifiable for quiry
         /// should return Issue ID
         /// </summary>
         public int Id { get; set; }

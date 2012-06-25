@@ -20,11 +20,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.repository = repository;
         }
 
-        //
-        // GET: /Inquiries/
+        /// <summary>
+        /// GET: /Inquiries/
+        /// </summary>
         public ActionResult Index()
         {
-            return View(repository.Query<Inquiry>(i => i.Issuer.Role == PersonRole.Client).OrderBy(x => x.Issuer.Id));
+            return View(repository.Query<Inquiry>().OrderBy(x => x.Issuer.Id));//(i => i.Issuer.Role == PersonRole.Client).OrderBy(x => x.Issuer.Id));
         }
 
         /// <summary>
