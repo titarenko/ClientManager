@@ -13,19 +13,18 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             collections = new Dictionary<Type, object>
                 {
-                 //   {typeof (Story), Stories},
-                //    {typeof (Domain), Domains},
-                 //   {typeof (User), Users}
+                    {typeof(Entities.MailMessage), MailMessages},
+                    {typeof(Entities.Person), Persons}
+                    // {typeof (Domain), Domains},
                 };
         }
         // TEMPORARY COMMENTED FOR TESTS
-        // classes Story, User, Domain should be implemented
                   
-     //   public DbSet<Story> Stories { get; set; }
+        // public DbSet<Domain> Domains { get; set; }
 
-     //   public DbSet<User> Users { get; set; }
+        public DbSet<Entities.Person> Persons { get; set; }
 
-  //      public DbSet<Domain> Domains { get; set; }
+        public DbSet<Entities.MailMessage> MailMessages { get; set; }
 
         public DbSet<T> GetDbSet<T>() where T : class
         {
