@@ -51,6 +51,7 @@
     <Compile Include="DataAccess\EfMigrationConfiguration.cs" />
     <Compile Include="DataAccess\EfRepository.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="Entities\Inquiry.cs" />
     <Compile Include="Entities\MailMessage.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRole.cs" />

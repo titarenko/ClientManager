@@ -1,0 +1,19 @@
+﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Inquiry>
+
+@{
+    ViewBag.Title = "Inquiries";
+    @//Layout = "_Layout";
+}
+
+<h2>Inquiries</h2>
+
+<ul>
+    @foreach(var item in Model)
+    {
+        @if (item != null)
+              {
+                  <li> @item.Issuer.FirstName @item.Issuer.LastName           @item.Issue.Subject</li>
+              }
+             
+    }
+</ul>
