@@ -29,7 +29,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var inquiriesController = new InquiriesController(mock.Object);
             var response = inquiriesController.Index();
 
-            // chek
+            // check
             Assert.Pass(); //lol
         }
     }
