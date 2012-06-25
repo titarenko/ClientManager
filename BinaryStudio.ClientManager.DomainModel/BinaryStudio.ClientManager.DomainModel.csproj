@@ -42,6 +42,7 @@
     <Reference Include="Microsoft.TeamFoundation.TestManagement.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
   </ItemGroup>
@@ -53,6 +54,7 @@
     <Compile Include="Entities\MailMessage.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRole.cs" />
+    <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\PersonComparer.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
