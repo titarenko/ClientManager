@@ -37,5 +37,36 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// for full list see <see cref="PersonRole"/> enumeration).
         /// </summary>
         public PersonRole Role { get; set; }
+
+        /// <summary>
+        /// Equals method that compare 2 object of Person class
+        /// </summary>
+        /// <param name="objToCompare">Object that will be compared</param>
+        /// <returns>Return true if they are equal and 
+        /// Return false if they are not equal</returns>
+        public override bool Equals(object objToCompare)
+        {
+            var personToCompare = (objToCompare as Person);
+            if (personToCompare != null)
+            {
+                if (personToCompare.Id==Id && personToCompare.CreationDate==CreationDate 
+                    && personToCompare.Email==Email && personToCompare.FirstName==FirstName
+                    && personToCompare.LastName==LastName && personToCompare.Role==Role)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        /// <summary>
+        /// Return hashcode of the Person class object. Used Id property only
+        /// </summary>
+        /// <returns>Hashcode</returns>
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }
