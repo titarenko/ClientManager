@@ -34,7 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.TeamFoundation.TestManagement.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -49,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\InquiryControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -56,6 +61,10 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinaryStudio.ClientManager.DomainModel\BinaryStudio.ClientManager.DomainModel.csproj">
+      <Project>{7AB0BEB9-0C1C-4768-97A6-72BB61BBDD47}</Project>
+      <Name>BinaryStudio.ClientManager.DomainModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BinaryStudio.ClientManager.WebUi\BinaryStudio.ClientManager.WebUi.csproj">
       <Project>{004DEF19-487F-4ABF-AB76-F35840B000F4}</Project>
       <Name>BinaryStudio.ClientManager.WebUi</Name>
