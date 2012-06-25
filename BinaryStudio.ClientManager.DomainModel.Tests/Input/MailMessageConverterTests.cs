@@ -52,18 +52,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                                         Email = "employee@gmail.com"
                                     };
             Expression<Func<Person, object>> expressionSenderEmailAddressShouldBeEqual = x => x.Email == mailMessage.Sender.Address;
-            mock.Setup(x => x.Query(expressionSenderEmailAddressShouldBeEqual)).Returns();
+            mock.Setup(x => x.Query(expressionSenderEmailAddressShouldBeEqual)).Returns(new List<Person>{expectedPerson}.AsQueryable());
+
+
             //act
             var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
 
             //assert
-            mock.Verify(x => x.Query(expressionSenderEmailAddressShouldBeEqual), Times.Once());
+            //mock.Verify(x => x.Query(expressionSenderEmailAddressShouldBeEqual), Times.Once());
             Assert.AreEqual("This is Body", result.Body);
             Assert.AreEqual("This is Subject", result.Subject);
             Assert.AreEqual(new DateTime(2012, 1, 1), result.Date);
-            Assert.AreEqual("Client", result.Sender.FirstName);
-            Assert.AreEqual("Ivanov", result.Sender.LastName);
-            Assert.AreEqual("client@gmail.com",result.Sender.Email);
+            Assert.AreEqual(expectedPerson, result.Sender);
             Assert.That(result.Receivers.Contains(expectedReceiver));
         }
     }

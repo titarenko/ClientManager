@@ -1,4 +1,4 @@
-﻿using Microsoft.TeamFoundation.TestManagement.Client;
+﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
