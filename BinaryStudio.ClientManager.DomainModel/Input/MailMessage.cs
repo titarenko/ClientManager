@@ -4,6 +4,9 @@ using System.Net.Mail;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
+    /// <summary>
+    /// Represents e-mail message domain input
+    /// </summary>
     public class MailMessage
     {
         /// <summary>
