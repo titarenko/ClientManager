@@ -35,6 +35,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             return View(new List<Inquiry>() { repository.Get<Inquiry>(id) } );
         }
+
+
         /*
         //
         // GET: /Inquiries/Create

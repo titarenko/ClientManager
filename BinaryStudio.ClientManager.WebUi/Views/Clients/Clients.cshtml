@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model IQueryable<BinaryStudio.ClientManager.DomainModel.Entities.Person>
+﻿@model IQueryable<BinaryStudio.ClientManager.DomainModel.Entities.Person>
            
 Our clients:
 
@@ -9,7 +8,7 @@ Our clients:
         <li>
             <p>Full Name: @client.FullName</p>
             <p>Email: @client.Email</p>
-            <p>Creation date: @client.CreationDate.ToString(CultureInfo.InvariantCulture)</p>
+            <p>Creation date: @client.CreationDate</p>
         </li>
     }
 </ul>

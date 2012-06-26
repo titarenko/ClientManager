@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
     /// <summary>
     /// Represents e-mail message domain entity.
     /// </summary>
-    public class MailMessage
+    public class MailMessage : IIdentifiable
     {
         /// <summary>
         /// Date when message was received.
@@ -22,7 +23,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// List of all receivers.
         /// </summary>
         public ICollection<Person> Receivers { get; set; }
-
+        
         /// <summary>
         /// Subject of the message.
         /// </summary>
@@ -32,5 +33,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Body of the message.
         /// </summary>
         public string Body { get; set; }
+
+        public int Id { get; set; }
     }
 }
