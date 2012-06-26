@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
@@ -11,6 +12,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Id of person. It is a primary key
         /// </summary>
+        [Key()]
         public int Id { get; set; }
 
         /// <summary>

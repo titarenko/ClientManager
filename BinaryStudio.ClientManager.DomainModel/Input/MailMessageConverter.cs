@@ -46,7 +46,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 addNewPersonToRepositoryByMailAddress(mailMessage.Sender,mailMessage.Date);
             }
 
-            //find Receivers in Database
+            //find Receivers in repository
             foreach (var receiver in mailMessage.Receivers)
             {
                 var currentReceiver = repository.Query<Person>().FirstOrDefault(x => x.Email == receiver.Address);
