@@ -67,7 +67,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Should_CallSaveMethodOfRepository_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddress()
+        public void Should_CallSaveMethodOfRepository_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddressesOfClientAndEmployee()
         {
             //arrange
             var mock = new Mock<IRepository>();
@@ -81,18 +81,29 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 Sender = new MailAddress("client@gmail.com", "Client 1"),
                 Receivers = new List<MailAddress> { receiver }
             };
-            var client = new Person
+
+            var addingClient = new Person
             {   
                 CreationDate = mailMessage.Date,
                 FirstName = "Client",
                 LastName = "1",
                 Email = "client@gmail.com"
             };
+
+            var addingEmployee = new Person
+            {
+                CreationDate = mailMessage.Date,
+                FirstName = "Employee",
+                LastName = "1",
+                Email = "employee@gmail.com"
+            };
+
             //act
             var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
 
             //assert
-            mock.Verify(x=>x.Save(client),Times.AtLeastOnce());
+            mock.Verify(x =>x.Save(addingClient), Times.Exactly(1));
+            mock.Verify(x=>x.Save(addingEmployee), Times.Exactly(1));
         }
     }
 }

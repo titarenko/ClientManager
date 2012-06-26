@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
@@ -42,42 +43,59 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             }
             else //if cant find sender in repository then create him.
             {
-                //Split name of client into first name and last name
-                char[] separator = {' '};
-                var list = mailMessage.Sender.DisplayName.Split(separator).ToList();
-                if (list.Count!=2)
-                {
-                    if (list.Count==1) //if sender havent last name
-                    {
-                        list.Add("");
-                    }
-                    else               //if sender havent specified name or specified it illegal create empty first name and last name
-                    {
-                        list.Clear();
-                        list.Add("");
-                        list.Add("");
-                    }
-                }
-
-                //add person to Repository
-                var addingPerson = new Person
-                                           {
-                                               CreationDate = mailMessage.Date,
-                                               Email = mailMessage.Sender.Address,
-                                               FirstName = list[0],
-                                               LastName = list[1],
-                                           };
-                repository.Save(addingPerson);
+                addNewPersonToRepositoryByMailAddress(mailMessage.Sender,mailMessage.Date);
             }
 
             //find Receivers in Database
             foreach (var receiver in mailMessage.Receivers)
             {
                 var currentReceiver = repository.Query<Person>().FirstOrDefault(x => x.Email == receiver.Address);
-                returnMessage.Receivers.Add(currentReceiver);
+                if (currentReceiver!=null)
+                {
+                    returnMessage.Receivers.Add(currentReceiver);
+                }
+                else //if cant find receiver in repository then create him.
+                {
+                    addNewPersonToRepositoryByMailAddress(receiver,mailMessage.Date);
+                }
             }
             
             return returnMessage;
+        }
+
+        /// <summary>
+        /// Create new person in repository
+        /// </summary>
+        /// <param name="mailOfPerson">Mail address and name of person</param>
+        /// <param name="dateOfIncomingMail">Date when mail is arrived</param>
+        private void addNewPersonToRepositoryByMailAddress(MailAddress mailOfPerson, DateTime dateOfIncomingMail)
+        {
+            //Split name of client into first name and last name
+            char[] separator = { ' ' };
+            var personNameList = mailOfPerson.DisplayName.Split(separator).ToList();
+            if (personNameList.Count != 2)
+            {
+                if (personNameList.Count == 1) //if sender havent last name
+                {
+                    personNameList.Add("");
+                }
+                else               //if sender havent specified name or specified it illegal create empty first name and last name
+                {
+                    personNameList.Clear();
+                    personNameList.Add("");
+                    personNameList.Add("");
+                }
+            }
+
+            //add person to Repository
+            var addingPerson = new Person
+            {
+                CreationDate = dateOfIncomingMail,
+                Email = mailOfPerson.Address,
+                FirstName = personNameList[0],
+                LastName = personNameList[1],
+            };
+            repository.Save(addingPerson);
         }
     }
 }
