@@ -26,45 +26,45 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var converter = new MailMessageConverter(mock.Object);
             var receiver = new MailAddress("employee@gmail.com", "Employee Petrov");
             var mailMessage = new DomainModel.Input.MailMessage
-                                    {
-                                        Body = "This is Body",
-                                        Date = new DateTime(2012, 1, 1),
-                                        Subject = "This is Subject",
-                                        Sender = new MailAddress("client@gmail.com", "Client Ivanov"),
-                                        Receivers=new List<MailAddress> {receiver}
-                                    };
+            {
+                Body = "This is Body",
+                Date = new DateTime(2012, 1, 1),
+                Subject = "This is Subject",
+                Sender = new MailAddress("client@gmail.com", "Client Ivanov"),
+                Receivers=new List<MailAddress> {receiver}
+            };
             var expectedPerson = new Person
-                                    {
-                                        Id = 1,
-                                        Role = PersonRole.Client,
-                                        CreationDate = new DateTime(2000, 1, 1),
-                                        FirstName = "Client",
-                                        LastName = "Ivanov",
-                                        Email = "client@gmail.com",
-                                    };
+            {
+                Id = 1,
+                Role = PersonRole.Client,
+                CreationDate = new DateTime(2000, 1, 1),
+                FirstName = "Client",
+                LastName = "Ivanov",
+                Email = "client@gmail.com",
+            };
             var expectedReceiver = new Person
-                                    {
-                                        Id = 2,
-                                        Role = PersonRole.Employee,
-                                        CreationDate = new DateTime(2000,1,1),
-                                        FirstName = "Employee",
-                                        LastName = "Petrov",
-                                        Email = "employee@gmail.com"
-                                    };
-            Expression<Func<Person, object>> expressionSenderEmailAddressShouldBeEqual = x => x.Email == mailMessage.Sender.Address;
-            mock.Setup(x => x.Query(expressionSenderEmailAddressShouldBeEqual)).Returns(new List<Person>{expectedPerson}.AsQueryable());
-
+            {
+                Id = 2,
+                Role = PersonRole.Employee,
+                CreationDate = new DateTime(2000,1,1),
+                FirstName = "Employee",
+                LastName = "Petrov",
+                Email = "employee@gmail.com"
+            };
+            var returnValues = new[] {new List<Person> {expectedPerson}, new List<Person> {expectedReceiver}};
+            int numCalls = 0;
+            mock.Setup(it => it.Query<Person>()).Returns(() => returnValues[numCalls].AsQueryable()).Callback(() => numCalls++);
 
             //act
             var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
 
             //assert
-            //mock.Verify(x => x.Query(expressionSenderEmailAddressShouldBeEqual), Times.Once());
             Assert.AreEqual("This is Body", result.Body);
             Assert.AreEqual("This is Subject", result.Subject);
             Assert.AreEqual(new DateTime(2012, 1, 1), result.Date);
             Assert.AreEqual(expectedPerson, result.Sender);
             Assert.That(result.Receivers.Contains(expectedReceiver));
         }
+
     }
 }

@@ -16,35 +16,32 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             this.repository = repository;
         }
 
-        ///// <summary>
-        ///// This method converts Input.MailMessage type into Entities.MailMessage type
-        ///// </summary>
-        ///// <param name="message">Input.MailMessage type of mail message </param>
-        ///// <param name="sender">Represents sender as Person class</param>
-        ///// <param name="receivers">Represents reveivers as ICollection of Person class</param>
-        ///// <returns>Entities.MailMessage type of mail message</returns>
-        //public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage message, Person sender, ICollection<Person> receivers)
-        //{
-        //    return new Entities.MailMessage
-        //                            {
-        //                                Sender = sender,
-        //                                Date = message.Date,
-        //                                Subject = message.Subject,
-        //                                Receivers = receivers
-        //                            };        
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mailMessage"></param>
+        /// <returns></returns>
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
         {
             var returnMessage = new Entities.MailMessage
                                     {
                                         Body = mailMessage.Body, 
                                         Date = mailMessage.Date, 
-                                        Subject = mailMessage.Subject
+                                        Subject = mailMessage.Subject,
+                                        Receivers=new List<Person>()
                                     };
             //find a Sender in Database
             Expression<Func<Person, object>> expr = x => x.Email == mailMessage.Sender.Address;
-            var sender = repository.Query(expr);
+            var sender = repository.Query<Person>().FirstOrDefault(x => x.Email == mailMessage.Sender.Address);
+            returnMessage.Sender = sender;
+
+            //find Receivers in Database
+            foreach (var receiver in mailMessage.Receivers)
+            {
+                var currentReceiver = repository.Query<Person>().FirstOrDefault(x => x.Email == receiver.Address);
+                returnMessage.Receivers.Add(currentReceiver);
+            }
+            
             return returnMessage;
         }
     }
