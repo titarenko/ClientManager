@@ -24,6 +24,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public string LastName { get; set; }
 
         /// <summary>
+        /// Person's full name
+        /// </summary>
+        public string FullName
+        {
+            get { return string.Format("{0} {1}", FirstName, LastName); }
+        }
+
+        /// <summary>
         /// Date when person was added to system
         /// </summary>
         public DateTime CreationDate { get; set; }
