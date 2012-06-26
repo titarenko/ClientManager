@@ -12,7 +12,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         private IRepository repository;
 
         /// <summary>
-        /// MailMessageConverter constructor with 1 parameter
+        /// Constructor
         /// </summary>
         /// <param name="repository">Repository that keep database</param>
         public MailMessageConverter(IRepository repository)
@@ -21,10 +21,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         }
 
         /// <summary>
-        /// Converts MailMessage from input domain to entities domain
+        /// Converts Input.MailMessage to Entities.MailMessage.
+        /// If sender or receivers isn't exist then they will be added to repository
         /// </summary>
-        /// <param name="mailMessage">Mail message of input domain</param>
-        /// <returns>Mail message of entities domain</returns>
+        /// <param name="mailMessage">Input.MailMessage type of message</param>
+        /// <returns>Entities.MailMessage type of message</returns>
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
         {
             var returnMessage = new Entities.MailMessage
