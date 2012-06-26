@@ -18,12 +18,21 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     [TestFixture]
     class MailMessageConverterTests
     {
+        private Mock<IRepository> mock;
+        private MailMessageConverter converter;
+
+
+        [SetUp]
+        public void Initializer()
+        {
+            mock = new Mock<IRepository>();
+            converter = new MailMessageConverter(mock.Object);
+        }
+
         [Test]
         public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMailMessageFromInputTypeToEntityType()
         {
-            //arrange
-            var mock = new Mock<IRepository>();
-            var converter = new MailMessageConverter(mock.Object);
+            //arrange 
             var receiver = new MailAddress("employee@gmail.com", "Employee Petrov");
             var mailMessage = new DomainModel.Input.MailMessage
             {
@@ -67,11 +76,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Should_CallSaveMethodOfRepository_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddressesOfClientAndEmployee()
+        public void Should_CallSaveMethodOfRepositoryObjectTwice_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddressesOfClientAndEmployee()
         {
             //arrange
-            var mock = new Mock<IRepository>();
-            var converter = new MailMessageConverter(mock.Object);
             var receiver = new MailAddress("employee@gmail.com", "Employee 1");
             var mailMessage = new DomainModel.Input.MailMessage
             {
