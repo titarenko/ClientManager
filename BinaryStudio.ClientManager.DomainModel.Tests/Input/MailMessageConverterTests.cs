@@ -33,14 +33,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMailMessageFromInputTypeToEntityType()
         {
             //arrange 
-            var receiver = new MailAddress("employee@gmail.com", "Employee Petrov");
+            var receiver1 = new MailAddress("employee@gmail.com", "Employee Petrov");
+            var receiver2 = new MailAddress("employee2@gmail.com", "Employee Kozlov");
             var mailMessage = new DomainModel.Input.MailMessage
             {
                 Body = "This is Body",
                 Date = new DateTime(2012, 1, 1),
                 Subject = "This is Subject",
                 Sender = new MailAddress("client@gmail.com", "Client Ivanov"),
-                Receivers=new List<MailAddress> {receiver}
+                Receivers=new List<MailAddress> {receiver1,receiver2}
             };
             var expectedPerson = new Person
             {
@@ -51,7 +52,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 LastName = "Ivanov",
                 Email = "client@gmail.com",
             };
-            var expectedReceiver = new Person
+            var expectedReceiver1 = new Person
             {
                 Id = 2,
                 Role = PersonRole.Employee,
@@ -60,7 +61,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 LastName = "Petrov",
                 Email = "employee@gmail.com"
             };
-            var returnValues = new[] {new List<Person> {expectedPerson}, new List<Person> {expectedReceiver}};
+            var expectedReceiver2 = new Person
+            {
+                Id = 3,
+                Role = PersonRole.Employee,
+                CreationDate = new DateTime(2000, 1, 1),
+                FirstName = "Employee",
+                LastName = "Kozlov",
+                Email = "employee2@gmail.com"
+            };
+            var returnValues = new[] {new List<Person> {expectedPerson}, new List<Person> {expectedReceiver1}, new List<Person> {expectedReceiver2}};
             int numCalls = 0;
             mock.Setup(it => it.Query<Person>()).Returns(() => returnValues[numCalls].AsQueryable()).Callback(() => numCalls++);
 
@@ -72,8 +82,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             Assert.AreEqual("This is Subject", result.Subject);
             Assert.AreEqual(new DateTime(2012, 1, 1), result.Date);
             Assert.AreEqual(expectedPerson, result.Sender);
-            Assert.That(result.Receivers.Contains(expectedReceiver));
-            Assert.AreEqual(1,result.Receivers.Count);
+            Assert.That(result.Receivers.Contains(expectedReceiver1));
+            Assert.That(result.Receivers.Contains(expectedReceiver2));
+            Assert.AreEqual(2,result.Receivers.Count);
         }
 
         [Test]
