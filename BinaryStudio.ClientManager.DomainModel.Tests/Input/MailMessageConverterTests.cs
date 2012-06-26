@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Mail;
-using System.Text;
-using BinaryStudio.ClientManager.DomainModel;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
-using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;
 using Moq;
 using NUnit.Framework;
@@ -21,7 +16,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         private Mock<IRepository> mock;
         private MailMessageConverter converter;
 
-
         [SetUp]
         public void Initializer()
         {
@@ -30,11 +24,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMailMessageFromInputTypeToEntityType()
+        public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMethod()
         {
             //arrange 
             var receiver1 = new MailAddress("employee@gmail.com", "Employee Petrov");
             var receiver2 = new MailAddress("employee2@gmail.com", "Employee Kozlov");
+
             var mailMessage = new DomainModel.Input.MailMessage
             {
                 Body = "This is Body",
@@ -43,6 +38,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 Sender = new MailAddress("client@gmail.com", "Client Ivanov"),
                 Receivers=new List<MailAddress> {receiver1,receiver2}
             };
+
             var expectedPerson = new Person
             {
                 Id = 1,
@@ -52,15 +48,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 LastName = "Ivanov",
                 Email = "client@gmail.com",
             };
+
             var expectedReceiver1 = new Person
             {
                 Id = 2,
                 Role = PersonRole.Employee,
-                CreationDate = new DateTime(2000,1,1),
+                CreationDate = new DateTime(2000, 1, 1),
                 FirstName = "Employee",
                 LastName = "Petrov",
                 Email = "employee@gmail.com"
             };
+
             var expectedReceiver2 = new Person
             {
                 Id = 3,
@@ -70,9 +68,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 LastName = "Kozlov",
                 Email = "employee2@gmail.com"
             };
-            var returnValues = new[] {new List<Person> {expectedPerson}, new List<Person> {expectedReceiver1}, new List<Person> {expectedReceiver2}};
-            int numCalls = 0;
-            mock.Setup(it => it.Query<Person>()).Returns(() => returnValues[numCalls].AsQueryable()).Callback(() => numCalls++);
+
+            mock.Setup(it => it.Query<Person>()).Returns(new List<Person> { expectedPerson, expectedReceiver1, expectedReceiver2 }.AsQueryable());
 
             //act
             var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
@@ -82,13 +79,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             Assert.AreEqual("This is Subject", result.Subject);
             Assert.AreEqual(new DateTime(2012, 1, 1), result.Date);
             Assert.AreEqual(expectedPerson, result.Sender);
-            Assert.That(result.Receivers.Contains(expectedReceiver1));
-            Assert.That(result.Receivers.Contains(expectedReceiver2));
+            CollectionAssert.Contains(result.Receivers, expectedReceiver1);
+            CollectionAssert.Contains(result.Receivers, expectedReceiver2);
             Assert.AreEqual(2,result.Receivers.Count);
         }
 
         [Test]
-        public void Should_CallSaveMethodOfRepositoryObjectTwice_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddressesOfClientAndEmployee()
+        public void Should_CallSaveMethodOfRepositoryObjectForClientAndEmployee_WhenCallingConvertWithUnknownYetMailAddressesOfClientAndEmployee()
         {
             //arrange
             var receiver = new MailAddress("employee@gmail.com", "Employee 1");
@@ -121,8 +118,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
 
             //assert
-            mock.Verify(x =>x.Save(addingClient), Times.Exactly(1));
-            mock.Verify(x=>x.Save(addingEmployee), Times.Exactly(1));
+            mock.Verify(x =>x.Save(addingClient), Times.Once());
+            mock.Verify(x=>x.Save(addingEmployee), Times.Once());
         }
     }
 }
