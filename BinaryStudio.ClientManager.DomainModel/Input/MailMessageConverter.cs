@@ -34,10 +34,41 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                                         Subject = mailMessage.Subject,
                                         Receivers=new List<Person>()
                                     };
-            //find a Sender in Database
-            Expression<Func<Person, object>> expr = x => x.Email == mailMessage.Sender.Address;
+            //find a Sender in Repository
             var sender = repository.Query<Person>().FirstOrDefault(x => x.Email == mailMessage.Sender.Address);
-            returnMessage.Sender = sender;
+            if (sender!=null)
+            {
+                returnMessage.Sender = sender;
+            }
+            else //if cant find sender in repository then create him.
+            {
+                //Split name of client into first name and last name
+                char[] separator = {' '};
+                var list = mailMessage.Sender.DisplayName.Split(separator).ToList();
+                if (list.Count!=2)
+                {
+                    if (list.Count==1) //if sender havent last name
+                    {
+                        list.Add("");
+                    }
+                    else               //if sender havent specified name or specified it illegal create empty first name and last name
+                    {
+                        list.Clear();
+                        list.Add("");
+                        list.Add("");
+                    }
+                }
+
+                //add person to Repository
+                var addingPerson = new Person
+                                           {
+                                               CreationDate = mailMessage.Date,
+                                               Email = mailMessage.Sender.Address,
+                                               FirstName = list[0],
+                                               LastName = list[1],
+                                           };
+                repository.Save(addingPerson);
+            }
 
             //find Receivers in Database
             foreach (var receiver in mailMessage.Receivers)

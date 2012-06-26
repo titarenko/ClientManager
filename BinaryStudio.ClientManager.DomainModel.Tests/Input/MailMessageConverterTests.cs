@@ -66,5 +66,33 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             Assert.That(result.Receivers.Contains(expectedReceiver));
         }
 
+        [Test]
+        public void Should_CallSaveMethodOfRepository_WhenCallingConvertMailMessageFromInputTypeToEntityTypeWithUnknownYetMailAddress()
+        {
+            //arrange
+            var mock = new Mock<IRepository>();
+            var converter = new MailMessageConverter(mock.Object);
+            var receiver = new MailAddress("employee@gmail.com", "Employee 1");
+            var mailMessage = new DomainModel.Input.MailMessage
+            {
+                Body = "Body",
+                Date = new DateTime(2012, 1, 1),
+                Subject = "Subject",
+                Sender = new MailAddress("client@gmail.com", "Client 1"),
+                Receivers = new List<MailAddress> { receiver }
+            };
+            var client = new Person
+            {   
+                CreationDate = mailMessage.Date,
+                FirstName = "Client",
+                LastName = "1",
+                Email = "client@gmail.com"
+            };
+            //act
+            var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
+
+            //assert
+            mock.Verify(x=>x.Save(client),Times.AtLeastOnce());
+        }
     }
 }
