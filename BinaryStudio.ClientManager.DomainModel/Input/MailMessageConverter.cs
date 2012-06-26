@@ -43,7 +43,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             }
             else //if cant find sender in repository then create him.
             {
-                addNewPersonToRepositoryByMailAddress(mailMessage.Sender,mailMessage.Date);
+                returnMessage.Sender = addNewPersonToRepository(mailMessage.Sender, mailMessage.Date);
             }
 
             //find Receivers in repository
@@ -56,7 +56,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 }
                 else //if cant find receiver in repository then create him.
                 {
-                    addNewPersonToRepositoryByMailAddress(receiver,mailMessage.Date);
+                    returnMessage.Receivers.Add(addNewPersonToRepository(receiver, mailMessage.Date));
                 }
             }
             
@@ -68,7 +68,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// </summary>
         /// <param name="mailOfPerson">Mail address and name of person</param>
         /// <param name="dateOfIncomingMail">Date when mail is arrived</param>
-        private void addNewPersonToRepositoryByMailAddress(MailAddress mailOfPerson, DateTime dateOfIncomingMail)
+        /// <returns>Person that was added to repository</returns>
+        private Person addNewPersonToRepository(MailAddress mailOfPerson, DateTime dateOfIncomingMail)
         {
             //Split name of client into first name and last name
             char[] separator = { ' ' };
@@ -83,6 +84,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 LastName = personNameList.Count>=2 ? personNameList[1] : ""
             };
             repository.Save(addingPerson);
+            return addingPerson;
         }
     }
 }

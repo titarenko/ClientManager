@@ -123,7 +123,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Should_ReturnSenderAndReceiver_WhenCallingConvertMethodWhenSenderAndReceiverIsNotExistInRepository()
+        public void ShouldNot_ReturnNullInSenderAndEmptyCollectionInReceiverFields_WhenCallingConvertMethodWhenSenderAndReceiverIsNotExistInRepository()
         {
             //arrange
             var receiver = new MailAddress("employee@gmail.com");
