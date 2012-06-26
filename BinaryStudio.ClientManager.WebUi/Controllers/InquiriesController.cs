@@ -44,7 +44,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Inquiry inquiry)
         {
-            if(!TryUpdateModel(inquiry))
+            if(ModelState.IsValid)
             {
                 return View(inquiry);
             }
