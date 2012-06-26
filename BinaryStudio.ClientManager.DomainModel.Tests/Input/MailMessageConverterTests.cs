@@ -73,6 +73,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             Assert.AreEqual(new DateTime(2012, 1, 1), result.Date);
             Assert.AreEqual(expectedPerson, result.Sender);
             Assert.That(result.Receivers.Contains(expectedReceiver));
+            Assert.AreEqual(1,result.Receivers.Count);
         }
 
         [Test]
