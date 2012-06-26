@@ -18,18 +18,22 @@
                 
         <div class = editor-label>
             @Html.EditorFor(model => model.Issuer.FullName)
+            @Html.ValidationMessageFor(model => model.Issuer.FullName)
         </div>
         
         <div class = editor-label>
             @Html.EditorFor(model => model.Issuer.Email)
+            @Html.ValidationMessageFor(model => model.Issuer.Email)
         </div>
 
         <div class = editor-label>
             @Html.EditorFor(model => model.Issue.Subject)
+            @Html.ValidationMessageFor(model => model.Issue.Subject)
         </div>
         
         <div class = editor-label>
             @Html.EditorFor(model => model.Issue.Body)
+            @Html.ValidationMessageFor(model => model.Issue.Body)
         </div>
 
         <p>

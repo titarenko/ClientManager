@@ -154,8 +154,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             //arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<MailMessage>(message => message.Sender.Id == id)).
-                Returns((from message in messages where message.Id == id select message).AsQueryable());
+            mock.Setup(x => x.Query<MailMessage>()).
+                Returns(messages.AsQueryable());
             
             //act
             var clientController = new ClientsController(mock.Object);
@@ -165,7 +165,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             //assert
             foreach (var message in resultModel)
             {
-                Assert.Equals(message.Id, id);
+                Assert.That(message.Sender.Id, Is.EqualTo(id));
             }
         }
     }
