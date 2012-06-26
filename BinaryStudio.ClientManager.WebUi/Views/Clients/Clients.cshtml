@@ -1,0 +1,15 @@
+﻿@using System.Globalization
+@model IQueryable<BinaryStudio.ClientManager.DomainModel.Entities.Person>
+           
+Our clients:
+
+<ul>
+    @foreach(var client in Model)
+    {
+        <li>
+            <p>Full Name: @client.FullName</p>
+            <p>Email: @client.Email</p>
+            <p>Creation date: @client.CreationDate.ToString(CultureInfo.InvariantCulture)</p>
+        </li>
+    }
+</ul>
