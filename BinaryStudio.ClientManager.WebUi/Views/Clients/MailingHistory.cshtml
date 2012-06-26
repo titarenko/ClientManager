@@ -1,0 +1,21 @@
+﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.MailMessage>
+
+@{
+    ViewBag.Title = "MailingHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MailingHistory from @Model.First().Sender.FullName</h2>
+<h2>Email: @Model.First().Sender.Email</h2>
+
+<ul>
+    @foreach(var message in Model)
+    {
+        <li>
+            <p>Date: @message.Date</p>  
+            <p>Subject: @message.Subject</p>       
+            <p>@message.Body</p>
+        </li>
+    }
+</ul>
+

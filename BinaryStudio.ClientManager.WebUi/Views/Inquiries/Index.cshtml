@@ -8,12 +8,8 @@
 <h2>Inquiries</h2>
 
 <ul>
-    @foreach(var item in Model)
+    @foreach (var item in Model.Where(item => item != null))
     {
-        @if (item != null)
-              {
-                  <li> @item.Issuer.FirstName @item.Issuer.LastName           @item.Issue.Subject</li>
-              }
-             
+        <li> @item.Issuer.FirstName @item.Issuer.LastName           @item.Issue.Subject</li>
     }
 </ul>
