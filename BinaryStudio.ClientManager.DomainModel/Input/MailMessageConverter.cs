@@ -26,7 +26,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// </summary>
         /// <param name="mailMessage">Input.MailMessage type of message</param>
         /// <returns>Entities.MailMessage type of message</returns>
-        public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
+        public Entities.MailMessage Convert(MailMessage mailMessage)
         {
             var returnMessage = new Entities.MailMessage
                                     {

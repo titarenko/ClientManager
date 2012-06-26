@@ -72,7 +72,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             mock.Setup(it => it.Query<Person>()).Returns(new List<Person> { expectedPerson, expectedReceiver1, expectedReceiver2 }.AsQueryable());
 
             //act
-            var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
+            var result=converter.Convert(mailMessage);
 
             //assert
             Assert.AreEqual("This is Body", result.Body);
@@ -115,11 +115,33 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             };
 
             //act
-            var result=converter.ConvertMailMessageFromInputTypeToEntityType(mailMessage);
+            var result=converter.Convert(mailMessage);
 
             //assert
             mock.Verify(x =>x.Save(addingClient), Times.Once());
             mock.Verify(x=>x.Save(addingEmployee), Times.Once());
+        }
+
+        [Test]
+        public void Should_ReturnSenderAndReceiver_WhenCallingConvertMethodWhenSenderAndReceiverIsNotExistInRepository()
+        {
+            //arrange
+            var receiver = new MailAddress("employee@gmail.com");
+            var mailMessage = new DomainModel.Input.MailMessage
+                                  {
+                                      Body = "",
+                                      Subject="",
+                                      Date = new DateTime(2000,1,1),
+                                      Receivers = new List<MailAddress>{receiver},
+                                      Sender = new MailAddress("client@gmail.com")
+                                  };
+
+            //act;
+            var result = converter.Convert(mailMessage);
+
+            //assert
+            Assert.IsNotNull(result.Sender);
+            CollectionAssert.IsNotEmpty(result.Receivers);
         }
     }
 }
