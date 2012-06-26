@@ -12,9 +12,14 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
     [TestFixture]
     public class ClientsControllerTests
     {
-        private readonly Person[] clients =
+        private Person[] clients;
+
+        [SetUp]
+        public void CreateClientsList()
+        {
+            clients = new[]
                 {
-                    new Person()
+                    new Person
                         {
                             CreationDate = new DateTime(2010, 1, 27),
                             Email = "client1@mail.ru",
@@ -23,7 +28,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Role = PersonRole.Client,
                             Id = 3
                         },
-                    new Person()
+                    new Person
                         {
                             CreationDate = new DateTime(2011, 9, 17),
                             Email = "client2@gmail.com",
@@ -32,7 +37,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Role = PersonRole.Client,
                             Id = 7
                         },
-                    new Person()
+                    new Person
                         {
                             CreationDate = new DateTime(2012, 6, 16),
                             Email = "client3@gmail.com",
@@ -42,13 +47,13 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Id = 13
                         }
                 };
+        }
 
         [Test]
         public void Should_ReturnClientsList_WhenRequested()
         {
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Person>(client => client.Role == PersonRole.Client)).
-                Returns(clients.AsQueryable());
+            mock.Setup(x => x.Query<Person>()).Returns(clients.AsQueryable());
             var clientController = new ClientsController(mock.Object);
 
             var viewResult = clientController.Clients();
@@ -63,8 +68,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         public void ShouldNot_RaiseAnException_WhenClientsListIsEmpty()
         {
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Person>(client => client.Role == PersonRole.Client)).
-                Returns(new Person[0].AsQueryable());
+            mock.Setup(x => x.Query<Person>()).Returns(new Person[0].AsQueryable());
             var clientController = new ClientsController(mock.Object);
 
             Assert.DoesNotThrow(() => clientController.Clients());
