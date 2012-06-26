@@ -160,7 +160,7 @@
     <Content Include="Views\Inquiries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Clients\Clients.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Clients\MailingHistory.cshtml" />

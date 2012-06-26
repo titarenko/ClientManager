@@ -35,7 +35,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Email = "client2@gmail.com",
                             FirstName = "Sidor",
                             LastName = "Sidorov",
-                            Role = PersonRole.Client,
+                            Role = PersonRole.Employee,
                             Id = 7
                         },
                     new Person
@@ -111,11 +111,11 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(x => x.Query<Person>()).Returns(clients.AsQueryable());
             var clientController = new ClientsController(mock.Object);
 
-            var viewResult = clientController.Clients();
+            var viewResult = clientController.Index();
             var viewResultModel = viewResult.Model as IEnumerable<Person>;
 
             Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 3));
-            Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 7));
+            Assert.IsNull(viewResultModel.SingleOrDefault(x => x.Id == 7));
             Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 13));
         }
 
@@ -126,7 +126,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(x => x.Query<Person>()).Returns(new Person[0].AsQueryable());
             var clientController = new ClientsController(mock.Object);
 
-            Assert.DoesNotThrow(() => clientController.Clients());
+            Assert.DoesNotThrow(() => clientController.Index());
         }
 
         [Test]

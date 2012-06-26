@@ -15,7 +15,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.repository = repository;
         }
 
-        public ViewResult Clients()
+        public ViewResult Index()
         {
             return View(repository.Query<Person>().
                 Where(client => client.Role == PersonRole.Client));
