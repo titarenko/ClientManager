@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -73,27 +72,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             //Split name of client into first name and last name
             char[] separator = { ' ' };
             var personNameList = mailOfPerson.DisplayName.Split(separator).ToList();
-            if (personNameList.Count != 2)
-            {
-                if (personNameList.Count == 1) //if sender havent last name
-                {
-                    personNameList.Add("");
-                }
-                else               //if sender havent specified name or specified it illegal create empty first name and last name
-                {
-                    personNameList.Clear();
-                    personNameList.Add("");
-                    personNameList.Add("");
-                }
-            }
 
             //add person to Repository
             var addingPerson = new Person
             {
                 CreationDate = dateOfIncomingMail,
                 Email = mailOfPerson.Address,
-                FirstName = personNameList[0],
-                LastName = personNameList[1],
+                FirstName =  personNameList.Count>=1? personNameList[0]:"",
+                LastName = personNameList.Count>=2 ? personNameList[1] : ""
             };
             repository.Save(addingPerson);
         }
