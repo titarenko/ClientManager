@@ -11,16 +11,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     {
         private IRepository repository;
 
+        /// <summary>
+        /// MailMessageConverter constructor with 1 parameter
+        /// </summary>
+        /// <param name="repository">Repository that keep database</param>
         public MailMessageConverter(IRepository repository)
         {
             this.repository = repository;
         }
 
         /// <summary>
-        /// 
+        /// Converts MailMessage from input domain to entities domain
         /// </summary>
-        /// <param name="mailMessage"></param>
-        /// <returns></returns>
+        /// <param name="mailMessage">Mail message of input domain</param>
+        /// <returns>Mail message of entities domain</returns>
         public Entities.MailMessage ConvertMailMessageFromInputTypeToEntityType(MailMessage mailMessage)
         {
             var returnMessage = new Entities.MailMessage
