@@ -25,95 +25,32 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View(repository.Query<Inquiry>().OrderBy(x => x.Issuer.Id));//(i => i.Issuer.Role == PersonRole.Client).OrderBy(x => x.Issuer.Id));
+            return View(repository.Query<Inquiry>().OrderBy(x => x.Issuer.Id));
         }
 
         /// <summary>
         /// GET: /Inquiries/5
         /// </summary>
-        public ActionResult Index(int id)
+        public ActionResult Details(int id)
         {
-            return View(new List<Inquiry>() { repository.Get<Inquiry>(id) } );
+            return View(repository.Get<Inquiry>(id));
         }
 
-
-        /*
-        //
-        // GET: /Inquiries/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        } 
-
-        //
-        // POST: /Inquiries/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        
-        //
-        // GET: /Inquiries/Edit/5
- 
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(repository.Get<Inquiry>(id));
         }
-
-        //
-        // POST: /Inquiries/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Inquiry inquiry)
         {
-            try
+            if(!TryUpdateModel(inquiry))
             {
-                // TODO: Add update logic here
- 
-                return RedirectToAction("Index");
+                return View(inquiry);
             }
-            catch
-            {
-                return View();
-            }
+
+            repository.Save(inquiry);
+            return View("Details", inquiry);
         }
-
-        //
-        // GET: /Inquiries/Delete/5
- 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Inquiries/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
- 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }

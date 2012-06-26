@@ -1,0 +1,22 @@
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Inquiry
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Inquiry</legend>
+    <ul>
+        <li>@Model.Issue.Sender.FullName</li>
+        <li>@Model.Issue.Sender.Email</li>
+        <li>@Model.Issue.Date</li>
+        <li>@Model.Issue.Body</li>
+    </ul>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
