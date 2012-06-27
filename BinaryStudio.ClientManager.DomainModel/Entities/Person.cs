@@ -57,19 +57,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public override bool Equals(object objToCompare)
         {
             var personToCompare = (objToCompare as Person);
-            if (personToCompare != null)
-            {
-                if (personToCompare.Id == Id &&
+
+            return (personToCompare != null &&
+                    personToCompare.Id == Id &&
                     personToCompare.CreationDate == CreationDate &&
                     personToCompare.Email == Email &&
                     personToCompare.FirstName == FirstName &&
                     personToCompare.LastName == LastName &&
-                    personToCompare.Role == Role)
-                {
-                    return true;
-                }
-            }
-            return false;
+                    personToCompare.Role == Role);
         }
 
         /// <summary>
