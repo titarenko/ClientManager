@@ -7,6 +7,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     public class EfDataContext : DbContext
     {
         public EfDataContext()
+#if DEBUG
+            : base("ClientManager")
+#endif
         {
             collections = new Dictionary<Type, object>
                 {
