@@ -14,17 +14,16 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             collections = new Dictionary<Type, object>
                 {
                     {typeof(Entities.MailMessage), MailMessages},
-                    {typeof(Entities.Person), Persons}
-                    // {typeof (Domain), Domains},
+                    {typeof(Entities.Person), Persons},
+                    {typeof(Entities.Inquiry), Inquiries}
                 };
         }
-        // TEMPORARY COMMENTED FOR TESTS
-                  
-        // public DbSet<Domain> Domains { get; set; }
 
         public DbSet<Entities.Person> Persons { get; set; }
 
         public DbSet<Entities.MailMessage> MailMessages { get; set; }
+
+        public DbSet<Entities.Inquiry> Inquiries { get; set; }
 
         public DbSet<T> GetDbSet<T>() where T : class
         {
