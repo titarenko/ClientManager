@@ -1,0 +1,20 @@
+﻿@model BinaryStudio.ClientManager.WebUi.Models.DashboardModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+@{
+    IQueryable<string> employees = (from employee in Model.employees select employee.FullName);
+}
+<ul>
+@foreach(var inquiry in Model.inquiries)
+{
+    <li>@inquiry.Source.Subject </li>
+    <li>@Html.DropDownListFor(x => x.employees, new SelectList(employees, "FullName"))</li>
+    <br/>
+}
+</ul>
+
