@@ -21,6 +21,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Inquiry"/> class.
+        /// </summary>
+        public Inquiry()
+        {
+        }
+
+        /// <summary>
         /// Unique identifier.
         /// </summary>
         public int Id { get; set; }
