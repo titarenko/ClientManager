@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -10,10 +8,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
     public class InquiriesController : Controller
     {
         private readonly IRepository repository;
-        private InquiriesController()
-        {
-            throw new InvalidOperationException();
-        }
 
         public InquiriesController(IRepository repository)
         {
@@ -25,7 +19,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View(repository.Query<Inquiry>().OrderBy(x => x.Client.Id));
+            return View(repository.Query<Inquiry>());//.OrderBy(x => x.Client.Id));
         }
 
         /// <summary>
