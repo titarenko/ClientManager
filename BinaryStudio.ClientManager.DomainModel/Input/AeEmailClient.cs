@@ -26,7 +26,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             client = new ImapClient(
                 configuration.GetValue("Host"),
                 configuration.GetValue("Username"),
-                configuration.GetValue("Password"));
+                configuration.GetValue("Password"),
+                ImapClient.AuthMethods.Login,
+                configuration.GetValue<int>("Port"),
+                configuration.GetValue<bool>("Secure"),
+                configuration.GetValue<bool>("SkipSslValidation"));
         }
             
         /// <summary>

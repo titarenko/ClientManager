@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\FakeTimer.cs" />
+    <Compile Include="Input\AeEmailClientIntegrationTests.cs" />
     <Compile Include="Input\MailMessageConverterTests.cs" />
     <Compile Include="Input\PollingEmailCheckerTests.cs" />
     <Compile Include="Input\TimerTests.cs" />
