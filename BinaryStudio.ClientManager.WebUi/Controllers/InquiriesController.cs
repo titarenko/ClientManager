@@ -25,7 +25,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View(repository.Query<Inquiry>().OrderBy(x => x.Issuer.Id));
+            return View(repository.Query<Inquiry>().OrderBy(x => x.Client.Id));
         }
 
         /// <summary>

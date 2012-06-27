@@ -10,6 +10,6 @@
 <ul>
     @foreach (var item in Model.Where(item => item != null))
     {
-        <li> @item.Issuer.FirstName @item.Issuer.LastName           @item.Issue.Subject</li>
+        <li> @item.Client.FirstName @item.Client.LastName           @item.Source.Subject</li>
     }
 </ul>

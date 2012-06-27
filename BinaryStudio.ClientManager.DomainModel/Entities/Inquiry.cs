@@ -7,27 +7,39 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Inquiry : IIdentifiable
     {
-        public Inquiry(Person issuer, MailMessage issue, int id)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Inquiry"/> class.
+        /// </summary>
+        public Inquiry()
         {
-            this.Issuer = issuer;
-            this.Issue = issue;
-            this.Id = id;
         }
 
         /// <summary>
-        /// Author of inquiry
+        /// Initializes a new instance of the <see cref="Inquiry"/> class.
         /// </summary>
-        public Person Issuer { get; set; }
+        /// <param name="issuer">The issuer.</param>
+        /// <param name="issue">The issue.</param>
+        /// <param name="id">The id of inquiry.</param>
+        public Inquiry(Person issuer, MailMessage issue, int id)
+        {
+            Client = issuer;
+            Source = issue;
+            Id = id;
+        }
 
         /// <summary>
-        /// Contains inquiry and subject
-        /// </summary>
-        public MailMessage Issue { get; set; }
-
-        /// <summary>
-        /// implementation of the IIdentifiable for quiry
-        /// should return Issue ID
+        /// Unique identifier.
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Author of inquiry.
+        /// </summary>
+        public Person Client { get; set; }
+
+        /// <summary>
+        /// Contains source message from which inquiry was created.
+        /// </summary>
+        public MailMessage Source { get; set; }
     }
 }

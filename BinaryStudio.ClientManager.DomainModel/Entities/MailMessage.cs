@@ -34,6 +34,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Body { get; set; }
 
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
         public int Id { get; set; }
     }
 }

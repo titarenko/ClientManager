@@ -55,8 +55,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var list = typedResponse.Model as IEnumerable<Inquiry>;
 
             // chek
-            Assert.That(list.Single(x => x.Issuer.LastName == "Petrov") != null &&
-                list.Single(x => x.Issue.Subject == "subj2") != null);
+            Assert.That(list.Single(x => x.Client.LastName == "Petrov") != null &&
+                list.Single(x => x.Source.Subject == "subj2") != null);
         }
 
         [Test]

@@ -14,23 +14,23 @@
         <legend>Inquiry</legend>
                 
         <div class = editor-label>
-            @Html.EditorFor(model => model.Issuer.FullName)
-            @Html.ValidationMessageFor(model => model.Issuer.FullName)
+            @Html.EditorFor(model => model.Client.FullName)
+            @Html.ValidationMessageFor(model => model.Client.FullName)
         </div>
         
         <div class = editor-label>
-            @Html.EditorFor(model => model.Issuer.Email)
-            @Html.ValidationMessageFor(model => model.Issuer.Email)
+            @Html.EditorFor(model => model.Client.Email)
+            @Html.ValidationMessageFor(model => model.Client.Email)
         </div>
 
         <div class = editor-label>
-            @Html.EditorFor(model => model.Issue.Subject)
-            @Html.ValidationMessageFor(model => model.Issue.Subject)
+            @Html.EditorFor(model => model.Source.Subject)
+            @Html.ValidationMessageFor(model => model.Source.Subject)
         </div>
         
         <div class = editor-label>
-            @Html.EditorFor(model => model.Issue.Body)
-            @Html.ValidationMessageFor(model => model.Issue.Body)
+            @Html.EditorFor(model => model.Source.Body)
+            @Html.ValidationMessageFor(model => model.Source.Body)
         </div>
 
         <p>
