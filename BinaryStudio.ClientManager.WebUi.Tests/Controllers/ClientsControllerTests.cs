@@ -136,7 +136,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             //arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<MailMessage>(message => message.Sender.Id == id)).
+            mock.Setup(x => x.Query<MailMessage>()).
                 Returns(new MailMessage[0].AsQueryable());
 
             //act
