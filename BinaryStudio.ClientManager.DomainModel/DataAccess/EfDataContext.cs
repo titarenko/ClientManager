@@ -7,9 +7,6 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     public class EfDataContext : DbContext
     {
         public EfDataContext()
-#if DEBUG
-            : base("BinaryStudio.ClientManager.DomainModel.DataAccess.EfDataContext.Debug")
-#endif
         {
             collections = new Dictionary<Type, object>
                 {
