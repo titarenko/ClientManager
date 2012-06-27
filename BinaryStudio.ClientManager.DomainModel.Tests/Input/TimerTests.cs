@@ -7,12 +7,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     [TestFixture, Category("Integration")]
     class TimerTests
     {
-        private TimeSpan _timeSpan;
+        private TimeSpan timeSpan;
 
         [SetUp]
         public void SetUp()
         {
-            _timeSpan = new TimeSpan(0, 0, 0, 2);
+            timeSpan = new TimeSpan(0, 0, 0, 2);
         }
 
         [Test]
@@ -22,12 +22,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var isRaised = false;
             var timer = new DomainModel.Infrastructure.Timer();
             timer.OnTick += (sender, args) => isRaised = true;
-            timer.Interval = _timeSpan;
+            timer.Interval = timeSpan;
 
             // act 
-            Thread.Sleep(_timeSpan);
-            Thread.Sleep(_timeSpan);
-            Thread.Sleep(_timeSpan);
+            Thread.Sleep(timeSpan);
+            Thread.Sleep(timeSpan);
+            Thread.Sleep(timeSpan);
 
             // check
             Assert.That(!isRaised);
@@ -40,13 +40,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var isRaised = false;
             var timer = new DomainModel.Infrastructure.Timer();
             timer.OnTick += (sender, args) => isRaised = true;
-            timer.Interval = _timeSpan;
+            timer.Interval = timeSpan;
 
             // act
             timer.Enabled = true;
-            Thread.Sleep(_timeSpan);
-            Thread.Sleep(_timeSpan);
-            Thread.Sleep(_timeSpan);
+            Thread.Sleep(timeSpan);
+            Thread.Sleep(timeSpan);
+            Thread.Sleep(timeSpan);
 
             // check
             Assert.That(isRaised);
