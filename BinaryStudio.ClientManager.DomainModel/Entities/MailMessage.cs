@@ -5,7 +5,7 @@ using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
     /// <summary>
-    /// Represents e-mail message domain entity.
+    /// Represents e-mail message of domain entity.
     /// </summary>
     public class MailMessage : IIdentifiable
     {

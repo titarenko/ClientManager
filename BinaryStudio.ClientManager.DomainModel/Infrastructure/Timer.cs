@@ -8,8 +8,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// </summary>
     public class Timer
     {
-        private readonly System.Threading.Timer _timer;
-        private TimeSpan _interval;
+        /// <summary>
+        /// Standart timer
+        /// </summary>
+        private readonly System.Threading.Timer timer;
+  
+        private TimeSpan interval;
 
         /// <summary>
         /// Periodically occurs after specified time interval has elapsed.
@@ -21,9 +25,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// </summary>
         public bool Enabled { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Timer()
         {
-            _timer = new System.Threading.Timer(new TimerCallback(TimerProc));
+            timer = new System.Threading.Timer(new TimerCallback(TimerProc));
         }
 
         /// <summary>
@@ -33,12 +40,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             get
             {
-                return _interval;
+                return interval;
             }
             set
             {
-                _interval = value;
-                _timer.Change(new TimeSpan(0), _interval);
+                interval = value;
+                timer.Change(new TimeSpan(0), interval);
             }
         }
 

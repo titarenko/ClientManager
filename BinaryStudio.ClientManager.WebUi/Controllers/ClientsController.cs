@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
-using System.Linq;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {

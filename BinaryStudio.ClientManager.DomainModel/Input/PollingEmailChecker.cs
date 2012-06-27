@@ -8,6 +8,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     /// </summary>
     public class PollingEmailChecker
     {
+        /// <summary>
+        /// Email client that will get messages.
+        /// </summary>
         private readonly IEmailClient emailClient;
 
         /// <summary>
@@ -26,6 +29,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// </summary>
         public event EventHandler<EmailReceivedEventArgs> EmailReceived;
 
+        /// <summary>
+        /// Method calls time to time and receives all unread messages. 
+        /// It works when timer raise OnTick event.
+        /// </summary>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="eventArgs">Arguments of the event</param>
         private void OnTick(object sender, EventArgs eventArgs)
         {
             foreach (var message in emailClient.GetUnreadMessages())

@@ -7,8 +7,14 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
+    /// <summary>
+    /// Provides possibility to convert mail message from Input.MailMessage type to Entities.MailMessage type
+    /// </summary>
     public class MailMessageConverter
     {
+        /// <summary>
+        /// Repository that keeps some data about persons.
+        /// </summary>
         private IRepository repository;
 
         /// <summary>
