@@ -6,7 +6,7 @@
 }
 
 <!--- TEST VIEW --->
-<!--- This view must be deleted --->
+<!---This view must be deleted --->
 
 <h2>Create</h2>
 
@@ -48,6 +48,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RoleValue)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RoleValue)
+            @Html.ValidationMessageFor(model => model.RoleValue)
         </div>
 
         <p>
