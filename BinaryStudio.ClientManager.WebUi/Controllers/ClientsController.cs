@@ -38,7 +38,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             {
                 repository.Save(person);
             }
-            return View("Index");
+            var model = repository.Query<Person>().
+                Where(client => client.RoleValue == (int) PersonRole.Client);
+            return View("Index",model);
         }
 
         public ViewResult MailingHistory(int id)
