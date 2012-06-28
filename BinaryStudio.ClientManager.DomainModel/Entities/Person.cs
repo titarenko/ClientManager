@@ -50,13 +50,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Person role in the system (e.g., client, 
         /// for full list see <see cref="PersonRole"/> enumeration).
-        /// It gives role by RoleValue property
+        /// It gives and sets role by RoleValue property
         /// </summary>
         public PersonRole Role
         {
             get 
             { 
                 return (PersonRole)RoleValue; 
+            }
+
+            set
+            {
+                RoleValue = (int)value;
             }
         }
         
