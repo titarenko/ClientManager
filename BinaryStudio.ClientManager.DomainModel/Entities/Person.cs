@@ -42,10 +42,23 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public string Email { get; set; }
 
         /// <summary>
+        /// Int value that represents Role of person.
+        /// For full list of values <see cref="PersonRole"/> enumeration.
+        /// </summary>
+        public int RoleValue { get; set; }
+
+        /// <summary>
         /// Person role in the system (e.g., client, 
         /// for full list see <see cref="PersonRole"/> enumeration).
+        /// It gives role by RoleValue property
         /// </summary>
-        public PersonRole Role { get; set; }
+        public PersonRole Role
+        {
+            get 
+            { 
+                return (PersonRole)RoleValue; 
+            }
+        }
         
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.

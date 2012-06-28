@@ -8,11 +8,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Our dear client.
         /// </summary>
-        Client,
+        Client=0,
 
         /// <summary>
         /// Best in the world employee.
         /// </summary>
-        Employee
+        Employee=1
     }
 }
