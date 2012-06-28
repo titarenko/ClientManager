@@ -26,7 +26,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Email = "client1@mail.ru",
                             FirstName = "Peter",
                             LastName = "Petrov",
-                            Role = PersonRole.Client,
+                            RoleValue = (int)PersonRole.Client,
                             Id = 3
                         },
                     new Person
@@ -35,7 +35,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Email = "client2@gmail.com",
                             FirstName = "Sidor",
                             LastName = "Sidorov",
-                            Role = PersonRole.Employee,
+                            RoleValue = (int)PersonRole.Employee,
                             Id = 7
                         },
                     new Person
@@ -44,7 +44,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             Email = "client3@gmail.com",
                             FirstName = "Ivan",
                             LastName = "Ivanov",
-                            Role = PersonRole.Client,
+                            RoleValue = (int)PersonRole.Client,
                             Id = 13
                         }
                 };
@@ -63,7 +63,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "client1@mail.ru",
                                                                                FirstName = "Peter",
                                                                                LastName = "Petrov",
-                                                                               Role = PersonRole.Client,
+                                                                               RoleValue = (int)PersonRole.Client,
                                                                                Id = 3
                                                                            },
                                                               Subject = "Mail_1"
@@ -80,7 +80,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "client1@mail.ru",
                                                                                FirstName = "Peter",
                                                                                LastName = "Petrov",
-                                                                               Role = PersonRole.Client,
+                                                                               RoleValue = (int)PersonRole.Client,
                                                                                Id = 3
                                                                            },
                                                               Subject = "Mail_2"
@@ -97,7 +97,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "ivan@mail.ru",
                                                                                FirstName = "Ivan",
                                                                                LastName = "Ivanov",
-                                                                               Role = PersonRole.Client,
+                                                                               RoleValue = (int)PersonRole.Client,
                                                                                Id = 1
                                                                            },
                                                               Subject = "Mail_3"

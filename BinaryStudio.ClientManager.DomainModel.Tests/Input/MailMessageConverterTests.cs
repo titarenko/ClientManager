@@ -42,7 +42,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var expectedPerson = new Person
             {
                 Id = 1,
-                Role = PersonRole.Client,
+                RoleValue = (int)PersonRole.Client,
                 CreationDate = new DateTime(2000, 1, 1),
                 FirstName = "Client",
                 LastName = "Ivanov",
@@ -52,7 +52,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var expectedReceiver1 = new Person
             {
                 Id = 2,
-                Role = PersonRole.Employee,
+                RoleValue = (int)PersonRole.Employee,
                 CreationDate = new DateTime(2000, 1, 1),
                 FirstName = "Employee",
                 LastName = "Petrov",
@@ -62,7 +62,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var expectedReceiver2 = new Person
             {
                 Id = 3,
-                Role = PersonRole.Employee,
+                RoleValue = (int) PersonRole.Employee,
                 CreationDate = new DateTime(2000, 1, 1),
                 FirstName = "Employee",
                 LastName = "Kozlov",
