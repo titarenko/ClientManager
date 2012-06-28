@@ -37,6 +37,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             if(ModelState.IsValid)
             {
                 repository.Save(person);
+                var model = repository.Query<Person>().
+                    Where(client => client.RoleValue == (int) PersonRole.Client);
+                UpdateModel(model);
                 return View("Index");
             }
             return View();
