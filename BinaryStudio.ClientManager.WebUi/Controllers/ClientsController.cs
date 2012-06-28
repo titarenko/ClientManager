@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -25,24 +26,29 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// MUST BE DELETED!!!
         /// </summary>
         /// <returns></returns>
-        public ViewResult Create()
+        public ActionResult Create()
         {
-            Person person = new Person();
+            var person = new Person();
             return View(person);
         }
 
         [HttpPost]
-        public ViewResult Create(Person person)
+        public ActionResult Create(Person person)
         {
-            if(ModelState.IsValid)
+            try
             {
-                repository.Save(person);
-                var model = repository.Query<Person>().
-                    Where(client => client.RoleValue == (int) PersonRole.Client);
-                UpdateModel(model);
-                return View("Index");
+                if (ModelState.IsValid)
+                {
+                    repository.Save(person);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.Message, ex);
             }
             return View();
+
         }
 
         public ViewResult MailingHistory(int id)
