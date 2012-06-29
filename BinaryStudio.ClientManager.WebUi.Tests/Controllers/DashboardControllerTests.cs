@@ -87,8 +87,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             CollectionAssert.Contains(returnedModel.inquiries,ListInquiries()[0]);
             CollectionAssert.Contains(returnedModel.inquiries, ListInquiries()[1]);
             Assert.AreEqual(2, returnedModel.employees.Count());
-            CollectionAssert.Contains(returnedModel.employees, ListInquiries()[1]);
-            CollectionAssert.Contains(returnedModel.employees, ListInquiries()[2]);
+            CollectionAssert.Contains(returnedModel.employees, ListPersons()[1]);
+            CollectionAssert.Contains(returnedModel.employees, ListPersons()[2]);
         }
 
 

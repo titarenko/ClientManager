@@ -41,5 +41,22 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Contains source message from which inquiry was created.
         /// </summary>
         public MailMessage Source { get; set; }
+
+        public override bool Equals(object objToCompare)
+        {
+            var inquiryToCompare = objToCompare as Inquiry;
+            if (Id==inquiryToCompare.Id &&
+                Client.Equals(inquiryToCompare.Client) &&
+                Source.Equals(inquiryToCompare.Source))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }
