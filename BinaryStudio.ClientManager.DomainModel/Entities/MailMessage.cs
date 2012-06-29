@@ -51,9 +51,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             var mailMessageToCompare = objectToCompare as MailMessage;
             if (mailMessageToCompare != null)
             {
+                var collectionOfPersonsComparer = new CollectionOfPersonsComparer();
                 if (Date == mailMessageToCompare.Date &&
                         Sender.Equals(mailMessageToCompare.Sender) &&
-                        Receivers.Equals(mailMessageToCompare.Receivers) &&
+                        collectionOfPersonsComparer.Equals(Receivers,mailMessageToCompare.Receivers) &&
                         Subject == mailMessageToCompare.Subject &&
                         Body == mailMessageToCompare.Body &&
                         Id == mailMessageToCompare.Id)

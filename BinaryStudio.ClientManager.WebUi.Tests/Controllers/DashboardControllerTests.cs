@@ -83,9 +83,12 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var returnedModel = returnedView.Model as DashboardModel;
 
             //assert
-            CollectionAssert.AreEquivalent(ListInquiries(),returnedModel.inquiries);
-            CollectionAssert.AreEquivalent(expectedPersons,returnedModel.employees);
-            
+            Assert.AreEqual(2, returnedModel.inquiries.Count());
+            CollectionAssert.Contains(returnedModel.inquiries,ListInquiries()[0]);
+            CollectionAssert.Contains(returnedModel.inquiries, ListInquiries()[1]);
+            Assert.AreEqual(2, returnedModel.employees.Count());
+            CollectionAssert.Contains(returnedModel.employees, ListInquiries()[1]);
+            CollectionAssert.Contains(returnedModel.employees, ListInquiries()[2]);
         }
 
 
