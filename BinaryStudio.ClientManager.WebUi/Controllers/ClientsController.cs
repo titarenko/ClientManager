@@ -21,36 +21,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 Where(client => client.RoleValue == (int)PersonRole.Client));
         }
 
-        /// <summary>
-        /// Test method to add Person
-        /// MUST BE DELETED!!!
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Create()
-        {
-            var person = new Person();
-            return View(person);
-        }
-
-        [HttpPost]
-        public ActionResult Create(Person person)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    repository.Save(person);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(ex.Message, ex);
-            }
-            return View();
-
-        }
-
         public ViewResult MailingHistory(int id)
         {
             return View(repository.Query<MailMessage>().Where(message => message.Sender.Id == id));
