@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
+using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.WebUi.Controllers;
+using BinaryStudio.ClientManager.WebUi.Models;
+using Moq;
 using NUnit.Framework;
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
@@ -13,8 +19,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         /// <summary>
         /// Test List of inquires
         /// </summary>
-        private List<Inquiry> ListInquiries()
-        {
+        private static List<Inquiry> ListInquiries()
+        { 
             return new List<Inquiry>
                        {
                            new Inquiry
@@ -34,7 +40,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         /// <summary>
         /// Test list of persons
         /// </summary>
-        private List<Person> ListPersons()
+        private static List<Person> ListPersons()
         {
             return new List<Person>
                        {
@@ -54,6 +60,32 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                    Role = PersonRole.Employee
                                }
                        };
+        }
+
+        [Test]
+        public void Should_ReturnListOfAllInquiriesAndListOfPersonsWithEmployeeRole_WhenRequestedIndexMethod()
+        {
+            //arrange
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>()).Returns(ListInquiries().AsQueryable());
+            mock.Setup(x => x.Query<Person>()).Returns(ListPersons().AsQueryable());
+            var dashboardController = new DashboardController(mock.Object);
+            var expectedPersons = new List<Person>
+                                      {
+                                          ListPersons()[1],
+                                          ListPersons()[2]
+                                      };
+
+            //act
+            var returnedView=dashboardController.Index() as ViewResult;
+
+            //converts View.Model to DashboardModel
+            var returnedModel = returnedView.Model as DashboardModel;
+
+            //assert
+            CollectionAssert.AreEquivalent(ListInquiries(),returnedModel.inquiries);
+            CollectionAssert.AreEquivalent(expectedPersons,returnedModel.employees);
+            
         }
 
 
