@@ -14,9 +14,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /Test/
 
-                private readonly IRepository repository;
+        private readonly IRepository repository;
 
-                public TestController(IRepository repository)
+        public TestController(IRepository repository)
         {
             this.repository = repository;
         }
