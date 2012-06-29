@@ -45,7 +45,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
         /// </summary>
-        /// <param name="objectToCompare">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="objToCompare">The <see cref="System.Object"/> to compare with this instance.</param>
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>

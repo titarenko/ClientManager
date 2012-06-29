@@ -99,6 +99,20 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             CollectionAssert.Contains(returnedModel.employees, ListPersons()[2]);
         }
 
+        [Test]
+        public void ShouldNot_RaiseException_WhenRepositoryIsEmpty()
+        {
+            //arrange
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>()).Returns(new List<Inquiry>().AsQueryable());
+            mock.Setup(x => x.Query<Person>()).Returns(new List<Person>().AsQueryable());
+            var dashboardController = new DashboardController(mock.Object);
 
+            //act
+            var result = dashboardController.Index();
+
+            //assert
+            Assert.IsNotNull(result);
+        }
     }
 }
