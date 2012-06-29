@@ -15,7 +15,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         /// <summary>
         /// our test DB
         /// </summary>
-        private static readonly List<Inquiry> ListEnquiries = new List<Inquiry>() {
+        private static readonly List<Inquiry> ListInquiries = new List<Inquiry>() {
                                                  new Inquiry(
                                                      new Person()
                                                          {
@@ -41,16 +41,15 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                              };
 
         [Test]
-        public void Shoild_ReturnInquiry_WhenRequestedFullList()
+        public void Should_ReturnInquiry_WhenRequestedFullList()
         {
             // setup
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>()).Returns(ListEnquiries.AsQueryable());
+            mock.Setup(x => x.Query<Inquiry>()).Returns(ListInquiries.AsQueryable());
             var inquiriesController = new InquiriesController(mock.Object);
 
             // act
             var response = inquiriesController.Index();
-            //Assert.That(response != null && response.GetType() == typeof(ViewResult), "type is");
             var typedResponse = response as ViewResult;
             var list = typedResponse.Model as IEnumerable<Inquiry>;
 
@@ -71,7 +70,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var response = inquiriesController.Index() as ViewResult;
 
             // check
-            Assert.That(response != null);
+            Assert.IsNotNull(response);
         }
     }
 }
