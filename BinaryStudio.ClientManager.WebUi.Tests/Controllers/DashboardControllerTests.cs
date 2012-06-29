@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -26,14 +27,21 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                            new Inquiry
                                {
                                    Client = new Person(),
-                                   Source = new MailMessage()
+                                   Source = new MailMessage
+                                                {
+                                                    Sender = new Person(),
+                                                    Receivers = new Collection<Person>()
+                                                }
                                },
                            new Inquiry
                                {
                                    Client = new Person(),
-                                   Source = new MailMessage()
-                               },
-
+                                   Source = new MailMessage
+                                                {
+                                                    Sender = new Person(),
+                                                    Receivers = new Collection<Person>()
+                                                }
+                               }
                        };
         }
 
