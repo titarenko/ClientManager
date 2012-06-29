@@ -7,13 +7,13 @@
 
 <h2>Dashboard</h2>
 @{
-    IQueryable<string> employees = (from employee in Model.employees select employee.FullName);
+    IQueryable<string> employees = (from employee in Model.Employees select employee.FullName);
 }
 <ul>
-@foreach(var inquiry in Model.inquiries)
+@foreach(var inquiry in Model.Inquiries)
 {
     <li>@inquiry.Source.Subject </li>
-    <li>@Html.DropDownListFor(x => x.employees, new SelectList(employees, "FullName"))</li>
+    <li>@Html.DropDownListFor(x => x.Employees, new SelectList(employees, "FullName"))</li>
 }
 </ul>
 

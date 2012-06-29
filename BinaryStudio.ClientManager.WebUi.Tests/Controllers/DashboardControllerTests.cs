@@ -88,12 +88,12 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var returnedModel = returnedView.Model as DashboardModel;
 
             //assert
-            Assert.AreEqual(2, returnedModel.inquiries.Count());
-            CollectionAssert.Contains(returnedModel.inquiries,ListInquiries()[0]);
-            CollectionAssert.Contains(returnedModel.inquiries, ListInquiries()[1]);
-            Assert.AreEqual(2, returnedModel.employees.Count());
-            CollectionAssert.Contains(returnedModel.employees, ListPersons()[1]);
-            CollectionAssert.Contains(returnedModel.employees, ListPersons()[2]);
+            Assert.AreEqual(2, returnedModel.Inquiries.Count());
+            CollectionAssert.Contains(returnedModel.Inquiries,ListInquiries()[0]);
+            CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1]);
+            Assert.AreEqual(2, returnedModel.Employees.Count());
+            CollectionAssert.Contains(returnedModel.Employees, ListPersons()[1]);
+            CollectionAssert.Contains(returnedModel.Employees, ListPersons()[2]);
         }
 
         [Test]

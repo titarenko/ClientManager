@@ -24,8 +24,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult Index()
         {
             DashboardModel model = new DashboardModel(); 
-            model.inquiries = repository.Query<Inquiry>();
-            model.employees = repository.Query<Person>().Where(person => person.Role == PersonRole.Employee);
+            model.Inquiries = repository.Query<Inquiry>();
+            model.Employees = repository.Query<Person>().Where(person => person.Role == PersonRole.Employee);
             
             return View(model);
         }

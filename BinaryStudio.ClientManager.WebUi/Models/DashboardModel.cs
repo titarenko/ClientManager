@@ -5,7 +5,7 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class DashboardModel
     {
-        public IQueryable<Inquiry> inquiries { get; set; }
-        public IQueryable<Person> employees { get; set; }
+        public IQueryable<Inquiry> Inquiries { get; set; }
+        public IQueryable<Person> Employees { get; set; }
     }
 }
