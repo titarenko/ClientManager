@@ -73,6 +73,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                                         Sender = new Person()
                                                     }
                                    };
+                repository.Save(inquiries[i]);
             }
             return RedirectToAction("Index", "Inquiries");
         }
