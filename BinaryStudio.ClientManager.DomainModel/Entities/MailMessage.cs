@@ -38,5 +38,42 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Unique identifier.
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="objectToCompare">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object objectToCompare)
+        {
+            var mailMessageToCompare = objectToCompare as MailMessage;
+            if (mailMessageToCompare != null)
+            {
+                if (Date == mailMessageToCompare.Date &&
+                        Sender.Equals(mailMessageToCompare.Sender) &&
+                        Receivers.Equals(mailMessageToCompare.Receivers) &&
+                        Subject == mailMessageToCompare.Subject &&
+                        Body == mailMessageToCompare.Body &&
+                        Id == mailMessageToCompare.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }
