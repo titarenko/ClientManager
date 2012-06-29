@@ -57,10 +57,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             List<Person> clients = repository.Query<Person>().
                 Where(x => x.RoleValue == (int)PersonRole.Client).ToList();
             
-            int randomInt = random.Next(1, 100);
-
             for (int i = 0; i < 10; i++)
             {
+                int randomInt = random.Next(1, 100);
                 inquiries[i] = new Inquiry
                                    {
                                        Client = clients[random.Next(clients.Count)],
@@ -70,7 +69,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                                         Date = DateTime.Now,
                                                         Receivers = new Collection<Person>(),
                                                         Subject = "Subject" + randomInt,
-                                                        Sender = new Person()
+                                                        Sender = new Person
+                                                                     {
+                                                                         CreationDate = DateTime.Now
+                                                                     }
                                                     }
                                    };
                 repository.Save(inquiries[i]);
