@@ -27,6 +27,19 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         /// <summary>
+        /// Test method to clear the persons
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ClearPersons()
+        {
+            foreach (var person in repository.Query<Person>())
+            {
+                repository.Delete(person);
+            }
+            return RedirectToAction("index", "Clients");
+        }
+
+        /// <summary>
         /// Test method to add Person
         /// </summary>
         /// <returns></returns>
