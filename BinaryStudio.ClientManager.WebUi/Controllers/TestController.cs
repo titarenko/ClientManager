@@ -32,9 +32,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ActionResult ClearPersons()
         {
-            foreach (var person in repository.Query<Person>())
+            IList<Person> personList = repository.Query<Person>().ToList();
+            foreach (var person in personList)
             {
                 repository.Delete(person);
+                
             }
             return RedirectToAction("index", "Clients");
         }
@@ -45,8 +47,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ActionResult CreatePersons()
         {
-            Random random = new Random(DateTime.Now.Second);
-            Person [] persons = new Person[10];
+            var random = new Random(DateTime.Now.Second);
+            var persons = new Person[10];
             for (int i = 0; i < 10; i++)
             {
                 int randomInt = random.Next(1, 100);
