@@ -13,7 +13,7 @@
 @foreach(var inquiry in Model.Inquiries)
 {
     <li>@inquiry.Source.Subject </li>
-    <li>@Html.DropDownListFor(x => x.Employees, new SelectList(employees, "FullName"))</li>
+    <li>@Html.DropDownListFor(x => x.Employees, new SelectList(employees))</li>
 }
 </ul>
 
