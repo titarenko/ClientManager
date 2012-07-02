@@ -4,6 +4,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 {
@@ -11,17 +12,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     {
         private readonly EfDataContext context = new EfDataContext();
 
-        private string GetPath<T, TProperty>(Expression<Func<T, TProperty>> expression)
-        {
-            var e = (MemberExpression)expression.Body;
-            return e.Member.Name;
-        }
-
         public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
         {
             return eagerlyLoadedProperties.Aggregate(
                 (DbQuery<T>)context.GetDbSet<T>(),
-                (current, property) => current.Include(GetPath(property)));
+                (current, property) => current.Include(property.GetPath()));
         }
 
         public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
@@ -35,7 +30,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
             return eagerlyLoadedProperties.Aggregate(
                 (DbQuery<T>)set,
-                (current, property) => current.Include(GetPath(property))).First(x => x.Id == id);
+                (current, property) => current.Include(property.GetPath())).First(x => x.Id == id);
         }
 
         public void Save<T>(T instance) where T : class, IIdentifiable
