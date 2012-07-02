@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,15 +25,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult Index()
         {
             DashboardModel model = new DashboardModel();
-
             var employeesFullList = repository.Query<Person>().
-                Where(person => person.RoleValue == (int)PersonRole.Employee);
+                 Where(person => person.RoleValue == (int)PersonRole.Employee);
 
             model.Inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
 
             var employeesModelList = employeesFullList.Select(employee => new SelectListItem
                                                                               {
-                                                                                  Value = employee.Id.ToString(), Text = employee.FullName
+                                                                                  Value = employee.Id.ToString(CultureInfo.InvariantCulture), Text = employee.FullName
                                                                               }).ToList();
             model.Employees = employeesModelList;
 
