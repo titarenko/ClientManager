@@ -72,7 +72,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             //arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>()).Returns(ListInquiries().AsQueryable());
+            mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(ListInquiries().AsQueryable());
             mock.Setup(x => x.Query<Person>()).Returns(ListPersons().AsQueryable());
             var dashboardController = new DashboardController(mock.Object);
             var expectedPersons = new List<Person>
