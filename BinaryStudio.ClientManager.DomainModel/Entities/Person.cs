@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
@@ -64,6 +65,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
                 RoleValue = (int)value;
             }
         }
+
+        public IList<MailMessage> RelatedMails { get; set; }
         
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
