@@ -1,34 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Web.Mvc;
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/jquery-1.5.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
+    @Html.Css("bootstrap-responsive.css")
+   <!-- @Html.Css("bootstrap-responsive.min.css") -->
+    @Html.Script("jquery-1.7.2.min.js", "jquery-1.7.2.js")
+    @Html.Script("bootstrap.min.js", "bootstrap.js")
 </head>
 <body>
-    <div class="page">
-        <div id="header">
-            <div id="title">
-                <h1>My MVC Application</h1>
-            </div>
-            <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
-            </div>
-            <div id="menucontainer">
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                @Html.ActionLink("Client Manager", "Index", "Dashboard", null, new { @class = "brand" })
+                <ul class="nav">
+                    <li>@Html.ActionLink("Clients", "Index", "Clients")</li>
                 </ul>
             </div>
         </div>
-        <div id="main">
-            @RenderBody()
-        </div>
-        <div id="footer">
-        </div>
     </div>
+    @RenderBody()
 </body>
 </html>
