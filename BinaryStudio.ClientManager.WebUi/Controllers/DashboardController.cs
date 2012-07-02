@@ -26,7 +26,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             DashboardModel model = new DashboardModel();
 
             var employeesFullList = repository.Query<Person>().
-                Where(person => person.Role == PersonRole.Employee);
+                Where(person => person.RoleValue == (int)PersonRole.Employee);
 
             model.Inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
 
