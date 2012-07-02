@@ -31,5 +31,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var e = expression.GetPath();
             Assert.AreEqual("RelatedMails.Sender", e);
         }
+
+        [Test]
+        public void Shoud_ReturnSourceDotSenderDotLastName_WhgenXDotSourceDotSenderDotLastName()
+        {
+            Expression<Func<Inquiry, string>> expression = x => x.Source.Sender.LastName;
+            var e = expression.GetPath();
+            Assert.AreEqual("Source.Sender.LastName", e);
+        }
     }
 }
