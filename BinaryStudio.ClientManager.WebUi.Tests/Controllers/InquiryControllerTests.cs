@@ -45,7 +45,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             // setup
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>()).Returns(ListInquiries.AsQueryable());
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source)).Returns(ListInquiries.AsQueryable());
             var inquiriesController = new InquiriesController(mock.Object);
 
             // act
