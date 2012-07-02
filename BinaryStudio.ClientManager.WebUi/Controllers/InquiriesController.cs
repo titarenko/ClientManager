@@ -27,7 +27,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult Details(int id)
         {
-            return View(repository.Get<Inquiry>(id, x=> x.Client, x => x.Source));
+            return View(repository.Get<Inquiry>(id, x=> x.Client, x => x.Source, x => x.Source.Sender));
         }
 
         public ActionResult Edit(int id)
