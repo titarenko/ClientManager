@@ -52,17 +52,21 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                            new Person
                                {
                                    FirstName = "Client",
-                                   Role = PersonRole.Client
+                                   Role = PersonRole.Client,
+                                   Id = 1
+                                   
                                },
                            new Person
                                {
                                    FirstName = "Employee1",
-                                   Role = PersonRole.Employee
+                                   Role = PersonRole.Employee,
+                                   Id = 2
                                },
                            new Person
                                {
                                    FirstName = "Employee2",
-                                   Role = PersonRole.Employee
+                                   Role = PersonRole.Employee,
+                                   Id = 3
                                }
                        };
         }
@@ -75,11 +79,19 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(ListInquiries().AsQueryable());
             mock.Setup(x => x.Query<Person>()).Returns(ListPersons().AsQueryable());
             var dashboardController = new DashboardController(mock.Object);
-            var expectedPersons = new List<Person>
+            var expectedPersons = new List<SelectListItem>
                                       {
-                                          ListPersons()[1],
-                                          ListPersons()[2]
-                                      };
+                                          new SelectListItem
+                                              {
+                                                  Value = "2",
+                                                  Text = "Employee1"
+                                              },
+                                          new SelectListItem
+                                              {
+                                                  Value = "3",
+                                                  Text = "Employee2"
+                                              }
+                                      }.ToList();
 
             //act
             var returnedView=dashboardController.Index() as ViewResult;
@@ -91,9 +103,10 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Assert.AreEqual(2, returnedModel.Inquiries.Count());
             CollectionAssert.Contains(returnedModel.Inquiries,ListInquiries()[0]);
             CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1]);
+
             Assert.AreEqual(2, returnedModel.Employees.Count());
-            CollectionAssert.Contains(returnedModel.Employees, ListPersons()[1]);
-            CollectionAssert.Contains(returnedModel.Employees, ListPersons()[2]);
+            Assert.That(returnedModel.Employees.Any(x=> x.Value == expectedPersons[0].Value));
+            Assert.That(returnedModel.Employees.Any(x => x.Value == expectedPersons[1].Value));
         }
 
         [Test]
