@@ -5,8 +5,11 @@ using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using FluentAssertions;
 using NUnit.Framework;
 using Moq;
+using NSubstitute;
+using FizzWare.NBuilder;
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 {
@@ -18,7 +21,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [SetUp]
         public void CreateClientsList()
         {
-            clients = new[]
+            
+            /*  clients = new[]
                 {
                     new Person
                         {
@@ -47,7 +51,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                             RoleValue = (int)PersonRole.Client,
                             Id = 13
                         }
-                };
+                */
         }
 
         private readonly MailMessage[] messages = {
@@ -105,9 +109,9 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                   };
 
         [Test]
-        public void Should_ReturnClientsList_WhenRequested()
+        public void Should_Return300_WhenFillsListWith300Employees()
         {
-            var mock = new Mock<IRepository>();
+            /*var mock = new Mock<IRepository>();
             mock.Setup(x => x.Query<Person>()).Returns(clients.AsQueryable());
             var clientController = new ClientsController(mock.Object);
 
@@ -116,7 +120,25 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 3));
             Assert.IsNull(viewResultModel.SingleOrDefault(x => x.Id == 7));
-            Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 13));
+            Assert.IsNotNull(viewResultModel.SingleOrDefault(x => x.Id == 13));*/
+            
+            //arrange
+            var data = Builder<Person>.CreateListOfSize(1000)
+                .All()
+                .With(x => x.Role = PersonRole.Employee)
+                .Random(300)
+                .With(x => x.Role = PersonRole.Client)
+                .Random(700)
+                .Build().AsQueryable();
+
+            var repository = Substitute.For<IRepository>();
+            repository.Query<Person>().Returns(data);
+
+            //act
+            var model = (IEnumerable<Person>) new ClientsController(repository).Index().Model;
+
+            //assert
+            model.Count().Should().Be(300);
         }
 
         [Test]
