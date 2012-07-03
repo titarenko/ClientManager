@@ -12,7 +12,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             Status = InquiryStatus.IncomingInquiry;
         }
 
+
         public InquiryStatus Status { get; set; }
+
         /// <summary>
         /// Unique identifier.
         /// </summary>

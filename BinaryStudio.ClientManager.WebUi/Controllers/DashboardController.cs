@@ -38,12 +38,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .ToList());
 
 
-            var query = repository.Query<Inquiry>(x => x.Client, x => x.Source/*, x => x.Status*/); //why?
-            model.Inquiries = query.Where(i => i.Status == InquiryStatus.IncomingInquiry).ToList();
+            var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Status);
 
-            model.WaitingForReply = query.Where(i => i.Status == InquiryStatus.WaitingForReply).ToList();
+            model.Inquiries = allInquiries.Where(i => i.Status == InquiryStatus.IncomingInquiry).ToList();
 
-            model.InProgress = query.Where(i => i.Status == InquiryStatus.InProgress).ToList();
+            model.WaitingForReply = allInquiries.Where(i => i.Status == InquiryStatus.WaitingForReply).ToList();
+
+            model.InProgress = allInquiries.Where(i => i.Status == InquiryStatus.InProgress).ToList();
 
             return View(model);
         }
