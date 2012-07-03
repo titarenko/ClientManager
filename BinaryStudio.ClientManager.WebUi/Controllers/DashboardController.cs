@@ -38,7 +38,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .ToList());
 
 
-            var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Status);
+            var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
 
             model.Inquiries = allInquiries.Where(i => i.Status == InquiryStatus.IncomingInquiry).ToList();
 
