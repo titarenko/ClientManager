@@ -2,13 +2,31 @@
            
 Our clients:
 
-<ul>
+<ul class ="clients">
     @foreach(var client in Model)
     {
         <li>
-            <p>Full Name: @client.FullName</p>
-            <p>Email: @client.Email</p>
-            <p>Creation date: @client.CreationDate</p>
+            <div class="row" >
+                <div class="span2">
+                    <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = client.Id } ) %>' alt="Photo" height="100px" width="100px"/>
+                </div>
+                <div class="span5">
+                    <div class="row">
+                        Full Name: @client.FullName 
+                    </div>
+                    <div class="row">
+                        Country: @client.Country
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="row">
+                        Email: @client.Email
+                    </div>  
+                    <div class="row">
+                        Phone: @client.Phone
+                    </div> 
+                </div>
+            </div>
         </li>
     }
 </ul>

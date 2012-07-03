@@ -15,6 +15,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Returns photo of person
+        /// </summary>
+        /// <param name="personId">Id of person</param>
+        /// <returns>Photo of person, if id of person is wrong return null</returns>
+        public ActionResult ShowPhoto(int personId)
+        {
+            var currentClient = repository.Query<Person>().FirstOrDefault(x => x.Id == personId);
+            return currentClient!=null ? File(currentClient.Photo, "image/jpg") : null;
+        }
+
         public ViewResult Index()
         {
             return View(repository.Query<Person>().
