@@ -32,7 +32,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(repository.Get<Inquiry>(id));
+            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source));
         }
 
         [HttpPost]
