@@ -21,7 +21,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         // GET: /Employees/
         public ViewResult Index()
         {
-            return View(repository.Query<Person>().ToList().Where(x=>x.Role==PersonRole.Employee));
+            return View(repository.Query<Person>().ToList().Where(x=>x.Role==PersonRole.Employee).AsQueryable());
         }
 
     }

@@ -1,4 +1,18 @@
-﻿.clients .row .row {
+﻿.employees .row .row {
+    margin-bottom: 30px;
+}
+
+.employees li {
+    width: auto;
+    height: 100;
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: lightblue;
+    margin: 8px auto;
+    padding: 4px;
+}
+
+.clients .row .row {
     margin-bottom: 30px;
 }
 
