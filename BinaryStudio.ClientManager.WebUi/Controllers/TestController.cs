@@ -58,7 +58,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     LastName = "Surname" + randomInt,
                     Email = randomInt + "@mail.ru",
                     CreationDate = DateTime.Now,
-                    RoleValue = random.Next(0, 1)
+                    RoleValue = random.Next(0, 2)
                 };
                 repository.Save(persons[i]);
             }
