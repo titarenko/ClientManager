@@ -66,6 +66,21 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             }
         }
 
+        /// <summary>
+        /// Country where person lives.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Phone number of person.
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Photo of the person
+        /// </summary>
+        public byte[] Photo { get; set; }
+
         public IList<MailMessage> RelatedMails { get; set; }
         
         /// <summary>
