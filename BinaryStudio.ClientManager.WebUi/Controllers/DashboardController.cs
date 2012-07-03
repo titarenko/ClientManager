@@ -40,11 +40,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
 
-            model.Inquiries = allInquiries.Where(i => i.Status == InquiryStatus.IncomingInquiry).ToList();
+            model.Inquiries = allInquiries.Where(i => i.StatusValue == (int)InquiryStatus.IncomingInquiry).ToList();
 
-            model.WaitingForReply = allInquiries.Where(i => i.Status == InquiryStatus.WaitingForReply).ToList();
+            model.WaitingForReply = allInquiries.Where(i => i.StatusValue == (int)InquiryStatus.WaitingForReply).ToList();
 
-            model.InProgress = allInquiries.Where(i => i.Status == InquiryStatus.InProgress).ToList();
+            model.InProgress = allInquiries.Where(i => i.StatusValue == (int)InquiryStatus.InProgress).ToList();
 
             return View(model);
         }
