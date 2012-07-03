@@ -7,7 +7,24 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class DashboardModel
     {
-        public IQueryable<Inquiry> Inquiries { get; set; }
-        public List<SelectListItem> Employees { get; set; }
+        /// <summary>
+        /// incoming inquiries
+        /// </summary>
+        public IList<Inquiry> Inquiries { get; set; }
+
+        /// <summary>
+        /// requests in the process
+        /// </summary>
+        public IList<Inquiry> InProgress { get; set; }
+
+        /// <summary>
+        /// awaiting reply
+        /// </summary>
+        public IList<Inquiry> WaitingRorReply { get; set; } 
+
+        /// <summary>
+        /// assigned employee
+        /// </summary>
+        public SelectList Employees { get; set; }
     }
 }
