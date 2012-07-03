@@ -78,7 +78,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                   };
 
         [Test]
-        public void Should_Return300_WhenFillsListWith300Employees()
+        public void Should_Return300_WhenFillsListWith300Clients()
         {
             
             //arrange
