@@ -30,11 +30,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             model.Employees = new SelectList(
                 repository.Query<Person>()
                     .Where(person => person.RoleValue == (int) PersonRole.Employee)
-                    .Select(employee => new SelectListItem
+                    /*.Select(employee => new SelectListItem
                                             {
                                                 Value = employee.Id.ToString(),
                                                 Text = employee.FullName
-                                            })
+                                            })*/
                     .ToList());
 
 
