@@ -5,40 +5,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.HiddenFor(model => model.Id)
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Inquiry</legend>
-                
-        <div class = editor-label>
-            @Html.EditorFor(model => model.Client.FullName)
-            @Html.ValidationMessageFor(model => model.Client.FullName)
+    @Html.ValidationSummary(true)  
+    <fieldset class = "span12">
+        <h2>Edit</h2> 
+        <div class = "span4 form-horizontal">
+            <h2>Clients information</h2>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Client.FirstName)
+                @Html.TextBoxFor(m => m.Client.FirstName)
+            </div>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Client.LastName)
+                @Html.TextBoxFor(m => m.Client.LastName)
+            </div>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Client.Email)
+                @Html.TextBoxFor(m => m.Client.Email)
+            </div>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Client.CreationDate)
+                @Html.TextBoxFor(m => m.Client.CreationDate)
+            </div>
+            
         </div>
-        
-        <div class = editor-label>
-            @Html.EditorFor(model => model.Client.Email)
-            @Html.ValidationMessageFor(model => model.Client.Email)
+        <div class = "span4 form-horizontal">
+            <h2>Inquiry information</h2>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Source.Subject)
+                @Html.TextBoxFor(m => m.Source.Subject)
+            </div>
+            <div class = "editor-label">
+                @Html.LabelFor(m => m.Source.Date)
+                @Html.TextBoxFor(m => m.Source.Date)
+            </div>
+            <div class = "input-xlarge">
+                @Html.LabelFor(m => m.Source.Body)
+                @Html.TextAreaFor(m => m.Source.Body)
+            </div>
         </div>
-
-        <div class = editor-label>
-            @Html.EditorFor(model => model.Source.Subject)
-            @Html.ValidationMessageFor(model => model.Source.Subject)
-        </div>
-        
-        <div class = editor-label>
-            @Html.EditorFor(model => model.Source.Body)
-            @Html.ValidationMessageFor(model => model.Source.Body)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
     </fieldset>
-}
+    <div class = "form-actions span6" align="center">
+        <input type="submit" class = "btn" value="Save" />
+        <a class = "btn" href="Index.cshtml">Back to List</a>
+    </div>
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
