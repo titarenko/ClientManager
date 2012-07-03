@@ -26,28 +26,24 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult Index()
         {
             var model = new DashboardModel();
-            var employeesFullList = repository.Query<Person>().Where(person => person.RoleValue == (int)PersonRole.Employee);
-            var employeesModelList = employeesFullList.Select(employee => new SelectListItem
-                                                                              {
-                                                                                  Value = employee.Id.ToString(), 
-                                                                                  Text = employee.FullName
-                                                                              }).ToList();
 
-            model.Employees = new SelectList(employeesModelList);
+            model.Employees = new SelectList(
+                repository.Query<Person>()
+                    .Where(person => person.RoleValue == (int) PersonRole.Employee)
+                    .Select(employee => new SelectListItem
+                                            {
+                                                Value = employee.Id.ToString(),
+                                                Text = employee.FullName
+                                            })
+                    .ToList());
 
-            var query = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Status);
+
+            var query = repository.Query<Inquiry>(x => x.Client, x => x.Source/*, x => x.Status*/); //why?
             model.Inquiries = query.Where(i => i.Status == InquiryStatus.IncomingInquiry).ToList();
 
             model.WaitingForReply = query.Where(i => i.Status == InquiryStatus.WaitingForReply).ToList();
 
             model.InProgress = query.Where(i => i.Status == InquiryStatus.InProgress).ToList();
-           /* Func<int, IList<Inquiry>> q =
-                x =>
-                Builder<Inquiry>.CreateListOfSize(x).All().With(
-                    i => i.Source = new MailMessage {Subject = "Param pam pam"}).Build();
-            model.Inquiries = q(15);
-            model.WaitingForReply = q(4);
-            model.InProgress = q(5); */
 
             return View(model);
         }
