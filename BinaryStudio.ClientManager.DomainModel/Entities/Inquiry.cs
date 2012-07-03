@@ -52,16 +52,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public override bool Equals(object objToCompare)
         {
             var inquiryToCompare = objToCompare as Inquiry;
-            if (inquiryToCompare != null)
-            {
-                if (Id == inquiryToCompare.Id &&
-                    Client.Equals(inquiryToCompare.Client) &&
-                    Source.Equals(inquiryToCompare.Source))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return inquiryToCompare != null &&
+                   Id == inquiryToCompare.Id &&
+                   Client.Equals(inquiryToCompare.Client) &&
+                   Source.Equals(inquiryToCompare.Source);
         }
 
         /// <summary>

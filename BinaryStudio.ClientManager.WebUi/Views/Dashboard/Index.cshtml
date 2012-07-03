@@ -1,16 +1,33 @@
-﻿@model BinaryStudio.ClientManager.WebUi.Models.DashboardModel
+﻿@using BinaryStudio.ClientManager.DomainModel.Entities
+@model BinaryStudio.ClientManager.WebUi.Models.DashboardModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dashboard</h2>
-<ul>
-@foreach(var inquiry in Model.Inquiries)
+@helper RenderColumn(string title, IEnumerable<Inquiry> inquiries)
 {
-    <li>@inquiry.Source.Subject </li>
-    <li>@Html.DropDownList("Employees", Model.Employees)</li>
+    <div class="column">
+        <h2>@title</h2>
+        <ul class="inquiries">
+            <!-- for debug --> 
+            @if (inquiries !=null)
+            {
+                foreach (var inquiry in inquiries)
+                {
+                    <li>
+                        @inquiry.Source.Subject
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 }
-</ul>
+
+<div class="container">
+    @RenderColumn("Inquiries", Model.Inquiries)
+    @RenderColumn("In Progress", Model.InProgress)
+    @RenderColumn("Waiting for Reply", Model.WaitingForReply) 
+</div>
 

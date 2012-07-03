@@ -45,7 +45,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         /// <summary>
         /// Test list of persons
         /// </summary>
-        private static List<Person> ListPersons()
+        private static IEnumerable<Person> ListPersons()
         {
             return new List<Person>
                        {
@@ -94,19 +94,20 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                       }.ToList();
 
             //act
-            var returnedView=dashboardController.Index() as ViewResult;
+            var returnedView = dashboardController.Index() as ViewResult;
 
             //converts View.Model to DashboardModel
             var returnedModel = returnedView.Model as DashboardModel;
 
             //assert
-            Assert.AreEqual(2, returnedModel.Inquiries.Count());
-            CollectionAssert.Contains(returnedModel.Inquiries,ListInquiries()[0]);
-            CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1]);
+            Assert.AreEqual(2, returnedModel.Inquiries.Count(), "count");
+            CollectionAssert.Contains(returnedModel.Inquiries,ListInquiries()[0], "first element");
+            CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1], "second element");
 
-            Assert.AreEqual(2, returnedModel.Employees.Count());
-            Assert.That(returnedModel.Employees.Any(x=> x.Value == expectedPersons[0].Value));
-            Assert.That(returnedModel.Employees.Any(x => x.Value == expectedPersons[1].Value));
+            Assert.AreEqual(2, returnedModel.Employees.Count(), "Employee's count");
+          //  Assert.That(returnedModel.Employees.Any(x => x.Value == expectedPersons[0].Value), "first employee");
+            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>()
+                .Any(x => x.Value == expectedPersons[1].Value), "second employee");
         }
 
         [Test]

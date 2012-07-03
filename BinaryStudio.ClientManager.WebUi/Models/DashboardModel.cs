@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
@@ -20,7 +19,7 @@ namespace BinaryStudio.ClientManager.WebUi.Models
         /// <summary>
         /// awaiting reply
         /// </summary>
-        public IList<Inquiry> WaitingRorReply { get; set; } 
+        public IList<Inquiry> WaitingForReply { get; set; } 
 
         /// <summary>
         /// assigned employee
