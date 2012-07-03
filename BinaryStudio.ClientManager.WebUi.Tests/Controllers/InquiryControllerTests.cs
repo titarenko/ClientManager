@@ -16,28 +16,34 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         /// our test DB
         /// </summary>
         private static readonly List<Inquiry> ListInquiries = new List<Inquiry>() {
-                                                 new Inquiry(
-                                                     new Person()
+                                                 new Inquiry { 
+                                                     Client = new Person
                                                          {
                                                              FirstName = "Ivan",
                                                              LastName = "Ivanov",
                                                              RoleValue = (int)PersonRole.Client,
                                                              Id = 9
                                                          },
-                                                     new MailMessage() {Subject = "subj1"},
-                                                     5
-                                                     ),
-                                                 new Inquiry(
-                                                     new Person()
+                                                     Source = new MailMessage
+                                                                  {
+                                                                      Subject = "subj1"
+                                                                  },
+                                                     Id = 5
+                                                     },
+                                                 new Inquiry {
+                                                     Client = new Person
                                                          {
                                                              FirstName = "Petr",
                                                              LastName = "Petrov",
                                                              RoleValue = (int)PersonRole.Client,
                                                              Id = 8
                                                          },
-                                                     new MailMessage() {Subject = "subj2"},
-                                                     1
-                                                     )
+                                                     Source = new MailMessage
+                                                                  {
+                                                                      Subject = "subj2"
+                                                                  },
+                                                     Id = 1
+                                                 }
                                              };
 
         [Test]

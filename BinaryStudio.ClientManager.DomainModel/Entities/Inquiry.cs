@@ -7,26 +7,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Inquiry : IIdentifiable
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Inquiry"/> class.
-        /// </summary>
-        /// <param name="issuer">The issuer.</param>
-        /// <param name="issue">The issue.</param>
-        /// <param name="id">The id of inquiry.</param>
-        public Inquiry(Person issuer, MailMessage issue, int id)
-        {
-            Client = issuer;
-            Source = issue;
-            Id = id;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Inquiry"/> class.
-        /// </summary>
         public Inquiry()
         {
+            Status = InquiryStatus.IncomingInquiry;
         }
 
+        public InquiryStatus Status { get; set; }
         /// <summary>
         /// Unique identifier.
         /// </summary>
@@ -53,6 +39,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             var inquiryToCompare = objToCompare as Inquiry;
             return inquiryToCompare != null &&
+                   Status == inquiryToCompare.Status &&
                    Id == inquiryToCompare.Id &&
                    Client.Equals(inquiryToCompare.Client) &&
                    Source.Equals(inquiryToCompare.Source);
