@@ -27,16 +27,16 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             var model = new DashboardModel();
 
-            /* model.Employees = new SelectList(
+            model.Employees = new SelectList(
                 repository.Query<Person>()
                     .Where(person => person.RoleValue == (int) PersonRole.Employee)
-                   .Select(employee => new SelectListItem
+                    /*.Select(employee => new SelectListItem
                                             {
                                                 Value = employee.Id.ToString(),
                                                 Text = employee.FullName
-                                            })
+                                            })*/
                     .ToList());
-            
+
 
             var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
 
@@ -45,15 +45,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             model.WaitingForReply = allInquiries.Where(i => i.Status == InquiryStatus.WaitingForReply).ToList();
 
             model.InProgress = allInquiries.Where(i => i.Status == InquiryStatus.InProgress).ToList();
-             */
 
-            Func<int, IList<Inquiry>> q =
-                x =>
-                Builder<Inquiry>.CreateListOfSize(x).All().With(
-                    i => i.Source = new MailMessage { Subject = "Param pam pam" }).Build();
-            model.Inquiries = q(15);
-            model.WaitingForReply = q(4);
-            model.InProgress = q(5);
             return View(model);
         }
 
