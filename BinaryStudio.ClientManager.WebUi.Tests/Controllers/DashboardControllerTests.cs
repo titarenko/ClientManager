@@ -79,17 +79,19 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(ListInquiries().AsQueryable());
             mock.Setup(x => x.Query<Person>()).Returns(ListPersons().AsQueryable());
             var dashboardController = new DashboardController(mock.Object);
-            var expectedPersons = new List<SelectListItem>
+            var expectedPersons = new List<Person>
                                       {
-                                          new SelectListItem
+                                          new Person
                                               {
-                                                  Value = "2",
-                                                  Text = "Employee1"
+                                                  FirstName = "Employee1",
+                                                  Role = PersonRole.Employee,
+                                                  Id = 2
                                               },
-                                          new SelectListItem
+                                          new Person
                                               {
-                                                  Value = "3",
-                                                  Text = "Employee2"
+                                                  FirstName = "Employee2",
+                                                  Role = PersonRole.Employee,
+                                                  Id = 3
                                               }
                                       }.ToList();
 
@@ -105,8 +107,9 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1], "second element");
 
             Assert.AreEqual(2, returnedModel.Employees.Count(), "Employee's count");
-            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>().Any(x => x.Value == expectedPersons[0].Value), "first employee");
-            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>().Any(x => x.Value == expectedPersons[1].Value), "second employee");
+            CollectionAssert.Contains(returnedModel.Employees, expectedPersons[0], "first element");
+            CollectionAssert.Contains(returnedModel.Employees, expectedPersons[1], "second element");
+
         }
 
         [Test]

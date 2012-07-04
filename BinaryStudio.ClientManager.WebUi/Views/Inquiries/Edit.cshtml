@@ -6,7 +6,8 @@
 }
 
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.HiddenFor(model => model.Id)
     <div class = container>
         <div class ="row-fluid">
@@ -64,12 +65,10 @@
             </div>
         </div>
         <div class = "row-fluid">
-            <div class="form-inline" style="margin-left: 30px">
+            <div class="btn-group" style="margin-left: 30px">
                 <input type="submit" class = "btn btn-inverse" value="Save" />
                 <a class = "btn" href="">Back to List</a>
             </div>
         </div>
     </div>
-    
 }
-

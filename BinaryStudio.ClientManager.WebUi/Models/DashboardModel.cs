@@ -24,6 +24,6 @@ namespace BinaryStudio.ClientManager.WebUi.Models
         /// <summary>
         /// assigned employee
         /// </summary>
-        public SelectList Employees { get; set; }
+        public List<Person> Employees { get; set; }
     }
 }

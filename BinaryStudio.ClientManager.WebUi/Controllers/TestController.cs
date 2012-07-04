@@ -78,6 +78,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 inquiries[i] = new Inquiry
                                    {
                                        Client = clients[random.Next(clients.Count)],
+                                       Status = random.Next(3),
                                        Source = new MailMessage
                                                     {
                                                         Body = "MailMessage " + randomInt + " Text",
