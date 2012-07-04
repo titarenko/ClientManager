@@ -35,13 +35,14 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         public void Save<T>(T instance) where T : class, IIdentifiable
         {
-            if (instance.Id == default(int))
+            var oldValue = Get<T>(instance.Id);
+            if (oldValue == null)
             {
                 context.GetDbSet<T>().Add(instance);
             }
             else
             {
-                context.Entry(instance).State = EntityState.Modified;
+                context.Entry(oldValue).CurrentValues.SetValues(instance);
             }
 
             context.SaveChanges();
