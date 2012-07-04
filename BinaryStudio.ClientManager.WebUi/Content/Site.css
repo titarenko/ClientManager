@@ -12,7 +12,14 @@
     padding: 4px;
 }
 
-.clients .row .row {
+.clients li a
+{
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.clients li p {
     margin-bottom: 30px;
 }
 
@@ -21,10 +28,13 @@
     height: 100;
     border: 1px gray solid;
     border-radius: 10px;
-    background: lightblue;
+    background: #EEEEEE;
     margin: 8px auto;
     padding: 4px;
+    list-style-type: none;
 }
+
+
 
 
 
