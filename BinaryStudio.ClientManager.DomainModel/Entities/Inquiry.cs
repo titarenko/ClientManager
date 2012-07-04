@@ -33,21 +33,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public MailMessage Source { get; set; }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="objToCompare">The <see cref="System.Object"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object objToCompare)
+        public bool Equals(Inquiry other)
         {
-            var inquiryToCompare = objToCompare as Inquiry;
-            return inquiryToCompare != null &&
-                   Status == inquiryToCompare.Status &&
-                   Id == inquiryToCompare.Id &&
-                   Client.Equals(inquiryToCompare.Client) &&
-                   Source.Equals(inquiryToCompare.Source);
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other.Status == Status && other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Inquiry)) return false;
+            return Equals((Inquiry) obj);
         }
 
         /// <summary>
@@ -59,7 +57,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </returns>
         public override int GetHashCode()
         {
-            return Id;
+            unchecked
+            {
+                int result = Status;
+                result = (result*397) ^ Id;
+                result = (result*397) ^ (Client != null ? Client.GetHashCode() : 0);
+                result = (result*397) ^ (Source != null ? Source.GetHashCode() : 0);
+                return result;
+            }
         }
     }
 }

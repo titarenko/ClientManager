@@ -6,9 +6,28 @@ using System.Web;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using FizzWare.NBuilder;
+using FizzWare.NBuilder.Dates;
+using FizzWare.NBuilder.Generators;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
+    public class RandomItem<T>
+    {
+        private readonly IList<T> list;
+        private readonly IRandomGenerator randomGenerator;
+
+        public RandomItem(IList<T> list, bool random )
+        {
+            this.list = list;
+            this.randomGenerator = random ? new RandomGenerator() : new UniqueRandomGenerator();
+        }
+
+        public T Next()
+        {
+            return list[randomGenerator.Next(0, list.Count - 1)];
+        }
+    }
     public class TestController : Controller
     {
         //
@@ -48,50 +67,55 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult CreatePersons()
         {
             var random = new Random(DateTime.Now.Second);
-            var persons = new Person[10];
-            for (int i = 0; i < 10; i++)
+            var persons = Builder<Person>.CreateListOfSize(10)
+                .All()
+                .With(x => x.FirstName = GetRandom.FirstName())
+                .With(x => x.LastName = GetRandom.LastName())
+                .With(x => x.Role = GetRandom.Int(0, 2))
+                .With(x => x.Country = GetRandom.String(10))
+                .With(x => x.Email = GetRandom.Email())
+                .With(x => x.CreationDate = GetRandom.DateTime(January.The1st, DateTime.Now))
+                .With(x => x.Id = 0)
+                .With(x => x.RelatedMails = Builder<MailMessage>.CreateListOfSize(5)
+                    .All()
+                    .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
+                    .With(z => z.Subject = GetRandom.String(10))
+                    .With(z => z.Body = GetRandom.String(50))
+                    .With(z => z.Id = 0)
+                    .Build())
+                .Build();
+
+            foreach (var person in persons)
             {
-                int randomInt = random.Next(1, 100);
-                persons[i] = new Person
-                {
-                    FirstName = "Person" + randomInt,
-                    LastName = "Surname" + randomInt,
-                    Email = randomInt + "@mail.ru",
-                    CreationDate = DateTime.Now,
-                    Role = random.Next(0, 2)
-                };
-                repository.Save(persons[i]);
+                repository.Save(person);
             }
             return RedirectToAction("Index", "Clients");
         }
 
         public ActionResult CreateInquiries()
         {
-            Random random = new Random(DateTime.Now.Second);
-            Inquiry [] inquiries = new Inquiry[10];
-            List<Person> clients = repository.Query<Person>().
-                Where(x => x.Role == (int)PersonRole.Client).ToList();
+            var random = new Random(DateTime.Now.Second);
             
-            for (int i = 0; i < 10; i++)
+            var clients = repository.Query<Person>(x => x.RelatedMails).
+                Where(x => x.Role == PersonRole.Client).ToList();
+
+            var randomClient = new RandomItem<Person>(clients, true);
+
+            var iquiries = Builder<Inquiry>.CreateListOfSize(10)
+                .All()
+                .With(x => x.Status = GetRandom.Int(0, 3))
+                .With(x => x.Client = randomClient.Next())
+                .With(x => x.Id = 0)
+                .With(x => x.Source = Builder<MailMessage>.CreateNew()
+                                          .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
+                                          .With(z => z.Subject = GetRandom.String(10))
+                                          .With(z => z.Body = GetRandom.String(50))
+                                          .With(z => z.Id = 0)
+                                          .Build())
+                .Build();
+            foreach (var inquiry in iquiries)
             {
-                int randomInt = random.Next(1, 100);
-                inquiries[i] = new Inquiry
-                                   {
-                                       Client = clients[random.Next(clients.Count)],
-                                       Status = random.Next(3),
-                                       Source = new MailMessage
-                                                    {
-                                                        Body = "MailMessage " + randomInt + " Text",
-                                                        Date = DateTime.Now,
-                                                        Receivers = new Collection<Person>(),
-                                                        Subject = "Subject" + randomInt,
-                                                        Sender = new Person
-                                                                     {
-                                                                         CreationDate = DateTime.Now
-                                                                     }
-                                                    }
-                                   };
-                repository.Save(inquiries[i]);
+                repository.Save(inquiry);
             }
             return RedirectToAction("Index", "Inquiries");
         }
