@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -10,7 +7,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
     public class EmployeesController : Controller
     {
-        private IRepository repository;
+        private readonly IRepository repository;
 
         public EmployeesController(IRepository repository)
         {
