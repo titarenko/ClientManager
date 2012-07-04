@@ -32,7 +32,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source));
+            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender));
         }
 
         [HttpPost]
@@ -40,11 +40,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             if(ModelState.IsValid)
             {
-                return View(inquiry);
+                repository.Save(inquiry);
+                return View("Details", inquiry);
             }
 
-            repository.Save(inquiry);
-            return View("Details", inquiry);
+            return View(inquiry);
+
         }
     }
 }

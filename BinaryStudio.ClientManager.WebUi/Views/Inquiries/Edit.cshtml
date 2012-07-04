@@ -8,48 +8,68 @@
 
 @using (Html.BeginForm()) {
     @Html.HiddenFor(model => model.Id)
-    @Html.ValidationSummary(true)  
-    <fieldset class = "span12">
-        <h2>Edit</h2> 
-        <div class = "span4 form-horizontal">
-            <h2>Clients information</h2>
-            <div class = "editor-label">
-                @Html.LabelFor(m => m.Client.FirstName)
-                @Html.TextBoxFor(m => m.Client.FirstName)
-            </div>
-            <div class = "editor-label">
-                @Html.LabelFor(m => m.Client.LastName)
-                @Html.TextBoxFor(m => m.Client.LastName)
-            </div>
-            <div class = "editor-label">
-                @Html.LabelFor(m => m.Client.Email)
-                @Html.TextBoxFor(m => m.Client.Email)
-            </div>
-            <div class = "editor-label">
-                @Html.LabelFor(m => m.Client.CreationDate)
-                @Html.TextBoxFor(m => m.Client.CreationDate)
-            </div>
+    <div class = container>
+        <div class ="row-fluid">
+            <div class ="page-header">
+                <h2>Inquiry Edit</h2>
+            </div> 
             
-        </div>
-        <div class = "span4 form-horizontal">
-            <h2>Inquiry information</h2>
-            <div class = "editor-label">
-                @Html.LabelFor(m => m.Source.Subject)
-                @Html.TextBoxFor(m => m.Source.Subject)
+            <div class = "span4 well form-horizontal">
+                <h2>Client information</h2>
+            
+                @Html.LabelFor(m => m.Client.FirstName, "First name")
+                @Html.TextBoxFor(m => m.Client.FirstName)
+
+                @Html.LabelFor(m => m.Client.LastName, "Last name")
+                @Html.TextBoxFor(m => m.Client.LastName)
+
+                @Html.LabelFor(m => m.Client.Email, "E-mail")
+                @Html.TextBoxFor(m => m.Client.Email)
+   
+                @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
+                @Html.TextBoxFor(m => m.Client.CreationDate)
+
             </div>
-            <div class = "editor-label">
+
+            <div class = "span4 well form-horizontal">
+                <h2>Sender information</h2>
+
+                @Html.LabelFor(m => m.Source.Sender.CreationDate, "Creation date")
+                @Html.TextBoxFor(m => m.Source.Sender.CreationDate)
+
+                @Html.LabelFor(m => m.Source.Sender.FirstName, "First name")
+                @Html.TextBoxFor(m => m.Source.Sender.FirstName)
+
+                @Html.LabelFor(m => m.Source.Sender.LastName, "Last name")
+                @Html.TextBoxFor(m => m.Source.Sender.LastName)
+                
+                @Html.LabelFor(m => m.Source.Sender.Email, "E-mail")
+                @Html.TextBoxFor(m => m.Source.Sender.Email)
+
+            </div>        
+      
+        </div>
+        <div class ="row-fluid">
+            <div class = "span4 well form-horizontal" style="margin-left: 30px">
+                <h2>Inquiry information</h2>
                 @Html.LabelFor(m => m.Source.Date)
                 @Html.TextBoxFor(m => m.Source.Date)
-            </div>
-            <div class = "input-xlarge">
+
+                @Html.LabelFor(m => m.Source.Subject)
+                @Html.TextAreaFor(m => m.Source.Subject)
+
                 @Html.LabelFor(m => m.Source.Body)
                 @Html.TextAreaFor(m => m.Source.Body)
+
             </div>
         </div>
-    </fieldset>
-    <div class = "form-actions span6" align="center">
-        <input type="submit" class = "btn" value="Save" />
-        <a class = "btn" href="Index.cshtml">Back to List</a>
+        <div class = "row-fluid">
+            <div class="form-inline" style="margin-left: 30px">
+                <input type="submit" class = "btn btn-inverse" value="Save" />
+                <a class = "btn" href="">Back to List</a>
+            </div>
+        </div>
     </div>
-    }
+    
+}
 

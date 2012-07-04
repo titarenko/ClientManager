@@ -33,7 +33,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult MailingHistory(int id)
         {
-            return View(repository.Query<MailMessage>().Where(message => message.Sender.Id == id));
+            return View(repository.Query<MailMessage>(x => x.Sender).Where(message => message.Sender.Id == id));
         }
     }
 }

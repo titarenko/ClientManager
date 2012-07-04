@@ -55,3 +55,7 @@ ul {
     float: left;
     text-align: center;
 }
+
+.page-header {
+    margin: 18px 30px;
+}
