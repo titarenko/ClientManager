@@ -1,4 +1,8 @@
-﻿.employees .row .row {
+﻿body {
+    margin-top: 40px;
+}
+
+.employees .row .row {
     margin-bottom: 30px;
 }
 
