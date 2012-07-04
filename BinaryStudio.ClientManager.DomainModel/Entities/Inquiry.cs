@@ -16,14 +16,23 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Int value that represents Status of inquiry.
         /// For full list of values <see cref="InquiryStatus"/> enumeration.
         /// </summary>
-        //public int StatusValue { get; set; }
-
+        public int StatusValue { get; set; }
+        
         /// <summary>
         /// Inquiry status (e.g., IncomingInquiry, WaitingForReply, InProgress, Closed)
-        /// for full list see <see cref="InquiryStatus"/> 
+        /// for full list see <see cref="InquiryStatus"/> enumeration).
         /// It gives and sets status by StatusValue property
         /// </summary>
-        public int Status { get; set; }
+        public InquiryStatus Status {
+            get
+            {
+                return (InquiryStatus)StatusValue;
+            }
+            set
+            {
+                StatusValue = (int)value;
+            }
+        }
 
         /// <summary>
         /// Unique identifier.
