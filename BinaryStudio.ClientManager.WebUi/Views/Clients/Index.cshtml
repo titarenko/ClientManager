@@ -4,7 +4,7 @@
     <ul class ="clients">
         @foreach(var client in Model)
         {
-            <li>
+            <li class="well">
                 <div class="row-fluid" >
                     <div class="span2">
                         <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = client.Id } ) %>' alt="Photo" height="100px" width="100px"/>
