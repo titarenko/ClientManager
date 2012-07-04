@@ -1,32 +1,33 @@
 ﻿@model IQueryable<BinaryStudio.ClientManager.DomainModel.Entities.Person>
-           
-Our employees:
 
-<ul class ="employees">
-    @foreach(var employee in Model)
-    {
-        <li>
-            <div class="row" >
-                <div class="span2">
-                    <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = employee.Id } ) %>' alt="Photo" height="100px" width="100px"/>
-                </div>
-                <div class="span5">
-                    <div class="row">
-                        Full Name: @employee.FullName 
+<div class="container">          
+    <ul class ="employees">
+        @foreach(var employee in Model)
+        {
+            <li>
+                <div class="row-fluid" >
+                    <div class="span2">
+                        <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = employee.Id } ) %>' alt="Photo" height="100px" width="100px"/>
                     </div>
-                    <div class="row">
-                        Country: @employee.Country
+                    <div class="span5">
+                        <p>
+                            Full Name: @employee.FullName 
+                        </p>
+                        <p>
+                            Country: @employee.Country
+                        </p>
+                    </div>
+                    <div class="span5">
+                        <p>
+                            Email: @employee.Email
+                        </p>  
+                        <p>
+                            Phone: @employee.Phone
+                        </p> 
+                        <a class="btn-info" href="@Url.Action("MailingHistory", "Clients", new { id = employee.Id })">Mailing history</a>
                     </div>
                 </div>
-                <div class="span5">
-                    <div class="row">
-                        Email: @employee.Email
-                    </div>  
-                    <div class="row">
-                        Phone: @employee.Phone
-                    </div> 
-                </div>
-            </div>
-        </li>
-    }
-</ul>
+            </li>
+        }
+    </ul>
+</div>

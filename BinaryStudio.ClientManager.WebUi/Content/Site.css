@@ -1,4 +1,8 @@
-﻿.employees .row .row {
+﻿.employees li a {
+    float: right;
+}
+
+.employees li p {
     margin-bottom: 30px;
 }
 
@@ -7,9 +11,10 @@
     height: 100;
     border: 1px gray solid;
     border-radius: 10px;
-    background: lightblue;
+    background: #EEEEEE;
     margin: 8px auto;
     padding: 4px;
+    list-style-type: none;
 }
 
 .clients li a {
