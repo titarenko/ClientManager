@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -27,7 +28,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .Where(person => person.Role == PersonRole.Employee)
                     .Select(employee => new SelectListItem
                                             {
-                                                Value = employee.Id.ToString(),
+                                                Value = Convert.ToString(employee.Id),
                                                 Text = employee.FullName
                                             })
                     .ToList());
