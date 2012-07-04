@@ -6,6 +6,7 @@ using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.WebUi.Models;
+using FizzWare.NBuilder;
 using Moq;
 using NUnit.Framework;
 
@@ -79,6 +80,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(ListInquiries().AsQueryable());
             mock.Setup(x => x.Query<Person>()).Returns(ListPersons().AsQueryable());
             var dashboardController = new DashboardController(mock.Object);
+            
             var expectedPersons = new List<Person>
                                       {
                                           new Person
