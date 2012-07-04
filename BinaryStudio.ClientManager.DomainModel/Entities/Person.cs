@@ -64,25 +64,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public byte[] Photo { get; set; }
 
         public IList<MailMessage> RelatedMails { get; set; }
-        
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="objToCompare">The <see cref="System.Object"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object objToCompare)
-        {
-            var personToCompare = (objToCompare as Person);
 
-            return (personToCompare != null &&
-                    personToCompare.Id == Id &&
-                    personToCompare.CreationDate == CreationDate &&
-                    personToCompare.Email == Email &&
-                    personToCompare.FirstName == FirstName &&
-                    personToCompare.LastName == LastName &&
-                    personToCompare.Role == Role);
+        public bool Equals(Person other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other.Id == Id && Equals(other.FirstName, FirstName) && Equals(other.LastName, LastName) && other.CreationDate.Equals(CreationDate) && Equals(other.Email, Email) && other.Role == Role;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Person)) return false;
+            return Equals((Person) obj);
         }
 
         /// <summary>
@@ -94,7 +89,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </returns>
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            unchecked
+            {
+                int result = Id;
+                result = (result*397) ^ (FirstName != null ? FirstName.GetHashCode() : 0);
+                result = (result*397) ^ (LastName != null ? LastName.GetHashCode() : 0);
+                result = (result*397) ^ CreationDate.GetHashCode();
+                result = (result*397) ^ (Email != null ? Email.GetHashCode() : 0);
+                result = (result*397) ^ Role;
+                return result;
+            }
         }
     }
 }
