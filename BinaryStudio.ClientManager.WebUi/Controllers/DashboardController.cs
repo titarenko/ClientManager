@@ -23,20 +23,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult Index()
         {
             var model = new DashboardModel();
-            var employeesModelList = new List<SelectListItem>();
-            var employeesFullList = repository.Query<Person>().Where(person => person.Role == PersonRole.Employee);
+            var employeesFullList = repository.Query<Person>().
+                Where(person => person.Role == PersonRole.Employee).ToList();
 
-            foreach (var employee in employeesFullList)
-            {
-                var id = employee.Id.ToString();
-                employeesModelList.Add(new SelectListItem
-                                           {
-                                               Value = id,
-                                               Text = employee.FullName
-                                           });
-            }
 
-            model.Employees = new SelectList(employeesModelList);
+            model.Employees = employeesFullList;
 
 
             var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source);
