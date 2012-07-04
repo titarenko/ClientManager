@@ -21,7 +21,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                          {
                                                              FirstName = "Ivan",
                                                              LastName = "Ivanov",
-                                                             RoleValue = (int)PersonRole.Client,
+                                                             Role = (int)PersonRole.Client,
                                                              Id = 9
                                                          },
                                                      Source = new MailMessage
@@ -35,7 +35,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                          {
                                                              FirstName = "Petr",
                                                              LastName = "Petrov",
-                                                             RoleValue = (int)PersonRole.Client,
+                                                             Role = (int)PersonRole.Client,
                                                              Id = 8
                                                          },
                                                      Source = new MailMessage

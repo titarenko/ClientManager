@@ -58,7 +58,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     LastName = "Surname" + randomInt,
                     Email = randomInt + "@mail.ru",
                     CreationDate = DateTime.Now,
-                    RoleValue = random.Next(0, 2)
+                    Role = random.Next(0, 2)
                 };
                 repository.Save(persons[i]);
             }
@@ -70,7 +70,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             Random random = new Random(DateTime.Now.Second);
             Inquiry [] inquiries = new Inquiry[10];
             List<Person> clients = repository.Query<Person>().
-                Where(x => x.RoleValue == (int)PersonRole.Client).ToList();
+                Where(x => x.Role == (int)PersonRole.Client).ToList();
             
             for (int i = 0; i < 10; i++)
             {

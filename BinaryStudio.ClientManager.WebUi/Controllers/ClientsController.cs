@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -29,7 +28,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Index()
         {
             return View(repository.Query<Person>().
-                Where(client => client.RoleValue == (int)PersonRole.Client));
+                Where(client => client.Role == PersonRole.Client));
         }
 
         public ViewResult MailingHistory(int id)

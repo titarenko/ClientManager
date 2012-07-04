@@ -3,16 +3,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Defines list of, so to say, Person types.
     /// </summary>
-    public enum PersonRole
+    public static class PersonRole
     {
         /// <summary>
         /// Our dear client.
         /// </summary>
-        Client=0,
+        public const int Client = 0;
 
         /// <summary>
         /// Best in the world employee.
         /// </summary>
-        Employee=1
+        public const int Employee = 1;
     }
 }

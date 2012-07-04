@@ -36,7 +36,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "client1@mail.ru",
                                                                                FirstName = "Peter",
                                                                                LastName = "Petrov",
-                                                                               RoleValue = (int)PersonRole.Client,
+                                                                               Role = (int)PersonRole.Client,
                                                                                Id = 3
                                                                            },
                                                               Subject = "Mail_1"
@@ -53,7 +53,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "client1@mail.ru",
                                                                                FirstName = "Peter",
                                                                                LastName = "Petrov",
-                                                                               RoleValue = (int)PersonRole.Client,
+                                                                               Role = (int)PersonRole.Client,
                                                                                Id = 3
                                                                            },
                                                               Subject = "Mail_2"
@@ -70,7 +70,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                                                                                Email = "ivan@mail.ru",
                                                                                FirstName = "Ivan",
                                                                                LastName = "Ivanov",
-                                                                               RoleValue = (int)PersonRole.Client,
+                                                                               Role = (int)PersonRole.Client,
                                                                                Id = 1
                                                                            },
                                                               Subject = "Mail_3"

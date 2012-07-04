@@ -1,14 +1,14 @@
 ﻿namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
-    public enum InquiryStatus
-        {
-            IncomingInquiry,
+    public static class InquiryStatus
+    {
+        public const int IncomingInquiry = 0;
 
-            WaitingForReply,
+        public const int WaitingForReply = 1;
 
-            InProgress,
+        public const int InProgress = 2;
 
-            Closed
-        }
+        public const int Closed = 3;
+    }
 }
 
