@@ -29,7 +29,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Index()
         {
             return View(repository.Query<Person>().
-                Where(client => client.RoleValue == (int)PersonRole.Client));
+                Where(client => client.Role == PersonRole.Client));
         }
 
         public ViewResult MailingHistory(int id)
