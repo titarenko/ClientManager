@@ -105,9 +105,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1], "second element");
 
             Assert.AreEqual(2, returnedModel.Employees.Count(), "Employee's count");
-          //  Assert.That(returnedModel.Employees.Any(x => x.Value == expectedPersons[0].Value), "first employee");
-            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>()
-                .Any(x => x.Value == expectedPersons[1].Value), "second employee");
+            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>().Any(x => x.Value == expectedPersons[0].Value), "first employee");
+            Assert.That(returnedModel.Employees.Items.OfType<SelectListItem>().Any(x => x.Value == expectedPersons[1].Value), "second employee");
         }
 
         [Test]
