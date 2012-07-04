@@ -12,12 +12,10 @@
     padding: 4px;
 }
 
-.clients li a
-{
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
+.clients li a {
+    float: right;
 }
+
 
 .clients li p {
     margin-bottom: 30px;
