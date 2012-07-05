@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi
@@ -47,6 +48,8 @@ namespace BinaryStudio.ClientManager.WebUi
                     Assembly.GetAssembly(typeof (IIdentifiable)),
                     Assembly.GetExecutingAssembly())
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
         }
