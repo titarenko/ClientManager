@@ -35,6 +35,14 @@
    
                 @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
                 @Html.TextBoxFor(m => m.Client.CreationDate)
+                
+                <script type="text/javascript">
+                    $(function() {
+                        $("#datepicker").datepicker();
+                    });
+                    
+                </script>
+                <input  id="datepicker" type="text" />
 
             </div>
 
