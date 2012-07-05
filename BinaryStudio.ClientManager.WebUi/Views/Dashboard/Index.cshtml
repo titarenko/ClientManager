@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @helper RenderColumn(IEnumerable<Inquiry> inquiries)
 {
     <div class="column">
@@ -19,7 +18,7 @@
                             <p>@inquiry.Source.Subject</p>
                             @if (inquiries.First().Status == InquiryStatus.IncomingInquiry)
                             {
-                                <select class="span2">
+                                <select id="employees" class="span2" onchange="ChangeEmployee">
                                     <option hidden></option>
                                     <option disabled>Choose employee</option>
                                     @foreach (var employee in Model.Employees)

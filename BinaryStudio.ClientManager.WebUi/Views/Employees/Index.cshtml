@@ -4,12 +4,12 @@
     <ul class ="employees">
         @foreach(var employee in Model)
         {
-            <li class ="well">
-                <div class="row-fluid" >
+            <li class ="well span8">
+                <div class="form-horizontal" >
                     <div class="span2">
                         <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = employee.Id } ) %>' alt="Photo" height="100px" width="100px"/>
                     </div>
-                    <div class="span5">
+                    <div class="span3">
                         <p>
                             Full Name: @employee.FullName 
                         </p>
@@ -17,14 +17,17 @@
                             Country: @employee.Country
                         </p>
                     </div>
-                    <div class="span5">
+                    <div class="span3">
                         <p>
                             Email: @employee.Email
                         </p>  
                         <p>
                             Phone: @employee.Phone
                         </p> 
-                        <a class="btn-info" href="@Url.Action("MailingHistory", "Clients", new { id = employee.Id })">Mailing history</a>
+                        <div class="btn-group">
+                            <a class = "btn btn-inverse" href="@Url.Action("Edit", "Employees", new { id = employee.Id })">Edit</a>
+                            <a class="btn" href="@Url.Action("Details", "Employees", new { id = employee.Id })">Details</a>
+                        </div>
                     </div>
                 </div>
             </li>

@@ -1,0 +1,50 @@
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+
+@{
+    ViewBag.Title = "Employee edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class = "container">
+        <div class ="row-fluid">
+            <div class ="page-header">
+                <h2>Employee Editing</h2>
+            </div>
+            
+            <div class="well span2">
+                <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = Model.Id } ) %>' alt="Photo" height="100px" width="100px"/>
+            </div>
+
+            <div class = "span4 well form-horizontal">
+                <h2>Information</h2>
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName)
+            
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+                
+                @Html.LabelFor(m => m.CreationDate)
+                @Html.TextBoxFor(m => m.CreationDate)
+                
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+                
+                @Html.LabelFor(m => m.Phone)
+                @Html.TextBoxFor(m => m.Phone)
+                
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+                
+            </div>
+        </div>
+        <div class = "row">
+            <div class="btn-group offset4">
+                <input type="submit" class = "btn btn-inverse" value="Save" />
+                <a class = "btn" href="@Url.Action("Index", "Employees")">Back to list</a>
+            </div>
+        </div>
+    </div>
+}

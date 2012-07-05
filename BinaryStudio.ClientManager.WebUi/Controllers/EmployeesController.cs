@@ -21,5 +21,26 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(repository.Query<Person>().ToList().Where(x=>x.Role==PersonRole.Employee).AsQueryable());
         }
 
+        public ViewResult Details(int id)
+        {
+            return View(repository.Get<Person>(id));
+        }
+
+        public ViewResult Edit(int id)
+        {
+            return View(repository.Get <Person>(id));
+        }
+
+        [HttpPost]
+        public ViewResult Edit(int id, Person employee)
+        {
+            if(ModelState.IsValid)
+            {
+                repository.Save(employee);
+                return View("Details", employee);
+            }
+
+            return View(employee);
+        }
     }
 }
