@@ -29,6 +29,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public Person Client { get; set; }
 
         /// <summary>
+        /// Person which is assigned to inquiry
+        /// </summary>
+        public Person AssignTo { get; set; }
+
+        /// <summary>
         /// Contains source message from which inquiry was created.
         /// </summary>
         public MailMessage Source { get; set; }
