@@ -105,8 +105,6 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             //assert
             Assert.AreEqual(2, returnedModel.Inquiries.Count(), "count");
-            CollectionAssert.Contains(returnedModel.Inquiries,ListInquiries()[0], "first element");
-            CollectionAssert.Contains(returnedModel.Inquiries, ListInquiries()[1], "second element");
 
             Assert.AreEqual(2, returnedModel.Employees.Count(), "Employee's count");
             CollectionAssert.Contains(returnedModel.Employees, expectedPersons[0], "first element");
