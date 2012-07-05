@@ -1,0 +1,41 @@
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+
+@{
+    ViewBag.Title = "Details";
+}
+
+    
+<div class="container">
+    <div class ="page-header">
+        <h2>Details</h2>
+    </div>        
+    <ul class ="clients">
+        <li class ="well span8">
+            <div class="form-horizontal" >
+                <div class="span2">
+                    <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = Model.Id } ) %>' alt="Photo" height="100px" width="100px"/>
+                </div>
+                <div class="span3">
+                    <p>
+                        Full Name: @Model.FullName 
+                    </p>
+                    <p>
+                        Country: @Model.Country
+                    </p>
+                </div>
+                <div class="span3">
+                    <p>
+                        Email: @Model.Email
+                    </p>  
+                    <p>
+                        Phone: @Model.Phone
+                    </p> 
+                    <div class="btn-group">
+                        <a class = "btn btn-inverse" href="@Url.Action("Edit", "Clients", new { id = Model.Id })">Edit</a>
+                        <a class="btn" href="@Url.Action("Index", "Clients", new { id = Model.Id })">Back to list</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
