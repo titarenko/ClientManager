@@ -41,6 +41,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             if(ModelState.IsValid)
             {
                 repository.Save(inquiry);
+                repository.Save(inquiry.Source);
+                repository.Save(inquiry.Client);
+                repository.Save(inquiry.Source.Sender);
                 return View("Details", inquiry);
             }
 

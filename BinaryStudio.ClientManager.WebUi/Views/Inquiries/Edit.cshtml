@@ -5,18 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
 
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(model => model.Id)
-    <div class = container>
+    <div class = "container">
         <div class ="row-fluid">
             <div class ="page-header">
-                <h2>Inquiry Edit</h2>
+                <h2>Inquiry Editint</h2>
             </div> 
             
             <div class = "span4 well form-horizontal">
                 <h2>Client information</h2>
+                @Html.HiddenFor(model => model.Client.Id)
             
                 @Html.LabelFor(m => m.Client.FirstName, "First name")
                 @Html.TextBoxFor(m => m.Client.FirstName)
@@ -34,6 +40,8 @@
 
             <div class = "span4 well form-horizontal">
                 <h2>Sender information</h2>
+                
+                @Html.HiddenFor(m => m.Source.Sender.Id)
 
                 @Html.LabelFor(m => m.Source.Sender.CreationDate, "Creation date")
                 @Html.TextBoxFor(m => m.Source.Sender.CreationDate)
@@ -53,6 +61,9 @@
         <div class ="row-fluid">
             <div class = "span4 well form-horizontal">
                 <h2>Inquiry information</h2>
+                
+                @Html.HiddenFor(m => m.Source.Id)
+                
                 @Html.LabelFor(m => m.Source.Date)
                 @Html.TextBoxFor(m => m.Source.Date)
 
