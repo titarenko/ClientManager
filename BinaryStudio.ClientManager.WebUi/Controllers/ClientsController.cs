@@ -33,7 +33,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult MailingHistory(int id)
         {
-            return View(repository.Query<MailMessage>(x => x.Sender).Where(message => message.Sender.Id == id));
+            Person person = repository.Get<Person>(id);
+            person.RelatedMails = person.RelatedMails.OrderBy(x => x.Date).ToList();
+
+            return View(person);
+
         }
     }
 }

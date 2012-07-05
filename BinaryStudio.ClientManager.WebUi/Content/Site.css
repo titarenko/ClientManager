@@ -83,3 +83,53 @@ div.row {
 .page-header {
     margin: 18px 30px;
 }
+
+.client-info, .client-info li {
+    list-style-type: none;
+}
+
+.client-info {
+    width: auto;
+    height: auto;
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: gainsboro;
+    margin: 8px auto;
+    padding: 4px;
+}
+
+.mailing-history, .mailing-history li {
+    list-style-type: none;
+}
+
+.mailing-history {
+    width: auto;
+    height: auto;
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: gainsboro;
+    margin: 8px auto;
+    padding: 4px;
+}
+
+.client-msg {
+    width: auto;
+    height: auto;
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: lightyellow;
+    margin: 8px auto;
+    padding: 4px;
+    float: left;
+}
+
+.employee-msg {
+    width: auto;
+    height: auto;
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: lightblue;
+    margin: 8px auto;
+    padding: 4px;
+    float: right;
+}

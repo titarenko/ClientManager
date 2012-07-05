@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using FluentAssertions;
 using NUnit.Framework;
-using Moq;
 using NSubstitute;
 using FizzWare.NBuilder;
 
@@ -16,84 +13,28 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
     [TestFixture]
     public class ClientsControllerTests
     {
-        private Person[] clients;
+        private IList<Person> persons;
 
         [SetUp]
-        public void CreateClientsList()
+        public void CreatePersonsList()
         {
-        }
-
-        private readonly MailMessage[] messages = {
-                                                      new MailMessage()
-                                                          {
-                                                              Body = "This is body of first message",
-                                                              Date = new DateTime(2010, 1, 27),
-                                                              Id = 3,
-                                                              Receivers = new Collection<Person>(),
-                                                              Sender = new Person()
-                                                                           {
-                                                                               CreationDate = new DateTime(2010, 1, 27),
-                                                                               Email = "client1@mail.ru",
-                                                                               FirstName = "Peter",
-                                                                               LastName = "Petrov",
-                                                                               Role = (int)PersonRole.Client,
-                                                                               Id = 3
-                                                                           },
-                                                              Subject = "Mail_1"
-                                                          },
-                                                      new MailMessage()
-                                                          {
-                                                              Body = "This is body of second message",
-                                                              Date = new DateTime(2010, 1, 27),
-                                                              Id = 4,
-                                                              Receivers = new Collection<Person>(),
-                                                              Sender = new Person()
-                                                                           {
-                                                                               CreationDate = new DateTime(2010, 1, 27),
-                                                                               Email = "client1@mail.ru",
-                                                                               FirstName = "Peter",
-                                                                               LastName = "Petrov",
-                                                                               Role = (int)PersonRole.Client,
-                                                                               Id = 3
-                                                                           },
-                                                              Subject = "Mail_2"
-                                                          },
-                                                      new MailMessage()
-                                                          {
-                                                              Body = "This is body of third message",
-                                                              Date = new DateTime(2010, 1, 27),
-                                                              Id = 5,
-                                                              Receivers = new Collection<Person>(),
-                                                              Sender = new Person()
-                                                                           {
-                                                                               CreationDate = new DateTime(2010, 1, 27),
-                                                                               Email = "ivan@mail.ru",
-                                                                               FirstName = "Ivan",
-                                                                               LastName = "Ivanov",
-                                                                               Role = (int)PersonRole.Client,
-                                                                               Id = 1
-                                                                           },
-                                                              Subject = "Mail_3"
-                                                          }
-                                                  };
-
-        [Test]
-        public void Should_Return300_WhenFillsListWith300Clients()
-        {
-            
-            //arrange
-            var data = Builder<Person>.CreateListOfSize(1000)
+            persons = Builder<Person>.CreateListOfSize(1000)
                 .All()
                 .With(x => x.Role = PersonRole.Employee)
                 .Random(300)
                 .With(x => x.Role = PersonRole.Client)
-                .Build().AsQueryable();
+                .Build();
+        }
 
+        [Test]
+        public void Should_Return300_WhenFillsListWith300Clients()
+        {
+            //arrange
             var repository = Substitute.For<IRepository>();
-            repository.Query<Person>().Returns(data);
+            repository.Query<Person>().Returns(persons.AsQueryable());
 
             //act
-            var model = (IEnumerable<Person>) new ClientsController(repository).Index().Model;
+            var model = (IEnumerable<Person>)new ClientsController(repository).Index().Model;
 
             //assert
             model.Count().Should().Be(300);
@@ -102,51 +43,42 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void ShouldNot_RaiseAnException_WhenClientsListIsEmpty()
         {
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Person>()).Returns(new Person[0].AsQueryable());
-            var clientController = new ClientsController(mock.Object);
+            // arrange
+            var repository = Substitute.For<IRepository>();
+            repository.Query<Person>().Returns(new List<Person>().AsQueryable());
+            var clientController = new ClientsController(repository);
 
+            // act & assert
             Assert.DoesNotThrow(() => clientController.Index());
         }
 
         [Test]
-        [TestCase(3)]
-        [TestCase(4)]
-        public void ShoudNot_RaiseException_WhenMessageListIsEmpty(int id)
+        public void Should_ReturnSpecifiedPersonWithRelatedMailSortedByDate_WhenRequested()
         {
-            //arrange
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<MailMessage>()).
-                Returns(new MailMessage[0].AsQueryable());
+            // arrange
+            var person = Builder<Person>.
+                CreateNew().
+                With(x => x.Id = 7777).
+                With(x => x.RelatedMails =
+                    Builder<MailMessage>.
+                    CreateListOfSize(10).
+                    All().
+                    With(d => d.Date = new RandomGenerator().DateTime()).
+                    Build()).
+                Build();
 
-            //act
-            var clientController = new ClientsController(mock.Object);
+            var repository = Substitute.For<IRepository>();
+            repository.Get<Person>(7777).Returns(person);
 
-            //assert
-            Assert.DoesNotThrow(() => clientController.MailingHistory(id));
+            var clientController = new ClientsController(repository);
 
-        }
+            // act
+            var viewResult = clientController.MailingHistory(7777).Model as Person;
 
-        [Test]
-        [TestCase(3)]
-        [TestCase(1)]
-        public void Shoud_ReturnResultOnlyMessageWithClientId_WhenMailHistoryIsRequested(int id)
-        {
-            //arrange
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<MailMessage>()).
-                Returns(messages.AsQueryable());
-            
-            //act
-            var clientController = new ClientsController(mock.Object);
-            var resultView = clientController.MailingHistory(id);
-            var resultModel = resultView.Model as IEnumerable<MailMessage>;
-
-            //assert
-            foreach (var message in resultModel)
-            {
-                Assert.That(message.Sender.Id, Is.EqualTo(id));
-            }
+            // assert
+            for (int i = 1; i < viewResult.RelatedMails.Count; i++)
+                Assert.That(viewResult.RelatedMails[i].Date >=
+                    viewResult.RelatedMails[i - 1].Date);
         }
     }
 }
