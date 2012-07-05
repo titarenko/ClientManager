@@ -5,19 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-    <h2>Details</h2>
-    <fieldset>
-        <legend>Inquiry</legend>
-        <ul>
-            <li>@Model.Source.Sender.FullName</li>
-            <li>@Model.Source.Sender.Email</li>
-            <li>@Model.Source.Date</li>
-            <li>@Model.Source.Body</li>
-        </ul>
+    
+<div class="container">
+    <div class = page-header>
+        <h2>Details</h2>
+    </div>
+    <fieldset class="form-horizontal">
+        <div class="row">
+            <div class="span4 well">
+                <p>
+                    Date: @Model.Source.Date
+                </p>
+                <p>
+                    Full name: @Model.Source.Sender.FullName
+                </p>
+                <p>
+                    Email: @Model.Source.Sender.Email
+                </p>
+            </div>
+            <div class="span4 well">
+                <p>
+                    Subject: @Model.Source.Subject
+                </p>
+                <p>
+                    @Model.Source.Body
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span4 well">
+                <p>
+                    Status: @Model.Status
+                </p>
+                <p>
+                    Assigned to: @Model.AssignTo
+                </p>
+            </div>
+        </div>
     </fieldset>
-    <div class="btn-group">
-        <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new { id = Model.Id })">Edit</a>
-        <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
+        
+    <div class="row">
+        <div class="btn-group row">
+            <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new { id = Model.Id })">Edit</a>
+            <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
+        </div>
     </div>
 </div>
