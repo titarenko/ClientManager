@@ -3,6 +3,7 @@ using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using NUnit.Framework;
 using NSubstitute;
@@ -60,15 +61,17 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 CreateNew().
                 With(x => x.Id = 7777).
                 With(x => x.RelatedMails =
-                    Builder<MailMessage>.
-                    CreateListOfSize(10).
-                    All().
-                    With(d => d.Date = new RandomGenerator().DateTime()).
-                    Build()).
-                Build();
+                    Builder<MailMessage>
+                    .CreateListOfSize(10)
+                    .All()
+                    .With(d => d.Date = GetRandom.DateTime())
+                    .With(d => d.Receivers = new List<Person>{x})
+                    .Build())
+               .Build();
 
             var repository = Substitute.For<IRepository>();
-            repository.Get<Person>(7777).Returns(person);
+
+            repository.Get<Person>(7777/*, x => x.RelatedMails*/).Returns(person);
 
             var clientController = new ClientsController(repository);
 

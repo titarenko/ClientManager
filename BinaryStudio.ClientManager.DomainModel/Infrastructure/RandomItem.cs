@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FizzWare.NBuilder;
 
-namespace BinaryStudio.ClientManager.WebUi.Tests.Infrastructure
+namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
     class RandomItem<T>
     {
@@ -13,7 +13,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Infrastructure
         /// </summary>
         /// <param name="list"> our collection</param>
         /// <param name="unique">if true then random item will be unique; if false then possible recurrence of items</param>
-        public RandomItem(IList<T> list, bool unique = true)
+        public RandomItem(IList<T> list, bool unique = false)
         {
             this.list = list;
             randomGenerator = unique ? new UniqueRandomGenerator() : new RandomGenerator();
@@ -25,7 +25,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Infrastructure
         /// <returns></returns>
         public T Next()
         {
-            return list[randomGenerator.Next(0, list.Count - 1)];
+            return list[randomGenerator.Next(0, list.Count)];
         }
     }
 }

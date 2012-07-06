@@ -4,8 +4,11 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Controllers;
+using FizzWare.NBuilder;
 using Moq;
+using NSubstitute;
 using NUnit.Framework;
+
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 {
@@ -77,6 +80,28 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             // check
             Assert.IsNotNull(response);
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(4)]
+        [TestCase(8)]
+        public void Should_ReturnInquiryWithSpecifiedId_WhenIsDetailsRequested(int id)
+        {
+            //setup
+            var inquiry = Builder<Inquiry>.CreateNew()
+                .With(x => x.Id = id)
+                .Build();
+
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Get<Inquiry>(id, z => z.Client, z => z.Source, z => z.Source.Sender)).Returns(inquiry);
+            var inquiriesController = new InquiriesController(mock.Object);
+            
+            //act
+            var result = inquiriesController.Details(id).Model as Inquiry;
+            
+            //accert
+            Assert.That(result.Id, Is.EqualTo(id));
         }
     }
 }
