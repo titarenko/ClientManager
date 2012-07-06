@@ -2,14 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<script>
-    $(function () {
-        $("#datepicker").datepicker();
-    });
-</script>
 
 @using (Html.BeginForm())
 {
@@ -32,10 +25,12 @@
 
                 @Html.LabelFor(m => m.Client.Email, "E-mail")
                 @Html.TextBoxFor(m => m.Client.Email)
-   
-                @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
-                @Html.TextBoxFor(m => m.Client.CreationDate)
                 
+                @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
+                <div class="ui-datepicker-datetime">
+                    @Html.EditorFor(m => m.Client.CreationDate)
+                </div>
+
                 @Html.HiddenFor(m => m.Status)
                
             </div>
@@ -44,9 +39,11 @@
                 <h2>Sender information</h2>
                 
                 @Html.HiddenFor(m => m.Source.Sender.Id)
-
+                
                 @Html.LabelFor(m => m.Source.Sender.CreationDate, "Creation date")
-                @Html.TextBoxFor(m => m.Source.Sender.CreationDate)
+                <div class="ui-datepicker-datetime">
+                    @Html.EditorFor(m => m.Source.Sender.CreationDate)
+                </div>
 
                 @Html.LabelFor(m => m.Source.Sender.FirstName, "First name")
                 @Html.TextBoxFor(m => m.Source.Sender.FirstName)

@@ -141,3 +141,7 @@ p {
     margin: 4px auto;
     padding: 8px;
 }
+
+.ui-datepicker-datetime {
+    background-color: #EEEEEE;
+}
