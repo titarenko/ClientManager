@@ -39,6 +39,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="FizzWare.NBuilder">
+      <HintPath>..\packages\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -58,6 +61,7 @@
     <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
+    <Compile Include="Infrastructure\RandomItem.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\AeEventBasedEmailClient.cs" />

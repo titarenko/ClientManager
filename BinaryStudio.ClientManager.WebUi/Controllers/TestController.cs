@@ -60,13 +60,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return RedirectToAction("index", "Clients");
         }
 
+
+
         /// <summary>
         /// Test method to add Person
         /// </summary>
         /// <returns></returns>
         public ActionResult CreatePersons()
         {
-            var random = new Random(DateTime.Now.Second);
             var persons = Builder<Person>.CreateListOfSize(10)
                 .All()
                 .With(x => x.FirstName = GetRandom.FirstName())
@@ -94,8 +95,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ActionResult CreateInquiries()
         {
-            var random = new Random(DateTime.Now.Second);
-            
             var clients = repository.Query<Person>(x => x.RelatedMails).
                 Where(x => x.Role == PersonRole.Client).ToList();
 

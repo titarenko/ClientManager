@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FizzWare.NBuilder;
 
-namespace BinaryStudio.ClientManager.WebUi.Tests.Infrastructure
+namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
     class RandomItem<T>
     {

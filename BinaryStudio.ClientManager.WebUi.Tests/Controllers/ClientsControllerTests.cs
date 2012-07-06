@@ -3,6 +3,7 @@ using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using NUnit.Framework;
 using NSubstitute;
@@ -63,12 +64,14 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                     Builder<MailMessage>.
                     CreateListOfSize(10).
                     All().
-                    With(d => d.Date = new RandomGenerator().DateTime()).
+                    With(d => d.Date = GetRandom.DateTime()).
                     Build()).
                 Build();
 
             var repository = Substitute.For<IRepository>();
-            repository.Get<Person>(7777).Returns(person);
+
+            // do we need eagerly loaded property here???
+            repository.Get<Person>(7777/*, x => x.RelatedMails*/).Returns(person);
 
             var clientController = new ClientsController(repository);
 

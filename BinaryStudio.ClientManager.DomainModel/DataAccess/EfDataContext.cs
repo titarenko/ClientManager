@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 {
@@ -8,7 +9,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     {
         public EfDataContext()
 #if DEBUG
-            : base("ClientManager")
+            : base("ClientManager2")
 #endif
         {
             collections = new Dictionary<Type, object>
@@ -32,13 +33,15 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-        //    EfConnectionFactory.Enable(true);
-
 #if DEBUG
             Database.SetInitializer(new CreateDatabaseIfNotExists<EfDataContext>());
 #endif
             Database.SetInitializer(
                 new MigrateDatabaseToLatestVersion<EfDataContext, EfMigrationConfiguration>());
+
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.RelatedMails)
+                .WithMany(y => y.Receivers);
         }
 
         private readonly IDictionary<Type, object> collections;
