@@ -17,7 +17,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <summary>
         /// GET: /Inquiries/
         /// </summary>
-        public ActionResult Index()
+        public ViewResult Index()
         {
             return View(repository.Query<Inquiry>(x => x.Client, x => x.Source).OrderBy(x => x.Client.Id));
         }
@@ -25,18 +25,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <summary>
         /// GET: /Inquiries/5
         /// </summary>
-        public ActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender));
         }
 
-        public ActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, Inquiry inquiry)
+        public ViewResult Edit(int id, Inquiry inquiry)
         {
             if(ModelState.IsValid)
             {
