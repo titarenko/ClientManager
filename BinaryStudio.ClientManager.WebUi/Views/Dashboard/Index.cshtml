@@ -15,8 +15,8 @@
                 foreach (var inquiry in inquiries)
                 {
                         <div class="well span2" >
-                            <p>@inquiry.Source.Subject</p>
-                            @if (inquiry.Status == InquiryStatus.InProgress)
+                            <p>@inquiry.Source.Subject</p> <!-- FIXME - debug edition -->
+                            @if (inquiry.Status == InquiryStatus.InProgress && inquiry.AssignTo != null)
                             {
                                 <p class="assignee">@inquiry.AssignTo.FullName</p>
                             }
