@@ -17,9 +17,9 @@
                             <p>@inquiry.Source.Subject</p>
                             @if (inquiry.Status == InquiryStatus.InProgress)
                             {
-                                if (inquiry.AssignTo != null)
+                                if (inquiry.Assignee != null)
                                 {
-                                    <p class="assignee">@inquiry.AssignTo.FullName</p>
+                                    <p class="assignee">@inquiry.Assignee.FullName</p>
                                 }
                                 else
                                 {

@@ -31,7 +31,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Person which is assigned to inquiry
         /// </summary>
-        public Person AssignTo { get; set; }
+        public Person Assignee { get; set; }
 
         /// <summary>
         /// Contains source message from which inquiry was created.
