@@ -71,7 +71,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             var repository = Substitute.For<IRepository>();
 
-            repository.Get<Person>(7777/*, x => x.RelatedMails*/).Returns(person);
+            repository.Get<Person>(7777,x => x.RelatedMails).Returns(person);
 
             var clientController = new ClientsController(repository);
 
@@ -83,5 +83,70 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 Assert.That(viewResult.RelatedMails[i].Date >=
                     viewResult.RelatedMails[i - 1].Date);
         }
+
+        [Test]
+        public void ShouldNot_ReturnNullAndShouldCallMethodGetOfIRepository_WhenRequestedDetails()
+        {
+            //arrange
+            var returnedClient = new Person
+                                     {
+                                         Id = 1,
+                                         Role=PersonRole.Client
+                                     };
+            var repository = Substitute.For<IRepository>();
+            repository.Get<Person>(1).Returns(returnedClient);
+            var clientController = new ClientsController(repository);
+            
+
+            //act 
+            var viewModel = clientController.Details(1).Model as Person;
+
+            //assert
+            viewModel.Should().NotBeNull();
+            repository.Received().Get<Person>(1);
+        }
+
+        [Test]
+        public void ShouldNot_ReturnNullAnd_ShouldCallMethodGetOfIRepository_WhenRequestedEditWith1Parameter()
+        {
+            //arrange
+            var returnedClient = new Person
+            {
+                Id = 3,
+                Role = PersonRole.Client
+            };
+            var repository = Substitute.For<IRepository>();
+            repository.Get<Person>(3).Returns(returnedClient);
+            var clientController = new ClientsController(repository);
+
+
+            //act 
+            var viewModel = clientController.Edit(3).Model as Person;
+
+            //assert
+            viewModel.Should().NotBeNull();
+            repository.Received().Get<Person>(3);
+        }
+
+        [Test]
+        public void Should_GoToDetailsViewAndCallSaveMethodOfIRepository_WhenRequestedEditWith2Parameters()
+        {
+            //arrange
+            var savedClient = new Person
+                                  {
+                                      Id = 1,
+                                      Role = PersonRole.Client
+                                  };
+            var repository = Substitute.For<IRepository>();
+            var clientController = new ClientsController(repository);
+
+            //act
+            var viewResult = clientController.Edit(1, savedClient);
+
+            //act
+            viewResult.ViewName.Should().Be("Details");
+            repository.Received().Save(savedClient);
+        }
+
     }
 }

@@ -55,5 +55,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Assert.Pass();
         }
 
+        
+
     }
 }
