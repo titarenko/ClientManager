@@ -9,7 +9,7 @@
     <div class ="page-header">
         <h2>Details</h2>
     </div>        
-    <ul class ="employees">
+    <ul class ="clients">
         <li class ="well span8">
             <div class="form-horizontal" >
                 <div class="span2">
@@ -31,8 +31,8 @@
                         Phone: @Model.Phone
                     </p> 
                     <div class="btn-group">
-                        <a class = "btn btn-inverse" href="@Url.Action("Edit", "Employees", new { id = Model.Id })">Edit</a>
-                        <a class="btn" href="@Url.Action("Index", "Employees", new { id = Model.Id })">Back to list</a>
+                        <a class = "btn btn-inverse" href="@Url.Action("Edit", "Clients", new { id = Model.Id })">Edit</a>
+                        <a class="btn" href="@Url.Action("Index", "Clients", new { id = Model.Id })">Back to list</a>
                     </div>
                 </div>
             </div>

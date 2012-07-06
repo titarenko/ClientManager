@@ -33,12 +33,33 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult MailingHistory(int id)
         {
-            // do we need eagerly loaded property here???
-            var person = repository.Get<Person>(id, x => x.RelatedMails);
+            var person = repository.Get<Person>(id);
             person.RelatedMails = person.RelatedMails.OrderBy(x => x.Date).ToList();
 
             return View(person);
 
+        }
+
+        public ViewResult Details(int id)
+        {
+            return View(repository.Get<Person>(id));
+        }
+
+        public ViewResult Edit(int id)
+        {
+            return View(repository.Get<Person>(id));
+        }
+
+        [HttpPost]
+        public ViewResult Edit(int id, Person client)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.Save(client);
+                return View("Details", client);
+            }
+
+            return View(client);
         }
     }
 }
