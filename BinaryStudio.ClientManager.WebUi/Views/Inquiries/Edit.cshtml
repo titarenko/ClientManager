@@ -80,6 +80,7 @@
         <div class = "row">
             <div class="btn-group">
                 <input type="submit" class = "btn btn-inverse" value="Save" />
+                <a class="btn" href="@Url.Action("MailMessage", new {id = Model.Id})>View original mail</a>
                 <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
             </div>
         </div>

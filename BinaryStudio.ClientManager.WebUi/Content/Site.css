@@ -91,6 +91,14 @@ p {
     margin-bottom: 4px;
 }
 
+.mail-info {
+    border: 1px gray solid;
+    border-radius: 10px;
+    background: gainsboro;
+    margin: 8px auto;
+    padding: 8px;
+}
+
 .client-info {
     border: 1px gray solid;
     border-radius: 10px;

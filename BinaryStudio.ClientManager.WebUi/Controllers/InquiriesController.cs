@@ -50,5 +50,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(inquiry);
 
         }
+
+        public ActionResult MailMessage(int id)
+        {
+            return View(repository.Get<MailMessage>(id, x => x.Sender, x => x.Receivers));
+        }
     }
 }
