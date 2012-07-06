@@ -142,6 +142,6 @@ p {
     padding: 8px;
 }
 
-.ui-datepicker-datetime {
-    background-color: #EEEEEE;
+.ui-datepicker-inline {
+    background-color: #EEEEEE !important;
 }

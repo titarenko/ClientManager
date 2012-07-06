@@ -27,9 +27,7 @@
                 @Html.TextBoxFor(m => m.Client.Email)
                 
                 @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
-                <div class="ui-datepicker-datetime">
-                    @Html.EditorFor(m => m.Client.CreationDate)
-                </div>
+                @Html.EditorFor(m => m.Client.CreationDate)
 
                 @Html.HiddenFor(m => m.Status)
                
@@ -41,9 +39,7 @@
                 @Html.HiddenFor(m => m.Source.Sender.Id)
                 
                 @Html.LabelFor(m => m.Source.Sender.CreationDate, "Creation date")
-                <div class="ui-datepicker-datetime">
-                    @Html.EditorFor(m => m.Source.Sender.CreationDate)
-                </div>
+                @Html.EditorFor(m => m.Source.Sender.CreationDate)
 
                 @Html.LabelFor(m => m.Source.Sender.FirstName, "First name")
                 @Html.TextBoxFor(m => m.Source.Sender.FirstName)
