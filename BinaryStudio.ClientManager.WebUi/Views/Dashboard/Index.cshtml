@@ -16,7 +16,11 @@
                 {
                         <div class="well span2" >
                             <p>@inquiry.Source.Subject</p>
-                            @if (inquiries.First().Status == InquiryStatus.IncomingInquiry)
+                            @if (inquiry.Status == InquiryStatus.InProgress)
+                            {
+                                <p class="assignee">@inquiry.AssignTo.FullName</p>
+                            }
+                            else if (inquiry.Status == InquiryStatus.IncomingInquiry)
                             {
                                 <select id="employees" class="span2" onchange="ChangeEmployee">
                                     <option hidden></option>

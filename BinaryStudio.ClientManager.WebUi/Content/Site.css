@@ -82,6 +82,11 @@ div.row {
     margin: 18px 30px;
 }
 
+.assignee {
+    text-align: right;
+    vertical-align: bottom;
+}
+
 p {
     margin-bottom: 4px;
 }
