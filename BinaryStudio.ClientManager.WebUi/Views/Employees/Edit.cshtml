@@ -25,7 +25,10 @@
                 @Html.LabelFor(m => m.LastName)
                 @Html.TextBoxFor(m => m.LastName)
                 
-                @Html.EditorFor(m => m.CreationDate)
+                @Html.LabelFor(m => m.CreationDate)
+                <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-helper-hidden-accessible">
+                    @Html.EditorFor(m => m.CreationDate)
+                </div>
                 
                 @Html.LabelFor(m => m.Email)
                 @Html.TextBoxFor(m => m.Email)
