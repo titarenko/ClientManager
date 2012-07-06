@@ -1,48 +1,47 @@
-﻿@using BinaryStudio.ClientManager.DomainModel.Entities
-@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
 
 @{
     ViewBag.Title = "MailingHistory";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-    <div class="row">
     <div class="span3">
-        <ul class="client-info">
-            <li><b>Name: </b>@Model.FullName</li>
-            <li><b>Country: </b>@Model.Country</li>
-            <li><b>E-mail: </b>@Model.Email</li>
-            <li><b>Phone: </b>@Model.Phone</li>
-            <li><b>With us since: </b>@Model.CreationDate</li>
+        <div class="client-info">
+            <p><b>Name: </b>@Model.FullName</p>
+            <p><b>Country: </b>@Model.Country</p>
+            <p><b>E-mail: </b>@Model.Email</p>
+            <p><b>Phone: </b>@Model.Phone</p>
+            <p><b>With us since: </b>@Model.CreationDate</p>
+        </div>
+    </div>
+    <div class="span6">
+        <ul class="mailing-history">
+            <!-- for debug --> 
+            @if (Model.RelatedMails != null)
+            {
+                int i = 0;
+                foreach (var mail in Model.RelatedMails)
+                {
+                    <div class="row span6">
+                        @if (i % 2 == 0)
+                        {
+                        <li class="client-msg">
+                            <p><b>Date: </b>@mail.Date</p>
+                            <p><p>@mail.Body</p>
+                        </li>
+                        }
+                        else
+                        {
+                        <li class="employee-msg">
+                            <p><b>Date: </b>@mail.Date</p>
+                            <p><p>@mail.Body</p>
+                        </li>
+                        }
+                    </div>
+                    i++;
+                }                
+            }
         </ul>
     </div>
-        <div class="span9">
-            <ul class="mailing-history">
-                <!-- for debug --> 
-                @if (Model.RelatedMails != null)
-                {
-                    foreach (var mail in Model.RelatedMails)
-                    {
-                        <li class="span9">
-                            @if (Model.Role == PersonRole.Client)
-                            {
-                                <div class="client-msg">
-                                    <p><b>Date: </b>@mail.Date</p>
-                                    <p><p>@mail.Body</p>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="employee-msg">
-                                    <p><b>Date: </b>@mail.Date</p>
-                                    <p><p>@mail.Body</p>
-                                </div>
-                            }
-                        </li>
-                    }
-                }
-            </ul>
-        </div>
-        </div>
+    <a class = "btn offset8" href="@Url.Action("Index", "Clients")">Back to list</a>
 </div>

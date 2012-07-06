@@ -82,52 +82,45 @@ div.row {
     margin: 18px 30px;
 }
 
-.client-info, .client-info li {
-    list-style-type: none;
-}
-
 .client-info {
-    width: auto;
-    height: auto;
     border: 1px gray solid;
     border-radius: 10px;
     background: gainsboro;
     margin: 8px auto;
     padding: 4px;
-}
-
-.mailing-history, .mailing-history li {
     list-style-type: none;
 }
 
 .mailing-history {
-    width: auto;
-    height: auto;
+    list-style-type: none;
     border: 1px gray solid;
     border-radius: 10px;
     background: gainsboro;
+    display: inline-block;
     margin: 8px auto;
     padding: 4px;
+}
+
+.mailing-history div.row {
+    margin: 0px;
 }
 
 .client-msg {
-    width: auto;
-    height: auto;
     border: 1px gray solid;
     border-radius: 10px;
     background: lightyellow;
-    margin: 8px auto;
-    padding: 4px;
+    text-align: left;
     float: left;
+    margin: 4px auto;
+    padding: 4px;
 }
 
 .employee-msg {
-    width: auto;
-    height: auto;
     border: 1px gray solid;
     border-radius: 10px;
     background: lightblue;
-    margin: 8px auto;
-    padding: 4px;
+    text-align: right;
     float: right;
+    margin: 4px auto;
+    padding: 4px;
 }

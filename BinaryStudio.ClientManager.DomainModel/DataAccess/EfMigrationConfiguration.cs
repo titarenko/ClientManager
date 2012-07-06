@@ -72,6 +72,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                     .With(z => z.Subject = GetRandom.String(10))
                     .With(z => z.Body = GetRandom.String(50))
                     .With(z => z.Id = 0)
+                    .With(z => z.Sender = x)
                     .With(z => z.Receivers = new List<Person> {x})
                     .Build())
                 .Build();
