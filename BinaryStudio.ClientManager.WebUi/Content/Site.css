@@ -82,12 +82,16 @@ div.row {
     margin: 18px 30px;
 }
 
+p {
+    margin-bottom: 4px;
+}
+
 .client-info {
     border: 1px gray solid;
     border-radius: 10px;
     background: gainsboro;
     margin: 8px auto;
-    padding: 4px;
+    padding: 8px;
     list-style-type: none;
 }
 
@@ -98,7 +102,7 @@ div.row {
     background: gainsboro;
     display: inline-block;
     margin: 8px auto;
-    padding: 4px;
+    padding: 8px;
 }
 
 .mailing-history div.row {
@@ -112,15 +116,15 @@ div.row {
     text-align: left;
     float: left;
     margin: 4px auto;
-    padding: 4px;
+    padding: 8px;
 }
 
 .employee-msg {
     border: 1px gray solid;
     border-radius: 10px;
     background: lightblue;
-    text-align: right;
+    text-align: left;
     float: right;
     margin: 4px auto;
-    padding: 4px;
+    padding: 8px;
 }
