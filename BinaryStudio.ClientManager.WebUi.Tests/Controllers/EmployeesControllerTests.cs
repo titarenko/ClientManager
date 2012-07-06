@@ -55,7 +55,69 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Assert.Pass();
         }
 
-        
+        [Test]
+        public void ShouldNot_ReturnNullAndShouldCallMethodGetOfIRepository_WhenRequestedDetails()
+        {
+            //arrange
+            var employee = new Person
+            {
+                Id = 1,
+                Role = PersonRole.Employee
+            };
+            var repository = Substitute.For<IRepository>();
+            repository.Get<Person>(1).Returns(employee);
+            var employeeController = new EmployeesController(repository);
+
+
+            //act 
+            var viewModel = employeeController.Details(1).Model as Person;
+
+            //assert
+            viewModel.Should().NotBeNull();
+            repository.Received().Get<Person>(1);
+        }
+
+        [Test]
+        public void ShouldNot_ReturnNullAnd_ShouldCallMethodGetOfIRepository_WhenRequestedEditWith1Parameter()
+        {
+            //arrange
+            var employee = new Person
+            {
+                Id = 3,
+                Role = PersonRole.Employee
+            };
+            var repository = Substitute.For<IRepository>();
+            repository.Get<Person>(3).Returns(employee);
+            var employeeController = new EmployeesController(repository);
+
+
+            //act 
+            var viewModel = employeeController.Edit(3).Model as Person;
+
+            //assert
+            viewModel.Should().NotBeNull();
+            repository.Received().Get<Person>(3);
+        }
+
+        [Test]
+        public void Should_GoToDetailsViewAndCallSaveMethodOfIRepository_WhenRequestedEditWith2Parameters()
+        {
+            //arrange
+            var employee = new Person
+            {
+                Id = 1,
+                Role = PersonRole.Employee
+            };
+            var repository = Substitute.For<IRepository>();
+            var employeeController = new EmployeesController(repository);
+
+            //act
+            var viewResult = employeeController.Edit(1, employee);
+
+            //act
+            viewResult.ViewName.Should().Be("Details");
+            repository.Received().Save(employee);
+        }
 
     }
 }
