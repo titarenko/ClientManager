@@ -9,7 +9,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     {
         public EfDataContext()
 #if DEBUG
-            : base("ClientManager3")
+            : base("ClientManager")
 #endif
         {
             collections = new Dictionary<Type, object>

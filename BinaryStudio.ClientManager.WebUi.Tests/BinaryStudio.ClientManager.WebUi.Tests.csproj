@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.config" />
+    <Content Include="Controllers\App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BinaryStudio.ClientManager.DomainModel\BinaryStudio.ClientManager.DomainModel.csproj">
