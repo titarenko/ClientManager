@@ -14,7 +14,7 @@
             <p><b>With us since: </b>@Model.CreationDate</p>
         </div>
     </div>
-    <div class="span6">
+    <div class="span7">
         <ul class="mailing-history">
             <!-- for debug --> 
             @if (Model.RelatedMails != null)
@@ -22,26 +22,30 @@
                 int i = 0;
                 foreach (var mail in Model.RelatedMails)
                 {
-                    <div class="row span6">
-                        @if (i % 2 == 0)
+                        if (i % 2 == 0)
                         {
-                        <li class="client-msg">
-                            <p><b>Date: </b>@mail.Date</p>
-                            <p><p>@mail.Body</p>
-                        </li>
+                            <li class="row span5 client-msg">
+                                <p><b>From: </b>@mail.Sender.FullName</p>
+                                <p><b>Subject: </b>@mail.Subject</p>
+                                <p><b>Date: </b>@mail.Date</p>
+                                <p>
+                                <p><p>@mail.Body</p>
+                            </li>
                         }
                         else
                         {
-                        <li class="employee-msg">
+                        <li class="row span5 employee-msg">
+                            <p><b>From: </b>@mail.Sender.FullName</p>
+                            <p><b>Subject: </b>@mail.Subject</p>
                             <p><b>Date: </b>@mail.Date</p>
+                            <p>
                             <p><p>@mail.Body</p>
                         </li>
                         }
-                    </div>
                     i++;
                 }                
             }
         </ul>
     </div>
-    <a class = "btn offset8" href="@Url.Action("Index", "Clients")">Back to list</a>
+    <a class = "btn offset9" href="@Url.Action("Index", "Clients")">Back to list</a>
 </div>
