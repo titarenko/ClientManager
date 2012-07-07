@@ -39,5 +39,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public void Index (int InquiryId, int EmployeeId)
+        {
+            var employee = repository.Get<Person>(EmployeeId, x => x.RelatedMails);
+            var inquiry = repository.Get<Inquiry>(InquiryId, x => x.Assignee);
+            inquiry.Assignee = employee;
+            inquiry.Status = InquiryStatus.InProgress;
+            repository.Save(inquiry.Assignee);
+        }
+
     }
 }

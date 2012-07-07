@@ -5,6 +5,25 @@
     ViewBag.Title = "Dashboard";
 }
 
+<script type="text/javascript">
+    var onChange = function(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("Index")",
+            type: "POST",
+            data: { InquiryId: inquiry, EmployeeId: employee }                
+        }).success(onSuccess).error(onError);
+    };
+
+</script>
+
 @helper RenderColumn(IEnumerable<Inquiry> inquiries)
 {
     <div class="column">
@@ -28,12 +47,12 @@
                             }
                             else if (inquiry.Status == InquiryStatus.IncomingInquiry)
                             {
-                                <select id="employees" class="span2" onchange="ChangeEmployee">
+                                <select id="@inquiry.Id" class="span2" onchange="onChange(value, id)">
                                     <option hidden></option>
                                     <option disabled>Choose employee</option>
                                     @foreach (var employee in Model.Employees)
                                     {
-                                        <option>@employee.FullName</option>
+                                        <option value="@employee.Id">@employee.FullName</option>
                                     }
                                 </select>
                                 <div class="btn-group">
