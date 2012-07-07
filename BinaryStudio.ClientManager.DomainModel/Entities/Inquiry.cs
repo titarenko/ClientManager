@@ -38,6 +38,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public MailMessage Source { get; set; }
 
+        /// <summary>
+        /// Contains subject, which equal to email subject
+        /// </summary>
+        public string Subject { get; set; }
+
         public bool Equals(Inquiry other)
         {
             if (ReferenceEquals(null, other)) return false;
