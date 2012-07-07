@@ -1,80 +1,48 @@
 ﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Inquiry
-
 @{
     ViewBag.Title = "Edit";
 }
-
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(model => model.Id)
-    <div class = "container">
-        <div class ="row-fluid">
-            <div class ="page-header">
-                <h2>Inquiry Editint</h2>
-            </div> 
-            
-            <div class = "span4 well form-horizontal">
-                <h2>Client information</h2>
+    @Html.HiddenFor(m => m.Source.Sender.Id)
+    <div class="container">
+        <div class="row-fluid">
+            <div class="page-header">
+                <h2>
+                    Inquiry Editing</h2>
+            </div>
+            <div class="span4 well form-horizontal">
+                <h2>
+                    Client information</h2>
                 @Html.HiddenFor(model => model.Client.Id)
-            
                 @Html.LabelFor(m => m.Client.FirstName, "First name")
                 @Html.TextBoxFor(m => m.Client.FirstName)
-
                 @Html.LabelFor(m => m.Client.LastName, "Last name")
                 @Html.TextBoxFor(m => m.Client.LastName)
-
                 @Html.LabelFor(m => m.Client.Email, "E-mail")
                 @Html.TextBoxFor(m => m.Client.Email)
-                
                 @Html.LabelFor(m => m.Client.CreationDate, "Creation date")
                 @Html.EditorFor(m => m.Client.CreationDate)
-
                 @Html.HiddenFor(m => m.Status)
-               
             </div>
-
-            <div class = "span4 well form-horizontal">
-                <h2>Sender information</h2>
-                
-                @Html.HiddenFor(m => m.Source.Sender.Id)
-                
-                @Html.LabelFor(m => m.Source.Sender.CreationDate, "Creation date")
-                @Html.EditorFor(m => m.Source.Sender.CreationDate)
-
-                @Html.LabelFor(m => m.Source.Sender.FirstName, "First name")
-                @Html.TextBoxFor(m => m.Source.Sender.FirstName)
-
-                @Html.LabelFor(m => m.Source.Sender.LastName, "Last name")
-                @Html.TextBoxFor(m => m.Source.Sender.LastName)
-                
-                @Html.LabelFor(m => m.Source.Sender.Email, "E-mail")
-                @Html.TextBoxFor(m => m.Source.Sender.Email)
-
-            </div>        
-      
-        </div>
-        <div class ="row-fluid">
-            <div class = "span4 well form-horizontal">
-                <h2>Inquiry information</h2>
-                
+            <div class="span4 well form-horizontal">
+                <h2>
+                    Inquiry information</h2>
                 @Html.HiddenFor(m => m.Source.Id)
-                
                 @Html.LabelFor(m => m.Source.Date)
                 @Html.TextBoxFor(m => m.Source.Date)
-
                 @Html.LabelFor(m => m.Source.Subject)
                 @Html.TextAreaFor(m => m.Source.Subject)
-
                 @Html.LabelFor(m => m.Source.Body)
                 @Html.TextAreaFor(m => m.Source.Body)
-
             </div>
         </div>
-        <div class = "row">
+        <div class="row">
             <div class="btn-group">
-                <input type="submit" class = "btn btn-inverse" value="Save" />
-                <a class="btn" href="@Url.Action("MailMessage", new {id = Model.Id})">View original mail</a>
-                <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
+                <input type="submit" class="btn btn-inverse" value="Save" />
+                <a class="btn" href="@Url.Action("MailMessage", new { id = Model.Id })">View original
+                    mail</a> <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
             </div>
         </div>
     </div>
