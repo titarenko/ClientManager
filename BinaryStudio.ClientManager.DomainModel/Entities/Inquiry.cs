@@ -43,6 +43,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Subject { get; set; }
 
+        /// <summary>
+        /// Contains inquiry description, which equal to originating email body
+        /// </summary>
+        public string Description { get; set; }
+
         public bool Equals(Inquiry other)
         {
             if (ReferenceEquals(null, other)) return false;
