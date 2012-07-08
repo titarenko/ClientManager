@@ -1,0 +1,24 @@
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.MailMessage
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="span5 mail-info">
+            <p><b>From: </b>@Model.Sender.FullName</p>
+            <p><b>To: </b>
+                @foreach (var person in Model.Receivers)
+                {
+                    String.Format("{0} ", person.FullName);
+                }</p>
+            <p><b>Subject: </b>@Model.Subject<p/>
+            <p><b>Date: </b>@Model.Date<p/>
+            <p>@Model.Body<p/>
+        </div>
+    </div>
+    <div class="row">
+        <a class = "btn offset3" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
+    </div>
+</div>

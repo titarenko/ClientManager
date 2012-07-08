@@ -3,8 +3,26 @@
 
 @{
     ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script type="text/javascript">
+    var onChange = function(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("Index")",
+            type: "POST",
+            data: { InquiryId: inquiry, EmployeeId: employee }                
+        }).success(onSuccess).error(onError);
+    };
+
+</script>
 
 @helper RenderColumn(IEnumerable<Inquiry> inquiries)
 {
@@ -16,19 +34,30 @@
                 {
                         <div class="well span2" >
                             <p>@inquiry.Source.Subject</p>
-                            @if (inquiries.First().Status == InquiryStatus.IncomingInquiry)
+                            @if (inquiry.Status == InquiryStatus.InProgress)
                             {
-                                <select id="employees" class="span2" onchange="ChangeEmployee">
+                                if (inquiry.Assignee != null)
+                                {
+                                    <p class="assignee">@inquiry.Assignee.FullName</p>
+                                }
+                                else
+                                {
+                                    <p class="assignee">Nobody is assigned</p>
+                                }
+                            }
+                            else if (inquiry.Status == InquiryStatus.IncomingInquiry)
+                            {
+                                <select id="@inquiry.Id" class="span2" onchange="onChange(value, id)">
                                     <option hidden></option>
                                     <option disabled>Choose employee</option>
                                     @foreach (var employee in Model.Employees)
                                     {
-                                        <option>@employee.FullName</option>
+                                        <option value="@employee.Id">@employee.FullName</option>
                                     }
                                 </select>
                                 <div class="btn-group">
-                                    <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new {id = inquiry.Id})">Edit</a>
-                                    <a class = "btn" href="@Url.Action("Details", "Inquiries", new {id = inquiry.Id})">Details</a>
+                                    <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new { id = inquiry.Id })">Edit</a>
+                                    <a class = "btn" href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">Details</a>
                                 </div>
                             }
                         </div>

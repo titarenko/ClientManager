@@ -31,12 +31,22 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Person which is assigned to inquiry
         /// </summary>
-        public Person AssignTo { get; set; }
+        public Person Assignee { get; set; }
 
         /// <summary>
         /// Contains source message from which inquiry was created.
         /// </summary>
         public MailMessage Source { get; set; }
+
+        /// <summary>
+        /// Contains subject, which equal to email subject
+        /// </summary>
+        public string Subject { get; set; }
+
+        /// <summary>
+        /// Contains inquiry description, which equal to originating email body
+        /// </summary>
+        public string Description { get; set; }
 
         public bool Equals(Inquiry other)
         {

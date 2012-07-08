@@ -7,7 +7,7 @@
 
     
 <div class="container">
-    <div class = page-header>
+    <div class="page-header">
         <h2>Details</h2>
     </div>
     <fieldset class="form-horizontal">
@@ -38,7 +38,7 @@
                     Status: @Model.Status
                 </p>
                 <p>
-                    Assigned to: @Model.AssignTo
+                    Assigned to: @Model.Assignee
                 </p>
             </div>
         </div>
@@ -47,6 +47,7 @@
     <div class="row">
         <div class="btn-group row">
             <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new { id = Model.Id })">Edit</a>
+            <a class="btn" href="@Url.Action("MailMessage", new {id = Model.Id})">View original mail</a>
             <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
         </div>
     </div>

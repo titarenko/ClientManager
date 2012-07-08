@@ -5,6 +5,7 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using NSubstitute;
 using FizzWare.NBuilder;
@@ -69,11 +70,13 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                     .Build())
                .Build();
 
-            var repository = Substitute.For<IRepository>();
-
+            /*var repository = Substitute.For<IRepository>();
             repository.Get<Person>(7777,x => x.RelatedMails).Returns(person);
+            var clientController = new ClientsController(repository);*/
 
-            var clientController = new ClientsController(repository);
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Get<Person>(7777, z => z.RelatedMails)).Returns(person);
+            var clientController = new ClientsController(mock.Object);
 
             // act
             var viewResult = clientController.MailingHistory(7777).Model as Person;
