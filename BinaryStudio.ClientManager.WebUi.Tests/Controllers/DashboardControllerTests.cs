@@ -8,6 +8,7 @@ using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.WebUi.Models;
 using FizzWare.NBuilder;
 using Moq;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
@@ -126,6 +127,29 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             //assert
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void Should_CallSaveMethodWithParameterAssigneeOfRepository_WhenRequestedIndexWithInquiryIdEqual1AndEmployeeIdEqual1()
+        {
+            //arrange
+            var mock = new Mock<IRepository>();
+            var assignee = new Person
+            {
+                Id = 1,
+                FirstName = "Employee",
+                Role = PersonRole.Employee
+            };
+            mock.Setup(x => x.Get<Inquiry>(1, z => z.Assignee)).Returns(new Inquiry {Id = 1});
+            mock.Setup(x => x.Get<Person>(1, z => z.RelatedMails)).Returns(assignee);
+
+            var dashboardController = new DashboardController(mock.Object);
+
+            //act
+            dashboardController.Index(1, 1);
+
+            //assert
+            mock.Verify(x=>x.Save(assignee),Times.Once());
         }
     }
 }
