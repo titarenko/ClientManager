@@ -24,12 +24,12 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var repository = new EfRepository();
 
-            CreatePersons(repository);
+            createPersons(repository);
 
-            CreateInquiries(repository);
+            createInquiries(repository);
         }
 
-        private void CreateInquiries(EfRepository repository)
+        private void createInquiries(EfRepository repository)
         {
             var clients = repository.Query<Person>(x => x.RelatedMails).
                 Where(x => x.Role == PersonRole.Client).ToList();
@@ -55,7 +55,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             }
         }
 
-        private void CreatePersons(EfRepository repository)
+        private void createPersons(EfRepository repository)
         {
             var persons = Builder<Person>.CreateListOfSize(10)
                 .All()
