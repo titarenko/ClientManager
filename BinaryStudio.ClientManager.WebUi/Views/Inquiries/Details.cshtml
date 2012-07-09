@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
     
@@ -17,10 +16,10 @@
                     Date: @Model.Source.Date
                 </p>
                 <p>
-                    Full name: @Model.Source.Sender.FullName
+                    Full name: @(Model.Source.Sender != null ? Model.Source.Sender.FullName : "Not set")
                 </p>
                 <p>
-                    Email: @Model.Source.Sender.Email
+                    Email: @(Model.Source.Sender != null ? Model.Source.Sender.Email : "Not set")
                 </p>
             </div>
             <div class="span4 well">
