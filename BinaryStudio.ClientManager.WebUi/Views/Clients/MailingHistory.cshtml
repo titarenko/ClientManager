@@ -5,17 +5,15 @@
 }
 
 <div class="container">
-    <div class="span3">
-        <div class="client-info">
-            <p><b>Name: </b>@Model.FullName</p>
-            <p><b>Country: </b>@Model.Country</p>
-            <p><b>E-mail: </b>@Model.Email</p>
-            <p><b>Phone: </b>@Model.Phone</p>
-            <p><b>With us since: </b>@Model.CreationDate</p>
-        </div>
+    <div class="span3 client-info">
+            <span class="emphasis">Name: </span>@Model.FullName<br/>
+            <span class="emphasis">Country: </span>@Model.Country<br/>
+            <span class="emphasis">E-mail: </span>@Model.Email<br/>
+            <span class="emphasis">Phone: </span>@Model.Phone<br/>
+            <span class="emphasis">With us since: </span>@Model.CreationDate
     </div>
     <div class="span7">
-        <ul class="mailing-history">
+        <ul class="wrapper">
             <!-- for debug --> 
             @if (Model.RelatedMails != null)
             {
@@ -28,22 +26,20 @@
                         */
                         if (i % 2 == 0)
                         {
-                            <li class="row span5 client-msg">
-                                <p><b>From: </b>@mail.Sender.FullName</p>
-                                <p><b>Subject: </b>@mail.Subject</p>
-                                <p><b>Date: </b>@mail.Date</p>
-                                <p>
-                                <p><p>@mail.Body</p>
+                            <li class="span5 client-msg">
+                                <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
+                                <span class="emphasis">Subject: </span>@mail.Subject<br/>
+                                <span class="emphasis">Date: </span>@mail.Date
+                                <div class="mail-body">@mail.Body.</div>
                             </li>
                         }
                         else
                         {
-                        <li class="row span5 employee-msg">
-                            <p><b>From: </b>@mail.Sender.FullName</p>
-                            <p><b>Subject: </b>@mail.Subject</p>
-                            <p><b>Date: </b>@mail.Date</p>
-                            <p>
-                            <p><p>@mail.Body</p>
+                        <li class="span5 employee-msg">
+                            <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
+                            <span class="emphasis">Subject: </span>@mail.Subject<br/>
+                            <span class="emphasis">Date: </span>@mail.Date<br/>
+                            <div class="mail-body">@mail.Body</div>
                         </li>
                         }
                     i++;

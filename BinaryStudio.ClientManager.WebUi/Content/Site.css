@@ -87,10 +87,6 @@ div.row {
     vertical-align: bottom;
 }
 
-p {
-    margin-bottom: 4px;
-}
-
 .mail-info {
     border: 1px gray solid;
     border-radius: 10px;
@@ -105,39 +101,42 @@ p {
     background: gainsboro;
     margin: 8px auto;
     padding: 8px;
-    list-style-type: none;
 }
 
-.mailing-history {
+.wrapper {
     list-style-type: none;
     border: 1px gray solid;
     border-radius: 10px;
     background: gainsboro;
     display: inline-block;
     margin: 8px auto;
-    padding: 8px;
+    padding: 4px;
 }
 
-.mailing-history div.row {
-    margin: 0px;
+.client-msg, .employee-msg {
+    margin: 4px;
+    padding: 4px;
+    border: 1px gray solid;
+    border-radius: 10px;
+    text-align: left;
 }
 
 .client-msg {
-    border: 1px gray solid;
-    border-radius: 10px;
     background: lightyellow;
-    text-align: left;
     float: left;
-    margin: 4px auto;
-    padding: 8px;
 }
 
 .employee-msg {
-    border: 1px gray solid;
-    border-radius: 10px;
     background: lightblue;
-    text-align: left;
     float: right;
-    margin: 4px auto;
-    padding: 8px;
+}
+
+.emphasis {
+    font-weight: bold;
+}
+
+.mail-body {
+    border-top: 1px gainsboro solid;
+    margin-top: 5px;
+    padding-top: 5px;
 }
