@@ -13,8 +13,7 @@
                     Inquiry Editing</h2>
             </div>
             <div class="span4 well form-horizontal">
-                <h2>
-                    Client information</h2>
+                <h2>Client information</h2>
                 @Html.HiddenFor(model => model.Client.Id)
                 @Html.LabelFor(m => m.Client.FirstName, "First name")
                 @Html.TextBoxFor(m => m.Client.FirstName)
@@ -27,8 +26,7 @@
                 @Html.HiddenFor(m => m.Status)
             </div>
             <div class="span4 well form-horizontal">
-                <h2>
-                    Inquiry information</h2>
+                <h2>Inquiry information</h2>
                 @Html.HiddenFor(m => m.Source.Id)
                 @Html.LabelFor(m => m.Source.Date)
                 @Html.TextBoxFor(m => m.Source.Date)

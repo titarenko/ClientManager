@@ -1,4 +1,5 @@
-﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Inquiry
+﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
+@model BinaryStudio.ClientManager.DomainModel.Entities.Inquiry
 
 @{
     ViewBag.Title = "Details";
@@ -16,10 +17,10 @@
                     Date: @Model.Source.Date
                 </p>
                 <p>
-                    Full name: @(Model.Source.Sender != null ? Model.Source.Sender.FullName : "Not set")
+                    Full name: @Model.SafeWith(x => x.Source).SafeWith(x => x.Sender).SafeGet(x => x.FullName, "Not set")
                 </p>
                 <p>
-                    Email: @(Model.Source.Sender != null ? Model.Source.Sender.Email : "Not set")
+                    Email: @Model.SafeWith(x => x.Source).SafeWith(x => x.Sender).SafeGet(x => x.Email, "Not Set")
                 </p>
             </div>
             <div class="span4 well">
