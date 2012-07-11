@@ -17,10 +17,10 @@
                     Date: @Model.Source.Date
                 </p>
                 <p>
-                    Full name: @Model.SafeWith(x => x.Source).SafeWith(x => x.Sender).SafeGet(x => x.FullName, "Not set")
+                    Full name: @(Model.SafeGet(x => x.Source.Sender.FullName) ?? "Not set")
                 </p>
                 <p>
-                    Email: @Model.SafeWith(x => x.Source).SafeWith(x => x.Sender).SafeGet(x => x.Email, "Not Set")
+                    Email: @(Model.SafeGet(x => x.Source.Sender.Email) ?? "Not Set")
                 </p>
             </div>
             <div class="span4 well">
