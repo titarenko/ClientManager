@@ -44,7 +44,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.Source = Builder<MailMessage>.CreateNew()
                                           .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
                                           .With(z => z.Subject = GetRandom.Phrase(10))
-                                          .With(z => z.Body = GetRandom.Phrase(50))
+                                          .With(z => z.Body = GetRandom.Phrase(GetRandom.Int(60, 500)))
                                           .With(z => z.Id = 0)
                                           .Build())
                 .Build();

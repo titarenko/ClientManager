@@ -135,7 +135,7 @@ div.row {
     font-weight: bold;
 }
 
-.mail-body {
+.brief-mail, .full-mail {
     border-top: 1px gainsboro solid;
     margin-top: 5px;
     padding-top: 5px;
