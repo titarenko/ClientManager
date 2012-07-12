@@ -1,4 +1,5 @@
-﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+﻿using System;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
@@ -32,6 +33,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Person which is assigned to inquiry
         /// </summary>
         public Person Assignee { get; set; }
+
+        /// <summary>
+        /// Date of deadline
+        /// </summary>
+        public DateTime ReferenceDate { get; set; }
 
         /// <summary>
         /// Contains source message from which inquiry was created.

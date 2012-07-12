@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -54,6 +55,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ActionResult MailMessage(int id)
         {
             return View(repository.Get<MailMessage>(id, x => x.Sender, x => x.Receivers));
+        }
+
+        public ViewResult WeekView()
+        {
+            var inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Assignee)
+                .Where(x => x.ReferenceDate.DayOfYear / 7 + 1 == DateTime.Now.DayOfYear / 7 + 1)
+                .OrderBy(x => x.ReferenceDate);
+            return View(inquiries);
         }
     }
 }

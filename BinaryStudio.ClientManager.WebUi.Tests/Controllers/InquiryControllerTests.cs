@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using FizzWare.NBuilder;
+using FizzWare.NBuilder.Dates;
+using FizzWare.NBuilder.Generators;
 using Moq;
 using NSubstitute;
 using NUnit.Framework;
@@ -100,8 +103,46 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             //act
             var result = inquiriesController.Details(id).Model as Inquiry;
             
-            //accert
+            //assert
             Assert.That(result.Id, Is.EqualTo(id));
+        }
+
+        [Test]
+        public void Should_ReturnSortedByDateListOfInquiriesForCurrentWeek_WhenRequested()
+        {
+            // arrange
+            var inquiries = Builder<Inquiry>.CreateListOfSize(10)
+                .All()
+                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, DateTime.Now))
+                .Random(5)
+                .With(x => x.ReferenceDate = GetRandom.DateTime(new DateTime(2012, 7, 9),
+                                                                new DateTime(2012, 7, 13)))
+                .Build();
+
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source, z => z.Assignee))
+                .Returns(inquiries.AsQueryable());
+            var inquiriesController = new InquiriesController(mock.Object);
+
+            // act
+            var viewResult = inquiriesController.WeekView().Model as IEnumerable<Inquiry>;
+
+            // assert
+            foreach (var inquiry in viewResult)
+                Assert.AreEqual(28, inquiry.ReferenceDate.DayOfYear / 7 + 1);
+
+            using (var inquiry = viewResult.GetEnumerator())
+            {
+                while (inquiry.MoveNext())
+                {
+                    var prev = inquiry.Current;
+                    if (inquiry.MoveNext())
+                    {
+                        Assert.That(prev.ReferenceDate <= inquiry.Current.ReferenceDate);
+                        prev = inquiry.Current;
+                    }
+                }
+            }
         }
     }
 }
