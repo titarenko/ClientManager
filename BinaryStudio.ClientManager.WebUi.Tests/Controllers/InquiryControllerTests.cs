@@ -144,5 +144,17 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 }
             }
         }
+
+        [Test]
+        public void ShouldNot_RaiseAnException_WhenWeekViewRequestedAndRepositoryIsEmpty()
+        {
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source, z => z.Assignee))
+                .Returns(new List<Inquiry>().AsQueryable());
+
+            var inquiriesController = new InquiriesController(mock.Object);
+
+            Assert.DoesNotThrow(() => inquiriesController.WeekView());
+        }
     }
 }
