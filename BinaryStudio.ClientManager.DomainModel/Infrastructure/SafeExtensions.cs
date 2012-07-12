@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
@@ -8,16 +9,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// </summary>
     public static class SafeExtensions
     {
-        public static TResult SafeWith<TInput, TResult>(this TInput inputObject, Func<TInput, TResult> evaluator)
-            where TResult : class where TInput : class
-        {
-            return (null == inputObject) ? null : evaluator(inputObject);
-        }
-
-        public static TResult SafeGet<TInput, TResult>(this TInput inputObject, Func<TInput, TResult> evaluator, TResult defaultValue)
+        public static TResult SafeGet<TInput, TResult>(this TInput inputObject, Expression<Func<TInput, TResult>> evaluator)
             where TInput : class
         {
-            return (null == inputObject) ? defaultValue : evaluator(inputObject);
+            try
+            {
+                return evaluator.Compile().Invoke(inputObject);
+            }
+            catch(NullReferenceException)
+            {
+                return default(TResult);
+            }
         }
     }
 }
