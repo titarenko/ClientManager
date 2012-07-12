@@ -128,19 +128,16 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var viewResult = inquiriesController.WeekView().Model as IEnumerable<Inquiry>;
 
             // assert
-            foreach (var inquiry in viewResult)
-                Assert.AreEqual(28, inquiry.ReferenceDate.DayOfYear / 7 + 1);
+            Assert.That(viewResult.Count() == 5);
 
             using (var inquiry = viewResult.GetEnumerator())
             {
+                inquiry.MoveNext();
+                var prev = inquiry.Current;
                 while (inquiry.MoveNext())
                 {
-                    var prev = inquiry.Current;
-                    if (inquiry.MoveNext())
-                    {
-                        Assert.That(prev.ReferenceDate <= inquiry.Current.ReferenceDate);
-                        prev = inquiry.Current;
-                    }
+                    Assert.That(prev.ReferenceDate <= inquiry.Current.ReferenceDate);
+                    prev = inquiry.Current;
                 }
             }
         }

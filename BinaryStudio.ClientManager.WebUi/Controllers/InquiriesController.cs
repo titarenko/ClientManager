@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
@@ -59,8 +60,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult WeekView()
         {
+            var today = DateTime.Today;
+            var monday = today.AddDays(1 - (int)today.DayOfWeek);
+            var friday = today.AddDays(5 - (int)today.DayOfWeek);
+
             var inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Assignee)
-                .Where(x => x.ReferenceDate.DayOfYear / 7 + 1 == DateTime.Now.DayOfYear / 7 + 1)
+                .Where(x => x.ReferenceDate >= monday && x.ReferenceDate <= friday)
                 .OrderBy(x => x.ReferenceDate);
             return View(inquiries);
         }
