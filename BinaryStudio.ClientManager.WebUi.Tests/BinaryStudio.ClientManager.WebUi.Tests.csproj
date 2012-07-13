@@ -65,6 +65,7 @@
     <Compile Include="Controllers\DashboardControllerTests.cs" />
     <Compile Include="Controllers\EmployeesControllerTests.cs" />
     <Compile Include="Controllers\InquiryControllerTests.cs" />
+    <Compile Include="Controllers\WeekViewControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

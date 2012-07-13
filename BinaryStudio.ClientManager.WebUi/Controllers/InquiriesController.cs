@@ -58,17 +58,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(repository.Get<MailMessage>(id, x => x.Sender, x => x.Receivers));
         }
 
-        public ViewResult WeekView()
-        {
-            var today = DateTime.Today;
-            var monday = today.AddDays(1 - (int)today.DayOfWeek);
-            var friday = today.AddDays(5 - (int)today.DayOfWeek);
 
-            var inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Assignee)
-                .Where(x => x.ReferenceDate >= monday && x.ReferenceDate <= friday)
-                .OrderBy(x => x.ReferenceDate);
-
-            return View(inquiries);
-        }
     }
 }

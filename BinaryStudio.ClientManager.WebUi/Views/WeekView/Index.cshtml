@@ -1,12 +1,12 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Entities
-@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Inquiry>
+@model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
            
 <script type="text/javascript">
     function WeekViewModel() {
         var self = this;
         self.filter = ko.observable("");
         self.filteredInquiries = ko.computed(function() {
-            return @Model.Where(x => x.Client.FirstName.Contains("a"));
+            return @Model.Inquiries.Where(x => x.Client.FirstName.Contains("a"));
         });
     }
 
@@ -101,7 +101,7 @@
             <div class="span2">
                 @RenderColumn(days[i - 1],
                     today.AddDays(i - (int)today.DayOfWeek).Date,
-                    Model.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i))
+                    Model.Inquiries.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i))
             </div>    
         }
     </div>

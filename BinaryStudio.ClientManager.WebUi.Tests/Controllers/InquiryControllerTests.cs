@@ -106,51 +106,6 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Assert.That(result.Id, Is.EqualTo(id));
         }
 
-        [Test]
-        public void Should_ReturnSortedByDateListOfInquiriesForCurrentWeek_WhenRequested()
-        {
-            // arrange
-            var inquiries = Builder<Inquiry>.CreateListOfSize(10)
-                .All()
-                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, DateTime.Now))
-                .Random(5)
-                .With(x => x.ReferenceDate = GetRandom.DateTime(new DateTime(2012, 7, 9),
-                                                                new DateTime(2012, 7, 13)))
-                .Build();
-
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source, z => z.Assignee))
-                .Returns(inquiries.AsQueryable());
-            var inquiriesController = new InquiriesController(mock.Object);
-
-            // act
-            var viewResult = inquiriesController.WeekView().Model as IEnumerable<Inquiry>;
-
-            // assert
-            Assert.That(viewResult.Count() == 5);
-
-            using (var inquiry = viewResult.GetEnumerator())
-            {
-                inquiry.MoveNext();
-                var prev = inquiry.Current;
-                while (inquiry.MoveNext())
-                {
-                    Assert.That(prev.ReferenceDate <= inquiry.Current.ReferenceDate);
-                    prev = inquiry.Current;
-                }
-            }
-        }
-
-        [Test]
-        public void ShouldNot_RaiseAnException_WhenWeekViewRequestedAndRepositoryIsEmpty()
-        {
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source, z => z.Assignee))
-                .Returns(new List<Inquiry>().AsQueryable());
-
-            var inquiriesController = new InquiriesController(mock.Object);
-
-            Assert.DoesNotThrow(() => inquiriesController.WeekView());
-        }
+        
     }
 }
