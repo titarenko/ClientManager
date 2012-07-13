@@ -140,3 +140,10 @@ div.row {
     margin-top: 5px;
     padding-top: 5px;
 }
+
+.header-card, .card {
+    border: 1px gray solid;
+    border-radius: 10px;
+    margin: 4px;
+    padding: 4px;
+}

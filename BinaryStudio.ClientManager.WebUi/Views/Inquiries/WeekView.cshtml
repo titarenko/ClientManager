@@ -1,2 +1,52 @@
-﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Inquiry>
+﻿@using BinaryStudio.ClientManager.DomainModel.Entities
+@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Inquiry>
+           
+@*<script type="text/javascript">
+    function WeekViewModel() {
+        var self = this;
+        self.filter = ko.observable("");
+        self.filteredInquiries = ko.computed(function() {
+            return @Model.Where(x => x.Client.FullName.Contains(""));
+        });
+    }
+</script>*@
 
+@helper RenderColumn(string weekDay, DateTime date, IEnumerable<Inquiry> inquiries)
+{
+    <div class="header-card">
+            @weekDay<br/>
+            @string.Format("{0:dd.MM}", date)
+    </div>
+    foreach (var inquiry in inquiries)
+    {
+        <div class="card">
+            
+            <div class="row">
+                <div class="span1">
+                    <a href="http://www.facebook.com/"><img src="" alt="Facebook" width="100%"/></a>
+                </div>
+                <div class="span1">
+                    <a href="http://twitter.com/"><img src="" alt="Twitter" width="100%"/></a>
+                </div>
+                <div class="span1">
+                    <a href="http://www.linkedin.com/"><img src="" alt="LinkedIn" width="100%"/></a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@{
+    var today = DateTime.Today;
+    var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+}
+<div class = "container">
+    @for (int i = 1; i <= days.Count(); i++)
+    {
+        <div class="span3">
+            @RenderColumn(days[i - 1],
+                        today.AddDays(i - (int)today.DayOfWeek).Date,
+                        Model.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i))
+        </div>    
+    }
+</div>

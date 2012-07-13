@@ -38,9 +38,10 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
             var iquiries = Builder<Inquiry>.CreateListOfSize(10)
                 .All()
+                .With(x => x.Id = 0)
                 .With(x => x.Status = GetRandom.Int(0, 3))
                 .With(x => x.Client = randomClient.Next())
-                .With(x => x.Id = 0)
+                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, DateTime.Now))
                 .With(x => x.Source = Builder<MailMessage>.CreateNew()
                                           .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
                                           .With(z => z.Subject = GetRandom.Phrase(10))
