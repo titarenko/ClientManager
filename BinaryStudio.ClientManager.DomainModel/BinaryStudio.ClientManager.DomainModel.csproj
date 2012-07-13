@@ -56,7 +56,6 @@
     <Compile Include="Entities\Inquiry.cs" />
     <Compile Include="Entities\InquiryStatus.cs" />
     <Compile Include="Entities\MailMessage.cs" />
-    <Compile Include="Entities\MonthViewItem.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRole.cs" />
     <Compile Include="Entities\TagEntity.cs" />
