@@ -17,7 +17,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
     public class WeekViewControllerTests
     {
         [Test]
-        public void Should_ReturnSortedByDateListOfInquiriesForCurrentWeek_WhenRequested()
+        public void Should_ReturnSortedByDateListOfInquiriesForCurrentWeek_WhenIndexRequested()
         {
             // arrange
             var inquiries = Builder<Inquiry>.CreateListOfSize(10)
@@ -34,26 +34,49 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var weekViewController = new WeekViewController(mock.Object);
 
             // act
-            var viewResult = weekViewController.Index().Model as WeekViewModel;
+            var viewModel = weekViewController.Index().Model as WeekViewModel;
 
             // assert
-            Assert.That(viewResult.Inquiries.Count==5);
-            Assert.That(viewResult.Inquiries[0].ReferenceDate <= viewResult.Inquiries[1].ReferenceDate);
-            Assert.That(viewResult.Inquiries[1].ReferenceDate <= viewResult.Inquiries[2].ReferenceDate);
-            Assert.That(viewResult.Inquiries[2].ReferenceDate <= viewResult.Inquiries[3].ReferenceDate);
-            Assert.That(viewResult.Inquiries[3].ReferenceDate <= viewResult.Inquiries[4].ReferenceDate);
+            Assert.That(viewModel.Inquiries.Count==5);
+            Assert.That(viewModel.Inquiries[0].ReferenceDate <= viewModel.Inquiries[1].ReferenceDate);
+            Assert.That(viewModel.Inquiries[1].ReferenceDate <= viewModel.Inquiries[2].ReferenceDate);
+            Assert.That(viewModel.Inquiries[2].ReferenceDate <= viewModel.Inquiries[3].ReferenceDate);
+            Assert.That(viewModel.Inquiries[3].ReferenceDate <= viewModel.Inquiries[4].ReferenceDate);
         }
 
         [Test]
-        public void ShouldNot_RaiseAnException_WhenWeekViewRequestedAndRepositoryIsEmpty()
+        public void ShouldNot_RaiseAnException_WhenIndexRequestedAndRepositoryIsEmpty()
         {
+            //arrange
             var mock = new Mock<IRepository>();
             mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Source, z => z.Assignee))
                 .Returns(new List<Inquiry>().AsQueryable());
-
             var weekViewController = new WeekViewController(mock.Object);
 
+            //act and assert 
             Assert.DoesNotThrow(() => weekViewController.Index());
+        }
+
+        [Test]
+        public void Should_Return10PersonsWithEmployeeRole_WhenIndexRequestedWith10Employees()
+        {
+            //arrange
+            var persons = Builder<Person>.CreateListOfSize(50)
+                .All()
+                .With(x => x.Role = PersonRole.Client)
+                .Random(10)
+                .With(x => x.Role = PersonRole.Employee)
+                .Build();
+
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Person>(z => z.RelatedMails)).Returns(persons.AsQueryable());
+            var weekViewController = new WeekViewController(mock.Object);
+
+            //act
+            var viewModel = weekViewController.Index().Model as WeekViewModel;
+
+            //assert
+            Assert.That(viewModel.Employees.Count==10);
         }
     }
 }
