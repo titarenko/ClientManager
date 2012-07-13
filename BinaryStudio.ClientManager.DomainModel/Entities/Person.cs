@@ -58,21 +58,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Phone { get; set; }
 
-        private string photoPath;
-
         /// <summary>
         /// Photo of the person
+        /// return photoPath!=""?photoPath:"~/Content/images/DummyPhoto.jpg"; - this logic should be employed during creation of entity and not querying
         /// </summary>
-        public string  PhotoPath {
-            get
-            {
-                return photoPath!=""?photoPath:"~/Content/images/DummyPhoto.jpg";
-            } 
-            set
-            {
-                photoPath = value;
-            }
-        }
+        public string PhotoPath { get; set; }
 
         public IList<MailMessage> RelatedMails { get; set; }
 
