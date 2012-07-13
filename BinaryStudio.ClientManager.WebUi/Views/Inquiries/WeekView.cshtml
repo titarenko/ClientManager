@@ -28,6 +28,21 @@
     </ul>*@
     foreach (var inquiry in inquiries)
     {
+        
+        <div class="modal hide" id="myModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Comment to Inquiry</h3>
+            </div>
+            <div class="modal-body">
+                <textarea id="@inquiry.Id" cols="255" rows="7"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+                <a href="#" class="btn btn-primary">Save</a>
+                </div>
+        </div>
+    
         <div class="card span2">
             <div class="row-fluid">
                 <div class="span4">
@@ -42,7 +57,7 @@
                     <ul class="nav nav-pills">
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">Menu <b class="caret"></b></a>
-                          <ul class="dropdown-menu" id="menu1">
+                          <ul class="dropdown-menu">
                             <li>
                                 <a href="#">Assign to <i class="icon-arrow-right"></i></a>
                                 <ul class="dropdown-menu sub-menu">
@@ -56,11 +71,11 @@
                                   <a href="#">Move to <i class="icon-arrow-right"></i></a>
                                   <ul class="dropdown-menu sub-menu">
                                       <li class="row-fluid">
-                                          
+                                          <!-- TODO Insert calendar-->
                                       </li>
                                   </ul>
                               </li>
-                            <li><a href="#">Add comment</a></li>
+                            <li><a data-toggle="modal" href="#myModal" >Add comment</a></li>
                           </ul>
                     </li>
                     </ul>
