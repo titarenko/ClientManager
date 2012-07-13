@@ -58,10 +58,21 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Phone { get; set; }
 
+        private string photoPath;
+
         /// <summary>
         /// Photo of the person
         /// </summary>
-        public byte[] Photo { get; set; }
+        public string  PhotoPath {
+            get
+            {
+                return photoPath!=""?photoPath:"~/Content/images/DummyPhoto.jpg";
+            } 
+            set
+            {
+                photoPath = value;
+            }
+        }
 
         public IList<MailMessage> RelatedMails { get; set; }
 

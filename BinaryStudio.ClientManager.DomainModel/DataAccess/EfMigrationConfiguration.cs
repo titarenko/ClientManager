@@ -66,6 +66,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.Email = GetRandom.Email())
                 .With(x => x.CreationDate = GetRandom.DateTime(January.The1st, DateTime.Now))
                 .With(x => x.Id = 0)
+                .With(x=>x.PhotoPath="")
                 .With(x => x.RelatedMails = Builder<MailMessage>.CreateListOfSize(5)
                     .All()
                     .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
