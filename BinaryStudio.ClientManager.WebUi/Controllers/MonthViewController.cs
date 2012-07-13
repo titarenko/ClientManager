@@ -13,10 +13,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
     {
         private readonly IRepository repository;
 
+        
         public MonthViewController(IRepository repository)
         {
             this.repository = repository;
         }
+
+        public IList<Inquiry> SelectedDayInquiries(DateTime day, IRepository repository)
+    {
+        
+        return repository.Query<Inquiry>().Where(inquiry => inquiry.ReferenceDate == day).ToList();
+    }
         //
         // GET: /MonthView/
 
@@ -24,13 +31,28 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             ViewBag.currentDay = DateTime.Today;
             var model = new MonthViewModel();
-            var inquiryTodayList = repository.Query<Inquiry>().
-                Where(inquiry => inquiry.ReferenceDate == DateTime.Today).ToList();
+            var inquiryFutureList = repository.Query<Inquiry>().
+                Where(inquiry => inquiry.ReferenceDate >= DateTime.Today).ToList();
 
-            model.Inquiries = inquiryTodayList; // Fill inquiries with today inquiries
+            model.Inquiries = inquiryFutureList;
 
-            return View();
-        }
+            var MonthList = SelectedDayInquiries(DateTime.Today, repository);
+            for (int i = 1; i <= 31; i++)
+            {
+                var day = DateTime.Today.AddDays(i);
+                var dayInquiryList = SelectedDayInquiries(day, repository);
+                MonthList.Concat(dayInquiryList);
+            }
+            
+            model.MonthViewItems = MonthList;
+
+            //var monthviewItems = new MonthViewItem();
+            //inquiryFutureList.ForEach(monthviewItems.ReferenceDate = inquiryFutureList[this].ReferenceDate, 
+            //    monthviewItems.Client = inquiryFutureList[this].Client);
+
+            //model.MonthViewItems = monthviewItems;
+
+            return View(model);        }
 
     }
 }
