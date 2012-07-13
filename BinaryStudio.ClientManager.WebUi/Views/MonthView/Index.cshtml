@@ -1,0 +1,17 @@
+﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
+@{
+    ViewBag.Title = "MonthView";
+}
+
+<script type="text/javascript" >
+    var today = new Date();
+</script>
+
+<h2>MonthView</h2>
+<div class="span24">
+    @for (int i = 0; i < 31; i++ )
+    {
+    <p class="span24">@ViewBag.currentDay.AddDays(i).ToString("dd.MM.yyyy")</p>
+    }
+    
+</div>

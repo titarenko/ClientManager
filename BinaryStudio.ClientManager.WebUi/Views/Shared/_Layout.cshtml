@@ -14,6 +14,7 @@
     @Html.Script("jquery.ui.datepicker.js")
     @Html.Script("jquery.ui.datepicker-ru.js")
     @Html.Script("jquery.ui.core.js")
+    @Html.Script("knockout-2.1.0.js", "knockout-2.1.0.debug.js")
     @Html.Script("shared.js")
 </head>
 <body>
@@ -25,6 +26,7 @@
                     <li>@Html.ActionLink("Clients", "Index", "Clients")</li>
                     <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                     <li>@Html.ActionLink("Employees", "Index", "Employees")</li>
+                    <li>@Html.ActionLink("Month view", "Index", "MonthView" )</li>
                 </ul>
             </div>
         </div>
