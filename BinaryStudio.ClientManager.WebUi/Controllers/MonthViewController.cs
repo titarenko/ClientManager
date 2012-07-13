@@ -32,9 +32,19 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             ViewBag.currentDay = DateTime.Today;
             var model = new MonthViewModel();
             var inquiryFutureList = repository.Query<Inquiry>().
-                Where(inquiry => inquiry.ReferenceDate > DateTime.Today.AddDays(-1)).ToList();
+                Where(inquiry => inquiry.ReferenceDate >= DateTime.Today).ToList();
 
             model.Inquiries = inquiryFutureList;
+
+            var MonthList = SelectedDayInquiries(DateTime.Today, repository);
+            for (int i = 1; i <= 31; i++)
+            {
+                var day = DateTime.Today.AddDays(i);
+                var dayInquiryList = SelectedDayInquiries(day, repository);
+                MonthList.Concat(dayInquiryList);
+            }
+            
+            model.MonthViewItems = MonthList;
 
             //var monthviewItems = new MonthViewItem();
             //inquiryFutureList.ForEach(monthviewItems.ReferenceDate = inquiryFutureList[this].ReferenceDate, 
@@ -42,7 +52,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             //model.MonthViewItems = monthviewItems;
 
-            return View();        }
+            return View(model);        }
 
     }
 }
