@@ -67,6 +67,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Source, x => x.Assignee)
                 .Where(x => x.ReferenceDate >= monday && x.ReferenceDate <= friday)
                 .OrderBy(x => x.ReferenceDate);
+
             return View(inquiries);
         }
     }

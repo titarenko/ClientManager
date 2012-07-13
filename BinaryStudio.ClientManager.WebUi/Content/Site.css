@@ -147,3 +147,8 @@ div.row {
     margin: 4px;
     padding: 4px;
 }
+
+.filter {
+    float: right;
+    margin: 4px;
+}
