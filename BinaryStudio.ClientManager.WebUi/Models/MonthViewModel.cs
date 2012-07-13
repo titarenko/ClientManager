@@ -10,5 +10,6 @@ namespace BinaryStudio.ClientManager.WebUi.Models
     {
         public IList<Inquiry> Inquiries { get; set; }
         public List<Person> Clients { get; set; }
+        public IEnumerable<MonthViewItem> MonthViewItems { get; set; }
     }
 }
