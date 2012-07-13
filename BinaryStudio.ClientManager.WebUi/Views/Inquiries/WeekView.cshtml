@@ -17,7 +17,7 @@
 
 @helper RenderColumn(string weekDay, DateTime date, IEnumerable<Inquiry> inquiries)
 {
-    <div class="header-card">
+    <div class="header-card span2">
         @weekDay<br/>
         @string.Format("{0:dd.MM}", date)
     </div>
@@ -28,12 +28,44 @@
     </ul>*@
     foreach (var inquiry in inquiries)
     {
-        <div class="card">
-            @inquiry.Client.FirstName <br/>
-            @inquiry.Subject<br/>
-            @inquiry.Client.Phone<br/>
-            @inquiry.Client.Email<br/>
-            @inquiry.Client.Country<br/>
+        <div class="card span2">
+            <div class="row-fluid">
+                <div class="span4">
+                    <img src="@Url.Content(inquiry.Client.PhotoPath)" alt="Photo" width="100%" height="100%"/>
+                </div>
+                <div class="span8">
+                    <span class="font-medium">@inquiry.Client.FullName</span><br/>
+                    @inquiry.Subject<br/>
+                    @inquiry.Client.Phone<br/>
+                    @inquiry.Client.Email<br/>
+                    @inquiry.Client.Country<br/>
+                    <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Menu <b class="caret"></b></a>
+                          <ul class="dropdown-menu" id="menu1">
+                            <li>
+                                <a href="#">Assign to <i class="icon-arrow-right"></i></a>
+                                <ul class="dropdown-menu sub-menu">
+                                    <li class="row-fluid">
+                                        <div class="span3"><img src="@Url.Content(inquiry.Client.PhotoPath)" alt="Photo"/></div>
+                                        <div class="span9"><a href="#">Petro Petrov</a></div>
+                                    </li>
+                                </ul>
+                            </li>
+                              <li>
+                                  <a href="#">Move to <i class="icon-arrow-right"></i></a>
+                                  <ul class="dropdown-menu sub-menu">
+                                      <li class="row-fluid">
+                                          
+                                      </li>
+                                  </ul>
+                              </li>
+                            <li><a href="#">Add comment</a></li>
+                          </ul>
+                    </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     }
 }
