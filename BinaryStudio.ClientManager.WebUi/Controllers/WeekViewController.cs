@@ -45,5 +45,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             repository.Save(inquiry.Assignee);
         }
 
+        [HttpPost]
+        public void AddComment(int inquiryId, string comment)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            inquiry.Description = comment;
+            repository.Save(inquiry);
+        }
+
+        [HttpGet]
+        public string GetComment(int inquiryId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            return inquiry.Description;
+        }
+
     }
 }
