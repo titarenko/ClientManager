@@ -2,20 +2,38 @@
 @model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
            
 <script type="text/javascript">
-    function WeekViewModel() {
+    /*function WeekViewModel() {
         var self = this;
         self.filter = ko.observable("");
         self.filteredInquiries = ko.computed(function() {
             return @Model.Inquiries.Where(x => x.Client.FirstName.Contains("a"));
         });
-    }
+    };*/
+
+    
+
+    function OnClick(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AssignEmployee")",
+            type: "POST",
+            data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
 
     $(document).ready(function () {
         ko.applyBindings(new WeekViewModel());
     });
 </script>
 
-@helper RenderColumn(string weekDay, DateTime date, IEnumerable<Inquiry> inquiries)
+@helper RenderColumn(string weekDay, DateTime date, IEnumerable<Inquiry> inquiries, IEnumerable<Person> employees)
 {
     <div class="header-card span2">
         @weekDay<br/>
@@ -55,16 +73,19 @@
                     <span>@inquiry.Client.Email</span><br/>
                     <span>@inquiry.Client.Country</span><br/>
                     <ul class="nav nav-pills">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Menu <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Menu <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
                                 <li>
                                     <a href="#">Assign to <i class="icon-arrow-right"></i></a>
-                                    <ul class="dropdown-menu sub-menu">
-                                        <li class="row-fluid">
-                                            <div class="span3"><img src="@Url.Content(inquiry.Client.PhotoPath)" alt="Photo"/></div>
-                                            <div class="span9"><a href="#">Petro Petrov</a></div>
-                                        </li>
+                                    <ul class="dropdown-menu sub-menu">                                  
+                                        @foreach (var employee in employees)
+                                        {
+                                            <li class="row-fluid">
+                                                <div class="span3"><img src="@Url.Content(employee.PhotoPath)" alt="Photo"/></div>                                                
+                                                <div class="span9"><br/><button class="btn-info" onclick="OnClick(@employee.Id,@inquiry.Id)">@employee.FullName</button></div>
+                                            </li>
+                                        }                                                                                 
                                     </ul>
                                 </li>
                                 <li>
@@ -76,8 +97,8 @@
                                     </ul>
                                 </li>
                                 <li><a data-toggle="modal" href="#myModal" >Add comment</a></li>
-                          </ul>
-                    </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +122,7 @@
             <div class="span2">
                 @RenderColumn(days[i - 1],
                     today.AddDays(i - (int)today.DayOfWeek).Date,
-                    Model.Inquiries.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i))
+                    Model.Inquiries.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i), Model.Employees)
             </div>    
         }
     </div>

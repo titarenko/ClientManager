@@ -36,5 +36,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public void AssignEmployee(int inquiryId, int employeeId)
+        {
+            var employee = repository.Get<Person>(employeeId, x => x.RelatedMails);
+            var inquiry = repository.Get<Inquiry>(inquiryId, x => x.Assignee);
+            inquiry.Assignee = employee;
+            repository.Save(inquiry.Assignee);
+        }
+
     }
 }
