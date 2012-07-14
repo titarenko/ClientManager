@@ -24,6 +24,7 @@ function anyKeyTo ($message) {
 
 function copyOutput ($sourceDir, $outputDir) {
 	& robocopy $sourceDir $outputDir *.asax *.dll *.config *.cshtml *.css *.js *.png *.jpg *.jpeg *.gif /S /XD obj /XF *Debug* *Release* packages.config
+	& robocopy "$sourceDir\Deployment" $outputDir Install.ps1
 }
 
 function cleanupOutput ($outputDir) {
