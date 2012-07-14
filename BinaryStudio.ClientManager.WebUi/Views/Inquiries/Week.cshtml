@@ -19,9 +19,9 @@
                         </div>
                         <div class="secondary-info">
                             <div><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
-                            <div><span class="icon-envelope"></span> @Html.Email(inquiry.Email)</div>
+                            <div><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(25))</div>
                             <div>
-                                <span class="icon-user"></span> @inquiry.Assignee.Or("N/A")
+                                <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
                                 <div class="pull-right">Menu</div>
                             </div>
                         </div>
