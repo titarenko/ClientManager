@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.DataAccess
@@ -12,24 +10,13 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             : base("ClientManager")
 #endif
         {
-            collections = new Dictionary<Type, object>
-                {
-                    {typeof(Entities.MailMessage), MailMessages},
-                    {typeof(Entities.Person), Persons},
-                    {typeof(Entities.Inquiry), Inquiries}
-                };
         }
 
-        public DbSet<Entities.Person> Persons { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
-        public DbSet<Entities.MailMessage> MailMessages { get; set; }
+        public DbSet<MailMessage> MailMessages { get; set; }
 
-        public DbSet<Entities.Inquiry> Inquiries { get; set; }
-
-        public DbSet<T> GetDbSet<T>() where T : class
-        {
-            return collections[typeof(T)] as DbSet<T>;
-        }
+        public DbSet<Inquiry> Inquiries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,7 +30,5 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .HasMany(x => x.RelatedMails)
                 .WithMany(y => y.Receivers);
         }
-
-        private readonly IDictionary<Type, object> collections;
     }
 }

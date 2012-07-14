@@ -15,13 +15,13 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
         {
             return eagerlyLoadedProperties.Aggregate(
-                (DbQuery<T>)context.GetDbSet<T>(),
+                (DbQuery<T>)context.Set<T>(),
                 (current, property) => current.Include(property.GetPath()));
         }
 
         public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
         {
-            var set = context.GetDbSet<T>();
+            var set = context.Set<T>();
 
             if (!eagerlyLoadedProperties.Any())
             {
@@ -37,7 +37,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             if (instance.Id == default(int))
             {
-                context.GetDbSet<T>().Add(instance);
+                context.Set<T>().Add(instance);
             }
             else
             {
@@ -49,7 +49,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         public void Delete<T>(T instance) where T : class, IIdentifiable
         {
-            context.GetDbSet<T>().Remove(instance);
+            context.Set<T>().Remove(instance);
             context.SaveChanges();
         }
     }
