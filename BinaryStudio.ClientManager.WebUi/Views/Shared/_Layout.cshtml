@@ -19,25 +19,21 @@
         @Html.Script("shared.js")
     </head>
     <body>
-        <div class="container">
-            <div id="header" class="row-fluid">
-                <div class="btn-group span4">
-                    <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
-                        View
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Week", "WeekView", "Inquiries")</li>
-                        <li>@Html.ActionLink("Month", "MonthView", "Inquiries")</li>
-                        <li>@Html.ActionLink("All", "AllView", "Inquiries")</li>
-                        <li>@Html.ActionLink("Admin", "AdminView", "Inquiries")</li>
-                    </ul>
-                </div>
-                <div class="span8">
-                    <div class="input-prepend pull-right">
-                        <span class="add-on">Filter</span><input class="input-large" type="text" />
-                    </div>
-                </div>
+        <div id="header" class="container">
+            <div class="btn-group pull-left">
+                <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
+                    View
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Week", "WeekView", "Inquiries")</li>
+                    <li>@Html.ActionLink("Month", "MonthView", "Inquiries")</li>
+                    <li>@Html.ActionLink("All", "AllView", "Inquiries")</li>
+                    <li>@Html.ActionLink("Admin", "AdminView", "Inquiries")</li>
+                </ul>
+            </div>
+            <div class="input-prepend pull-right">
+                <span class="add-on">Filter</span><input class="input-large" type="text" />
             </div>
         </div>
         <div id="body">

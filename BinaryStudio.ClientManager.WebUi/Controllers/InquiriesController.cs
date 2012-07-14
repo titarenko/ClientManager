@@ -76,7 +76,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     let date = start.AddDays(index)
                     select new WeekItemViewModel
                     {
-                        Name = date.DayOfWeek.ToString(),
+                        Name = date.ToString("ddd"),
                         Date = date,
                         Inquiries = thisWeekInquiries
                             .Where(x => x.ReferenceDate.Date == date)
