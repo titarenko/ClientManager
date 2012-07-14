@@ -8,5 +8,10 @@ namespace BinaryStudio.ClientManager.WebUi.Extensions
         {
             return helper.Action("NoScript", "Home");
         }
+
+        public static string DefaultPhoto(this UrlHelper helper)
+        {
+            return helper.Content("~/Content/images/photo.png");
+        }
     }
 }
