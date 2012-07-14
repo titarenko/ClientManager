@@ -49,7 +49,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 var pathToPhoto=Path.Combine(Server.MapPath("~/Content/photos"), id.ToString()+Path.GetExtension(photo.FileName));
                 photo.SaveAs(pathToPhoto);
                 var client = repository.Get<Person>(id, x => x.RelatedMails);
-                client.PhotoPath = "~/Content/photos/"+Path.GetFileName(pathToPhoto);
+                client.PhotoUri = "~/Content/photos/"+Path.GetFileName(pathToPhoto);
                 repository.Save(client);
             }
             return RedirectToAction("Edit", new {id});

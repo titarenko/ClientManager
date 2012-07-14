@@ -77,8 +77,7 @@
 @helper RenderColumn(string weekDay, DateTime date, IEnumerable<Inquiry> inquiries, IEnumerable<Person> employees)
 {
     <div class="header-card span2">
-        @weekDay<br/>
-        @string.Format("{0:dd.MM}", date)
+        @weekDay (@string.Format("{0:dd.MM}", date))
     </div>
     @*<ul data-bind="foreach: filteredInquiries">
         <li data-bind="with: ">
@@ -102,10 +101,10 @@
             </div>
         </div>
      
-        <div class="card span2">
+        <div class="card">
             <div class="row-fluid">
                 <div class="span4">
-                    <img src="@Url.Content(inquiry.Client.PhotoPath.Or("~/Content/Images/DummyPhoto.jpg"))" alt="Photo" width="100%" height="100%"/>
+                    <img src="@Url.Content(inquiry.Client.PhotoUri.Or("~/Content/Images/DummyPhoto.jpg"))" alt="Photo" width="100%" height="100%"/>
                 </div>
                 <div class="span8">
                     <span class="font-medium">@inquiry.Client.FullName</span><br/>
@@ -123,7 +122,7 @@
                                         @foreach (var employee in employees)
                                         {
                                             <li class="row-fluid">
-                                                <div class="span3"><img src="@Url.Content(employee.PhotoPath.Or("~/Content/Images/DummyPhoto.jpg"))" alt="Photo"/></div>                                                
+                                                <div class="span3"><img src="@Url.Content(employee.PhotoUri.Or("~/Content/Images/DummyPhoto.jpg"))" alt="Photo"/></div>                                                
                                                 <div class="span9">
                                                     @if (inquiry.Assignee!= null && inquiry.Assignee.Id == employee.Id)
                                                     {
@@ -162,11 +161,14 @@
     var today = DateTime.Today;
     var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
 }
+
+@Col
+
 <div class = "container">
     <div class="row">
         @for (int i = 1; i <= days.Count(); i++)
         {
-            <div class="span2">
+            <div class="">
                 @RenderColumn(days[i - 1],
                     today.AddDays(i - (int)today.DayOfWeek).Date,
                     Model.Inquiries.Where(x => x.ReferenceDate.DayOfWeek == (DayOfWeek)i), Model.Employees)

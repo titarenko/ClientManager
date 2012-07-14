@@ -147,10 +147,19 @@ div.row {
 }
 
 .header-card {
-    border: 2px gray solid;
-    border-radius: 10px;
+    /*border: 1px lightgray solid;
+    border-radius: 5px;
+    
+    background: url(column-header-bg.png) repeat;*/
+    text-shadow: lightgray 3px 4px 3px;
+    
     margin: 4px;
-    text-align: center;
+    padding: 4px;
+    
+    text-align: center;   
+    
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .card {
@@ -158,6 +167,7 @@ div.row {
     border-radius: 10px;
     margin: 4px;
     padding: 4px;
+    width: 20%;
 }
 
 .filter {

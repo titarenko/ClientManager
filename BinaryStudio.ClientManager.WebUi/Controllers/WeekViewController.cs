@@ -20,7 +20,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /WeekView/
 
-        public ViewResult Index()
+        public ViewResult Week()
         {
             var today = DateTime.Today;
             var monday = today.AddDays(1 - (int)today.DayOfWeek);

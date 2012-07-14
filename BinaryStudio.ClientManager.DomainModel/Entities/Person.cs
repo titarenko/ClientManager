@@ -62,7 +62,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Photo of the person
         /// return photoPath!=""?photoPath:"~/Content/images/DummyPhoto.jpg"; - this logic should be employed during creation of entity and not querying
         /// </summary>
-        public string PhotoPath { get; set; }
+        public string PhotoUri { get; set; }
 
         public IList<MailMessage> RelatedMails { get; set; }
 
