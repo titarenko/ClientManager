@@ -85,6 +85,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             {
                                 Name = x.Client.FullName,
                                 Subject = x.Subject,
+                                Email = x.Client.Email,
+                                Assignee = x.SafeGet(z => z.Assignee.FullName),
                                 Phone = x.Client.Phone,
                                 PhotoUri = x.Client.PhotoUri
                             })

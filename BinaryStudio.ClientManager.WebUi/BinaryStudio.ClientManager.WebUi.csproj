@@ -70,6 +70,7 @@
     <Compile Include="Controllers\MonthViewController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\WeekViewController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -88,7 +89,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\column-header-bg.png" />
+    <Content Include="Content\card-bg.png" />
     <Content Include="Content\images\DummyPhoto.jpg" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />

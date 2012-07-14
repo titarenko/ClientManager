@@ -8,6 +8,10 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public string Phone { get; set; }
 
+        public string Email { get; set; }
+
         public string PhotoUri { get; set; }
+
+        public string Assignee { get; set; }
     }
 }

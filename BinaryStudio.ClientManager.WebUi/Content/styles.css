@@ -1,4 +1,10 @@
 /* CSS crunched with Crunch - http://crunchapp.net/ */
-#week .day{width:20%;min-width:20%;float:left;padding:0;margin:0;}#week .day ul{margin:0;padding:0;list-style:none;}
+#week .day{width:20%;min-width:20%;float:left;padding:0;margin:0;}#week .day a{text-decoration:none;}
+#week .day a:hover{text-decoration:underline;}
+#week .day a,#week .day a:active,#week .day a:hover,#week .day a:visited{color:#777;}
+#week .day ul{margin:0;padding:0;list-style:none;}
 #week .day title{display:block;width:inherit;text-align:center;font-weight:bold;color:#555;font-size:150%;text-shadow:lightgray 2px 2px 4px;padding:8px;}
-#week .day .inquiry{width:inherit;height:100px;padding:4px;margin:4px;border:1px lightgray solid;border-radius:4px;}
+#week .day .inquiry{width:inherit;height:110px;padding:4px;margin:8px;border:1px lightgray solid;border-radius:4px;background:#fffff7;}#week .day .inquiry .primary-info{padding-top:4px;font-size:120%;text-align:center;height:48px;font-weight:bold;text-shadow:lightgray 2px 2px 4px;}
+#week .day .inquiry .name{color:#777;}
+#week .day .inquiry .subject{color:#aaa;}
+#week .day .inquiry .secondary-info{padding:8px 2px 0 2px;bottom:0;color:#777;}

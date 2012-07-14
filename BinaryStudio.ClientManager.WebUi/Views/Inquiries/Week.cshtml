@@ -1,4 +1,5 @@
-﻿@model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
+﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
+@model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
 
 <div id="week" class="container">
     @foreach (var day in Model.Days)
@@ -9,7 +10,21 @@
                 @foreach (var inquiry in day.Inquiries)
                 {
                     <li class="inquiry">
-                        @inquiry.Name
+                        <div class="row-fluid">
+                            <div class="span4"><img class="pull-left" src="@inquiry.PhotoUri.Or(Url.Content("~/Content/images/DummyPhoto.jpg"))" alt="Photo" width="48" height="48"/></div>
+                            <div class="span8 primary-info">
+                                <span class="name">@inquiry.Name</span>
+                                <span class="subject">@inquiry.Subject</span>
+                            </div>
+                        </div>
+                        <div class="secondary-info">
+                            <div><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
+                            <div><span class="icon-envelope"></span> @Html.Email(inquiry.Email)</div>
+                            <div>
+                                <span class="icon-user"></span> @inquiry.Assignee.Or("N/A")
+                                <div class="pull-right">Menu</div>
+                            </div>
+                        </div>
                     </li>
                 }
             </ul>

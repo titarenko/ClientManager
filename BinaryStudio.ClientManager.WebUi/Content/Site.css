@@ -95,10 +95,10 @@ div.row {
     margin: 18px 30px;
 }
 
-.assignee {
+/*.assignee {
     text-align: right;
     vertical-align: bottom;
-}
+}*/
 
 .mail-info {
     border: 1px gray solid;

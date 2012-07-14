@@ -13,5 +13,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             return line.IsNullOrEmpty() ? defaultValue : line;
         }
+
+        public static string Fill(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
     }
 }
