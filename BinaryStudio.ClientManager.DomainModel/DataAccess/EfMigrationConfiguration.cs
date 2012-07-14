@@ -41,7 +41,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.Id = 0)
                 .With(x => x.Status = GetRandom.Int(0, 3))
                 .With(x => x.Client = randomClient.Next())
-                .With(x => x.ReferenceDate = GetRandom.DateTime(DateTime.Now.AddDays(-5), DateTime.Now))
+                .With(x => x.ReferenceDate = GetRandom.DateTime(DateTime.Now.GetStartOfBusinessWeek(), DateTime.Now.GetEndOfBusinessWeek().AddDays(1)))
                 .With(x => x.Source = Builder<MailMessage>.CreateNew()
                                           .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
                                           .With(z => z.Subject = GetRandom.Phrase(10))
