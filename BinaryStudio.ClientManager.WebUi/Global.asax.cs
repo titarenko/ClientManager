@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
-using System.Threading;
+﻿using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
@@ -24,7 +22,7 @@ namespace BinaryStudio.ClientManager.WebUi
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
             );
         }
 
