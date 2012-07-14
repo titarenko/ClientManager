@@ -2,36 +2,45 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>@ViewBag.Title</title>
-    @Html.Css("bootstrap.min.css")
-    @Html.Css("bootstrap-responsive.min.css")
-    @Html.Css("Site.css")
-    @Html.Css("jquery-ui-1.8.21.custom.css")
+    <head>
+        <title>@ViewBag.Title</title>
+        @Html.Css("bootstrap.min.css")
+        @Html.Css("bootstrap-responsive.min.css")
+        @Html.Css("Site.css")
+        @Html.Css("jquery-ui-1.8.21.custom.css")
 
-    @Html.Script("jquery-1.7.2.min.js", "jquery-1.7.2.js")
-    @Html.Script("bootstrap.min.js", "bootstrap.js")
-    @Html.Script("jquery.ui.datepicker.js")
-    @Html.Script("jquery.ui.datepicker-ru.js")
-    @Html.Script("jquery.ui.core.js")
-    @Html.Script("knockout-2.1.0.js", "knockout-2.1.0.debug.js")
-    @Html.Script("shared.js")
-</head>
-<body>
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                @Html.ActionLink("Client Manager", "Index", "Dashboard", null, new { @class = "brand" })
-                <ul class="nav">
-                    <li>@Html.ActionLink("Clients", "Index", "Clients")</li>
-                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
-                    <li>@Html.ActionLink("Employees", "Index", "Employees")</li>
-                    <li>@Html.ActionLink("Month view", "Index", "MonthView" )</li>
-                    <li>@Html.ActionLink("Week view", "Index", "WeekView" )</li>
-                </ul>
+        @Html.Script("jquery-1.7.2.min.js", "jquery-1.7.2.js")
+        @Html.Script("bootstrap.min.js", "bootstrap.js")
+        @Html.Script("jquery.ui.datepicker.js")
+        @Html.Script("jquery.ui.datepicker-ru.js")
+        @Html.Script("jquery.ui.core.js")
+        @Html.Script("knockout-2.1.0.js", "knockout-2.1.0.debug.js")
+        @Html.Script("shared.js")
+    </head>
+    <body>
+        <div class="container">
+            <div id="header" class="row-fluid">
+                <div class="btn-group span4">
+                    <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
+                        View
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Week", "WeekView", "Inquiries")</li>
+                        <li>@Html.ActionLink("Month", "MonthView", "Inquiries")</li>
+                        <li>@Html.ActionLink("All", "AllView", "Inquiries")</li>
+                        <li>@Html.ActionLink("Admin", "AdminView", "Inquiries")</li>
+                    </ul>
+                </div>
+                <div class="span8">
+                    <div class="input-prepend pull-right">
+                        <span class="add-on">Filter</span><input class="input-large" type="text" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    @RenderBody()
-</body>
+        <div id="body">
+            @RenderBody()
+        </div>
+    </body>
 </html>

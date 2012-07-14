@@ -1,6 +1,11 @@
 ﻿body {
-    margin-top: 40px;
+    background: url(top-bg.png) repeat-x;
 }
+
+#header {
+    margin: 10px auto;
+}
+
 .employees li a {
     float: right;
 }
