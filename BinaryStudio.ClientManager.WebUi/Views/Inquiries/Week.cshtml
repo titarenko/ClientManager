@@ -1,16 +1,18 @@
 ﻿@model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
 
-<div class="container">
+<div id="week" class="container">
     @foreach (var day in Model.Days)
     {
-        <ul class="day">
-            <caption>@day.Name (@day.Date.ToString("dd.MM"))</caption>
-            @foreach (var inquiry in day.Inquiries)
-            {
-                <li class="inquiry">
-                    @inquiry.Name
-                </li>
-            }
-        </ul>
+        <div class="day">
+            <ul>
+                <title>@day.Name (@day.Date.ToString("dd.MM"))</title>
+                @foreach (var inquiry in day.Inquiries)
+                {
+                    <li class="inquiry">
+                        @inquiry.Name
+                    </li>
+                }
+            </ul>
+        </div>
     }
 </div>
