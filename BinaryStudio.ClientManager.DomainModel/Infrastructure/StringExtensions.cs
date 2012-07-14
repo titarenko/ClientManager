@@ -18,5 +18,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             return string.Format(format, args);
         }
+
+        public static string Cut(this string line, int maxLenght)
+        {
+            return line.SafeGet(x => x.Length) > maxLenght ? line.Substring(0, maxLenght - 3) + "..." : line;
+        }
     }
 }
