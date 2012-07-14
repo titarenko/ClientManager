@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
@@ -11,7 +12,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public Inquiry()
         {
             Status = InquiryStatus.IncomingInquiry;
+            Taggs = new List<int>();
         }
+
+        /// <summary>
+        /// list of tags appointed to inquiry
+        /// </summary>
+        public IList<int> Taggs { get; set; }
 
         /// <summary>
         /// Int value that represents Status of inquiry.

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AllInquiriesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -72,6 +73,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AllInquiriesModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />
     <Compile Include="Models\WeekViewModel.cs" />
@@ -232,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\WeekView\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AllInquiries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deployment\Package.ps1" />
