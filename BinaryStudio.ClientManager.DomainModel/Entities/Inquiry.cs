@@ -61,6 +61,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// List of comments.
+        /// </summary>
+        public IList<Comment> Comments { get; set; }
+
         public bool Equals(Inquiry other)
         {
             if (ReferenceEquals(null, other)) return false;

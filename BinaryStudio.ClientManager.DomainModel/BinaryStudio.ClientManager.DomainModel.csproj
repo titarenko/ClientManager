@@ -52,6 +52,7 @@
     <Compile Include="DataAccess\EfMigrationConfiguration.cs" />
     <Compile Include="DataAccess\EfRepository.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Extension.cs" />
     <Compile Include="Entities\Inquiry.cs" />
     <Compile Include="Entities\InquiryStatus.cs" />
