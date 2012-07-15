@@ -1,6 +1,11 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
 
+@helper MoveForward(string text, DateTime date)
+{
+    <li><a href="#"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
+}
+
 <div id="week" class="container">
     @foreach (var day in Model.Days)
     {
@@ -18,11 +23,42 @@
                             </div>
                         </div>
                         <div class="secondary-info">
-                            <div><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
-                            <div><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(25))</div>
+                            <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
+                            <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(25))</div>
                             <div>
                                 <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
-                                <div class="pull-right">Menu</div>
+                                <div class="pull-right dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Menu<span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <span class="icon-user"></span> Assign to
+                                            </a>
+                                            <ul class="dropdown-menu sub-menu">
+                                                @foreach(var employee in Model.Employees)
+                                                {
+                                                    <li><a href="#">@employee.FullName</a></li>
+                                                }
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <span class="icon-calendar"></span> Move to
+                                            </a>
+                                            <ul class="dropdown-menu sub-menu">
+                                                @MoveForward("1 day", day.Date.AddDays(1))
+                                                @MoveForward("2 days", day.Date.AddDays(2))
+                                                @MoveForward("3 days", day.Date.AddDays(3))
+                                                @MoveForward("1 week", day.Date.AddDays(7))
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#comment-editor" data-toggle="modal"><span class="icon-pencil"></span> Add comment</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </li>
@@ -30,4 +66,17 @@
             </ul>
         </div>
     }
+    <div class="modal hide" id="comment-editor">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>New Comment</h3>
+        </div>
+        <div class="modal-body">
+            <textarea rows="10" cols="40"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary">Add Comment</a>
+        </div>
+    </div>
 </div>
