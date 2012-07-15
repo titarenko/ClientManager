@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
@@ -97,6 +100,47 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .ThenBy(x => x.LastName)
                     .ToList()
             });
+        }
+
+        [HttpPost]
+        public void AssignTo(int inquiryId, int employeeId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            var person = repository.Get<Person>(employeeId);
+            if (inquiry == null || person == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Assignee = person;
+            repository.Save(inquiry);
+        }
+
+        [HttpPost]
+        public void MoveTo(int inquiryId, DateTime date)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            if (inquiry == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.ReferenceDate = date;
+            repository.Save(inquiry);
+        }
+
+        [HttpPost]
+        public void AddComment(int inquiryId, string text)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            if (inquiry == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Comments.Add(new Comment
+            {
+                Date = Clock.Now,
+                Text = text
+            });
+            repository.Save(inquiry);
         }
     }
 }

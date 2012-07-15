@@ -67,6 +67,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InquiriesController.cs" />
+    <Compile Include="Controllers\ModelIsNotValidException.cs" />
     <Compile Include="Controllers\MonthViewController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\WeekViewController.cs" />
