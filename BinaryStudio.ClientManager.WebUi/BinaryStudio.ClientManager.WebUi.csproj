@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AllInquiriesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -77,7 +76,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\AllInquiriesModel.cs" />
+    <Compile Include="Models\AllViewModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\InquiryViewModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />
@@ -247,13 +246,11 @@
     <Content Include="Views\WeekView\Week.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\AllInquiries\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Deployment\Install.ps1" />
     <None Include="Deployment\Package.ps1" />
     <Content Include="Views\Home\NoScript.cshtml" />
     <Content Include="Views\Inquiries\Week.cshtml" />
+    <Content Include="Views\Inquiries\All.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

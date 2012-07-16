@@ -102,6 +102,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
         }
 
+        /// <summary>
+        /// shows all inquiries
+        /// </summary>
+        /// <returns></returns>
+        public ViewResult All()
+        {
+            var model = new AllViewModel();
+            model.Inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs).ToList();
+            //model.Tag = repository.Query<Tag>(x => x.Id, x => x.Name).ToList();
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         public void AssignTo(int inquiryId, int employeeId)
         {
