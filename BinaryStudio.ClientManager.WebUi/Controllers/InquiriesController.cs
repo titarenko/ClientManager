@@ -86,6 +86,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             .OrderBy(x => x.ReferenceDate)
                             .Select(x => new InquiryViewModel
                             {
+                                Id = x.Id,
                                 Name = x.Client.FullName,
                                 Subject = x.Subject,
                                 Email = x.Client.Email,

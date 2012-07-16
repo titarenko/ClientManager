@@ -13,6 +13,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             Status = InquiryStatus.IncomingInquiry;
             Taggs = new List<int>();
+            Comments = new List<Comment>();
         }
 
         /// <summary>

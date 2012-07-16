@@ -39,7 +39,7 @@
                                             <ul class="dropdown-menu sub-menu">
                                                 @foreach(var employee in Model.Employees)
                                                 {
-                                                    <li><a href="#">@employee.FullName</a></li>
+                                                    <li><a href="#" onclick="OnClickAssign(@employee.Id,@inquiry.Id)">@employee.FullName</a></li>
                                                 }
                                             </ul>
                                         </li>
@@ -55,7 +55,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="#comment-editor" data-toggle="modal"><span class="icon-pencil"></span> Add comment</a>
+                                            <a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@inquiry.Id)"><span class="icon-pencil"></span> Add comment</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,11 +72,58 @@
             <h3>New Comment</h3>
         </div>
         <div class="modal-body">
-            <textarea rows="10" cols="40"></textarea>
+            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <a href="#" class="btn btn-primary">Add Comment</a>
+            <a href="#" class="btn btn-primary" onclick="postComment()">Add Comment</a>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    //current inquiry id for modal dialog box
+    var currentInquiryId;
+    
+    //when save button click in modal dialog box
+    function postComment() {
+        var comment = $('#commentTextArea').val();
+        
+        var onSuccess = function() {
+            //
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddComment")",
+            type: "POST",
+            data: { inquiryId: window.currentInquiryId, text: comment }
+        }).success(onSuccess).error(onError);
+    }
+
+    //when click on menu->add comment
+    function ShowModal(inquiryId) {
+        window.currentInquiryId = inquiryId;               
+    };
+    
+    //When click on menu->assign to->some employee
+    function OnClickAssign(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AssignTo")",
+            type: "POST",
+            data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
+    
+</script>
