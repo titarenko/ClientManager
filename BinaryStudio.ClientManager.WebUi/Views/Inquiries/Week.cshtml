@@ -6,7 +6,7 @@
     var currentInquiryId;
     
     //when save button click in modal dialog box
-    function postComment() {
+    function OnClickAddComment() {
         var comment = $('#commentTextArea').val();
         
         var onSuccess = function() {
@@ -48,7 +48,6 @@
     
     //When click on menu->move to
     function OnClickMoveTo(inquiryId, date) {
-        alert(date);
         var onSuccess = function() {
             location.reload(true);
         };
@@ -141,7 +140,7 @@
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <a href="#" class="btn btn-primary" onclick="postComment()">Add Comment</a>
+            <a href="#" class="btn btn-primary" onclick=" OnClickAddComment()">Add Comment</a>
         </div>
     </div>
 </div>
