@@ -12,14 +12,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public Inquiry()
         {
             Status = InquiryStatus.IncomingInquiry;
-            Taggs = new List<int>();
             Comments = new List<Comment>();
         }
 
         /// <summary>
         /// list of tags appointed to inquiry
         /// </summary>
-        public IList<int> Taggs { get; set; }
+        public IList<Tag> Taggs { get; set; }
 
         /// <summary>
         /// Int value that represents Status of inquiry.
@@ -71,7 +70,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.Status == Status && other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source);
+            return other.Status == Status && other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source)
+                && Equals(other.Taggs, Taggs) && Equals(other.Comments, Comments);
         }
 
         public override bool Equals(object obj)
