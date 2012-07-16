@@ -2,7 +2,7 @@
 using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
-using BinaryStudio.ClientManager.WebUi.Models;
+using BinaryStudio.ClientManager.WebUi.Controllers;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using NSubstitute;

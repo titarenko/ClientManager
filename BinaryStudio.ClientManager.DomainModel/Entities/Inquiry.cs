@@ -13,9 +13,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             // for debug
             //TODO REMOVE
-            Tags = new List<Tag>();
+            Taggs = new List<Tag>();
             var name = (new Random()).Next() % 2 == 0 ? "DOTNET" : "NOTDOTNET";
-            Tags.Add(new Tag {Name = name});
+            Taggs.Add(new Tag {Name = name});
             ReferenceDate = new DateTime();
 
             Status = InquiryStatus.IncomingInquiry;
@@ -25,7 +25,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// list of tags appointed to inquiry
         /// </summary>
-        public IList<Tag> Tags { get; set; }
+        public IList<Tag> Taggs { get; set; }
 
         /// <summary>
         /// Int value that represents Status of inquiry.
@@ -78,7 +78,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return other.Status == Status && other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source)
-                && Equals(other.Tags, Tags) && Equals(other.Comments, Comments);
+                && Equals(other.Taggs, Taggs) && Equals(other.Comments, Comments);
         }
 
         public override bool Equals(object obj)

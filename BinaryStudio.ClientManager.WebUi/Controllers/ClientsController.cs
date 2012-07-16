@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
-namespace BinaryStudio.ClientManager.WebUi.Models
+namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
     public class ClientsController : Controller
     {

@@ -4,7 +4,7 @@ using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Models;
 
-namespace BinaryStudio.ClientManager.WebUi.Models
+namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
     public class DashboardController : Controller
     {
