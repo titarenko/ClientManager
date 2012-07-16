@@ -13,5 +13,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             return line.IsNullOrEmpty() ? defaultValue : line;
         }
+
+        public static string Fill(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
+
+        public static string Cut(this string line, int maxLenght)
+        {
+            return line.SafeGet(x => x.Length) > maxLenght ? line.Substring(0, maxLenght - 3) + "..." : line;
+        }
     }
 }

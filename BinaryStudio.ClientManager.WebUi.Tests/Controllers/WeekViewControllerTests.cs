@@ -34,7 +34,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var weekViewController = new WeekViewController(mock.Object);
 
             // act
-            var viewModel = weekViewController.Index().Model as WeekViewModel;
+            var viewModel = weekViewController.Week().Model as WeekViewModel;
 
             // assert
             Assert.That(viewModel.Inquiries.Count==5);
@@ -54,7 +54,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var weekViewController = new WeekViewController(mock.Object);
 
             //act and assert 
-            Assert.DoesNotThrow(() => weekViewController.Index());
+            Assert.DoesNotThrow(() => weekViewController.Week());
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var weekViewController = new WeekViewController(mock.Object);
 
             //act
-            var viewModel = weekViewController.Index().Model as WeekViewModel;
+            var viewModel = weekViewController.Week().Model as WeekViewModel;
 
             //assert
             Assert.That(viewModel.Employees.Count==10);

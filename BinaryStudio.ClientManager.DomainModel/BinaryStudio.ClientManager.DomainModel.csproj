@@ -52,6 +52,7 @@
     <Compile Include="DataAccess\EfMigrationConfiguration.cs" />
     <Compile Include="DataAccess\EfRepository.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Extension.cs" />
     <Compile Include="Entities\Inquiry.cs" />
     <Compile Include="Entities\InquiryStatus.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="Entities\PersonRole.cs" />
     <Compile Include="Entities\TagEntity.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
+    <Compile Include="Infrastructure\Clock.cs" />
+    <Compile Include="Infrastructure\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
     <Compile Include="Infrastructure\RandomItem.cs" />

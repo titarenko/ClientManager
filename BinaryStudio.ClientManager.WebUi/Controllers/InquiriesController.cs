@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
@@ -40,7 +43,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         [HttpPost]
         public ViewResult Edit(int id, Inquiry inquiry)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 repository.Save(inquiry);
                 repository.Save(inquiry.Source);
@@ -58,6 +61,86 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(repository.Get<MailMessage>(id, x => x.Sender, x => x.Receivers));
         }
 
+        public ViewResult Week()
+        {
+            var today = Clock.Now.Date;
 
+            var start = today.GetStartOfBusinessWeek();
+            var end = today.GetEndOfBusinessWeek().AddDays(1);
+
+            var thisWeekInquiries = repository.Query<Inquiry>(x => x.Client)
+                .Where(x => x.ReferenceDate >= start && x.ReferenceDate < end)
+                .ToList();
+
+            return View(new WeekViewModel
+            {
+                Days =
+                    from index in Enumerable.Range(0, 5)
+                    let date = start.AddDays(index)
+                    select new WeekItemViewModel
+                    {
+                        Name = date.ToString("ddd"),
+                        Date = date,
+                        Inquiries = thisWeekInquiries
+                            .Where(x => x.ReferenceDate.Date == date)
+                            .OrderBy(x => x.ReferenceDate)
+                            .Select(x => new InquiryViewModel
+                            {
+                                Name = x.Client.FullName,
+                                Subject = x.Subject,
+                                Email = x.Client.Email,
+                                Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                Phone = x.Client.Phone,
+                                PhotoUri = x.Client.PhotoUri
+                            })
+                    },
+                Employees = repository.Query<Person>()
+                    .Where(x => x.Role == PersonRole.Employee)
+                    .OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName)
+                    .ToList()
+            });
+        }
+
+        [HttpPost]
+        public void AssignTo(int inquiryId, int employeeId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            var person = repository.Get<Person>(employeeId);
+            if (inquiry == null || person == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Assignee = person;
+            repository.Save(inquiry);
+        }
+
+        [HttpPost]
+        public void MoveTo(int inquiryId, DateTime date)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            if (inquiry == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.ReferenceDate = date;
+            repository.Save(inquiry);
+        }
+
+        [HttpPost]
+        public void AddComment(int inquiryId, string text)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            if (inquiry == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Comments.Add(new Comment
+            {
+                Date = Clock.Now,
+                Text = text
+            });
+            repository.Save(inquiry);
+        }
     }
 }

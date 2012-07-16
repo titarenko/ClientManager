@@ -10,19 +10,19 @@ namespace BinaryStudio.ClientManager.WebUi
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
         }
 
-        public static void RegisterRoutes(RouteCollection routes)
+        public void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
             );
         }
 

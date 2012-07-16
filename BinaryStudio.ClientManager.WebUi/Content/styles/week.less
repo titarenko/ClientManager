@@ -1,0 +1,80 @@
+//
+// Inquiries: Week View
+//
+
+#week {
+    .day {
+        width: 20%;
+        min-width: 20%;
+        float: left;
+        padding: 0;
+        margin: 0;
+        
+        .email, .phone {
+            a {
+                text-decoration: none;
+            }
+            
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            a, a:active, a:hover, a:visited {
+                color: #777;
+            }
+        }
+        
+        > ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        title {
+            display: block;
+            width: inherit;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+            font-size: 150%;
+            text-shadow: lightgray 2px 2px 4px;
+            padding: 8px;
+        }
+        
+        .inquiry {
+            width: inherit;
+            height: 110px;
+            
+            padding: 4px;
+            margin: 8px;
+            
+            border: 1px lightgray solid;
+            border-radius: 4px;
+            
+            background: #fffff7;
+            
+            .primary-info {
+                padding-top: 4px;
+                font-size: 120%;
+                text-align: center;
+                height: 48px;
+                font-weight: bold;
+                text-shadow: lightgray 2px 2px 4px;
+            }
+            
+            .name {
+                color: #777;
+            }
+            
+            .subject {
+                color: #aaa;
+            }
+            
+            .secondary-info {
+                padding: 8px 2px 0 2px;
+                bottom: 0;
+                color: #777;
+            }
+        }
+    }    
+}

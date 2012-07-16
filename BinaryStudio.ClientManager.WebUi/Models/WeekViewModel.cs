@@ -7,5 +7,7 @@ namespace BinaryStudio.ClientManager.WebUi.Models
     {
         public IList<Inquiry> Inquiries { get; set; }
         public IList<Person> Employees { get; set; }
+
+        public IEnumerable<WeekItemViewModel> Days { get; set; }
     }
 }
