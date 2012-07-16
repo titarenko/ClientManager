@@ -75,7 +75,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\AllViewModel.cs" />
+    <Compile Include="Models\AllItemModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\InquiryViewModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />

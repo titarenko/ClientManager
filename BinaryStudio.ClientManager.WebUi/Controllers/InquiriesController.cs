@@ -110,10 +110,16 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            var model = new AllViewModel();
-            model.Inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs).ToList();
-            //model.Tag = repository.Query<Tag>(x => x.Id, x => x.Name).ToList();
-            throw new NotImplementedException();
+            return View(repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs)
+                .GroupBy(x => x.Taggs.First().Name)
+                .Select(i => new AllItemModel{
+                    Inquiries = i.Select(inquiry => new InquiryViewModel{Assignee = inquiry.Assignee.FullName,
+                    Email = inquiry.Client.Email,
+                    Name = inquiry.Client.FullName,
+                    Subject = inquiry.Subject})
+                    .ToList(),
+                    Tag = i.Key})
+                .ToList());
         }
 
         [HttpPost]

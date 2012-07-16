@@ -11,6 +11,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     {
         public Inquiry()
         {
+            // for debug
+            //TODO REMOVE
+            Taggs = new List<Tag>();
+            var name = (new Random()).Next() % 2 == 0 ? "DOTNET" : "NOTDOTNET";
+            Taggs.Add(new Tag {Name = name});
+            ReferenceDate = new DateTime();
+
             Status = InquiryStatus.IncomingInquiry;
             Comments = new List<Comment>();
         }
