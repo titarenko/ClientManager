@@ -21,7 +21,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             var model = new AllInquiriesModel();
             model.Inquiries = repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs).ToList();
-            model.Tags = repository.Query<TagEntity>(x => x.Id, x => x.Name).ToList();
+            model.Tags = repository.Query<Tag>(x => x.Id, x => x.Name).ToList();
             return View(model);
         }
     }

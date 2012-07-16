@@ -10,6 +10,6 @@ namespace BinaryStudio.ClientManager.WebUi.Models
     {
         public IList<Inquiry> Inquiries { get; set; }
 
-        public IList<TagEntity> Tags { get; set; }
+        public IList<Tag> Tags { get; set; }
     }
 }

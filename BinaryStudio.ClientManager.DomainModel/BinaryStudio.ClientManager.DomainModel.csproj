@@ -59,7 +59,7 @@
     <Compile Include="Entities\MailMessage.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRole.cs" />
-    <Compile Include="Entities\TagEntity.cs" />
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\Clock.cs" />
     <Compile Include="Infrastructure\DateTimeExtensions.cs" />
