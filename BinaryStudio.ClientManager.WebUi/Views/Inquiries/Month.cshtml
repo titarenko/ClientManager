@@ -1,5 +1,6 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.DataAccess
 @using BinaryStudio.ClientManager.WebUi.Controllers
+@using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
     ViewBag.Title = "MonthView";
@@ -78,10 +79,24 @@
     {
         <div class="day">
             <ul>
-                <li>@ViewBag.currentDay.AddDays(i).ToString("dd.MM.yyyy")</li>
-                @Html.Label("dummy");
+                <title>@ViewBag.currentDay.AddDays(i).ToString("dd.MM.yyyy")</title>
+                <li class="inquiry">@Html.Label("dummy");</li>
             </ul>                 
         </div>
     }
+    
+    <div class="modal hide" id="comment-editor">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>New Comment</h3>
+        </div>
+        <div class="modal-body">
+            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary" onclick="postComment()">Add Comment</a>
+        </div>
+    </div>
     
 </div>
