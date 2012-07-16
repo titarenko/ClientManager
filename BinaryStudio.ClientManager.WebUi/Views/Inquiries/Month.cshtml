@@ -5,19 +5,83 @@
     ViewBag.Title = "MonthView";
 }
 
-<script type="text/javascript" >
-    var today = new Date();
+<script type="text/javascript">
+    //current inquiry id for modal dialog box
+    var currentInquiryId;
+    
+    //when save button click in modal dialog box
+    function postComment() {
+        var comment = $('#commentTextArea').val();
+        
+        var onSuccess = function() {
+            //
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddComment")",
+            type: "POST",
+            data: { inquiryId: window.currentInquiryId, text: comment }
+        }).success(onSuccess).error(onError);
+    }
+
+    //when click on menu->add comment
+    function ShowModal(inquiryId) {
+        window.currentInquiryId = inquiryId;               
+    };
+    
+    //When click on menu->assign to->some employee
+    function OnClickAssign(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AssignTo")",
+            type: "POST",
+            data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
+    
+    //When click on menu->move to
+    function OnClickMoveTo(inquiryId, date) {
+        alert(date);
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("MoveTo")",
+            type: "POST",
+            data: { inquiryId: inquiryId, date: date }
+        }).success(onSuccess).error(onError);
+    };
+    
 </script>
 
+
 <h2>MonthView</h2>
-<div class="span24">
+<div id="month" class="container">
    
     @for (int i = 0; i < 31; i++ )
     {
-        <p class="span24">@ViewBag.currentDay.AddDays(i).ToString("dd.MM.yyyy")
-        @Html.Label("dummy");
-                             
-                          </p>
+        <div class="day">
+            <ul>
+                <li>@ViewBag.currentDay.AddDays(i).ToString("dd.MM.yyyy")</li>
+                @Html.Label("dummy");
+            </ul>                 
+        </div>
     }
     
 </div>
