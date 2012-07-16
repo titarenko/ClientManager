@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
-using BinaryStudio.ClientManager.WebUi.Controllers;
+using BinaryStudio.ClientManager.WebUi.Models;
 using BinaryStudio.ClientManager.WebUi.Models;
 using FizzWare.NBuilder;
 using Moq;

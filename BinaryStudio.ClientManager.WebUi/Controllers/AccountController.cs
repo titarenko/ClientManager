@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using BinaryStudio.ClientManager.WebUi.Models;
 
-namespace BinaryStudio.ClientManager.WebUi.Controllers
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class AccountController : Controller
     {

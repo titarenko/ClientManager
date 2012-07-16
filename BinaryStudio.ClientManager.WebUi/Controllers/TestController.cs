@@ -10,7 +10,7 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Dates;
 using FizzWare.NBuilder.Generators;
 
-namespace BinaryStudio.ClientManager.WebUi.Controllers
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class RandomItem<T>
     {

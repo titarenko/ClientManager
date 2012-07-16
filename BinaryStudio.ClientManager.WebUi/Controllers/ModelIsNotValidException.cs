@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BinaryStudio.ClientManager.WebUi.Controllers
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class ModelIsNotValidException : ApplicationException
     {

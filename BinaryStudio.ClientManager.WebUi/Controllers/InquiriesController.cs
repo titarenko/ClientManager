@@ -9,7 +9,7 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.WebUi.Models;
 
-namespace BinaryStudio.ClientManager.WebUi.Controllers
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class InquiriesController : Controller
     {
@@ -110,46 +110,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            var model = new List<AllItemModel>();
-            var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs)
-                .GroupBy(x => x.Taggs.FirstOrDefault().Name).ToList();
-            foreach (var allInquiry in allInquiries)
-            {
-                if (model.All(x => x.Tag != allInquiry.Key))
-                {
-                    model.Add(new AllItemModel { Inquiries = allInquiry.ToList().Select(inquiry => new InquiryViewModel {
-                                                                                                Assignee =
-                                                                                                    inquiry.SafeGet(
-                                                                                                        x =>
-                                                                                                        x.Assignee.
-                                                                                                            FullName) ??
-                                                                                                    "Not set",
-                                                                                                Email =
-                                                                                                    inquiry.SafeGet(
-                                                                                                        x =>
-                                                                                                        x.Client.Email) ??
-                                                                                                    "",
-                                                                                                Name =
-                                                                                                    inquiry.Client.
-                                                                                                    FullName,
-                                                                                                Subject =
-                                                                                                    inquiry.Subject,
-                                                                                                Phone =
-                                                                                                    inquiry.SafeGet(
-                                                                                                        x =>
-                                                                                                        x.Client.Phone),
-                                                                                                PhotoUri =
-                                                                                                    inquiry.SafeGet(
-                                                                                                        x =>
-                                                                                                        x.Client.
-                                                                                                            PhotoUri)
-                                                                                            })
-                                          .ToList(),
-                                      Tag = allInquiry.Key
-                                  });
-                }
-            }
-       return View(model);
+            return View(repository.Query<Inquiry>()
+                .GroupBy(x => x.Tags.FirstOrDefault().Name)
+                .Select(all => new AllItemModel
+                    {
+                        Tag = all.Key,
+                        Inquiries = all.Select(inquiry => new AllInquiryViewModel
+                                                              {
+                                                                  FirstName = inquiry.Client.FirstName, LastName = inquiry.Client.LastName, Subject = inquiry.Subject
+                                                              })
+                    })
+                .ToList());
         }
 
         [HttpPost]
@@ -208,7 +179,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var inquiryFutureList = repository.Query<Inquiry>().
                 Where(inquiry => inquiry.ReferenceDate >= DateTime.Today).ToList();
 
-            model.Inquiries = inquiryFutureList;
+        //    model.Inquiries = inquiryFutureList;
 
             var MonthList = SelectedDayInquiries(DateTime.Today, repository);
             for (int i = 1; i <= 31; i++)
@@ -218,7 +189,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 MonthList.Concat(dayInquiryList);
             }
 
-            model.MonthViewItems = MonthList;
+           // model.MonthViewItems = MonthList;
 
             //var monthviewItems = new MonthViewItem();
             //inquiryFutureList.ForEach(monthviewItems.ReferenceDate = inquiryFutureList[this].ReferenceDate, 

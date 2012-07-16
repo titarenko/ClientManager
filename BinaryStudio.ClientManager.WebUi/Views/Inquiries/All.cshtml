@@ -6,9 +6,7 @@
     <ul>
         @foreach(var inquiry in category.Inquiries)
         {
-            <li>@inquiry.Subject <br/>
-                @inquiry.Name <br/>
-                @inquiry.Assignee
+            <li>@inquiry.Subject => @inquiry.FullName => @category.Tag<br/>
             </li>
         }
     </ul>

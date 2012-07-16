@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BinaryStudio.ClientManager.WebUi.Controllers
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class HomeController : Controller
     {
