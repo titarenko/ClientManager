@@ -165,7 +165,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /MonthView/
 
-        public ActionResult MonthView()
+        public ActionResult Month()
         {
             ViewBag.currentDay = DateTime.Today;
             var model = new MonthViewModel();
