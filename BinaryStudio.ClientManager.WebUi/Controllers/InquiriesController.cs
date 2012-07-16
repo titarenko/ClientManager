@@ -110,16 +110,46 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            return View(repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs)
-                .GroupBy(x => x.Taggs.First().Name)
-                .Select(i => new AllItemModel{
-                    Inquiries = i.Select(inquiry => new InquiryViewModel{Assignee = inquiry.Assignee.FullName,
-                    Email = inquiry.Client.Email,
-                    Name = inquiry.Client.FullName,
-                    Subject = inquiry.Subject})
-                    .ToList(),
-                    Tag = i.Key})
-                .ToList());
+            var model = new List<AllItemModel>();
+            var allInquiries = repository.Query<Inquiry>(x => x.Client, x => x.Subject, x => x.Taggs)
+                .GroupBy(x => x.Taggs.FirstOrDefault().Name).ToList();
+            foreach (var allInquiry in allInquiries)
+            {
+                if (model.All(x => x.Tag != allInquiry.Key))
+                {
+                    model.Add(new AllItemModel { Inquiries = allInquiry.ToList().Select(inquiry => new InquiryViewModel {
+                                                                                                Assignee =
+                                                                                                    inquiry.SafeGet(
+                                                                                                        x =>
+                                                                                                        x.Assignee.
+                                                                                                            FullName) ??
+                                                                                                    "Not set",
+                                                                                                Email =
+                                                                                                    inquiry.SafeGet(
+                                                                                                        x =>
+                                                                                                        x.Client.Email) ??
+                                                                                                    "",
+                                                                                                Name =
+                                                                                                    inquiry.Client.
+                                                                                                    FullName,
+                                                                                                Subject =
+                                                                                                    inquiry.Subject,
+                                                                                                Phone =
+                                                                                                    inquiry.SafeGet(
+                                                                                                        x =>
+                                                                                                        x.Client.Phone),
+                                                                                                PhotoUri =
+                                                                                                    inquiry.SafeGet(
+                                                                                                        x =>
+                                                                                                        x.Client.
+                                                                                                            PhotoUri)
+                                                                                            })
+                                          .ToList(),
+                                      Tag = allInquiry.Key
+                                  });
+                }
+            }
+       return View(model);
         }
 
         [HttpPost]
