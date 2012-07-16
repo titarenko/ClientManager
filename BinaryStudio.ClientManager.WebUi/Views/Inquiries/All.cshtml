@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<BinaryStudio.ClientManager.WebUi.Models.AllItemModel>
 
 <div>
-@foreach(var category in Model)
+@foreach (var category in Model)
 {
     <ul>
-        @foreach(var inquiry in category.Inquiries)
+        @foreach (var inquiry in category.Inquiries)
         {
-            <li>@inquiry.Subject <br/>
-                @inquiry.Name <br/>
-                @inquiry.Assignee
+            <li>
+              @inquiry.Subject => @inquiry.FullName => @category.Tag<br/>
             </li>
         }
     </ul>
