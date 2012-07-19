@@ -180,23 +180,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var inquiryThisMonthList = repository.Query<Inquiry>().
                 Where(inquiry => inquiry.ReferenceDate.Month == currentMonth).ToList();
             
-            //model.Inquiries = inquiryFutureList;
-
-            //var MonthList = SelectedDayInquiries(DateTime.Today, repository);
-            //for (int i = 1; i <= 31; i++)
-            //{
-            //    var day = DateTime.Today.AddDays(i);
-            //    var dayInquiryList = SelectedDayInquiries(day, repository);
-            //    MonthList.Concat(dayInquiryList);
-            //}
-
-            //model.MonthViewItems = MonthList;
-
-            //var monthviewItems = new MonthViewItem();
-            //inquiryFutureList.ForEach(monthviewItems.ReferenceDate = inquiryFutureList[this].ReferenceDate, 
-            //    monthviewItems.Client = inquiryFutureList[this].Client);
-
-            //model.MonthViewItems = monthviewItems;
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             
@@ -223,11 +206,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 PhotoUri = x.Client.PhotoUri
                             })
                     },
-                /*Employees = repository.Query<Person>()
-                    .Where(x => x.Role == PersonRole.Employee)
-                    .OrderBy(x => x.FirstName)
-                    .ThenBy(x => x.LastName)
-                    .ToList()*/
             });
         }
     }
