@@ -11,12 +11,19 @@
         
         var onSuccess = function() {
             $('#commentTextArea').val('');
-            alert("Comment saved successfully.");
+            $('#saved-comment').text('Your comment has been saved.')
+                .fadeIn('fast')
+                .delay(5000)
+                .fadeOut('slow');
             //
         };
 
         var onError = function() {
-            alert("Error while AJAX request.");
+            $('#commentTextArea').val('');
+            $('#saved-comment').text('An error occured while saving comment.')
+                .fadeIn('fast')
+                .delay(3000)
+                .fadeOut('slow');
         };
 
         $.ajax({
@@ -72,6 +79,9 @@
     <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
 }
 
+<div class="wrap">
+    <div id="saved-comment" class="message-alert hide"></div>
+</div>
 <div id="week" class="container">
     @foreach (var day in Model.Days)
     {

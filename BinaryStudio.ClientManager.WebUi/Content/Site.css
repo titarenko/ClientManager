@@ -218,3 +218,21 @@ div.row {
     top: 11px;
     left: -6px;
 }
+
+.wrap {
+    width: 100%;
+    position: absolute;
+}
+
+.message-alert {
+    background-color: darkgrey;
+    border: 1px darkslategrey solid;
+    text-align: center;
+    margin: auto auto;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    width: 500px;
+    padding: 4px;
+    z-index: 1;
+}
