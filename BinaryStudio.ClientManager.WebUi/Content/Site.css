@@ -221,7 +221,7 @@ div.row {
 
 .wrap {
     width: 100%;
-    position: absolute;
+    position: fixed;    
 }
 
 .message-alert {
