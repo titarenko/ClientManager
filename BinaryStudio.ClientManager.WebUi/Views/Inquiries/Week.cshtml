@@ -10,11 +10,13 @@
         var comment = $('#commentTextArea').val();
         
         var onSuccess = function() {
+            $('#commentTextArea').val('');
+            alert("Comment saved successfully.");
             //
         };
 
         var onError = function() {
-            alert("Error while AJAX request");
+            alert("Error while AJAX request.");
         };
 
         $.ajax({
@@ -140,7 +142,7 @@
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <a href="#" class="btn btn-primary" onclick=" OnClickAddComment()">Add Comment</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="OnClickAddComment()">Add Comment</a>
         </div>
     </div>
 </div>
