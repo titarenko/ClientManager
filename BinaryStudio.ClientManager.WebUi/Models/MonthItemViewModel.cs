@@ -9,6 +9,6 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public DateTime Date { get; set; }
 
-        public IEnumerable<InquiryBriefViewModel> Inquiries { get; set; }
+        public IEnumerable<InquiryViewModel> Inquiries { get; set; }
     }
 }

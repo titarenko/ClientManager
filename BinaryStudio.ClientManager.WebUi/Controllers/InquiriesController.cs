@@ -174,11 +174,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ActionResult Month()
         {
-            ViewBag.currentDay = DateTime.Today;
+            var today = DateTime.Today;
+            var currentMonth = DateTime.Today.Month;
             var model = new MonthViewModel();
-            var inquiryFutureList = repository.Query<Inquiry>().
-                Where(inquiry => inquiry.ReferenceDate >= DateTime.Today).ToList();
-
+            var inquiryThisMonthList = repository.Query<Inquiry>().
+                Where(inquiry => inquiry.ReferenceDate.Month == currentMonth).ToList();
+            
             //model.Inquiries = inquiryFutureList;
 
             //var MonthList = SelectedDayInquiries(DateTime.Today, repository);
@@ -196,8 +197,38 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             //    monthviewItems.Client = inquiryFutureList[this].Client);
 
             //model.MonthViewItems = monthviewItems;
-
-            return View(model);
+            var start = today.GetStartOfMonth();
+            var end = today.GetEndOfMonth().AddDays(1);
+            
+            return View(new MonthViewModel
+            {
+                Days =
+                    from index in Enumerable.Range(0, 30)
+                    let date = start.AddDays(index)
+                    select new MonthItemViewModel
+                    {
+                        Name = date.ToString("ddd"),
+                        Date = date,
+                        Inquiries = inquiryThisMonthList
+                            .Where(x => x.ReferenceDate.Date == date)
+                            .OrderBy(x => x.ReferenceDate)
+                            .Select(x => new InquiryViewModel
+                            {
+                                Id = x.Id,
+                                Name = x.Client.FullName,
+                                Subject = x.Subject,
+                                Email = x.Client.Email,
+                                Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                Phone = x.Client.Phone,
+                                PhotoUri = x.Client.PhotoUri
+                            })
+                    },
+                /*Employees = repository.Query<Person>()
+                    .Where(x => x.Role == PersonRole.Employee)
+                    .OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName)
+                    .ToList()*/
+            });
         }
     }
 }
