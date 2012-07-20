@@ -12,6 +12,7 @@ using FizzWare.NBuilder.Dates;
 using FizzWare.NBuilder.Generators;
 using Moq;
 using NUnit.Framework;
+using FluentAssertions;
 
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
@@ -24,17 +25,24 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [SetUp]
         public void GenerateInquiriesList()
         {
-            inquiries = Builder<Inquiry>.CreateListOfSize(30)
+            Clock.FreezedTime = new DateTime(2012, 7, 19);
+
+            inquiries = Builder<Inquiry>.CreateListOfSize(40)
                 .All()
                 .With(x => x.Client = Builder<Person>.CreateNew().Build())
                 .With(x => x.Assignee = Builder<Person>.CreateNew().Build())
                 .With(x => x.Source = Builder<MailMessage>.CreateNew().Build())
                 .TheFirst(10)
-                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The10th))
+                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The31st))
                 .TheNext(10)
-                .With(x => x.ReferenceDate = GetRandom.DateTime(February.The1st, February.The10th))
+                .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
+                .TheNext(1)
+                .With(x => x.ReferenceDate = new DateTime(DateTime.Now.Year, 3, 1))
+                .TheNext(9)
+                .With(x => x.ReferenceDate = GetRandom.DateTime(March.The1st, March.The31st))
                 .TheNext(10)
-                .With(x => x.ReferenceDate = GetRandom.DateTime(March.The1st, March.The10th))
+                .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfBusinessWeek(),
+                    Clock.Now.GetEndOfBusinessWeek()))
                 .Build();
         }
 
@@ -51,7 +59,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var list = response.Model as IEnumerable<Inquiry>;
 
             // assert
-            Assert.That(list.Count() == 30);
+            list.Count().Should().Be(40);
         }
 
         [Test]
@@ -94,25 +102,59 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void Should_ReturnListOfInquiriesForCurrentBusinessWeekAndFullListOfEmployees_WhenRequested()
         {
+            // arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(inquiries.AsQueryable());
+            mock.Setup(z => z.Query<Inquiry>(x => x.Client)).Returns(inquiries.AsQueryable());
+            mock.Setup(x => x.Query<Person>()).Returns(
+                Builder<Person>.CreateListOfSize(10)
+                .All()
+                .With(x => x.Role = PersonRole.Client)
+                .Random(7)
+                .With(x => x.Role = PersonRole.Employee)
+                .Build()
+                .AsQueryable());
             var inquiriesController = new InquiriesController(mock.Object);
 
-            var viewModel = inquiriesController.Week();
-            var inquiriesList = (viewModel.Model as WeekViewModel).Days;
+            // act
+            var viewModel = inquiriesController.Week().Model as WeekViewModel;
+            var inquiriesList = viewModel.Days;
 
+            // assert
             var inquiriesCount = 0;
             foreach (var day in inquiriesList)
             {
                 inquiriesCount += day.Inquiries.Count();
             }
 
+            inquiriesCount.Should().Be(10);
 
+            var employeesList = viewModel.Employees;
+            employeesList.Count.Should().Be(7);
         }
 
         [Test]
-        public void Should_ReturnListOfInquiriesForCurrentMonth_WhenRequested()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void Should_ReturnListOfInquiriesForCurrentMonth_WhenRequested(int month)
         {
+            // arrange
+            Clock.FreezedTime = new DateTime(DateTime.Now.Year, month, 10);
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client)).Returns(inquiries.AsQueryable());
+            var inquiriesController = new InquiriesController(mock.Object);
+            var viewResult = inquiriesController.Month().Model as MonthViewModel;
+            var inquiriesList = viewResult.Days;
+            var inquiriesCount = 0;
+
+            var i = 0;
+
+            foreach (var day in inquiriesList)
+            {
+                inquiriesCount += day.Inquiries.Count();
+                i++;
+            }
+            inquiriesCount.Should().Be(10);
         }
     }
 }

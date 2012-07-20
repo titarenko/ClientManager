@@ -172,21 +172,19 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /MonthView/
 
-        public ActionResult Month()
+        public ViewResult Month()
         {
-            var today = DateTime.Today;
-            var currentMonth = DateTime.Today.Month;
-            var model = new MonthViewModel();
-            var inquiryThisMonthList = repository.Query<Inquiry>().
-                Where(inquiry => inquiry.ReferenceDate.Month == currentMonth).ToList();
-            
+            var today = Clock.Now;
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
+
+            var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
+                Where(x => x.ReferenceDate >= start && x.ReferenceDate < end);
             
             return View(new MonthViewModel
             {
                 Days =
-                    from index in Enumerable.Range(0, 30)
+                    from index in Enumerable.Range(0, (end - start).Days)
                     let date = start.AddDays(index)
                     select new MonthItemViewModel
                     {
