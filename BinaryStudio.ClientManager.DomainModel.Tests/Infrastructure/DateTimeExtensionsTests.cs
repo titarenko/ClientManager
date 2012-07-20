@@ -9,6 +9,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
 {
     public class DateTimeExtensionsTests
     {
+        [Test, TestCaseSource("Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource")]
+        public void Should_Return1stDay_WhenCalledStartOfMonth(DateTime date)
+        {
+            date.GetStartOfMonth().Day.Should().Be(1);
+        }
+
+        [Test, TestCaseSource("Should_ReturnLastDayOfTheMonth_WhenCalledEndOfMonth_TestCaseSource")]
+        public void Should_ReturnLastDayOfTheMonth_WhenCalledEndOfMonth(DateTime date, DateTime lastDay)
+        {
+            date.GetEndOfMonth().Should().Be(lastDay);
+        }
+
         [Test, TestCaseSource("Should_ReturnStartOfWeek_WhenCalledOn_TestCaseSource")]
         public void Should_ReturnStartOfWeek_WhenCalledOn(DateTime date, DateTime startOfWeek)
         {
@@ -31,6 +43,44 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
         public void Should_ReturnEndOfBusinessWeek_WhenCalledOn(DateTime date, DateTime endOfWeek)
         {
             date.GetEndOfBusinessWeek().Should().Be(endOfWeek);
+        }
+
+        public IEnumerable<TestCaseData> Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource()
+        {
+            //all monthes
+            yield return new TestCaseData(January.The10th);
+            yield return new TestCaseData(February.The1st);
+            yield return new TestCaseData(March.The19th);
+            yield return new TestCaseData(April.The20th);
+            yield return new TestCaseData(May.The30th);
+            yield return new TestCaseData(June.The11th);
+            yield return new TestCaseData(July.The15th);
+            yield return new TestCaseData(August.The8th);
+            yield return new TestCaseData(September.The4th);
+            yield return new TestCaseData(October.The6th);
+            yield return new TestCaseData(November.The19th);
+            yield return new TestCaseData(December.The24th);
+        }
+
+        public IEnumerable<TestCaseData> Should_ReturnLastDayOfTheMonth_WhenCalledEndOfMonth_TestCaseSource()
+        {
+            yield return new TestCaseData(January.The11th,January.The31st);
+
+            //leap year
+            yield return new TestCaseData(new DateTime(2012, 2, 22), new DateTime(2012, 2, 29));
+            //not leap year
+            yield return new TestCaseData(new DateTime(2011, 2, 23), new DateTime(2011, 2, 28));
+
+            yield return new TestCaseData(March.The19th, March.The31st);
+            yield return new TestCaseData(April.The20th, April.The30th);
+            yield return new TestCaseData(May.The30th,May.The31st);
+            yield return new TestCaseData(June.The11th,June.The30th);
+            yield return new TestCaseData(July.The15th,July.The31st);
+            yield return new TestCaseData(August.The8th,August.The31st);
+            yield return new TestCaseData(September.The4th,September.The30th);
+            yield return new TestCaseData(October.The6th,October.The31st);
+            yield return new TestCaseData(November.The19th,November.The30th);
+            yield return new TestCaseData(December.The24th,December.The31st);
         }
 
         public IEnumerable<TestCaseData> Should_ReturnStartOfWeek_WhenCalledOn_TestCaseSource()
