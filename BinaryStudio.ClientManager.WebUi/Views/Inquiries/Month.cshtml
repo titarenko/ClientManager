@@ -7,107 +7,24 @@
     ViewBag.Title = "MonthView";
 }
 
-<script type="text/javascript">
-    //current inquiry id for modal dialog box
-    var currentInquiryId;
-    
-    //when save button click in modal dialog box
-    function postComment() {
-        var comment = $('#commentTextArea').val();
-        
-        var onSuccess = function() {
-            //
-        };
+<h2>@Model.Days.First().Date.ToString("MMMM")</h2>
 
-        var onError = function() {
-            alert("Error while AJAX request");
-        };
-
-        $.ajax({
-            url: "@Url.Action("AddComment")",
-            type: "POST",
-            data: { inquiryId: window.currentInquiryId, text: comment }
-        }).success(onSuccess).error(onError);
-    }
-
-    //when click on menu->add comment
-    function ShowModal(inquiryId) {
-        window.currentInquiryId = inquiryId;               
-    };
-    
-    //When click on menu->assign to->some employee
-    function OnClickAssign(employee, inquiry) {
-        var onSuccess = function() {
-            location.reload(true);
-        };
-
-        var onError = function() {
-            alert("Error while AJAX request");
-        };
-
-        $.ajax({
-            url: "@Url.Action("AssignTo")",
-            type: "POST",
-            data: { inquiryId: inquiry, employeeId: employee }
-        }).success(onSuccess).error(onError);
-    };
-    
-    //When click on menu->move to
-    function OnClickMoveTo(inquiryId, date) {
-        alert(date);
-        var onSuccess = function() {
-            location.reload(true);
-        };
-
-        var onError = function() {
-            alert("Error while AJAX request");
-        };
-
-        $.ajax({
-            url: "@Url.Action("MoveTo")",
-            type: "POST",
-            data: { inquiryId: inquiryId, date: date }
-        }).success(onSuccess).error(onError);
-    };
-    
-</script>
-
-
-<h2>MonthView</h2>
 <div id="month" class="container">
    
     @foreach (var day in Model.Days) 
     {
-        <div class="day">
+        <div class="day">            
             <ul>
-                <li>
-                    <span>@String.Format("{0}({1})", day.Name,day.Date.ToString("dd"))</span>
-                    <ul>
-                        @foreach (var inquiry in day.Inquiries )
-                        {
-                            <li class="inquiry">
-                                <span>@inquiry.Name</span>
-                                @Html.ActionLink("link","Details",new {id=inquiry.Id})
-                            </li>
-                        }
-                    </ul>
-                </li>
-            </ul>                 
+                <title>@String.Format("{0}({1})", day.Name,day.Date.ToString("dd"))</title>
+                @foreach (var inquiry in day.Inquiries )
+                {
+                    <li class="inquiry">
+                        @inquiry.Name
+                        @Html.ActionLink("link","Details",new {id=inquiry.Id})
+                    </li>
+                }
+            </ul>              
         </div>
     }
-    
-    <div class="modal hide" id="comment-editor">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3>New Comment</h3>
-        </div>
-        <div class="modal-body">
-            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <a href="#" class="btn btn-primary" onclick="postComment()">Add Comment</a>
-        </div>
-    </div>
     
 </div>
