@@ -76,12 +76,22 @@
 <h2>MonthView</h2>
 <div id="month" class="container">
    
-    @for (int i = 0; i < 31; i++ )
+    @foreach (var day in Model.Days) 
     {
         <div class="day">
             <ul>
-                <title>@DateTime.Today.AddDays(i).ToString("dd.MM.yyyy")</title>
-                <li class="inquiry">@Html.Label("dummy");</li>
+                <li>
+                    <span>@String.Format("{0}({1})", day.Name,day.Date.ToString("dd"))</span>
+                    <ul>
+                        @foreach (var inquiry in day.Inquiries )
+                        {
+                            <li class="inquiry">
+                                <span>@inquiry.Name</span>
+                                @Html.ActionLink("link","Details",new {id=inquiry.Id})
+                            </li>
+                        }
+                    </ul>
+                </li>
             </ul>                 
         </div>
     }

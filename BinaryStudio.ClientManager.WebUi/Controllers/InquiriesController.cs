@@ -172,18 +172,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /MonthView/
 
-        public ViewResult Month()
+        public ViewResult Month() 
         {
             var today = Clock.Now;
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
 
             var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
-                Where(x => x.ReferenceDate >= start && x.ReferenceDate < end);
+                Where(x => x.ReferenceDate >= start && x.ReferenceDate < end).ToList();
             
             return View(new MonthViewModel
             {
-                Days =
+                Days = (
                     from index in Enumerable.Range(0, (end - start).Days)
                     let date = start.AddDays(index)
                     select new MonthItemViewModel
@@ -202,8 +202,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 Assignee = x.SafeGet(z => z.Assignee.FullName),
                                 Phone = x.Client.Phone,
                                 PhotoUri = x.Client.PhotoUri
-                            })
-                    },
+                            }).AsEnumerable()
+                    }).AsEnumerable(),
             });
         }
     }
