@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
@@ -32,7 +31,9 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.Client = Builder<Person>.CreateNew().Build())
                 .With(x => x.Assignee = Builder<Person>.CreateNew().Build())
                 .With(x => x.Source = Builder<MailMessage>.CreateNew().Build())
+                .With(x => x.Tags = new[] { new Tag { Name = "tag1" }, new Tag { Name = "doesn't matter" } })
                 .TheFirst(10)
+                .With(x => x.Tags = new[] { new Tag { Name = "tag2" }, new Tag { Name = "doesn't matter" } })
                 .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The31st))
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
@@ -120,11 +121,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var inquiriesList = viewModel.Days;
 
             // assert
-            var inquiriesCount = 0;
-            foreach (var day in inquiriesList)
-            {
-                inquiriesCount += day.Inquiries.Count();
-            }
+            var inquiriesCount = inquiriesList.Sum(day => day.Inquiries.Count());
 
             inquiriesCount.Should().Be(10);
 
@@ -145,16 +142,27 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = inquiriesController.Month().Model as MonthViewModel;
             var inquiriesList = viewResult.Days;
-            var inquiriesCount = 0;
 
-            var i = 0;
+            var inquiriesCount = inquiriesList.Sum(day => day.Inquiries.Count());
 
-            foreach (var day in inquiriesList)
-            {
-                inquiriesCount += day.Inquiries.Count();
-                i++;
-            }
             inquiriesCount.Should().Be(10);
+        }
+
+        [Test]
+        public void Should_ReturnFullListOfInquiriesSortedByTag_WhenCalledAllFunction()
+        {
+            // arrange
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>()).Returns(inquiries.AsQueryable());
+
+            //act
+            var inquiriesController = new InquiriesController(mock.Object);
+            var viewResult = new List<AllItemModel>(inquiriesController.All().Model as IEnumerable<AllItemModel>);
+
+            //check
+            Assert.AreEqual(viewResult.Count, 2);
+            Assert.AreEqual(viewResult.Find(x => x.Tag == "tag1").Inquiries.Count(), 30);
+            Assert.AreEqual(viewResult.Find(x => x.Tag == "tag2").Inquiries.Count(), 10);
         }
     }
 }
