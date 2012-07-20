@@ -85,10 +85,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    //current inquiry id for modal dialog box
-    var currentInquiryId;
-    
+<script type="text/javascript">    
     //when save button click in modal dialog box
     function OnClickAddComment() {
         var comment = $('#commentTextArea').val();
@@ -97,7 +94,7 @@
             $('#commentTextArea').val('');
             $('#saved-comment').text('Your comment has been saved.')
                 .fadeIn('fast')
-                .delay(5000)
+                .delay(3000)
                 .fadeOut('slow');
             //
         };
@@ -113,13 +110,13 @@
         $.ajax({
             url: "@Url.Action("AddComment")",
             type: "POST",
-            data: { inquiryId: window.currentInquiryId, text: comment }
+            data: { inquiryId: $('#comment-editor').data("inquiryId"), text: comment }
         }).success(onSuccess).error(onError);
     }
 
     //when click on menu->add comment
     function ShowModal(inquiryId) {
-        window.currentInquiryId = inquiryId;               
+        $('#comment-editor').data("inquiryId",inquiryId);               
     };
     
     //When click on menu->assign to->some employee
