@@ -123,13 +123,13 @@ div.row {
     background: gainsboro;
     display: inline-block;
     margin: 8px auto;
-    padding: 4px;
+    padding: 0;
     width: 100%;
 }
 
-.client-msg, .employee-msg {
+.wrapper .client-msg,.wrapper .employee-msg {
     margin: 4px;
-    padding: 4px;
+    padding: 0;
     border: 1px gray solid;
     border-radius: 10px;
     text-align: left;
@@ -278,11 +278,16 @@ div.row {
     font-weight: bold;
 }
 
-.comment-text {
+.comment .comment-text {
     font: large sans-serif;
+}
+
+.comments h2 {
+    text-align: center;
 }
 
 .comment .comment-date {
     width: 25%;
     padding-left: 75%;
+    font-size: 85%;
 }
