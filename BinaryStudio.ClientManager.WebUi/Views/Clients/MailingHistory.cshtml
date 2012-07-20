@@ -1,7 +1,7 @@
 ﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
 
 @{
-    ViewBag.Title = "MailingHistory";
+    Layout = "";
 }
 
 <script type="text/javascript">
@@ -18,14 +18,7 @@
 </script>
 
 <div class="container">
-    <div class="span3 client-info">
-            <span class="emphasis">Name: </span>@Model.FullName<br/>
-            <span class="emphasis">Country: </span>@Model.Country<br/>
-            <span class="emphasis">E-mail: </span>@Model.Email<br/>
-            <span class="emphasis">Phone: </span>@Model.Phone<br/>
-            <span class="emphasis">With us since: </span>@Model.CreationDate
-    </div>
-    <div class="span7">
+    <div>
         <ul class="wrapper">
             <!-- for debug --> 
             @if (Model.RelatedMails != null)
@@ -37,25 +30,27 @@
                     /*
                     <li class = "row span5 @(mail.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
                     */
-                    <li class = "row span5 @(i % 2 == 0 ? "client-msg" : "employee-msg")">
-                        <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
-                        <span class="emphasis">Subject: </span>@mail.Subject<br/>
-                        <span class="emphasis">Date: </span>@mail.Date
+                    <div class="row">
+                        <li class = "span5 @(i % 2 == 0 ? "client-msg" : "employee-msg")">
+                            <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
+                            <span class="emphasis">Subject: </span>@mail.Subject<br/>
+                            <span class="emphasis">Date: </span>@mail.Date
 
-                        @if (mail.Body.Count() > 50)
-                        {
-                            <div class="brief-mail">@(mail.Body.Substring(0, 70) + " ...")</div>
-                            <div class="full-mail hidden">@mail.Body</div>
-                        }
-                        else
-                        {
-                            <div class="full-mail">@mail.Body</div>
-                        }
-                    </li>
+                            @if (mail.Body.Count() > 50)
+                            {
+                                <div class="brief-mail">@(mail.Body.Substring(0, 70) + " ...")</div>
+                                <div class="full-mail hidden">@mail.Body</div>
+                            }
+                            else
+                            {
+                                <div class="full-mail">@mail.Body</div>
+                            }
+                        
+                        </li>                        
+                    </div>
                     i++;
                 }
             }
         </ul>
     </div>
-    <a class = "btn offset9" href="@Url.Action("Index", "Clients")">Back to list</a>
 </div>

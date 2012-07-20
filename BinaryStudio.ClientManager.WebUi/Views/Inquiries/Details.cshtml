@@ -10,45 +10,49 @@
     <div class="page-header">
         <h2>Details</h2>
     </div>
-    <fieldset class="form-horizontal">
-        <div class="row">
-            <div class="span4 well">
-                <p>
-                    Date: @Model.Source.Date
-                </p>
-                <p>
-                    Full name: @(Model.SafeGet(x => x.Source.Sender.FullName) ?? "Not set")
-                </p>
-                <p>
-                    Email: @(Model.SafeGet(x => x.Source.Sender.Email) ?? "Not Set")
-                </p>
-            </div>
-            <div class="span4 well">
-                <p>
-                    Subject: @Model.Source.Subject
-                </p>
-                <p>
-                    @Model.Source.Body
-                </p>
+    <div class="row-fluid">
+        <div class="span5">
+            <div>
+                <div>
+                    <div class="inquiry">
+                        <div class="row-fluid">
+                            <div class="span4"><img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/></div>
+                            <div class="span8 primary-info">
+                                <span class="name">@Model.Client.FullName</span><br/>
+                                <span class="subject">@Model.Subject</span><br/>
+                            </div>
+                        </div>
+                        <div class="secondary-info">
+                            <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(Model.Client.Phone)</div>
+                            <div class="email"><span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email.Cut(25))</div>
+                            <div>
+                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Cut(20).Or("N/A")                    
+                            </div>
+                            <div>
+                                <span class="icon-flag"></span>Country: @Model.Client.Country
+                            </div>
+                            <span class="icon-calendar"></span>@Model.ReferenceDate
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="comments">
+                        <h2>Comments</h2>
+                        @foreach(var comment in Model.Comments)
+                        {
+                            <div class="comment">
+                                <div class="comment-text">@comment.Text</div>
+                                <div class="comment-date">@comment.Date</div>                               
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="span4 well">
-                <p>
-                    Status: @Model.Status
-                </p>
-                <p>
-                    Assigned to: @Model.Assignee
-                </p>
-            </div>
-        </div>
-    </fieldset>
-        
-    <div class="row">
-        <div class="btn-group row">
-            <a class = "btn btn-inverse" href="@Url.Action("Edit", "Inquiries", new { id = Model.Id })">Edit</a>
-            <a class="btn" href="@Url.Action("MailMessage", new {id = Model.Id})">View original mail</a>
-            <a class = "btn" href="@Url.Action("Index", "Dashboard")">Back to Dashboard</a>
+        <div class="span7">
+            @{
+                Html.RenderAction("MailingHistory","Clients",new {id=Model.Client.Id});
+            }
         </div>
     </div>
 </div>

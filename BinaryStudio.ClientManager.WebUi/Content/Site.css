@@ -124,6 +124,7 @@ div.row {
     display: inline-block;
     margin: 8px auto;
     padding: 4px;
+    width: 100%;
 }
 
 .client-msg, .employee-msg {
@@ -132,6 +133,7 @@ div.row {
     border: 1px gray solid;
     border-radius: 10px;
     text-align: left;
+    width: 70%;
 }
 
 .client-msg {
@@ -139,7 +141,7 @@ div.row {
     float: left;
 }
 
-.employee-msg {
+.wrapper .employee-msg {
     background: lightblue;
     float: right;
 }
@@ -235,4 +237,52 @@ div.row {
     width: 500px;
     padding: 4px;
     z-index: 1;
+}
+
+.primary-info {
+    padding-top:4px;
+    font-size:120%;
+    text-align:center;
+    height:48px;
+    font-weight:bold;
+    text-shadow:lightgray 2px 2px 4px;
+}
+
+.inquiry {
+    width: 100%;
+    height: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 4px;
+    margin: 8px auto;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.comments {
+    width: 100%;
+    height: auto;
+    padding: 4px;
+    margin: 8px auto;
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.comment {
+    width: inherit;
+    height: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.comment-text {
+    font: large sans-serif;
+}
+
+.comment .comment-date {
+    width: 25%;
+    padding-left: 75%;
 }

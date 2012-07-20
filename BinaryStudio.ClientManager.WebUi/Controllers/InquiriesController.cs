@@ -33,7 +33,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ViewResult Details(int id)
         {
-            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender));
+            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender, x=>x.Comments));
         }
 
         public ViewResult Edit(int id)
