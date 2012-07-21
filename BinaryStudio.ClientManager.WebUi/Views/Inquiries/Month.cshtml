@@ -4,27 +4,28 @@
 @using FizzWare.NBuilder.Dates
 @model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
-    ViewBag.Title = "MonthView";
+   ViewBag.Title = String.Format("MonthView - {0}", Model.Days.First().Date.ToString("MMMM"));
 }
 
-<h2>@Model.Days.First().Date.ToString("MMMM")</h2>
+
 
 <div id="month" class="container">
-   
-    @foreach (var day in Model.Days) 
+  @foreach (var day in Model.Days) 
     {
-        <div class="day">            
+       <div class="day">            
             <ul>
-                <title>@String.Format("{0}({1})", day.Name,day.Date.ToString("dd"))</title>
+                <title>@String.Format("{0} ({1})", day.Name,day.Date.ToString("dd"))</title>
                 @foreach (var inquiry in day.Inquiries )
                 {
                     <li class="inquiry">
                         @inquiry.Name
                         @Html.ActionLink("link","Details",new {id=inquiry.Id})
                     </li>
+                    
                 }
-            </ul>              
+            </ul>
+                       
         </div>
     }
-    
+  
 </div>
