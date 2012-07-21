@@ -95,8 +95,11 @@
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\datepicker.less" />
     <Content Include="Content\images\DummyPhoto.jpg" />
+    <Content Include="Content\images\facebook.jpg" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\LinkedIn.jpg" />
+    <Content Include="Content\images\twitter.jpg" />
     <Content Include="Content\styles.css" />
     <None Include="Content\styles\month.less" />
     <Content Include="Content\styles\week.less" />

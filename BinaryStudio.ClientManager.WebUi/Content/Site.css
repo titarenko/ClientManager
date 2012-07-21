@@ -280,6 +280,7 @@ div.row {
 
 .comment .comment-text {
     font: large sans-serif;
+    text-align: left;
 }
 
 .comments h2 {
@@ -289,5 +290,38 @@ div.row {
 .comment .comment-date {
     width: 25%;
     padding-left: 75%;
-    font-size: 85%;
+    font-size: 40%;
+}
+
+.facebook-icon {
+    background-image: url('images/facebook.jpg');
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-position: 0px 0px;
+    padding: 8px;
+}
+
+.twitter-icon {
+    background-image: url('images/twitter.jpg');
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    padding: 8px;
+    background-position: 0px 0px;
+}
+
+.linkedin-icon {
+    background-image: url('images/LinkedIn.jpg');
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-position: 0px 0px;
+    padding: 8px;
 }
