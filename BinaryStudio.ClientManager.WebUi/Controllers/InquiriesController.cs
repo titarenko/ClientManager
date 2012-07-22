@@ -117,7 +117,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                         Tag = all.Key,
                         Inquiries = all.Select(inquiry => new AllInquiryViewModel
                                                               {
-                                                                  FirstName = inquiry.Client.FirstName, LastName = inquiry.Client.LastName, Subject = inquiry.Subject
+                                                                  FirstName = inquiry.Client.FirstName, 
+                                                                  LastName = inquiry.Client.LastName, 
+                                                                  Subject = inquiry.Subject
                                                               })
                     })
                 .ToList());

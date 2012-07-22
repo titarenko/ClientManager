@@ -259,6 +259,29 @@ div.row {
     vertical-align: middle;
 }
 
+.all-inquiries .inquiry 
+{
+    width: 12%;
+    min-width: 12%;
+    height: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 4px;
+    margin: 4px auto;
+    margin-right: 4px;
+    font-weight: bold;
+    vertical-align: middle;
+    list-style-type: none;
+    float: left;
+    display: inline;    
+}
+
+.all-inquiries .DOTNET {
+    background-color: mediumseagreen;
+     
+}
+
+
 .comments {
     width: 100%;
     height: auto;
@@ -325,3 +348,4 @@ div.row {
     background-position: 0px 0px;
     padding: 8px;
 }
+

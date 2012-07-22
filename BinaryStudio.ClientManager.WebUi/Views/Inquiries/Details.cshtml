@@ -24,9 +24,9 @@
                         </div>
                         <div class="secondary-info">
                             <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(Model.Client.Phone)</div>
-                            <div class="email"><span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email.Cut(25))</div>
+                            <div class="email"><span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email)</div>
                             <div>
-                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Cut(20).Or("N/A")                    
+                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Or("N/A")                    
                             </div>
                             <div>
                                 <span class="icon-flag"></span>Country: @Model.Client.Country

@@ -3,14 +3,23 @@
 <div>
 @foreach (var category in Model)
 {
-    <ul>
-        @foreach (var inquiry in category.Inquiries)
-        {
-            <li>
-              @inquiry.Subject => @inquiry.FullName => @category.Tag<br/>
-            </li>
-        }
-    </ul>
-    
+    <div class="row-fluid">
+        <ul class="all-inquiries">
+            @foreach (var inquiry in category.Inquiries)
+            {
+                <li class="inquiry @category.Tag">
+                    <div >
+                        @inquiry.Subject
+                    </div>
+                    <div>
+                        @inquiry.FullName 
+                    </div>
+                    <div>
+                        @category.Tag
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>    
 }
 </div>
