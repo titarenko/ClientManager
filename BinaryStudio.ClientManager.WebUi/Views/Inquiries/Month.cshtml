@@ -6,15 +6,25 @@
 <div id="month" class="container">
     @{
         var maxinquiries = 3;
+        int skipDaysCount = Model.SkippedDays;
+    }
+    @while(skipDaysCount > 0) /* Creating dummies for days in begin of week, which belongs to previous month */
+    {
+        <div class="day">
+            <ul>
+                <title> </title>
+            </ul>
+        </div>
+        skipDaysCount--;
     }
     @foreach (var day in Model.Days) 
     {
-        if (day.Inquiries.Count() > maxinquiries)
+        if (day.Name != "Sun" && day.Name != "Sat")  /* Skips weekend days */
         {
-            maxinquiries = day.Inquiries.Count();
-        }
-        if (day.Name != "Sun" && day.Name != "Sat")
-        {
+            if (day.Inquiries.Count() > maxinquiries)
+            {
+                maxinquiries = day.Inquiries.Count();
+            }
             <div class="day">            
                 <ul>
                     <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
@@ -23,15 +33,13 @@
                         <li class="inquiry">
                             @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
                         </li>
-
                     }
                 </ul>
             </div>
         }
     }
-  
 </div>
 
 <script type="text/javascript">
-    $("#month .day>ul").height(@maxinquiries*38);
+    $("#month .day>ul").height(@maxinquiries*38);    /* Adjust height of day divs accordingly to maximum numbers of inquiries*/
 </script>
