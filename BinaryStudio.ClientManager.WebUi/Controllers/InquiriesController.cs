@@ -110,20 +110,31 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            return View(repository.Query<Inquiry>(x=>x.Tags)
-                .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                .Select(all => new AllItemModel
-                    {
-                        Tag = all.Select(inquiry => inquiry.Tags.FirstOrDefault()).FirstOrDefault(),
-                        Inquiries = all.Select(inquiry => new AllInquiryViewModel
-                                                              {
-                                                                  Id=inquiry.Id,
-                                                                  FirstName = inquiry.Client.FirstName, 
-                                                                  LastName = inquiry.Client.LastName, 
-                                                                  Subject = inquiry.Subject,
-                                                              })
-                    })
-                .ToList());
+            return View(new AllInquiriesViewModel
+                            {
+
+                                Categories = repository.Query<Inquiry>(x => x.Tags)
+                                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
+                                    .Select(all => new AllInquiriesCategoryItemViewModel()
+                                                       {
+                                                           Tag =
+                                                               all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
+                                                               FirstOrDefault(),
+                                                           Inquiries =
+                                                               all.Select(
+                                                                   inquiry => new AllInquiriesInquiryItemViewModel
+                                                                                  {
+                                                                                      Id = inquiry.Id,
+                                                                                      FirstName =
+                                                                                          inquiry.Client.FirstName,
+                                                                                      LastName = inquiry.Client.LastName,
+                                                                                      Subject = inquiry.Subject,
+                                                                                  })
+                                                       }
+                                    ).AsEnumerable()
+
+                            }
+                       );
         }
 
         [HttpPost]

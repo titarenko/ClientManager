@@ -1,9 +1,9 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Entities
 @using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@model IEnumerable<BinaryStudio.ClientManager.WebUi.Models.AllItemModel>
+@model BinaryStudio.ClientManager.WebUi.Models.AllInquiriesViewModel
 
 <div>
-@foreach (var category in Model)
+@foreach (var category in Model.Categories)
 {
     <div class="row-fluid">
         <ul class="all-inquiries">

@@ -157,7 +157,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             //act
             var inquiriesController = new InquiriesController(mock.Object);
-            var viewResult = new List<AllItemModel>(inquiriesController.All().Model as IEnumerable<AllItemModel>);
+            var viewResult = new List<AllInquiriesCategoryItemViewModel>(inquiriesController.All().Model as IEnumerable<AllInquiriesCategoryItemViewModel>);
 
             //check
             Assert.AreEqual(viewResult.Count, 2);
