@@ -276,6 +276,10 @@ div.row {
     display: inline;    
 }
 
+.all-inquiries .inquiry a {
+    color: #2222FF; 
+}
+
 .all-inquiries .dotnet {
     background-color: mediumseagreen;     
 }
