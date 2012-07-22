@@ -25,8 +25,7 @@
                 @foreach (var inquiry in day.Inquiries)
                 {
                     <li class="inquiry">
-                        @inquiry.Name
-                        @Html.ActionLink("link", "Details", new { id = inquiry.Id })
+                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
                     </li>
                     
                 }
@@ -38,5 +37,5 @@
 </div>
 
 <script>
-    $("#month .day>ul").height(@maxinquiries*43);
+    $("#month .day>ul").height(@maxinquiries*38);
 </script>
