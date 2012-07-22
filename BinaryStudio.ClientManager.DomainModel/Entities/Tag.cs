@@ -1,4 +1,5 @@
-﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+﻿using System.Collections.Generic;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
@@ -12,5 +13,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public string Name { get; set; }
 
         public string CssClass { get; set; }
+
+        public IList<Inquiry> Inquiries { get; set; }
     }
 }

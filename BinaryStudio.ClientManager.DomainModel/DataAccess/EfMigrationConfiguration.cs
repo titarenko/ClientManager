@@ -24,9 +24,29 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var repository = new EfRepository();
 
+            createTags(repository);
+
             createPersons(repository);
 
             createInquiries(repository);
+        }
+
+        private void createTags(EfRepository repository)
+        {
+            var tag = repository.Query<Tag>().FirstOrDefault();
+            if (tag==null)
+            {
+                repository.Save(new Tag
+                                    {
+                                        Name = "C++",
+                                        CssClass = "cplusplus"
+                                    });
+                repository.Save(new Tag
+                                    {
+                                        Name = ".Net",
+                                        CssClass = "dotnet"
+                                    });
+            }
         }
 
         private void createInquiries(EfRepository repository)
@@ -35,6 +55,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 Where(x => x.Role == PersonRole.Client).ToList();
 
             var randomClient = new RandomItem<Person>(clients, false);
+
+            var tags = repository.Query<Tag>().ToList();
+            var randomTag = new RandomItem<Tag>(tags, false);
 
             var iquiries = Builder<Inquiry>.CreateListOfSize(10)
                 .All()
@@ -49,7 +72,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                                           .With(z => z.Body = GetRandom.Phrase(GetRandom.Int(60, 500)))
                                           .With(z => z.Id = 0)
                                           .Build())
-                .Build();
+                .With(x => x.Tags = new List<Tag> { randomTag.Next() })                                
+            .Build();
 
             foreach (var inquiry in iquiries)
             {

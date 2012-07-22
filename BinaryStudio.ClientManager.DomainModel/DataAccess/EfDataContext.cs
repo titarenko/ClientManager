@@ -18,6 +18,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         public DbSet<Inquiry> Inquiries { get; set; }
 
+        public DbSet<Tag> Tags { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 #if DEBUG
@@ -29,6 +31,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             modelBuilder.Entity<Person>()
                 .HasMany(x => x.RelatedMails)
                 .WithMany(y => y.Receivers);
+            modelBuilder.Entity<Inquiry>()
+                .HasMany(x => x.Tags)
+                .WithMany(y => y.Inquiries);
         }
     }
 }

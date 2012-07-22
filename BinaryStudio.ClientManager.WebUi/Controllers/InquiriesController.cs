@@ -110,16 +110,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            return View(repository.Query<Inquiry>()
+            return View(repository.Query<Inquiry>(x=>x.Tags)
                 .GroupBy(x => x.Tags.FirstOrDefault().Name)
                 .Select(all => new AllItemModel
                     {
-                        Tag = all.Key,
+                        Tag = all.Select(inquiry => new Tag
+                                                        {
+                                                            Name = inquiry.Tags.FirstOrDefault().Name,
+                                                            CssClass = inquiry.Tags.FirstOrDefault().CssClass
+                                                        }).FirstOrDefault(),
                         Inquiries = all.Select(inquiry => new AllInquiryViewModel
                                                               {
                                                                   FirstName = inquiry.Client.FirstName, 
                                                                   LastName = inquiry.Client.LastName, 
-                                                                  Subject = inquiry.Subject
+                                                                  Subject = inquiry.Subject,
                                                               })
                     })
                 .ToList());

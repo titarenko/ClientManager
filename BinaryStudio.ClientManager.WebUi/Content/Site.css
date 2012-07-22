@@ -276,9 +276,16 @@ div.row {
     display: inline;    
 }
 
-.all-inquiries .DOTNET {
-    background-color: mediumseagreen;
-     
+.all-inquiries .dotnet {
+    background-color: mediumseagreen;     
+}
+
+.all-inquiries .dotnet {
+    background-color: hotpink;     
+}
+
+.all-inquiries .empty-tag {
+    background-color: lavender;     
 }
 
 
