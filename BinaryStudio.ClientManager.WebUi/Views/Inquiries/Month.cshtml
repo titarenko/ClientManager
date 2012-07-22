@@ -10,16 +10,23 @@
 
 
 <div id="month" class="container">
-  @foreach (var day in Model.Days) 
+    @{
+        var maxinquiries = 3;
+    }
+    @foreach (var day in Model.Days) 
     {
-       <div class="day">            
+        if (day.Inquiries.Count() > maxinquiries)
+        {
+            maxinquiries = day.Inquiries.Count();
+        }
+        <div class="day">            
             <ul>
-                <title>@String.Format("{0} ({1})", day.Name,day.Date.ToString("dd"))</title>
-                @foreach (var inquiry in day.Inquiries )
+                <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
+                @foreach (var inquiry in day.Inquiries)
                 {
                     <li class="inquiry">
                         @inquiry.Name
-                        @Html.ActionLink("link","Details",new {id=inquiry.Id})
+                        @Html.ActionLink("link", "Details", new { id = inquiry.Id })
                     </li>
                     
                 }
@@ -29,3 +36,7 @@
     }
   
 </div>
+
+<script>
+    $("#month .day>ul").height(@maxinquiries*43);
+</script>
