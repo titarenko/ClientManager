@@ -19,19 +19,22 @@
         {
             maxinquiries = day.Inquiries.Count();
         }
-        <div class="day">            
-            <ul>
-                <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
-                @foreach (var inquiry in day.Inquiries)
-                {
-                    <li class="inquiry">
-                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
-                    </li>
-                    
-                }
-            </ul>
+        if (day.Name != "Sun" && day.Name != "Sat")
+        {
+            <div class="day">            
+                <ul>
+                    <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
+                    @foreach (var inquiry in day.Inquiries)
+                    {
+                        <li class="inquiry">
+                            @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
+                        </li>
+
+                    }
+                </ul>
                        
-        </div>
+            </div>
+        }
     }
   
 </div>
