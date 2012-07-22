@@ -1,13 +1,7 @@
-﻿@using BinaryStudio.ClientManager.DomainModel.DataAccess
-@using BinaryStudio.ClientManager.WebUi.Controllers
-@using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@using FizzWare.NBuilder.Dates
-@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
+﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
    ViewBag.Title = String.Format("MonthView - {0}", Model.Days.First().Date.ToString("MMMM"));
 }
-
-
 
 <div id="month" class="container">
     @{
@@ -32,13 +26,12 @@
 
                     }
                 </ul>
-                       
             </div>
         }
     }
   
 </div>
 
-<script>
+<script type="text/javascript">
     $("#month .day>ul").height(@maxinquiries*38);
 </script>
