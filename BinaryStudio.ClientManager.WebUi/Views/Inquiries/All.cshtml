@@ -12,7 +12,10 @@
                 
                 
                 <li class="inquiry @category.Tag.SafeGet(x => x.CssClass).Or("empty-tag")">
-                    @Html.ActionLink((@inquiry.FullName+" "+@inquiry.Subject).Cut(22),"Details",new {id=inquiry.Id})
+                    <a href="@Url.Action("Details", new { id = inquiry.Id })">
+                        @inquiry.FullName <br/>
+                        @inquiry.Subject 
+                    </a>
                     <div>
                         @category.Tag.SafeGet(x=>x.Name).Or("No tags")                      
                     </div>
