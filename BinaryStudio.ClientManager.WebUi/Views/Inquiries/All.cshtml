@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BinaryStudio.ClientManager.WebUi.Models.AllItemModel>
+﻿@using BinaryStudio.ClientManager.DomainModel.Entities
+@using BinaryStudio.ClientManager.DomainModel.Infrastructure
+@model IEnumerable<BinaryStudio.ClientManager.WebUi.Models.AllItemModel>
 
 <div>
 @foreach (var category in Model)
@@ -7,17 +9,15 @@
         <ul class="all-inquiries">
             @foreach (var inquiry in category.Inquiries)
             {
-                <li class="inquiry @category.Tag">
-                    <div >
-                        @inquiry.Subject
-                    </div>
+                
+                
+                <li class="inquiry @category.Tag.SafeGet(x => x.CssClass).Or("empty-tag")">
+                    @Html.ActionLink((@inquiry.FullName+" "+@inquiry.Subject).Cut(22),"Details",new {id=inquiry.Id})
                     <div>
-                        @inquiry.FullName 
-                    </div>
-                    <div>
-                        @category.Tag
+                        @category.Tag.SafeGet(x=>x.Name).Or("No tags")                      
                     </div>
                 </li>
+                
             }
         </ul>
     </div>    

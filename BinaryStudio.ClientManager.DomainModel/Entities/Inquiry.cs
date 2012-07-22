@@ -14,6 +14,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             ReferenceDate = new DateTime();
             Status = InquiryStatus.IncomingInquiry;
             Comments = new List<Comment>();
+            Tags = new List<Tag> ();
         }
 
         /// <summary>

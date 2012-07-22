@@ -60,6 +60,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var randomTag = new RandomItem<Tag>(tags, false);
 
             var iquiries = Builder<Inquiry>.CreateListOfSize(10)
+                .Random(2)
+                .With(x=>x.Tags=new List<Tag>())
                 .All()
                 .With(x => x.Id = 0)
                 .With(x => x.Status = GetRandom.Int(0, 3))
@@ -72,7 +74,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                                           .With(z => z.Body = GetRandom.Phrase(GetRandom.Int(60, 500)))
                                           .With(z => z.Id = 0)
                                           .Build())
-                .With(x => x.Tags = new List<Tag> { randomTag.Next() })                                
+                .With(x => x.Tags = new List<Tag> { randomTag.Next() })    
+                
             .Build();
 
             foreach (var inquiry in iquiries)

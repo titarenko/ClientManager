@@ -114,13 +114,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 .GroupBy(x => x.Tags.FirstOrDefault().Name)
                 .Select(all => new AllItemModel
                     {
-                        Tag = all.Select(inquiry => new Tag
-                                                        {
-                                                            Name = inquiry.Tags.FirstOrDefault().Name,
-                                                            CssClass = inquiry.Tags.FirstOrDefault().CssClass
-                                                        }).FirstOrDefault(),
+                        Tag = all.Select(inquiry => inquiry.Tags.FirstOrDefault()).FirstOrDefault(),
                         Inquiries = all.Select(inquiry => new AllInquiryViewModel
                                                               {
+                                                                  Id=inquiry.Id,
                                                                   FirstName = inquiry.Client.FirstName, 
                                                                   LastName = inquiry.Client.LastName, 
                                                                   Subject = inquiry.Subject,

@@ -161,8 +161,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             //check
             Assert.AreEqual(viewResult.Count, 2);
-            Assert.AreEqual(viewResult.Find(x => x.Tag == "tag1").Inquiries.Count(), 30);
-            Assert.AreEqual(viewResult.Find(x => x.Tag == "tag2").Inquiries.Count(), 10);
+            Assert.AreEqual(viewResult.Find(x => x.Tag.Name == "tag1").Inquiries.Count(), 30);
+            Assert.AreEqual(viewResult.Find(x => x.Tag.Name == "tag2").Inquiries.Count(), 10);
         }
     }
 }

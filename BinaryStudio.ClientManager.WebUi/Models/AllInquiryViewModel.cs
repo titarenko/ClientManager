@@ -1,9 +1,13 @@
-﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+﻿using System.Collections.Generic;
+using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class AllInquiryViewModel
     {
+        public int Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -17,5 +21,7 @@ namespace BinaryStudio.ClientManager.WebUi.Models
         }
 
         public string Subject { get; set; }
+
+        public IList<Tag> Tags { get; set; }
     }
 }
