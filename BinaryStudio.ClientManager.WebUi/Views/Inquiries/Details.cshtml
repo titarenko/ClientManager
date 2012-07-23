@@ -31,9 +31,9 @@
                                 <span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email)
                             </div>
                             <div>
-                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Or("N/A")     
-                                <span class="icon-flag"></span>Country: @Model.Client.Country       
-                                <span class="icon-calendar"></span>@Model.ReferenceDate        
+                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Or("N/A")<br/> 
+                                <span class="icon-flag"></span>Country: @Model.Client.Country <br/> 
+                                <span class="icon-calendar"></span>@Model.ReferenceDate  <br/> 
                             </div>
                         </div>
                         <div>
