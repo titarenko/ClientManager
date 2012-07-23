@@ -19,4 +19,7 @@
 #details .comments{width:100%;height:auto;padding:4px;margin:8px auto;border:1px solid;border-radius:10px;background-color:#fffff7;}#details .comments h2{text-align:center;}
 #details .comments .comment-text{font:large sans-serif;text-align:left;}
 #details .comments .comment-date{width:25%;padding-left:75%;font-size:75%;}
+#mailing-history .wrapper{list-style-type:none;border:1px gray solid;border-radius:10px;background-color:#fffff7;display:inline-block;margin:8px auto;padding:0;width:100%;}#mailing-history .wrapper .client-msg,#mailing-history .wrapper .employee-msg{margin:4px;padding:0;border:1px gray solid;border-radius:10px;text-align:left;width:70%;}
+#mailing-history .wrapper .client-msg{background:lightyellow;float:left;}
+#mailing-history .wrapper .employee-msg{background:lightblue;float:right;}
 #comment-editor textarea{width:98%;}
