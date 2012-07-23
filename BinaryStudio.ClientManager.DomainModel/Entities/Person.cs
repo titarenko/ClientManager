@@ -81,6 +81,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             return Equals((Person) obj);
         }
 
+        public string TwitterUri { get; set; }
+
+        public string FacebookUri { get; set; }
+
+        public string LinkedInUri { get; set; }
+        
+
         /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>

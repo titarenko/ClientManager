@@ -86,6 +86,14 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         private void createPersons(EfRepository repository)
         {
+            var twitterUris = new List<string> {"https://twitter.com/1van1111", "https://twitter.com/mnzadornov"};
+            var facebookUris = new List<string> { "http://www.facebook.com/ivan.zaporozhchenko", "http://www.facebook.com/dmitriy.stranger.7" };
+            var linkedInUris = new List<string> { "http://ua.linkedin.com/in/titarenko", "http://ua.linkedin.com/in/olvia" };
+
+            var randomTwitterUri = new RandomItem<string>(twitterUris, false);
+            var randomFacebookUri = new RandomItem<string>(facebookUris, false);
+            var randomlinkedInUri = new RandomItem<string>(linkedInUris, false);
+
             var persons = Builder<Person>.CreateListOfSize(10)
                 .All()
                 .With(x => x.FirstName = GetRandom.FirstName())
@@ -97,6 +105,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.CreationDate = GetRandom.DateTime(January.The1st, DateTime.Now))
                 .With(x => x.Id = 0)
                 .With(x=>x.PhotoUri="")
+                .With(x=>x.FacebookUri=randomFacebookUri.Next())
+                .With(x=>x.LinkedInUri=randomlinkedInUri.Next())
+                .With(x=>x.TwitterUri=randomTwitterUri.Next())
                 .With(x => x.RelatedMails = Builder<MailMessage>.CreateListOfSize(5)
                     .All()
                     .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
