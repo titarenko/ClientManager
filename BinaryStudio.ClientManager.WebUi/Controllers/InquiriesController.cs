@@ -125,8 +125,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                                     inquiry => new AllInquiriesInquiryItemViewModel
                                                                     {
                                                                         Id = inquiry.Id,
-                                                                        FirstName =
-                                                                            inquiry.Client.FirstName,
+                                                                        FirstName = inquiry.Client.FirstName,
                                                                         LastName = inquiry.Client.LastName,
                                                                         Subject = inquiry.Subject,
                                                                     })

@@ -5,7 +5,6 @@
     ViewBag.Title = "Details";
 }
 
-    
 <div class="container">
     <div class="page-header">
         <h2>Details</h2>
@@ -25,27 +24,34 @@
                             </div>
                         </div>
                         <div class="secondary-info">
-                            <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(Model.Client.Phone)</div>
-                            <div class="email"><span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email)</div>
-                            <div>
-                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Or("N/A")                    
+                            <div class="phone">
+                                <span class="icon-headphones"></span> @Html.SkypeLink(Model.Client.Phone)
+                            </div>
+                            <div class="email">
+                                <span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email)
                             </div>
                             <div>
-                                <span class="icon-flag"></span>Country: @Model.Client.Country
+                                <span class="icon-user"></span> @Model.Assignee.SafeGet(x=>x.FullName).Or("N/A")     
+                                <span class="icon-flag"></span>Country: @Model.Client.Country       
+                                <span class="icon-calendar"></span>@Model.ReferenceDate        
                             </div>
-                            <span class="icon-calendar"></span>@Model.ReferenceDate
-
                         </div>
-                            <div>
-                                <a href="#"><span class="facebook-icon"></span></a>
-                                <a href="#"><span class="twitter-icon"></span></a> 
-                                <a href="#"><span class="linkedin-icon"> </span></a>
-                            </div>
+                        <div>
+                            <a href=@Model.Client.FacebookUri>
+                                <span class="facebook-icon"></span>
+                            </a>
+                            <a href="@Model.Client.TwitterUri">
+                                <span class="twitter-icon"></span>
+                            </a> 
+                            <a href="@Model.Client.LinkedInUri">
+                                <span class="linkedin-icon"> </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <div class="comments">
-                        <h2>Comments</h>
+                        <h2>Comments</h2>
                         @foreach(var comment in Model.Comments)
                         {
                             <div class="comment">
