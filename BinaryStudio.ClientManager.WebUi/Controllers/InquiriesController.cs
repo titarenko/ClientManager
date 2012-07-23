@@ -189,12 +189,32 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var today = Clock.Now;
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
+            var skipDaysCount = 0;
+            switch (start.DayOfWeek.ToString())
+            {
+                case "Tuesday":
+                    skipDaysCount = 1;
+                    break;
+                case "Wednesday":
+                    skipDaysCount = 2;
+                    break;
+                case "Thursday":
+                    skipDaysCount = 3;
+                    break;
+                case "Friday":
+                    skipDaysCount = 4;
+                    break;
+                default:
+                    skipDaysCount = 0;
+                    break;
+            }
+
             var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
                 Where(x => x.ReferenceDate >= start && x.ReferenceDate < end).ToList();
             
             return View(new MonthViewModel
             {
-                SkippedDays = (int)start.DayOfWeek - 1,
+                SkippedDays = skipDaysCount,
                 Days = (
                     from index in Enumerable.Range(0, (end - start).Days)
                     let date = start.AddDays(index)
