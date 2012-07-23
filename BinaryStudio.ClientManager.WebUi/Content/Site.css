@@ -1,4 +1,4 @@
-﻿/*
+/*
     Week view
 */
 
@@ -256,43 +256,6 @@ div.row {
     padding: 4px;
     margin: 8px auto;
     vertical-align: middle;
-}
-
-
-
-
-.comments {
-    width: 100%;
-    height: auto;
-    padding: 4px;
-    margin: 8px auto;
-    border: 1px solid;
-    border-radius: 10px;
-}
-
-.comment {
-    width: inherit;
-    height: auto;
-    border: 1px solid;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.comment .comment-text {
-    font: large sans-serif;
-    text-align: left;
-}
-
-.comments h2 {
-    text-align: center;
-}
-
-.comment .comment-date {
-    width: 25%;
-    padding-left: 75%;
-    font-size: 40%;
 }
 
 .facebook-icon {

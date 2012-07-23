@@ -5,7 +5,7 @@
     ViewBag.Title = "Details";
 }
 
-<div class="container">
+<div id="details" class="container">
     <div class="page-header">
         <h2>Details</h2>
     </div>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div>
-                            <a href=@Model.Client.FacebookUri>
+                            <a href="@Model.Client.FacebookUri">
                                 <span class="facebook-icon"></span>
                             </a>
                             <a href="@Model.Client.TwitterUri">
@@ -49,17 +49,15 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div class="comments">
-                        <h2>Comments</h2>
-                        @foreach(var comment in Model.Comments)
-                        {
-                            <div class="comment">
-                                <div class="comment-text">@comment.Text</div>
-                                <div class="comment-date">@comment.Date</div>                               
-                            </div>
-                        }
-                    </div>
+                <div class="comments">
+                    <h2>Comments</h2>
+                    @foreach(var comment in Model.Comments)
+                    {
+                        <div class="comment">
+                            <div class="comment-text">@comment.Text</div>
+                            <div class="comment-date">@comment.Date</div>                               
+                        </div>
+                    }
                 </div>
             </div>
         </div>
