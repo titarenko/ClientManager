@@ -16,7 +16,9 @@
                 <div>
                     <div class="inquiry">
                         <div class="row-fluid">
-                            <div class="span4"><img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/></div>
+                            <div class="span4">
+                                <img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+                            </div>
                             <div class="span8 primary-info">
                                 <span class="name">@Model.Client.FullName</span><br/>
                                 <span class="subject">@Model.Subject</span><br/>

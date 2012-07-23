@@ -4,19 +4,6 @@
     Layout = "";
 }
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("li").click(function () {
-            var briefMail = $(this).children(".brief-mail");
-            
-            if (briefMail.length > 0) {
-                briefMail.toggle();
-                $(this).children(".full-mail").toggleClass("hidden");
-            }
-        });
-    });
-</script>
-
 <div>
     <div>
         <ul class="wrapper">
@@ -54,3 +41,16 @@
         </ul>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li").click(function () {
+            var briefMail = $(this).children(".brief-mail");
+
+            if (briefMail.length > 0) {
+                briefMail.toggle();
+                $(this).children(".full-mail").toggleClass("hidden");
+            }
+        });
+    });
+</script>

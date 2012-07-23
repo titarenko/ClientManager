@@ -33,7 +33,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ViewResult Details(int id)
         {
-            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source, x => x.Source.Sender, x=>x.Comments, x=>x.Assignee));
+            return View(repository.Get<Inquiry>(id, x => x.Client, x => x.Source,
+                x => x.Source.Sender, x => x.Comments, x => x.Assignee));
         }
 
         public ViewResult Edit(int id)
@@ -111,30 +112,27 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult All()
         {
             return View(new AllInquiriesViewModel
-                            {
-
-                                Categories = repository.Query<Inquiry>(x => x.Tags)
-                                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                                    .Select(all => new AllInquiriesCategoryItemViewModel()
-                                                       {
-                                                           Tag =
-                                                               all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
-                                                               FirstOrDefault(),
-                                                           Inquiries =
-                                                               all.Select(
-                                                                   inquiry => new AllInquiriesInquiryItemViewModel
-                                                                                  {
-                                                                                      Id = inquiry.Id,
-                                                                                      FirstName =
-                                                                                          inquiry.Client.FirstName,
-                                                                                      LastName = inquiry.Client.LastName,
-                                                                                      Subject = inquiry.Subject,
-                                                                                  })
-                                                       }
-                                    ).AsEnumerable()
-
-                            }
-                       );
+            {
+                Categories = repository.Query<Inquiry>(x => x.Tags)
+                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
+                    .Select(all => new AllInquiriesCategoryItemViewModel()
+                                        {
+                                            Tag =
+                                                all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
+                                                FirstOrDefault(),
+                                            Inquiries =
+                                                all.Select(
+                                                    inquiry => new AllInquiriesInquiryItemViewModel
+                                                                    {
+                                                                        Id = inquiry.Id,
+                                                                        FirstName =
+                                                                            inquiry.Client.FirstName,
+                                                                        LastName = inquiry.Client.LastName,
+                                                                        Subject = inquiry.Subject,
+                                                                    })
+                                        }
+                    ).AsEnumerable()
+            });
         }
 
         [HttpPost]
@@ -190,32 +188,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             var today = Clock.Now;
             var start = today.GetStartOfMonth();
-            var skipDaysCount = 0;
-            switch (start.DayOfWeek.ToString())
-            {
-                case "Tuesday":
-                    skipDaysCount = 1;
-                    break;
-                case "Wednesday":
-                    skipDaysCount = 2;
-                    break;
-                case "Thursday":
-                    skipDaysCount = 3;
-                    break;
-                case "Friday":
-                    skipDaysCount = 4;
-                    break;
-                default:
-                    skipDaysCount = 0;
-                    break;
-            }
             var end = today.GetEndOfMonth().AddDays(1);
             var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
                 Where(x => x.ReferenceDate >= start && x.ReferenceDate < end).ToList();
             
             return View(new MonthViewModel
             {
-                SkippedDays = skipDaysCount,
+                SkippedDays = (int)start.DayOfWeek - 1,
                 Days = (
                     from index in Enumerable.Range(0, (end - start).Days)
                     let date = start.AddDays(index)

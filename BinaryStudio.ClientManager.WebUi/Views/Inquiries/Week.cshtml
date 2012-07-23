@@ -93,19 +93,12 @@
         
         var onSuccess = function() {
             $('#commentTextArea').val('');
-            $('#saved-comment').text('Your comment has been saved.')
-                .fadeIn('fast')
-                .delay(3000)
-                .fadeOut('slow');
-            //
+            ShowAlert('Your comment has been saved.');
         };
 
         var onError = function() {
             $('#commentTextArea').val('');
-            $('#saved-comment').text('An error occured while saving comment.')
-                .fadeIn('fast')
-                .delay(3000)
-                .fadeOut('slow');
+            ShowAlert('An error occured while saving comment.');
         };
 
         $.ajax({
@@ -119,6 +112,13 @@
     function ShowModal(inquiryId) {
         $('#comment-editor').data("inquiryId",inquiryId);               
     };
+
+    function ShowAlert(message) {
+        $('#saved-comment').text(message)
+            .fadeIn('fast')
+            .delay(3000)
+            .fadeOut('slow');  
+    }
     
     //When click on menu->assign to->some employee
     function OnClickAssign(employee, inquiry) {

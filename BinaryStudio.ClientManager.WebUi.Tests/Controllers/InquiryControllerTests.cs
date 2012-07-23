@@ -90,7 +90,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .Build();
 
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Get<Inquiry>(id, z => z.Client, z => z.Source, z => z.Source.Sender)).Returns(inquiry);
+            mock.Setup(x => x.Get<Inquiry>(id, z => z.Client, z => z.Source,
+                z => z.Source.Sender, z => z.Comments, z => z.Assignee)).Returns(inquiry);
             var inquiriesController = new InquiriesController(mock.Object);
             
             //act
@@ -139,12 +140,14 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Clock.FreezedTime = new DateTime(DateTime.Now.Year, month, 10);
             var mock = new Mock<IRepository>();
             mock.Setup(x => x.Query<Inquiry>(z => z.Client)).Returns(inquiries.AsQueryable());
+
+            // act
             var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = inquiriesController.Month().Model as MonthViewModel;
             var inquiriesList = viewResult.Days;
 
+            // assert
             var inquiriesCount = inquiriesList.Sum(day => day.Inquiries.Count());
-
             inquiriesCount.Should().Be(10);
         }
 
@@ -153,16 +156,18 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             // arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>()).Returns(inquiries.AsQueryable());
+            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
 
             //act
             var inquiriesController = new InquiriesController(mock.Object);
-            var viewResult = new List<AllInquiriesCategoryItemViewModel>(inquiriesController.All().Model as IEnumerable<AllInquiriesCategoryItemViewModel>);
+            var viewResult = inquiriesController.All().Model as AllInquiriesViewModel;
 
-            //check
-            Assert.AreEqual(viewResult.Count, 2);
-            Assert.AreEqual(viewResult.Find(x => x.Tag.Name == "tag1").Inquiries.Count(), 30);
-            Assert.AreEqual(viewResult.Find(x => x.Tag.Name == "tag2").Inquiries.Count(), 10);
+            // assert
+            viewResult.Categories.Count().Should().Be(2);
+            viewResult.Categories.Where(x => x.Tag.Name == "tag1")
+                .Sum(x => x.Inquiries.Count()).Should().Be(30);
+            viewResult.Categories.Where(x => x.Tag.Name == "tag2")
+                .Sum(x => x.Inquiries.Count()).Should().Be(10);
         }
     }
 }

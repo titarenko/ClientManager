@@ -68,7 +68,6 @@
     <Compile Include="Controllers\InquiriesController.cs" />
     <Compile Include="Controllers\ModelIsNotValidException.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\WeekViewController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,9 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Inquiries\MailMessage.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Inquiries\WeekView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\WeekView\Week.cshtml" />
