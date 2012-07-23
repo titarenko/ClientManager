@@ -2,15 +2,13 @@
 @using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.WebUi.Models.AllInquiriesViewModel
 
-<div id="All" class="container">
+<div id="all" class="container">
 @foreach (var category in Model.Categories)
 {
     <div class="row-fluid">
-        <ul class="all-inquiries">
+        <ul>
             @foreach (var inquiry in category.Inquiries)
-            {
-                
-                
+            {                                
                 <li class="inquiry @category.Tag.SafeGet(x => x.CssClass).Or("empty-tag")">
                     <a href="@Url.Action("Details", new { id = inquiry.Id })">
                         @inquiry.FullName <br/>
