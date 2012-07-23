@@ -190,18 +190,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             var skipDaysCount = 0;
-            switch (start.DayOfWeek.ToString())
+            switch (start.DayOfWeek)
             {
-                case "Tuesday":
+                case DayOfWeek.Tuesday:
                     skipDaysCount = 1;
                     break;
-                case "Wednesday":
+                case DayOfWeek.Wednesday:
                     skipDaysCount = 2;
                     break;
-                case "Thursday":
+                case DayOfWeek.Thursday:                    
                     skipDaysCount = 3;
                     break;
-                case "Friday":
+                case DayOfWeek.Friday:
                     skipDaysCount = 4;
                     break;
                 default:
