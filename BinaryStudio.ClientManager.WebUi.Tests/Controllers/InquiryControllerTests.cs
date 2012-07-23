@@ -32,11 +32,13 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.Assignee = Builder<Person>.CreateNew().Build())
                 .With(x => x.Source = Builder<MailMessage>.CreateNew().Build())
                 .With(x => x.Tags = new[] { new Tag { Name = "tag1" }, new Tag { Name = "doesn't matter" } })
+                .With(x => x.Status = InquiryStatus.InProgress)
                 .TheFirst(10)
-                .With(x => x.Tags = new[] { new Tag { Name = "tag2" }, new Tag { Name = "doesn't matter" } })
                 .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The31st))
+                .With(x => x.Status = InquiryStatus.IncomingInquiry)
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
+                .With(x => x.Status = InquiryStatus.WaitingForReply)
                 .TheNext(1)
                 .With(x => x.ReferenceDate = new DateTime(Clock.Now.Year, 3, 1))
                 .TheNext(9)
@@ -44,6 +46,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfBusinessWeek(),
                     Clock.Now.GetEndOfBusinessWeek()))
+                .Random(10)
+                .With(x => x.Tags = new[] { new Tag { Name = "tag2" }, new Tag { Name = "doesn't matter" } })
                 .Build();
         }
 
@@ -168,6 +172,22 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .Sum(x => x.Inquiries.Count()).Should().Be(30);
             viewResult.Categories.Where(x => x.Tag.Name == "tag2")
                 .Sum(x => x.Inquiries.Count()).Should().Be(10);
+        }
+
+        [Test]
+        public void Should_ReturnIncomingInquiriesSortedByTags_WhenRequested()
+        {
+            // arrange
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
+
+            // act
+            var controller = new InquiriesController(mock.Object);
+            var viewResult = (AllInquiriesViewModel)controller.Admin().Model;
+
+            // assert
+            viewResult.Categories.Sum(x => x.Inquiries.Count()).Should().Be(10);
+
         }
     }
 }

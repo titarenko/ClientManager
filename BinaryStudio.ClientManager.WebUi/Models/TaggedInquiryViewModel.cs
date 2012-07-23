@@ -4,7 +4,7 @@ using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
-    public class AllInquiriesInquiryItemViewModel
+    public class TaggedInquiryViewModel
     {
         public int Id { get; set; }
 

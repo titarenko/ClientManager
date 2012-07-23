@@ -3,9 +3,9 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
-    public class AllInquiriesCategoryItemViewModel
+    public class CategoryViewModel
     {
-        public IEnumerable<AllInquiriesInquiryItemViewModel> Inquiries { get; set; }
+        public IEnumerable<TaggedInquiryViewModel> Inquiries { get; set; }
 
         public Tag Tag { get; set;}
     }

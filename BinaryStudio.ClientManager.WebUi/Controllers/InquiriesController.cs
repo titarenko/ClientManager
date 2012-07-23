@@ -114,14 +114,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             {
                 Categories = repository.Query<Inquiry>(x => x.Tags)
                     .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                    .Select(all => new AllInquiriesCategoryItemViewModel()
+                    .Select(all => new CategoryViewModel()
                                         {
                                             Tag =
                                                 all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
                                                 FirstOrDefault(),
                                             Inquiries =
                                                 all.Select(
-                                                    inquiry => new AllInquiriesInquiryItemViewModel
+                                                    inquiry => new TaggedInquiryViewModel
                                                                     {
                                                                         Id = inquiry.Id,
                                                                         FirstName = inquiry.Client.FirstName,
@@ -245,6 +245,29 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 PhotoUri = x.Client.PhotoUri
                             }).AsEnumerable()
                     }).AsEnumerable(),
+            });
+        }
+
+        public ViewResult Admin()
+        {
+            return View(new AllInquiriesViewModel
+            {
+                Categories = repository.Query<Inquiry>(x => x.Tags)
+                    .Where(x => x.Status == InquiryStatus.IncomingInquiry)
+                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
+                    .Select(all => new CategoryViewModel
+                    {
+                        Tag = all.Select(inquiry => inquiry.Tags.FirstOrDefault())
+                            .FirstOrDefault(),
+                        Inquiries = all.Select(
+                            inquiry => new TaggedInquiryViewModel
+                            {
+                                Id = inquiry.Id,
+                                FirstName = inquiry.Client.FirstName,
+                                LastName = inquiry.Client.LastName,
+                                Subject = inquiry.Subject,
+                            })
+                    }).ToList()
             });
         }
     }
