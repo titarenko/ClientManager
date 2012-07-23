@@ -15,4 +15,8 @@
 #all .dotnet{background-color:mediumseagreen;}
 #all .cplusplus{background-color:hotpink;}
 #all .empty-tag{background-color:#fffff7;}
+#details .inquiry{width:100%;height:auto;border:1px solid;border-radius:10px;padding:4px;margin:8px auto;vertical-align:middle;background-color:#fffff7;}
+#details .comments{width:100%;height:auto;padding:4px;margin:8px auto;border:1px solid;border-radius:10px;background-color:#fffff7;}#details .comments h2{text-align:center;}
+#details .comments .comment-text{font:large sans-serif;text-align:left;}
+#details .comments .comment-date{width:25%;padding-left:75%;font-size:75%;}
 #comment-editor textarea{width:98%;}

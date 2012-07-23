@@ -40,7 +40,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
                 .With(x => x.Status = InquiryStatus.WaitingForReply)
                 .TheNext(1)
-                .With(x => x.ReferenceDate = new DateTime(DateTime.Now.Year, 3, 1))
+                .With(x => x.ReferenceDate = new DateTime(Clock.Now.Year, 3, 1))
                 .TheNext(9)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(March.The1st, March.The31st))
                 .TheNext(10)
