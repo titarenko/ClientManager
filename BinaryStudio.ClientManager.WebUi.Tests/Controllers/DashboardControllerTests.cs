@@ -6,9 +6,7 @@ using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.WebUi.Models;
-using FizzWare.NBuilder;
 using Moq;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
