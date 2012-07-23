@@ -6,6 +6,10 @@ namespace BinaryStudio.ClientManager.WebUi.Models
     {
         public int SkippedDays { get; set; }
 
+        public int StartingWeek { get; set; }
+
+        public int FinishingWeek { get; set; }
+
         public IEnumerable<MonthItemViewModel> Days { get; set; }
     }
 }
