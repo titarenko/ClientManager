@@ -301,9 +301,9 @@ div.row {
     display: inline-block;
     width: 30px;
     height: 30px;
-    line-height: 30px;
+    
     background-position: 0px 0px;
-    padding: 8px;
+    
 }
 
 .twitter-icon {
@@ -312,8 +312,6 @@ div.row {
     display: inline-block;
     width: 30px;
     height: 30px;
-    line-height: 30px;
-    padding: 8px;
     background-position: 0px 0px;
 }
 
@@ -323,8 +321,6 @@ div.row {
     display: inline-block;
     width: 30px;
     height: 30px;
-    line-height: 30px;
     background-position: 0px 0px;
-    padding: 8px;
 }
 
