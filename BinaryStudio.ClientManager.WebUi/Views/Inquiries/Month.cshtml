@@ -1,47 +1,50 @@
 ﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
-   ViewBag.Title = String.Format("MonthView - {0}", Model.Days.First().Date.ToString("MMMM"));
+   ViewBag.Title = String.Format("Month - {0}", Model.Days.First().Date.ToString("MMMM"));
 }
 
 <div id="month" class="container">
-    @{
-        var maxinquiries = 3;
-    }
-    @*Creating dummies for days in begin of week, which belongs to previous month*@
-    @for (int skipDaysCount = Model.SkippedDays; skipDaysCount > 0; skipDaysCount--)
+    @for (int week = Model.StartingWeek; week <= Model.FinishingWeek; week++)
     {
-        <div class="day">
-            <ul>
-                <title> </title>
-            </ul>
-        </div>
-    }
-    @foreach (var day in Model.Days) 
-    {
-        @* Skips weekend days *@
-        if (day.Date.DayOfWeek == DayOfWeek.Saturday ||
-            day.Date.DayOfWeek == DayOfWeek.Sunday)
-        {
-            continue;
-        }
-        if (day.Inquiries.Count() > maxinquiries)
-        {
-            maxinquiries = day.Inquiries.Count();
-        }
-        <div class="day">            
-            <ul>
-                <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
-                @foreach (var inquiry in day.Inquiries)
+        <div class="row">
+            @{
+                if (week == Model.StartingWeek)
                 {
-                    <li class="inquiry">
-                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
-                    </li>
+            @*Creating dummies for days in begin of week, which belongs to previous month*@
+                    for (int skipDaysCount = Model.SkippedDays; skipDaysCount > 0; skipDaysCount--)
+                     {
+                         <div class="day">
+                             <ul>
+                                 <title> </title>
+                             </ul>
+                         </div>
+                     }
                 }
-            </ul>
+                foreach (var day in Model.Days)
+                {
+            @* Skips weekend days *@
+                    if (day.Date.DayOfWeek == DayOfWeek.Saturday ||
+                        day.Date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        continue;
+                    }
+                    if (day.WeekNumber == week)
+                    {
+                        <div class="day">            
+                            <ul>
+                                <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
+                                @foreach (var inquiry in day.Inquiries)
+                                {
+                                    <li class="inquiry">
+                                        @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                }
+            }
         </div>
     }
 </div>
-
-<script type="text/javascript">
-    $("#month .day>ul").height(@maxinquiries * 38);    @* Adjust height of day divs accordingly to maximum numbers of inquiries *@
-</script>

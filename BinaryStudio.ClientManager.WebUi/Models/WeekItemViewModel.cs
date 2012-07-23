@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using BinaryStudio.ClientManager.WebUi.Controllers;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {

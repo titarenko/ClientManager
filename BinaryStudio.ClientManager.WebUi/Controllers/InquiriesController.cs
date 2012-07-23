@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
@@ -189,6 +188,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             var skipDaysCount = 0;
+            var startWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(start, CalendarWeekRule.FirstDay,
+                                                                              DayOfWeek.Monday);
+            if (start.DayOfWeek == DayOfWeek.Saturday || 
+                start.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startWeek++;
+            }
+            var finishWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(end.AddDays(-1), CalendarWeekRule.FirstDay,
+                                                                              DayOfWeek.Monday);
             switch (start.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
@@ -214,6 +222,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(new MonthViewModel
             {
                 SkippedDays = skipDaysCount,
+                StartingWeek = startWeek,
+                FinishingWeek = finishWeek,
                 Days = (
                     from index in Enumerable.Range(0, (end - start).Days)
                     let date = start.AddDays(index)
