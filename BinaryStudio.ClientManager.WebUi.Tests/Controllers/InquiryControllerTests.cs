@@ -175,7 +175,35 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnIncomingInquiriesSortedByTags_WhenRequested()
+        public void Should_ReturnFullListOfInquiriesWithDuplicateWhen2TagsInOneInquiry_WhenCalledAllFunction()
+        {
+            // arrange
+            var tagsWith1Tag = new List<Tag> {new Tag {Name = "tag1"}};
+            var tagsWith2Tags = new List<Tag> {new Tag {Name = "tag1"}, new Tag {Name = "tag2"}};
+            var inquiries = Builder<Inquiry>.CreateListOfSize(10)
+                .All()
+                .With(x => x.Tags = tagsWith1Tag)
+                .Random(2)
+                .With(x => x.Tags = tagsWith2Tags)
+                .Build();
+
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
+
+            //act
+            var inquiriesController = new InquiriesController(mock.Object);
+            var viewResult = inquiriesController.All().Model as AllInquiriesViewModel;
+
+            // assert
+            viewResult.Categories.Count().Should().Be(2);
+            viewResult.Categories.Where(x => x.Tag.Name == "tag1")
+                .Sum(x => x.Inquiries.Count()).Should().Be(10);
+            viewResult.Categories.Where(x => x.Tag.Name == "tag2")
+                .Sum(x => x.Inquiries.Count()).Should().Be(2);
+        }
+
+        [Test]
+        public void Should_ReturnIncomingInquiriesSortedByTags_WhenAdminRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
