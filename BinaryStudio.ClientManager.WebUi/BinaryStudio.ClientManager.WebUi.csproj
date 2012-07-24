@@ -42,6 +42,9 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc3.2.6.3.862\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.Core">
+      <HintPath>..\packages\dotless.1.3.0.5\lib\dotless.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FizzWare.NBuilder">
       <HintPath>..\packages\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
     </Reference>
@@ -100,8 +103,11 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\LinkedIn.jpg" />
     <Content Include="Content\images\twitter.jpg" />
-    <Content Include="Content\styles.css" />
     <None Include="Content\styles\month.less" />
+    <Content Include="Content\styles.less" />
+    <Content Include="Content\styles\all.less" />
+    <Content Include="Content\styles\details.less" />
+    <Content Include="Content\styles\mailinghistory.less" />
     <Content Include="Content\styles\week.less" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -169,7 +175,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
