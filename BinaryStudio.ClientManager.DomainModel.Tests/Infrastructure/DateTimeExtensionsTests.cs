@@ -137,13 +137,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
 
         public IEnumerable<TestCaseData> Should_ReturnNumberOfWeek_WhenCalledOn_TestCaseSource()
         {
-            yield return new TestCaseData(January.The2nd);
-            yield return new TestCaseData(January.The3rd);
-            yield return new TestCaseData(January.The4th);
-            yield return new TestCaseData(January.The5th);
-            yield return new TestCaseData(January.The6th);
-            yield return new TestCaseData(January.The7th);
-            yield return new TestCaseData(January.The8th);
+            yield return new TestCaseData(new DateTime(2012, 1, 2));
+            yield return new TestCaseData(new DateTime(2012, 1, 3));
+            yield return new TestCaseData(new DateTime(2012, 1, 4));
+            yield return new TestCaseData(new DateTime(2012, 1, 5));
+            yield return new TestCaseData(new DateTime(2012, 1, 6));
+            yield return new TestCaseData(new DateTime(2012, 1, 7));
+            yield return new TestCaseData(new DateTime(2012, 1, 8));
         }
     }
 }
