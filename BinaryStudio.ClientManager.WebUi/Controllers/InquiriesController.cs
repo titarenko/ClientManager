@@ -173,12 +173,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
             repository.Save(inquiry);
         }
-        
-        public IList<Inquiry> SelectedDayInquiries(DateTime day, IRepository repository)
-        {
 
-            return repository.Query<Inquiry>().Where(inquiry => inquiry.ReferenceDate == day).ToList();
+        [HttpPost]
+        public void AddTag(int inquiryId, int tagId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId, x => x.Tags);
+            var tag = repository.Get<Tag>(tagId);
+            if (inquiry == null || tag == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Tags.Add(tag);
+            repository.Save(inquiry);
         }
+
         //
         // GET: /MonthView/
 
@@ -250,7 +258,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Admin()
         {
-            return View(new AllInquiriesViewModel
+            return View(new AdminViewModel
             {
                 Categories = repository.Query<Inquiry>(x => x.Tags)
                     .Where(x => x.Status == InquiryStatus.IncomingInquiry)
@@ -266,9 +274,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 FirstName = inquiry.Client.FirstName,
                                 LastName = inquiry.Client.LastName,
                                 Subject = inquiry.Subject,
+                                //Assignee = inquiry.SafeGet(z => z.Assignee.FullName)
                             })
-                    }).ToList()
+                    }).ToList(),
+
+                    Employees = repository.Query<Person>()
+                        .Where(x => x.Role == PersonRole.Employee)
+                        .OrderBy(x => x.FirstName)
+                        .ThenBy(x => x.LastName)
+                        .ToList(),
+
+                    Tags = repository.Query<Tag>().ToList()
             });
         }
+
+        
     }
 }

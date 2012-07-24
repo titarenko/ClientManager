@@ -1,0 +1,44 @@
+#admin ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#admin .inquiry {
+    width: 14%;
+    min-width: 14%;
+    height: auto;
+    
+    padding: 4px;
+    margin: 8px;
+            
+    border: 1px lightgray solid;
+    border-radius: 4px;
+            
+    background: #fffff7;
+
+    display: inline-block;
+}
+
+#admin .primary-info {
+    padding-top: 4px;
+    font-size: 120%;
+    text-align: center;
+    height: 48px;
+    font-weight: bold;
+    text-shadow: lightgray 2px 2px 4px;
+}
+            
+#admin .name {
+    color: #777;
+}
+            
+#admin .subject {
+    color: #aaa;
+}
+            
+#admin .secondary-info {
+    padding: 8px 2px 0 2px;
+    bottom: 0;
+    color: #777;
+}

@@ -22,6 +22,8 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public string Subject { get; set; }
 
+        public string Assignee { get; set; }
+
         public IList<Tag> Tags { get; set; }
     }
 }
