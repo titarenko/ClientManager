@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
@@ -44,6 +45,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         public static DateTime GetEndOfBusinessWeek(this DateTime dateWithinWeek, int weekendLength = 2, DayOfWeek endOfWeek = DayOfWeek.Sunday)
         {
             return dateWithinWeek.GetEndOfWeek(endOfWeek).AddDays(-weekendLength);
+        }
+
+        public static int WeekNumber (this DateTime dateWithinWeek)
+        {
+            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dateWithinWeek, CalendarWeekRule.FirstDay,
+                                                                              DayOfWeek.Monday);
         }
     }
 }

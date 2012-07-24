@@ -188,15 +188,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             var skipDaysCount = 0;
-            var startWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(start, CalendarWeekRule.FirstDay,
-                                                                              DayOfWeek.Monday);
+            var startWeek = start.WeekNumber();
             if (start.DayOfWeek == DayOfWeek.Saturday || 
                 start.DayOfWeek == DayOfWeek.Sunday)
             {
                 startWeek++;
             }
-            var finishWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(end.AddDays(-1), CalendarWeekRule.FirstDay,
-                                                                              DayOfWeek.Monday);
+            var finishWeek = end.AddDays(-1).WeekNumber();
             switch (start.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
