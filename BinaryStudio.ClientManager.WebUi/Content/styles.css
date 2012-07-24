@@ -8,7 +8,7 @@
 #week .day .inquiry .name{color:#777;}
 #week .day .inquiry .subject{color:#aaa;}
 #week .day .inquiry .secondary-info{padding:8px 2px 0 2px;bottom:0;color:#777;}
-#month .day{width:10%;min-width:10%;float:left;padding:0;margin:0;}#month .day>ul{margin:0;padding:0;list-style:none;height:150px;}
+#month .day{width:20%;min-width:20%;float:left;padding:0;margin:0;}#month .day>ul{margin:0;padding:0;list-style:none;}
 #month .day title{display:block;width:inherit;text-align:center;font-weight:bold;color:#555;font-size:150%;text-shadow:lightgray 2px 2px 4px;padding:8px;}
 #month .day .inquiry{width:inherit;height:auto;padding:4px;margin:8px;border:1px lightgray solid;border-radius:4px;background:#fffff7;}
 #all .inquiry{width:12%;min-width:12%;height:auto;border:1px solid;border-radius:10px;padding:4px;margin:4px auto;margin-right:4px;font-weight:bold;vertical-align:middle;list-style-type:none;float:left;display:inline;}#all .inquiry a{color:#2222FF;}
