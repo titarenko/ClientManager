@@ -45,6 +45,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
             date.GetEndOfBusinessWeek().Should().Be(endOfWeek);
         }
 
+        [Test, TestCaseSource("Should_ReturnNumberOfWeek_WhenCalledOn_TestCaseSource")]
+        public void Should_ReturnNumberOfWeek_WhenCalledOn(DateTime date)
+        {
+            date.WeekNumber().Should().Be(2);
+        }
+
         public IEnumerable<TestCaseData> Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource()
         {
             //all monthes
@@ -127,6 +133,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
             yield return new TestCaseData(July.The9th, July.The13th);
             yield return new TestCaseData(July.The16th, July.The20th);
             yield return new TestCaseData(July.The8th, July.The6th);
+        }
+
+        public IEnumerable<TestCaseData> Should_ReturnNumberOfWeek_WhenCalledOn_TestCaseSource()
+        {
+            yield return new TestCaseData(January.The2nd);
+            yield return new TestCaseData(January.The3rd);
+            yield return new TestCaseData(January.The4th);
+            yield return new TestCaseData(January.The5th);
+            yield return new TestCaseData(January.The6th);
+            yield return new TestCaseData(January.The7th);
+            yield return new TestCaseData(January.The8th);
         }
     }
 }
