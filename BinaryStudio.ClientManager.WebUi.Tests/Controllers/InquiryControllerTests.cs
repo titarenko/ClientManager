@@ -203,19 +203,19 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnIncomingInquiriesSortedByTags_WhenAdminRequested()
+        public void Should_ReturnOnlyIncomingInquiries_WhenAdminRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Assignee, z => z.Comments, z => z.Tags))
+                .Returns(inquiries.AsQueryable());
 
             // act
             var controller = new InquiriesController(mock.Object);
-            var viewResult = (AllInquiriesViewModel)controller.Admin().Model;
+            var viewResult = (AdminViewModel)controller.Admin().Model;
 
             // assert
-            viewResult.Categories.Sum(x => x.Inquiries.Count()).Should().Be(10);
-
+            viewResult.Inquiries.Count().Should().Be(10);
         }
     }
 }
