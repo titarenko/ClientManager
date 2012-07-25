@@ -7,7 +7,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     {
         public EfDataContext()
 #if DEBUG
-            : base("ClientManager")
+            : base("ClientManager5")
 #endif
         {
         }
