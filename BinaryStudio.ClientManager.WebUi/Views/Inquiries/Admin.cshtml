@@ -48,6 +48,17 @@
                                 </li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-tag"></span> Add tag
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @foreach(var tag in Model.Tags)
+                                        {
+                                            <li><a href="#" onclick="OnClickAddTag(@tag.Id, @inquiry.Id)">@tag.Name</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <span class="icon-calendar"></span> Move to
                                     </a>
                                     <ul class="dropdown-menu sub-menu">
@@ -132,6 +143,23 @@
             url: "@Url.Action("AssignTo")",
             type: "POST",
             data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
+    
+    // menu -> Add tag
+    function OnClickAddTag(tagId, inquiryId) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddTag")",
+            type: "POST",
+            data: { inquiryId: inquiryId, tagId: tagId }
         }).success(onSuccess).error(onError);
     };
 

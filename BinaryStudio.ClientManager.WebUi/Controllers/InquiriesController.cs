@@ -161,6 +161,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             .Where(x => x.Role == PersonRole.Employee)
                             .OrderBy(x => x.FirstName)
                             .ThenBy(x => x.LastName)
+                            .ToList(),
+
+                        Tags = repository.Query<Tag>()
+                            .OrderBy(x => x.Name)
                             .ToList()
                     });
         }
@@ -204,6 +208,19 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 Date = Clock.Now,
                 Text = text
             });
+            repository.Save(inquiry);
+        }
+
+        [HttpPost]
+        public void AddTag(int inquiryId, int tagId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            var tag = repository.Get<Tag>(tagId);
+            if (inquiry == null || tag == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Tags.Add(tag);
             repository.Save(inquiry);
         }
         
