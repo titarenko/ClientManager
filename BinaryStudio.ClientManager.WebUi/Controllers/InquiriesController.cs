@@ -133,6 +133,30 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
         }
 
+        public ViewResult Admin()
+        {
+            var inquiries = repository
+                .Query<Inquiry>(x => x.Client, x => x.Assignee, x => x.Comments, x => x.Tags)
+                .Where(x => x.Status == InquiryStatus.IncomingInquiry)
+                .ToList();
+
+            return View(
+                new AdminViewModel
+                    {
+                        Inquiries = inquiries
+                            .Select(x => new InquiryViewModel
+                            {
+                                Id = x.Id,
+                                Name = x.Client.FullName,
+                                Subject = x.Subject,
+                                Email = x.Client.Email,
+                                Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                Phone = x.Client.Phone,
+                                PhotoUri = x.Client.PhotoUri
+                            })
+                    });
+        }
+
         [HttpPost]
         public void AssignTo(int inquiryId, int employeeId)
         {
@@ -246,9 +270,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
         }
 
-        public ViewResult Admin()
-        {
-            return View();
-        }
+        
     }
 }
