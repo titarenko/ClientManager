@@ -1,6 +1,11 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.WebUi.Models.AdminViewModel
 
+@helper MoveForward(string text, DateTime date, int inquiryId)
+{
+    <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
+}
+
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
@@ -27,7 +32,20 @@
                                 Menu<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-calendar"></span> Move to
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @{
+                                            var day = Clock.Now.Date;    
+                                            @MoveForward("1 day", day.AddDays(1), @inquiry.Id)
+                                            @MoveForward("2 days", day.AddDays(2), @inquiry.Id)
+                                            @MoveForward("3 days", day.AddDays(3), @inquiry.Id)
+                                            @MoveForward("1 week", day.AddDays(7), @inquiry.Id)
+                                        }
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -36,3 +54,22 @@
         }
     </ul>
 </div>
+
+<script type="text/javascript">
+    //When click on menu->move to
+    function OnClickMoveTo(inquiryId, date) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("MoveTo")",
+            type: "POST",
+            data: { inquiryId: inquiryId, date: date }
+        }).success(onSuccess).error(onError);
+    };
+</script>

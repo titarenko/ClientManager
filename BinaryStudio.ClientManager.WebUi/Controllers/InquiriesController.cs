@@ -138,6 +138,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var inquiries = repository
                 .Query<Inquiry>(x => x.Client, x => x.Assignee, x => x.Comments, x => x.Tags)
                 .Where(x => x.Status == InquiryStatus.IncomingInquiry)
+                .OrderBy(x => x.Client.FirstName)
+                .ThenBy(x => x.Client.LastName)
                 .ToList();
 
             return View(
@@ -179,6 +181,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
             }
             inquiry.ReferenceDate = date;
+            inquiry.Status = InquiryStatus.InProgress;
             repository.Save(inquiry);
         }
 
