@@ -6,20 +6,30 @@
         @foreach (var inquiry in Model.Inquiries)
         {
             <li class="inquiry">
-                <div class="row-fluid">
-                    <div class="span4">
-                        <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+                <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+                        </div>
+                        <div class="span8 primary-info">
+                            <span class="name">@inquiry.Name</span>
+                            <span class="subject">@inquiry.Subject</span>
+                        </div>
                     </div>
-                    <div class="span8 primary-info">
-                        <span class="name">@inquiry.Name</span>
-                        <span class="subject">@inquiry.Subject</span>
-                    </div>
-                </div>
+                </a>
                 <div class="secondary-info">
                     <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
                     <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(25))</div>
                     <div>
                         <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
+                        <div class="pull-right dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Menu<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </li>
