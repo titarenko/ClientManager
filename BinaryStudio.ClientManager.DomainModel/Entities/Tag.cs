@@ -8,12 +8,29 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Tag : IIdentifiable
     {
+        public Tag()           
+        {
+            Inquiries=new List<Inquiry>();        
+        }
+
+        /// <summary>
+        /// Id of tag
+        /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Tag name
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Css class name for current tag
+        /// </summary>
         public string CssClass { get; set; }
 
+        /// <summary>
+        /// Inquiries with that tag
+        /// </summary>
         public IList<Inquiry> Inquiries { get; set; }
     }
 }

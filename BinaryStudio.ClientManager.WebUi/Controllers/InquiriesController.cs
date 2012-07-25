@@ -110,27 +110,65 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
+            var categoryWithEmptyTag = new CategoryViewModel
+                                           {
+                                               Tag = null,
+                                               Inquiries = repository.Query<Inquiry>(x=>x.Client,x=>x.Tags)
+                                                   .Where(x => x.Tags.FirstOrDefault() == null)
+                                                   .Select(inquiry => new TaggedInquiryViewModel
+                                                                          {
+                                                                              Id = inquiry.Id,
+                                                                              FirstName = inquiry.Client.FirstName,
+                                                                              LastName = inquiry.Client.LastName,
+                                                                              Subject = inquiry.Subject
+                                                                          })
+                                           };
+
+            var categories = repository.Query<Tag>(x => x.Inquiries)
+                .Select(tag => new CategoryViewModel
+                                   {
+                                       Tag = tag,
+                                       Inquiries =
+                                           tag.Inquiries.Select(
+                                               x =>
+                                               new TaggedInquiryViewModel
+                                                   {
+                                                       Id = x.Id,
+                                                       FirstName = x.Client.FirstName,
+                                                       LastName = x.Client.LastName,
+                                                       Subject = x.Subject
+                                                   })
+                                   }).ToList();
+
+            categories.Add(categoryWithEmptyTag);
+
+                                                                                                                                                                                                                                                       
             return View(new AllInquiriesViewModel
-            {
-                Categories = repository.Query<Inquiry>(x => x.Tags)
-                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                    .Select(all => new CategoryViewModel()
-                                        {
-                                            Tag =
-                                                all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
-                                                FirstOrDefault(),
-                                            Inquiries =
-                                                all.Select(
-                                                    inquiry => new TaggedInquiryViewModel
-                                                                    {
-                                                                        Id = inquiry.Id,
-                                                                        FirstName = inquiry.Client.FirstName,
-                                                                        LastName = inquiry.Client.LastName,
-                                                                        Subject = inquiry.Subject,
-                                                                    })
-                                        }
-                    ).AsEnumerable()
-            });
+                            {
+                                Categories = categories
+                            });
+
+            //return View(new AllInquiriesViewModel
+            //{
+            //    Categories = repository.Query<Inquiry>(x => x.Tags)
+            //        .GroupBy(x => x.Tags.FirstOrDefault().Name)
+            //        .Select(all => new CategoryViewModel()
+            //                            {
+            //                                Tag =
+            //                                    all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
+            //                                    FirstOrDefault(),
+            //                                Inquiries =
+            //                                    all.Select(
+            //                                        inquiry => new TaggedInquiryViewModel
+            //                                                        {
+            //                                                            Id = inquiry.Id,
+            //                                                            FirstName = inquiry.Client.FirstName,
+            //                                                            LastName = inquiry.Client.LastName,
+            //                                                            Subject = inquiry.Subject,
+            //                                                        })
+            //                            }
+            //        ).AsEnumerable()
+            //});
         }
 
         [HttpPost]
