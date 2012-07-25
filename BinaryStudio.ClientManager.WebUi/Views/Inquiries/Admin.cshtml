@@ -34,6 +34,17 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-user"></span> Assign to
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @foreach(var employee in Model.Employees)
+                                        {
+                                            <li><a href="#" onclick="OnClickAssign(@employee.Id,@inquiry.Id)">@employee.FullName</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <span class="icon-calendar"></span> Move to
                                     </a>
                                     <ul class="dropdown-menu sub-menu">
@@ -56,6 +67,23 @@
 </div>
 
 <script type="text/javascript">
+    //When click on menu->assign to->some employee
+    function OnClickAssign(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AssignTo")",
+            type: "POST",
+            data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
+
     //When click on menu->move to
     function OnClickMoveTo(inquiryId, date) {
         var onSuccess = function() {

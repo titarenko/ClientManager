@@ -155,7 +155,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 Assignee = x.SafeGet(z => z.Assignee.FullName),
                                 Phone = x.Client.Phone,
                                 PhotoUri = x.Client.PhotoUri
-                            })
+                            }),
+
+                        Employees = repository.Query<Person>()
+                            .Where(x => x.Role == PersonRole.Employee)
+                            .OrderBy(x => x.FirstName)
+                            .ThenBy(x => x.LastName)
+                            .ToList()
                     });
         }
 
