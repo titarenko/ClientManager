@@ -150,6 +150,42 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             });
         }
 
+        public ViewResult Admin()
+        {
+            var inquiries = repository
+                .Query<Inquiry>(x => x.Client, x => x.Assignee, x => x.Comments, x => x.Tags)
+                .Where(x => x.Status == InquiryStatus.IncomingInquiry)
+                .OrderBy(x => x.Client.FirstName)
+                .ThenBy(x => x.Client.LastName)
+                .ToList();
+
+            return View(
+                new AdminViewModel
+                    {
+                        Inquiries = inquiries
+                            .Select(x => new InquiryViewModel
+                            {
+                                Id = x.Id,
+                                Name = x.Client.FullName,
+                                Subject = x.Subject,
+                                Email = x.Client.Email,
+                                Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                Phone = x.Client.Phone,
+                                PhotoUri = x.Client.PhotoUri
+                            }),
+
+                        Employees = repository.Query<Person>()
+                            .Where(x => x.Role == PersonRole.Employee)
+                            .OrderBy(x => x.FirstName)
+                            .ThenBy(x => x.LastName)
+                            .ToList(),
+
+                        Tags = repository.Query<Tag>()
+                            .OrderBy(x => x.Name)
+                            .ToList()
+                    });
+        }
+
         [HttpPost]
         public void AssignTo(int inquiryId, int employeeId)
         {
@@ -172,6 +208,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
             }
             inquiry.ReferenceDate = date;
+            inquiry.Status = InquiryStatus.InProgress;
             repository.Save(inquiry);
         }
 
@@ -190,12 +227,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
             repository.Save(inquiry);
         }
-        
-        public IList<Inquiry> SelectedDayInquiries(DateTime day, IRepository repository)
-        {
 
-            return repository.Query<Inquiry>().Where(inquiry => inquiry.ReferenceDate == day).ToList();
+        [HttpPost]
+        public void AddTag(int inquiryId, int tagId)
+        {
+            var inquiry = repository.Get<Inquiry>(inquiryId);
+            var tag = repository.Get<Tag>(tagId);
+            if (inquiry == null || tag == null)
+            {
+                throw new ModelIsNotValidException();
+            }
+            inquiry.Tags.Add(tag);
+            repository.Save(inquiry);
         }
+        
         //
         // GET: /MonthView/
 
@@ -205,15 +250,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             var skipDaysCount = 0;
-            var startWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(start, CalendarWeekRule.FirstDay,
-                                                                              DayOfWeek.Monday);
+            var startWeek = start.WeekNumber();
             if (start.DayOfWeek == DayOfWeek.Saturday || 
                 start.DayOfWeek == DayOfWeek.Sunday)
             {
                 startWeek++;
             }
-            var finishWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(end.AddDays(-1), CalendarWeekRule.FirstDay,
-                                                                              DayOfWeek.Monday);
+            var finishWeek = end.AddDays(-1).WeekNumber();
             switch (start.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
@@ -265,27 +308,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
         }
 
-        public ViewResult Admin()
-        {
-            return View(new AllInquiriesViewModel
-            {
-                Categories = repository.Query<Inquiry>(x => x.Tags)
-                    .Where(x => x.Status == InquiryStatus.IncomingInquiry)
-                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                    .Select(all => new CategoryViewModel
-                    {
-                        Tag = all.Select(inquiry => inquiry.Tags.FirstOrDefault())
-                            .FirstOrDefault(),
-                        Inquiries = all.Select(
-                            inquiry => new TaggedInquiryViewModel
-                            {
-                                Id = inquiry.Id,
-                                FirstName = inquiry.Client.FirstName,
-                                LastName = inquiry.Client.LastName,
-                                Subject = inquiry.Subject,
-                            })
-                    }).ToList()
-            });
-        }
+        
     }
 }

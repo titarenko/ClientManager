@@ -1,25 +1,182 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@model BinaryStudio.ClientManager.WebUi.Models.AllInquiriesViewModel
+@model BinaryStudio.ClientManager.WebUi.Models.AdminViewModel
 
-<div id="all" class="container">
-@foreach (var category in Model.Categories)
+@helper MoveForward(string text, DateTime date, int inquiryId)
 {
-    <div class="row-fluid">
-        <ul>
-            @foreach (var inquiry in category.Inquiries)
-            {                                
-                <li class="inquiry @category.Tag.SafeGet(x => x.CssClass).Or("empty-tag")">
-                    <a href="@Url.Action("Details", new { id = inquiry.Id })">
-                        @inquiry.FullName <br/>
-                        @inquiry.Subject 
-                    </a>
-                    <div>
-                        @category.Tag.SafeGet(x=>x.Name).Or("No tags")                      
-                    </div>
-                </li>
-                
-            }
-        </ul>
-    </div>    
+    <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
 }
+
+<div class="wrap">
+    <div id="saved-comment" class="message-alert hide"></div>
 </div>
+<div id="admin" class="container">
+    <ul>
+        @foreach (var inquiry in Model.Inquiries)
+        {
+            <li class="inquiry">
+                <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+                        </div>
+                        <div class="span8 primary-info">
+                            <span class="name">@inquiry.Name</span>
+                            <span class="subject">@inquiry.Subject</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="secondary-info">
+                    <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
+                    <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(25))</div>
+                    <div>
+                        <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
+                        <div class="pull-right dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Menu<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-user"></span> Assign to
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @foreach(var employee in Model.Employees)
+                                        {
+                                            <li><a href="#" onclick="OnClickAssign(@employee.Id,@inquiry.Id)">@employee.FullName</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-tag"></span> Add tag
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @foreach(var tag in Model.Tags)
+                                        {
+                                            <li><a href="#" onclick="OnClickAddTag(@tag.Id, @inquiry.Id)">@tag.Name</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="icon-calendar"></span> Move to
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        @{
+                                            var day = Clock.Now.Date;    
+                                            @MoveForward("1 day", day.AddDays(1), @inquiry.Id)
+                                            @MoveForward("2 days", day.AddDays(2), @inquiry.Id)
+                                            @MoveForward("3 days", day.AddDays(3), @inquiry.Id)
+                                            @MoveForward("1 week", day.AddDays(7), @inquiry.Id)
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@inquiry.Id)"><span class="icon-pencil"></span> Add comment</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="modal hide" id="comment-editor">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>New Comment</h3>
+        </div>
+        <div class="modal-body">
+            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="OnClickAddComment()">Add Comment</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function OnClickAddComment() {
+        var comment = $('#commentTextArea').val();
+        
+        var onSuccess = function() {
+            $('#commentTextArea').val('');
+            ShowAlert('Your comment has been saved.');
+        };
+
+        var onError = function() {
+            $('#commentTextArea').val('');
+            ShowAlert('An error occured while saving comment.');
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddComment")",
+            type: "POST",
+            data: { inquiryId: $('#comment-editor').data("inquiryId"), text: comment }
+        }).success(onSuccess).error(onError);
+    }
+
+    //when click on menu->add comment
+    function ShowModal(inquiryId) {
+        $('#comment-editor').data("inquiryId",inquiryId);               
+    };
+
+    function ShowAlert(message) {
+        $('#saved-comment').text(message)
+            .fadeIn('fast')
+            .delay(3000)
+            .fadeOut('slow');  
+    }
+
+    //When click on menu->assign to->some employee
+    function OnClickAssign(employee, inquiry) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AssignTo")",
+            type: "POST",
+            data: { inquiryId: inquiry, employeeId: employee }
+        }).success(onSuccess).error(onError);
+    };
+    
+    // menu -> Add tag
+    function OnClickAddTag(tagId, inquiryId) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddTag")",
+            type: "POST",
+            data: { inquiryId: inquiryId, tagId: tagId }
+        }).success(onSuccess).error(onError);
+    };
+
+    //When click on menu->move to
+    function OnClickMoveTo(inquiryId, date) {
+        var onSuccess = function() {
+            location.reload(true);
+        };
+
+        var onError = function() {
+            alert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "@Url.Action("MoveTo")",
+            type: "POST",
+            data: { inquiryId: inquiryId, date: date }
+        }).success(onSuccess).error(onError);
+    };
+</script>
