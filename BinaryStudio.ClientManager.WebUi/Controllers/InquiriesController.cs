@@ -224,11 +224,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             repository.Save(inquiry);
         }
         
-        public IList<Inquiry> SelectedDayInquiries(DateTime day, IRepository repository)
-        {
-
-            return repository.Query<Inquiry>().Where(inquiry => inquiry.ReferenceDate == day).ToList();
-        }
         //
         // GET: /MonthView/
 

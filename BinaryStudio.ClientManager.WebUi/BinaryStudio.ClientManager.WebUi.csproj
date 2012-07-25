@@ -246,9 +246,6 @@
     <Content Include="Views\Inquiries\MailMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\WeekView\Week.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Deployment\Install.ps1" />
     <None Include="Deployment\Package.ps1" />
     <Content Include="Views\Home\NoScript.cshtml" />
