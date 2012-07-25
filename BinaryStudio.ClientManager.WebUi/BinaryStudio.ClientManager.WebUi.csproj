@@ -144,6 +144,7 @@
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CommonViewsScript.js" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\date_ru_utf8.js" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
