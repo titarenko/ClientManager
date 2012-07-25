@@ -6,6 +6,9 @@
     <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
 }
 
+<div class="wrap">
+    <div id="saved-comment" class="message-alert hide"></div>
+</div>
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
@@ -57,6 +60,9 @@
                                         }
                                     </ul>
                                 </li>
+                                <li>
+                                    <a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@inquiry.Id)"><span class="icon-pencil"></span> Add comment</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -64,9 +70,54 @@
             </li>
         }
     </ul>
+    <div class="modal hide" id="comment-editor">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>New Comment</h3>
+        </div>
+        <div class="modal-body">
+            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="OnClickAddComment()">Add Comment</a>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
+    function OnClickAddComment() {
+        var comment = $('#commentTextArea').val();
+        
+        var onSuccess = function() {
+            $('#commentTextArea').val('');
+            ShowAlert('Your comment has been saved.');
+        };
+
+        var onError = function() {
+            $('#commentTextArea').val('');
+            ShowAlert('An error occured while saving comment.');
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddComment")",
+            type: "POST",
+            data: { inquiryId: $('#comment-editor').data("inquiryId"), text: comment }
+        }).success(onSuccess).error(onError);
+    }
+
+    //when click on menu->add comment
+    function ShowModal(inquiryId) {
+        $('#comment-editor').data("inquiryId",inquiryId);               
+    };
+
+    function ShowAlert(message) {
+        $('#saved-comment').text(message)
+            .fadeIn('fast')
+            .delay(3000)
+            .fadeOut('slow');  
+    }
+
     //When click on menu->assign to->some employee
     function OnClickAssign(employee, inquiry) {
         var onSuccess = function() {
