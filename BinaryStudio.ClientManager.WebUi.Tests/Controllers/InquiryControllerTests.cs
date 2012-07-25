@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -20,35 +21,56 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
     public class InquiryControllerTests
     {
         private IList<Inquiry> inquiries;
-        
+
+        private IList<Tag> tags;
+
         [SetUp]
         public void GenerateInquiriesList()
         {
             Clock.FreezedTime = new DateTime(2012, 7, 19);
+
+            tags = new List<Tag>
+                       {
+                           new Tag 
+                           {
+                               Id = 1,
+                               Name = "tag1",
+                               CssClass = "tag1"
+                           }, 
+                           new Tag
+                           {
+                               Id = 2,
+                               Name = "tag2",
+                               CssClass = "tag2"
+                           }
+                       };
 
             inquiries = Builder<Inquiry>.CreateListOfSize(40)
                 .All()
                 .With(x => x.Client = Builder<Person>.CreateNew().Build())
                 .With(x => x.Assignee = Builder<Person>.CreateNew().Build())
                 .With(x => x.Source = Builder<MailMessage>.CreateNew().Build())
-                .With(x => x.Tags = new[] { new Tag { Name = "tag1" }, new Tag { Name = "doesn't matter" } })
+                .With(x => x.Tags = new List<Tag>())
                 .With(x => x.Status = InquiryStatus.InProgress)
                 .TheFirst(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The31st))
                 .With(x => x.Status = InquiryStatus.IncomingInquiry)
+                .With(x => x.Tags = new List<Tag>{tags[0] })
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
                 .With(x => x.Status = InquiryStatus.WaitingForReply)
+                .With(x => x.Tags = new List<Tag> { tags[1] })
                 .TheNext(1)
                 .With(x => x.ReferenceDate = new DateTime(Clock.Now.Year, 3, 1))
                 .TheNext(9)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(March.The1st, March.The31st))
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfBusinessWeek(),
-                    Clock.Now.GetEndOfBusinessWeek()))
-                .Random(10)
-                .With(x => x.Tags = new[] { new Tag { Name = "tag2" }, new Tag { Name = "doesn't matter" } })
+                                                                Clock.Now.GetEndOfBusinessWeek()))                
                 .Build();
+
+            tags[0].Inquiries = inquiries.Take(10).ToList();
+            tags[1].Inquiries = inquiries.Skip(10).Take(10).ToList();
         }
 
         [Test]
@@ -160,46 +182,47 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             // arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
-
+            mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Tags)).Returns(inquiries.AsQueryable());
+            mock.Setup(z => z.Query<Tag>(x => x.Inquiries)).Returns(tags.AsQueryable());
+            
             //act
             var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = inquiriesController.All().Model as AllInquiriesViewModel;
 
             // assert
-            viewResult.Categories.Count().Should().Be(2);
-            viewResult.Categories.Where(x => x.Tag.Name == "tag1")
-                .Sum(x => x.Inquiries.Count()).Should().Be(30);
-            viewResult.Categories.Where(x => x.Tag.Name == "tag2")
+            viewResult.Categories.Count().Should().Be(3);
+            viewResult.Categories.Where(x => x.Tag.SafeGet(tag=>tag.Name) == "tag1")
                 .Sum(x => x.Inquiries.Count()).Should().Be(10);
+            viewResult.Categories.Where(x => x.Tag.SafeGet(tag => tag.Name) == "tag2")
+                .Sum(x => x.Inquiries.Count()).Should().Be(10);
+            viewResult.Categories.Where(x => x.Tag == null)
+                .Sum(x => x.Inquiries.Count()).Should().Be(20);
         }
 
         [Test]
         public void Should_ReturnFullListOfInquiriesWithDuplicateWhen2TagsInOneInquiry_WhenCalledAllFunction()
         {
             // arrange
-            var tagsWith1Tag = new List<Tag> {new Tag {Name = "tag1"}};
-            var tagsWith2Tags = new List<Tag> {new Tag {Name = "tag1"}, new Tag {Name = "tag2"}};
-            var inquiries = Builder<Inquiry>.CreateListOfSize(10)
-                .All()
-                .With(x => x.Tags = tagsWith1Tag)
-                .Random(2)
-                .With(x => x.Tags = tagsWith2Tags)
-                .Build();
-
+            var tagsWithDuplicates = new List<Tag>();
+            tagsWithDuplicates.AddRange(tags);
+            tagsWithDuplicates[0].Inquiries.Add(inquiries[12]);
+            tagsWithDuplicates[1].Inquiries.Add(inquiries[5]);
+            tagsWithDuplicates[1].Inquiries.Add(inquiries[6]);
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Tags)).Returns(inquiries.AsQueryable());
+            mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Tags)).Returns(inquiries.AsQueryable());
+            mock.Setup(z => z.Query<Tag>(x => x.Inquiries)).Returns(tagsWithDuplicates.AsQueryable());
+            
 
             //act
             var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = inquiriesController.All().Model as AllInquiriesViewModel;
 
             // assert
-            viewResult.Categories.Count().Should().Be(2);
-            viewResult.Categories.Where(x => x.Tag.Name == "tag1")
-                .Sum(x => x.Inquiries.Count()).Should().Be(10);
-            viewResult.Categories.Where(x => x.Tag.Name == "tag2")
-                .Sum(x => x.Inquiries.Count()).Should().Be(2);
+            viewResult.Categories.Count().Should().Be(3);
+            viewResult.Categories.Where(x => x.Tag.SafeGet(tag => tag.Name) == "tag1")
+                .Sum(x => x.Inquiries.Count()).Should().Be(11);
+            viewResult.Categories.Where(x => x.Tag.SafeGet(tag => tag.Name) == "tag2")
+                .Sum(x => x.Inquiries.Count()).Should().Be(12);
         }
 
         [Test]

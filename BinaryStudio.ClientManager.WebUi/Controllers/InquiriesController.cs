@@ -141,34 +141,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                    }).ToList();
 
             categories.Add(categoryWithEmptyTag);
+            
 
-                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                               
             return View(new AllInquiriesViewModel
                             {
                                 Categories = categories
                             });
-
-            //return View(new AllInquiriesViewModel
-            //{
-            //    Categories = repository.Query<Inquiry>(x => x.Tags)
-            //        .GroupBy(x => x.Tags.FirstOrDefault().Name)
-            //        .Select(all => new CategoryViewModel()
-            //                            {
-            //                                Tag =
-            //                                    all.Select(inquiry => inquiry.Tags.FirstOrDefault()).
-            //                                    FirstOrDefault(),
-            //                                Inquiries =
-            //                                    all.Select(
-            //                                        inquiry => new TaggedInquiryViewModel
-            //                                                        {
-            //                                                            Id = inquiry.Id,
-            //                                                            FirstName = inquiry.Client.FirstName,
-            //                                                            LastName = inquiry.Client.LastName,
-            //                                                            Subject = inquiry.Subject,
-            //                                                        })
-            //                            }
-            //        ).AsEnumerable()
-            //});
         }
 
         [HttpPost]
