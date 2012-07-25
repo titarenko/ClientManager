@@ -248,25 +248,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Admin()
         {
-            return View(new AllInquiriesViewModel
-            {
-                Categories = repository.Query<Inquiry>(x => x.Tags)
-                    .Where(x => x.Status == InquiryStatus.IncomingInquiry)
-                    .GroupBy(x => x.Tags.FirstOrDefault().Name)
-                    .Select(all => new CategoryViewModel
-                    {
-                        Tag = all.Select(inquiry => inquiry.Tags.FirstOrDefault())
-                            .FirstOrDefault(),
-                        Inquiries = all.Select(
-                            inquiry => new TaggedInquiryViewModel
-                            {
-                                Id = inquiry.Id,
-                                FirstName = inquiry.Client.FirstName,
-                                LastName = inquiry.Client.LastName,
-                                Subject = inquiry.Subject,
-                            })
-                    }).ToList()
-            });
+            return View();
         }
     }
 }
