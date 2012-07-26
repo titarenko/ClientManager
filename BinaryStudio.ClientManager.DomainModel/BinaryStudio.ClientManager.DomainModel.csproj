@@ -64,7 +64,6 @@
     <Compile Include="Infrastructure\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
-    <Compile Include="Infrastructure\RandomItem.cs" />
     <Compile Include="Infrastructure\SafeExtensions.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />

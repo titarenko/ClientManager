@@ -53,15 +53,15 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var clients = repository.Query<Person>(x => x.RelatedMails)
                 .Where(x => x.Role == PersonRole.Client).ToList();
-            var randomClient = new RandomItem<Person>(clients, false);
+            var randomClient = new RandomItemPicker<Person>(clients, new RandomGenerator());
 
             var tags = repository.Query<Tag>().ToList();
-            var randomTag = new RandomItem<Tag>(tags, false);
+            var randomTag = new RandomItemPicker<Tag>(tags, new RandomGenerator());
 
             var iquiries = Builder<Inquiry>.CreateListOfSize(20)
                 .All()
                 .With(x => x.Id = 0)
-                .With(x => x.Client = randomClient.Next())
+                .With(x => x.Client = randomClient.Pick())
                 .With(x => x.Comments = new List<Comment>())
                 .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfMonth(),
                     Clock.Now.GetEndOfMonth().AddDays(1)))
@@ -71,7 +71,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                                           .With(z => z.Body = GetRandom.Phrase(GetRandom.Int(60, 500)))
                                           .With(z => z.Id = 0)
                                           .Build())
-                .With(x => x.Tags = new List<Tag> { randomTag.Next() })
+                .With(x => x.Tags = new List<Tag> { randomTag.Pick() })
                 .TheFirst(5)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfBusinessWeek(),
                     Clock.Now.GetEndOfBusinessWeek().AddDays(1)))
@@ -92,9 +92,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var facebookUris = new List<string> { "http://www.facebook.com/ivan.zaporozhchenko", "http://www.facebook.com/dmitriy.stranger.7" };
             var linkedInUris = new List<string> { "http://ua.linkedin.com/in/titarenko", "http://ua.linkedin.com/in/olvia" };
 
-            var randomTwitterUri = new RandomItem<string>(twitterUris, false);
-            var randomFacebookUri = new RandomItem<string>(facebookUris, false);
-            var randomlinkedInUri = new RandomItem<string>(linkedInUris, false);
+            var randomTwitterUri = new RandomItemPicker<string>(twitterUris, new RandomGenerator());
+            var randomFacebookUri = new RandomItemPicker<string>(facebookUris, new RandomGenerator());
+            var randomlinkedInUri = new RandomItemPicker<string>(linkedInUris, new RandomGenerator());
 
             var persons = Builder<Person>.CreateListOfSize(10)
                 .All()
@@ -107,9 +107,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.CreationDate = GetRandom.DateTime(January.The1st, DateTime.Now))
                 .With(x => x.Id = 0)
                 .With(x=>x.PhotoUri="")
-                .With(x=>x.FacebookUri=randomFacebookUri.Next())
-                .With(x=>x.LinkedInUri=randomlinkedInUri.Next())
-                .With(x=>x.TwitterUri=randomTwitterUri.Next())
+                .With(x=>x.FacebookUri=randomFacebookUri.Pick())
+                .With(x=>x.LinkedInUri=randomlinkedInUri.Pick())
+                .With(x=>x.TwitterUri=randomTwitterUri.Pick())
                 .With(x => x.RelatedMails = Builder<MailMessage>.CreateListOfSize(5)
                     .All()
                     .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
