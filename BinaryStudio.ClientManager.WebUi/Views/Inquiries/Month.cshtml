@@ -1,50 +1,26 @@
 ﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
-   ViewBag.Title = String.Format("Month - {0}", Model.Days.First().Date.ToString("MMMM"));
+   ViewBag.Title = String.Format("Month - {0}", Model.MonthName);
 }
 
 <div id="month" class="container">
-    @for (int week = Model.StartingWeek; week <= Model.FinishingWeek; week++)
+    @foreach( var week in Model.Weeks)
     {
         <div class="row">
-            @{
-                if (week == Model.StartingWeek)
-                {
-            @*Creating dummies for days in begin of week, which belongs to previous month*@
-                    for (int skipDaysCount = Model.SkippedDays; skipDaysCount > 0; skipDaysCount--)
-                     {
-                         <div class="day">
-                             <ul>
-                                 <title> </title>
-                             </ul>
-                         </div>
-                     }
-                }
-                foreach (var day in Model.Days)
-                {
-            @* Skips weekend days *@
-                    if (day.Date.DayOfWeek == DayOfWeek.Saturday ||
-                        day.Date.DayOfWeek == DayOfWeek.Sunday)
-                    {
-                        continue;
-                    }
-                    if (day.WeekNumber == week)
-                    {
-                        <div class="day">            
+            @foreach(var day in week.Days)
+            {
+                <div class="day">            
                             <ul>
                                 <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
                                 @foreach (var inquiry in day.Inquiries)
                                 {
                                     <li class="inquiry">
-                                        @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
+                                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
                                     </li>
                                 }
                             </ul>
                         </div>
-                    }
-
-                }
             }
         </div>
     }
-</div>
+</div>   

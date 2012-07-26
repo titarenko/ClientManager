@@ -10,6 +10,8 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public int FinishingWeek { get; set; }
 
-        public IEnumerable<MonthItemViewModel> Days { get; set; }
+        public string MonthName { get; set; }
+
+        public IEnumerable<MonthItemViewModel> Weeks { get; set; }
     }
 }

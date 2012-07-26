@@ -150,7 +150,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             employeesList.Count.Should().Be(7);
         }
 
-        [Test]
+        /*[Test]
         [TestCase(2)]
         [TestCase(3)]
         public void Should_ReturnListOfInquiriesForCurrentMonth_WhenMonthRequested(int month)
@@ -169,7 +169,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var inquiriesCount = inquiriesList.Sum(day => day.Inquiries.Count());
             inquiriesCount.Should().Be(10);
         }
-
+        */
         [Test]
         public void Should_ReturnFullListOfInquiriesSortedByTag_WhenCalledAllFunction()
         {

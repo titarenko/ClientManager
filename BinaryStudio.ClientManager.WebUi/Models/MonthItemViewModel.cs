@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class MonthItemViewModel
     {
-        public string Name { get; set; }
+        public int WeekNumber { get; set; }
 
-        public DateTime Date { get; set; }
-
-        public int WeekNumber {get
-            {
-               return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(Date, CalendarWeekRule.FirstDay,
-                                                                 DayOfWeek.Monday);
-            }
-        }
-
-        public IEnumerable<InquiryViewModel> Inquiries { get; set; }
+        public IEnumerable<WeekItemViewModel> Days { get; set; }
     }
 }

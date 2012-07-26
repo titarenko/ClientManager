@@ -248,14 +248,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /MonthView/
 
-        public ViewResult Month() 
+        public ViewResult Month()
         {
             var today = Clock.Now;
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
             var skipDaysCount = 0;
             var startWeek = start.WeekNumber();
-            if (start.DayOfWeek == DayOfWeek.Saturday || 
+            if (start.DayOfWeek == DayOfWeek.Saturday ||
                 start.DayOfWeek == DayOfWeek.Sunday)
             {
                 startWeek++;
@@ -263,44 +263,61 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var finishWeek = end.AddDays(-1).WeekNumber();
             switch (start.DayOfWeek)
             {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    skipDaysCount = 0;
+                case DayOfWeek.Tuesday:
+                    skipDaysCount = 1;
+                    break;
+                case DayOfWeek.Wednesday:
+                    skipDaysCount = 2;
+                    break;
+                case DayOfWeek.Thursday:
+                    skipDaysCount = 3;
+                    break;
+                case DayOfWeek.Friday:
+                    skipDaysCount = 4;
                     break;
                 default:
-                    skipDaysCount = (int)start.DayOfWeek - 1;
+                    skipDaysCount = 0;
                     break;
             }
 
             var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
                 Where(x => x.ReferenceDate >= start && x.ReferenceDate < end).ToList();
-            
+            inquiryThisMonthList = inquiryThisMonthList.Where(y => y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Saturday
+                                                                   && y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Sunday).ToList();
+
             return View(new MonthViewModel
             {
                 SkippedDays = skipDaysCount,
                 StartingWeek = startWeek,
                 FinishingWeek = finishWeek,
-                Days = (
-                    from index in Enumerable.Range(0, (end - start).Days)
-                    let date = start.AddDays(index)
-                    select new MonthItemViewModel
-                    {
-                        Name = date.ToString("ddd"),
-                        Date = date,
-                        Inquiries = inquiryThisMonthList
-                            .Where(x => x.ReferenceDate.Value.Date == date)
-                            .OrderBy(x => x.ReferenceDate)
-                            .Select(x => new InquiryViewModel
-                            {
-                                Id = x.Id,
-                                Name = x.Client.FullName,
-                                Subject = x.Subject,
-                                Email = x.Client.Email,
-                                Assignee = x.SafeGet(z => z.Assignee.FullName),
-                                Phone = x.Client.Phone,
-                                PhotoUri = x.Client.PhotoUri
-                            }).AsEnumerable()
-                    }).AsEnumerable(),
+                MonthName = start.Date.ToString("MMMM"),
+                Weeks = (from range in Enumerable.Range(0, (finishWeek - startWeek))
+                         let weeknum = startWeek + range
+                         select new MonthItemViewModel
+                         {
+                             WeekNumber = weeknum,
+                             Days = (
+                                 from index in Enumerable.Range(1, 5)
+                                 let date = start.AddDays(index - skipDaysCount + range * 7)
+                                 select new WeekItemViewModel
+                                 {
+                                     Name = date.ToString("ddd"),
+                                     Date = date,
+                                     Inquiries = inquiryThisMonthList
+                                         .Where(x => x.ReferenceDate.Value.Date == date)
+                                         .OrderBy(x => x.ReferenceDate)
+                                         .Select(x => new InquiryViewModel
+                                         {
+                                             Id = x.Id,
+                                             Name = x.Client.FullName,
+                                             Subject = x.Subject,
+                                             Email = x.Client.Email,
+                                             Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                             Phone = x.Client.Phone,
+                                             PhotoUri = x.Client.PhotoUri
+                                         }).AsEnumerable()
+                                 }).AsEnumerable()
+                         }).AsEnumerable(),
             });
         }
     }
