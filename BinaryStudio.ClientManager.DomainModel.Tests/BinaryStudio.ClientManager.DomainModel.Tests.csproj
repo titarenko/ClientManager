@@ -54,6 +54,7 @@
     <Compile Include="Infrastructure\ClockTests.cs" />
     <Compile Include="Infrastructure\DateTimeExtensionsTests.cs" />
     <Compile Include="Infrastructure\FakeTimer.cs" />
+    <Compile Include="Infrastructure\StringExtensionsTests.cs" />
     <Compile Include="Input\AeEmailClientIntegrationTests.cs" />
     <Compile Include="Input\AeEventBasedEmailClientTest.cs" />
     <Compile Include="Input\ExtensionsTests.cs" />
