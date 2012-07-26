@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -124,25 +126,29 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                                 Subject = inquiry.Subject
                                             })
                 };
-
+            
             var categories = repository
                 .Query<Tag>(x => x.Inquiries)
-                .Select(tag => new CategoryViewModel
-                                {
-                                    Tag = new TagViewModel { Name = tag.Name },
-
-                                    Inquiries = tag.Inquiries
-                                        .Select(x => new TaggedInquiryViewModel
-                                                     {
-                                                         Id = x.Id,
-                                                         FirstName = x.Client.FirstName,
-                                                         LastName = x.Client.LastName,
-                                                         Subject = x.Subject
-                                                     })
-                                }).ToList();
-
-            categories.Add(categoryWithEmptyTag);
-                                                                                                                                                                                                                                                               
+                .Select(tag =>  tag.Inquiries.Count() != 0 ? new CategoryViewModel {
+                                                                                  Tag = new TagViewModel
+                                                                                            {
+                                                                                                Name = tag.Name
+                                                                                            },
+                                                                                  Inquiries = tag.Inquiries
+                                                                                      .Select(x => new TaggedInquiryViewModel
+                                                                                                       {
+                                                                                                           Id = x.Id,
+                                                                                                           FirstName = x.Client.FirstName,
+                                                                                                           LastName = x.Client.LastName,
+                                                                                                           Subject = x.Subject
+                                                                                                       })
+                                                                              } : null).ToList();
+            categories.RemoveAll(x => x==null);
+            if (categoryWithEmptyTag.Inquiries.Any())
+            {
+                categories.Insert(0,categoryWithEmptyTag);
+            }
+                                                                                                                                                                                                                                                                           
             return View(new AllInquiriesViewModel
                             {
                                 Categories = categories
