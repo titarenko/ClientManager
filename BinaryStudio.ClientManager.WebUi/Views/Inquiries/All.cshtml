@@ -3,12 +3,7 @@
 
 <div id="all" class="container">
 @foreach (var category in Model.Categories)
-{
-    if (!category.Inquiries.Any())
-    {
-        continue;
-    }
-    
+{   
     <div class="row-fluid">
         <ul>
             @foreach (var inquiry in category.Inquiries)
