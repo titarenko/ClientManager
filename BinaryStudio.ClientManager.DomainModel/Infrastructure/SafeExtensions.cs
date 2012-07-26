@@ -9,6 +9,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// </summary>
     public static class SafeExtensions
     {
+        /// <summary>
+        /// Return property or default result of property type if input object is null and do not throw exception.
+        /// <example>
+        /// Inquiry inquiry=null;
+        /// var id=inquiry.SafeGet(x=>x.Id); //returns null and do not throw exception
+        /// </example>
+        /// </summary>
+        /// <param name="evaluator">lamda expression for getting property</param>
         public static TResult SafeGet<TInput, TResult>(this TInput inputObject, Expression<Func<TInput, TResult>> evaluator)
             where TInput : class
         {
