@@ -68,7 +68,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnFullListOfInquiries_WhenRequested()
+        public void Should_ReturnFullListOfInquiries_WhenIndexRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
@@ -84,7 +84,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void ShouldNot_RaiseException_WhenReposioryIsEmpty()
+        public void ShouldNot_RaiseException_WhenRepostioryIsEmptyAndIndexRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
@@ -122,7 +122,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnListOfInquiriesForCurrentBusinessWeekAndFullListOfEmployees_WhenRequested()
+        public void Should_ReturnListOfInquiriesForCurrentBusinessWeekAndFullListOfEmployees_WhenWeekRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
@@ -153,7 +153,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         [TestCase(2)]
         [TestCase(3)]
-        public void Should_ReturnListOfInquiriesForCurrentMonth_WhenRequested(int month)
+        public void Should_ReturnListOfInquiriesForCurrentMonth_WhenMonthRequested(int month)
         {
             // arrange
             Clock.FreezedTime = new DateTime(DateTime.Now.Year, month, 10);
@@ -239,7 +239,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnOnlyIncomingInquiries_WhenAdminRequested()
+        public void Should_ReturnOnlyInquiriesWhereReferenceDateEqualNull_WhenAdminRequested()
         {
             // arrange
             var mock = new Mock<IRepository>();
