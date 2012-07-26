@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
@@ -7,6 +6,6 @@ namespace BinaryStudio.ClientManager.WebUi.Models
     {
         public IEnumerable<TaggedInquiryViewModel> Inquiries { get; set; }
 
-        public Tag Tag { get; set;}
+        public TagViewModel Tag { get; set;}
     }
 }

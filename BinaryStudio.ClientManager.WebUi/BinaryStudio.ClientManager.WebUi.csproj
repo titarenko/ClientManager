@@ -82,6 +82,7 @@
     <Compile Include="Models\InquiryViewModel.cs" />
     <Compile Include="Models\MonthItemViewModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />
+    <Compile Include="Models\TagViewModel.cs" />
     <Compile Include="Models\WeekItemViewModel.cs" />
     <Compile Include="Models\WeekViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

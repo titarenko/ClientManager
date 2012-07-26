@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using BinaryStudio.ClientManager.DomainModel.Entities;
-using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {

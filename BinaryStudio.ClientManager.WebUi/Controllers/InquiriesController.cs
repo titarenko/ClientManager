@@ -108,39 +108,40 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <returns></returns>
         public ViewResult All()
         {
-            var categoryWithEmptyTag = new CategoryViewModel
-                                           {
-                                               Tag = null,
-                                               Inquiries = repository.Query<Inquiry>(x=>x.Client,x=>x.Tags)
-                                                   .Where(x => x.Tags.FirstOrDefault() == null)
-                                                   .Select(inquiry => new TaggedInquiryViewModel
-                                                                          {
-                                                                              Id = inquiry.Id,
-                                                                              FirstName = inquiry.Client.FirstName,
-                                                                              LastName = inquiry.Client.LastName,
-                                                                              Subject = inquiry.Subject
-                                                                          })
-                                           };
+            var categoryWithEmptyTag =
+                new CategoryViewModel
+                {
+                    Tag = new TagViewModel { Name = "" },
 
-            var categories = repository.Query<Tag>(x => x.Inquiries)
+                    Inquiries = repository
+                        .Query<Inquiry>(x => x.Client, x => x.Tags)
+                        .Where(x => !x.Tags.Any())
+                        .Select(inquiry => new TaggedInquiryViewModel
+                                            {
+                                                Id = inquiry.Id,
+                                                FirstName = inquiry.Client.FirstName,
+                                                LastName = inquiry.Client.LastName,
+                                                Subject = inquiry.Subject
+                                            })
+                };
+
+            var categories = repository
+                .Query<Tag>(x => x.Inquiries)
                 .Select(tag => new CategoryViewModel
-                                   {
-                                       Tag = tag,
-                                       Inquiries =
-                                           tag.Inquiries.Select(
-                                               x =>
-                                               new TaggedInquiryViewModel
-                                                   {
-                                                       Id = x.Id,
-                                                       FirstName = x.Client.FirstName,
-                                                       LastName = x.Client.LastName,
-                                                       Subject = x.Subject
-                                                   })
-                                   }).ToList();
+                                {
+                                    Tag = new TagViewModel { Name = tag.Name },
+
+                                    Inquiries = tag.Inquiries
+                                        .Select(x => new TaggedInquiryViewModel
+                                                     {
+                                                         Id = x.Id,
+                                                         FirstName = x.Client.FirstName,
+                                                         LastName = x.Client.LastName,
+                                                         Subject = x.Subject
+                                                     })
+                                }).ToList();
 
             categories.Add(categoryWithEmptyTag);
-            
-
                                                                                                                                                                                                                                                                
             return View(new AllInquiriesViewModel
                             {
@@ -151,7 +152,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Admin()
         {
             var inquiries = repository
-                .Query<Inquiry>(x => x.Client, x => x.Assignee, x => x.Comments, x => x.Tags)
+                .Query<Inquiry>(x => x.Client, x => x.Assignee)
                 .Where(x => x.ReferenceDate == null)
                 .OrderBy(x => x.Client.FirstName)
                 .ThenBy(x => x.Client.LastName)
@@ -256,20 +257,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var finishWeek = end.AddDays(-1).WeekNumber();
             switch (start.DayOfWeek)
             {
-                case DayOfWeek.Tuesday:
-                    skipDaysCount = 1;
-                    break;
-                case DayOfWeek.Wednesday:
-                    skipDaysCount = 2;
-                    break;
-                case DayOfWeek.Thursday:                    
-                    skipDaysCount = 3;
-                    break;
-                case DayOfWeek.Friday:
-                    skipDaysCount = 4;
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    skipDaysCount = 0;
                     break;
                 default:
-                    skipDaysCount = 0;
+                    skipDaysCount = (int)start.DayOfWeek - 1;
                     break;
             }
 

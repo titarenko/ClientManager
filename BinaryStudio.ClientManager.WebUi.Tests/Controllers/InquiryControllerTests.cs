@@ -33,14 +33,12 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                            new Tag 
                            {
                                Id = 1,
-                               Name = "tag1",
-                               CssClass = "tag1"
+                               Name = "tag1"
                            }, 
                            new Tag
                            {
                                Id = 2,
-                               Name = "tag2",
-                               CssClass = "tag2"
+                               Name = "tag2"
                            }
                        };
 
@@ -186,11 +184,11 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
 
             // assert
             viewResult.Categories.Count().Should().Be(3);
-            viewResult.Categories.Where(x => x.Tag.SafeGet(tag=>tag.Name) == "tag1")
+            viewResult.Categories.Where(x => x.Tag.Name == "tag1")
                 .Sum(x => x.Inquiries.Count()).Should().Be(10);
-            viewResult.Categories.Where(x => x.Tag.SafeGet(tag => tag.Name) == "tag2")
+            viewResult.Categories.Where(x => x.Tag.Name == "tag2")
                 .Sum(x => x.Inquiries.Count()).Should().Be(10);
-            viewResult.Categories.Where(x => x.Tag == null)
+            viewResult.Categories.Where(x => x.Tag.Name == "")
                 .Sum(x => x.Inquiries.Count()).Should().Be(20);
         }
 
@@ -225,7 +223,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             // arrange
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Assignee, z => z.Comments, z => z.Tags))
+            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Assignee))
                 .Returns(inquiries.AsQueryable());
 
             // act

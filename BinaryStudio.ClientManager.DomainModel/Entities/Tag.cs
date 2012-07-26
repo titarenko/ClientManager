@@ -24,11 +24,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public string Name { get; set; }
 
         /// <summary>
-        /// Css class name for current tag
-        /// </summary>
-        public string CssClass { get; set; }
-
-        /// <summary>
         /// Inquiries with that tag
         /// </summary>
         public IList<Inquiry> Inquiries { get; set; }

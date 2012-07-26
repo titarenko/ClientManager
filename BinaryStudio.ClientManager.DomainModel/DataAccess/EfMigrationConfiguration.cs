@@ -33,18 +33,15 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         private void createTags(EfRepository repository)
         {
-            var tag = repository.Query<Tag>().FirstOrDefault();
-            if (tag==null)
+            if (!repository.Query<Tag>().Any())
             {
                 repository.Save(new Tag
                                     {
-                                        Name = "C++",
-                                        CssClass = "cplusplus"
+                                        Name = "cplusplus"
                                     });
                 repository.Save(new Tag
                                     {
-                                        Name = ".Net",
-                                        CssClass = "dotnet"
+                                        Name = "dotnet"
                                     });
             }
         }
