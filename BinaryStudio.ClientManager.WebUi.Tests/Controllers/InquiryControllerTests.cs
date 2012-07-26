@@ -204,10 +204,9 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var mock = new Mock<IRepository>();
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Tags)).Returns(inquiries.AsQueryable());
             mock.Setup(z => z.Query<Tag>(x => x.Inquiries)).Returns(tagsWithDuplicates.AsQueryable());
-            
+            var inquiriesController = new InquiriesController(mock.Object);
 
             //act
-            var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = inquiriesController.All().Model as AllInquiriesViewModel;
 
             // assert
@@ -216,6 +215,27 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .Sum(x => x.Inquiries.Count()).Should().Be(11);
             viewResult.Categories.Where(x => x.Tag.SafeGet(tag => tag.Name) == "tag2")
                 .Sum(x => x.Inquiries.Count()).Should().Be(12);
+        }
+
+        [Test]
+        public void ShouldNot_ReturnCategoriesWithEmptyInquiries_WhenAllRequested()
+        {
+            //arange
+            var mock = new Mock<IRepository>();
+            mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Tags)).Returns(new List<Inquiry>().AsQueryable());
+            mock.Setup(z => z.Query<Tag>(x => x.Inquiries)).Returns(new List<Tag>{new Tag
+                                                                                      {
+                                                                                          Inquiries = new List<Inquiry>(),
+                                                                                          Name = "",
+                                                                                          Id = 1
+                                                                                      }}.AsQueryable());
+            var inquiriesController = new InquiriesController(mock.Object);
+
+            //act
+            var viewResult = (AllInquiriesViewModel) inquiriesController.All().Model;
+
+            //assert
+            viewResult.Categories.Count().Should().Be(0);
         }
 
         [Test]
