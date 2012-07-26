@@ -51,32 +51,34 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         private void createInquiries(EfRepository repository)
         {
-            var clients = repository.Query<Person>(x => x.RelatedMails).
-                Where(x => x.Role == PersonRole.Client).ToList();
-
+            var clients = repository.Query<Person>(x => x.RelatedMails)
+                .Where(x => x.Role == PersonRole.Client).ToList();
             var randomClient = new RandomItem<Person>(clients, false);
 
             var tags = repository.Query<Tag>().ToList();
             var randomTag = new RandomItem<Tag>(tags, false);
 
-            var iquiries = Builder<Inquiry>.CreateListOfSize(10)
-                .Random(2)
-                .With(x=>x.Tags=new List<Tag>())
+            var iquiries = Builder<Inquiry>.CreateListOfSize(20)
                 .All()
                 .With(x => x.Id = 0)
-                .With(x => x.Status = GetRandom.Int(0, 3))
                 .With(x => x.Client = randomClient.Next())
-                .With(x=>x.Comments = new List<Comment>())
-                .With(x => x.ReferenceDate = GetRandom.DateTime(DateTime.Now.GetStartOfBusinessWeek(), DateTime.Now.GetEndOfBusinessWeek().AddDays(1)))
+                .With(x => x.Comments = new List<Comment>())
+                .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfMonth(),
+                    Clock.Now.GetEndOfMonth().AddDays(1)))
                 .With(x => x.Source = Builder<MailMessage>.CreateNew()
-                                          .With(z => z.Date = GetRandom.DateTime(January.The1st, DateTime.Now))
+                                          .With(z => z.Date = GetRandom.DateTime(January.The1st, Clock.Now))
                                           .With(z => z.Subject = GetRandom.Phrase(10))
                                           .With(z => z.Body = GetRandom.Phrase(GetRandom.Int(60, 500)))
                                           .With(z => z.Id = 0)
                                           .Build())
-                .With(x => x.Tags = new List<Tag> { randomTag.Next() })    
-                
-            .Build();
+                .With(x => x.Tags = new List<Tag> { randomTag.Next() })
+                .TheFirst(5)
+                .With(x => x.ReferenceDate = GetRandom.DateTime(Clock.Now.GetStartOfBusinessWeek(),
+                    Clock.Now.GetEndOfBusinessWeek().AddDays(1)))
+                .TheNext(5)
+                .With(x => x.ReferenceDate = null)
+                .With(x => x.Tags = null)
+                .Build();
 
             foreach (var inquiry in iquiries)
             {

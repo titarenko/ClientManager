@@ -11,8 +11,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     {
         public Inquiry()
         {
-            ReferenceDate = new DateTime();
-            Status = InquiryStatus.IncomingInquiry;
+            ReferenceDate = null;
             Comments = new List<Comment>();
             Tags = new List<Tag> ();
         }
@@ -21,12 +20,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// list of tags appointed to inquiry
         /// </summary>
         public IList<Tag> Tags { get; set; }
-
-        /// <summary>
-        /// Int value that represents Status of inquiry.
-        /// For full list of values <see cref="InquiryStatus"/> class.
-        /// </summary>
-        public int Status { get; set; }
 
         /// <summary>
         /// Unique identifier.
@@ -46,7 +39,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// Date of deadline
         /// </summary>
-        public DateTime ReferenceDate { get; set; }
+        public DateTime? ReferenceDate { get; set; }
 
         /// <summary>
         /// Contains source message from which inquiry was created.
@@ -72,7 +65,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.Status == Status && other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source)
+            return other.Id == Id && Equals(other.Client, Client) && Equals(other.Source, Source)
                 && Equals(other.Tags, Tags) && Equals(other.Comments, Comments);
         }
 
@@ -95,7 +88,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             unchecked
             {
-                int result = Status;
+                int result = Id;
                 result = (result*397) ^ Id;
                 result = (result*397) ^ (Client != null ? Client.GetHashCode() : 0);
                 result = (result*397) ^ (Source != null ? Source.GetHashCode() : 0);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
@@ -83,7 +81,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                         Name = date.ToString("ddd"),
                         Date = date,
                         Inquiries = thisWeekInquiries
-                            .Where(x => x.ReferenceDate.Date == date)
+                            .Where(x => x.ReferenceDate.Value.Date == date)
                             .OrderBy(x => x.ReferenceDate)
                             .Select(x => new InquiryViewModel
                             {
@@ -154,7 +152,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         {
             var inquiries = repository
                 .Query<Inquiry>(x => x.Client, x => x.Assignee, x => x.Comments, x => x.Tags)
-                .Where(x => x.Status == InquiryStatus.IncomingInquiry)
+                .Where(x => x.ReferenceDate == null)
                 .OrderBy(x => x.Client.FirstName)
                 .ThenBy(x => x.Client.LastName)
                 .ToList();
@@ -208,7 +206,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
             }
             inquiry.ReferenceDate = date;
-            inquiry.Status = InquiryStatus.InProgress;
             repository.Save(inquiry);
         }
 
@@ -292,7 +289,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                         Name = date.ToString("ddd"),
                         Date = date,
                         Inquiries = inquiryThisMonthList
-                            .Where(x => x.ReferenceDate.Date == date)
+                            .Where(x => x.ReferenceDate.Value.Date == date)
                             .OrderBy(x => x.ReferenceDate)
                             .Select(x => new InquiryViewModel
                             {
@@ -307,7 +304,5 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     }).AsEnumerable(),
             });
         }
-
-        
     }
 }

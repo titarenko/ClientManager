@@ -65,12 +65,10 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
-    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InquiriesController.cs" />
     <Compile Include="Controllers\ModelIsNotValidException.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -81,7 +79,6 @@
     <Compile Include="Models\AllInquiriesViewModel.cs" />
     <Compile Include="Models\TaggedInquiryViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
-    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\InquiryViewModel.cs" />
     <Compile Include="Models\MonthItemViewModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />
@@ -221,9 +218,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Inquiries\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Employees\Index.cshtml" />

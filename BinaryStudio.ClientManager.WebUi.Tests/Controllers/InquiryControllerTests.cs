@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -51,14 +50,11 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.Assignee = Builder<Person>.CreateNew().Build())
                 .With(x => x.Source = Builder<MailMessage>.CreateNew().Build())
                 .With(x => x.Tags = new List<Tag>())
-                .With(x => x.Status = InquiryStatus.InProgress)
                 .TheFirst(10)
-                .With(x => x.ReferenceDate = GetRandom.DateTime(January.The1st, January.The31st))
-                .With(x => x.Status = InquiryStatus.IncomingInquiry)
+                .With(x => x.ReferenceDate = null)
                 .With(x => x.Tags = new List<Tag>{tags[0] })
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
-                .With(x => x.Status = InquiryStatus.WaitingForReply)
                 .With(x => x.Tags = new List<Tag> { tags[1] })
                 .TheNext(1)
                 .With(x => x.ReferenceDate = new DateTime(Clock.Now.Year, 3, 1))
@@ -157,7 +153,6 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
         public void Should_ReturnListOfInquiriesForCurrentMonth_WhenRequested(int month)
