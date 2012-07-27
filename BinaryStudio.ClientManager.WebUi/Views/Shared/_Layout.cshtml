@@ -36,11 +36,10 @@
         </div>
     </body>
     <script type="text/javascript">
-        $(function() {
-            $('.dropdown-menu a').each(function () { //bad style
-                if (this.href.split('/').reverse()[0] == '@Request.Url.Segments.Last()' ||
-                    ('@Request.Url.Segments.Last()' == '/' && this.href.split('/').reverse()[0] == '')) {
-                        $(this).css({ display: "none" });
+        $(function () {
+            $('.dropdown-menu a').each(function () {
+                if (this.href.substring(this.href.length - document.location.pathname.length) == document.location.pathname) {
+                    $(this).css({ display: "none" });
                 }
             });
         });
