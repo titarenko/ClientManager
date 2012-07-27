@@ -12,11 +12,31 @@
                 <div class="day">            
                             <ul>
                                 <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
+                                @{ var counter = 0; }      
                                 @foreach (var inquiry in day.Inquiries)
                                 {
-                                    <li class="inquiry">
-                                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
-                                    </li>
+                                    if(counter == 4)
+                                    {
+                                        <li class="inquiry">
+                                            <input type="button" value="Show/hide" onclick="hidebelow()"/>
+                                        </li>
+                                    }
+                                    if (counter < 4)
+                                    {
+                                        <li class="inquiry">
+                                            @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
+                                            DISP
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li id="@inquiry.Id" class="inquiry">
+                                            @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
+                                            @counter !!!
+                                            @inquiry.Id
+                                        </li>
+                                    }
+                                    counter++;
                                 }
                             </ul>
                         </div>
@@ -24,3 +44,18 @@
         </div>
     }
 </div>   
+
+<script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
+<script type="text/javascript">
+    function hidebelow() {
+        var obj = document.getElementById("585");
+        if (obj.style.visibility == 'visible')
+        {
+            obj.style.visibility = "hidden";
+        }
+        else 
+        {
+            obj.style.visibility = "visible";
+        }
+    }
+</script>
