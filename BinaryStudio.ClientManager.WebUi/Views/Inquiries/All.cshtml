@@ -1,6 +1,10 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.WebUi.Models.AllInquiriesViewModel
 
+@{
+    ViewBag.Title = "All inquiries";
+}
+
 <div id="all" class="container">
 @foreach (var category in Model.Categories)
 {   

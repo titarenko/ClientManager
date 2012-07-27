@@ -17,7 +17,7 @@
         <div id="header" class="container">
             <div class="btn-group pull-left">
                 <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
-                    View
+                    @ViewBag.Title
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -35,4 +35,14 @@
             @RenderBody()
         </div>
     </body>
+    <script type="text/javascript">
+        $(function() {
+            $('.dropdown-menu a').each(function () { //bad style
+                if (this.href.split('/').reverse()[0] == '@Request.Url.Segments.Last()' ||
+                    ('@Request.Url.Segments.Last()' == '/' && this.href.split('/').reverse()[0] == '')) {
+                        $(this).css({ display: "none" });
+                }
+            });
+        });
+    </script> 
 </html>
