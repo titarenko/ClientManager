@@ -129,24 +129,28 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             
             var categories = repository
                 .Query<Tag>(x => x.Inquiries)
-                .Select(tag =>  tag.Inquiries.Count() != 0 ? new CategoryViewModel {
-                                                                                  Tag = new TagViewModel
-                                                                                            {
-                                                                                                Name = tag.Name
-                                                                                            },
-                                                                                  Inquiries = tag.Inquiries
-                                                                                      .Select(x => new TaggedInquiryViewModel
-                                                                                                       {
-                                                                                                           Id = x.Id,
-                                                                                                           FirstName = x.Client.FirstName,
-                                                                                                           LastName = x.Client.LastName,
-                                                                                                           Subject = x.Subject
-                                                                                                       })
-                                                                              } : null).ToList();
-            categories.RemoveAll(x => x==null);
+                .Select(tag => new CategoryViewModel
+                                    {
+                                        Tag = new TagViewModel
+                                                {
+                                                    Name = tag.Name
+                                                },
+
+                                        Inquiries = tag.Inquiries
+                                            .Select(x => new TaggedInquiryViewModel
+                                                            {
+                                                                Id = x.Id,
+                                                                FirstName = x.Client.FirstName,
+                                                                LastName = x.Client.LastName,
+                                                                Subject = x.Subject
+                                                            })
+                                    }).ToList();
+
+            categories.RemoveAll(x => !x.Inquiries.Any());
+
             if (categoryWithEmptyTag.Inquiries.Any())
             {
-                categories.Insert(0,categoryWithEmptyTag);
+                categories.Insert(0, categoryWithEmptyTag);
             }
                                                                                                                                                                                                                                                                            
             return View(new AllInquiriesViewModel
@@ -251,39 +255,40 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Month()
         {
             var today = Clock.Now;
+
             var start = today.GetStartOfMonth();
             var end = today.GetEndOfMonth().AddDays(1);
-            var skipDaysCount = 0;
+            
             var startWeek = start.WeekNumber();
             if (start.DayOfWeek == DayOfWeek.Saturday ||
                 start.DayOfWeek == DayOfWeek.Sunday)
             {
                 startWeek++;
             }
+
             var finishWeek = end.AddDays(-1).WeekNumber();
+
+            int skipDaysCount;
             switch (start.DayOfWeek)
             {
-                case DayOfWeek.Tuesday:
-                    skipDaysCount = 1;
-                    break;
-                case DayOfWeek.Wednesday:
-                    skipDaysCount = 2;
-                    break;
-                case DayOfWeek.Thursday:
-                    skipDaysCount = 3;
-                    break;
-                case DayOfWeek.Friday:
-                    skipDaysCount = 4;
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    skipDaysCount = 0;
                     break;
                 default:
-                    skipDaysCount = 0;
+                    skipDaysCount = (int)start.DayOfWeek - 1;
                     break;
             }
 
-            var inquiryThisMonthList = repository.Query<Inquiry>(x => x.Client).
-                Where(x => x.ReferenceDate >= start && x.ReferenceDate < end).ToList();
-            inquiryThisMonthList = inquiryThisMonthList.Where(y => y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Saturday
-                                                                   && y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Sunday).ToList();
+            var inquiryThisMonthList = repository
+                .Query<Inquiry>(x => x.Client)
+                .Where(x => x.ReferenceDate >= start && x.ReferenceDate < end)
+                .ToList();
+
+            inquiryThisMonthList = inquiryThisMonthList
+                .Where(y => y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Saturday
+                            && y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Sunday)
+                .ToList();
 
             return View(new MonthViewModel
             {
