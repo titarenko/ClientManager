@@ -54,7 +54,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
         [Test, TestCaseSource("Should_DefineWeekend_WhenCalledOn_TestCaseSource")]
         public void Should_DefineWeekend_WhenCalledOn(DateTime date, bool isWeekend)
         {
-            date.IsWeekEnd().Should().Be(isWeekend);
+            date.IsWeekend().Should().Be(isWeekend);
         }
 
         public IEnumerable<TestCaseData> Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource()

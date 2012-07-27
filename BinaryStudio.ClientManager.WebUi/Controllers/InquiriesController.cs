@@ -96,11 +96,66 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                 PhotoUri = x.Client.PhotoUri
                             })
                     },
+
                 Employees = repository.Query<Person>()
                     .Where(x => x.Role == PersonRole.Employee)
                     .OrderBy(x => x.FirstName)
                     .ThenBy(x => x.LastName)
                     .ToList()
+            });
+        }
+
+        public ViewResult Month()
+        {
+            var today = Clock.Now.Date;
+            var begin = today.GetStartOfMonth();
+            var end = today.GetEndOfMonth().AddDays(1);
+
+            var monthInquiries = repository
+                .Query<Inquiry>(x => x.Client)
+                .Where(x => x.ReferenceDate >= begin && x.ReferenceDate < end)
+                .OrderBy(x => x.ReferenceDate)
+                .ToList();
+
+            monthInquiries.RemoveAll(x => x.ReferenceDate.Value.IsWeekend());
+
+            var start = begin.IsWeekend() ?
+                begin.AddDays(7).GetStartOfBusinessWeek() :
+                begin.GetStartOfBusinessWeek();
+
+            var firstWeek = start.GetWeekNumber();
+            var lastWeek = end.GetWeekNumber();
+
+            return View(new MonthViewModel
+            {
+                Name = today.ToString("MMMM"),
+
+                Weeks =
+                    from week in Enumerable.Range(0, lastWeek - firstWeek + 1)
+                    let weekStart = start.AddDays(week * 7)
+                    select new MonthItemViewModel
+                    {
+                        Days = from day in Enumerable.Range(0, 5)
+                               let date = weekStart.AddDays(day)
+                               select new WeekItemViewModel
+                               {
+                                   Name = date.ToString("ddd"),
+                                   Date = date,
+                                   Inquiries = monthInquiries
+                                        .Where(x => x.ReferenceDate.Value.Date == date)
+                                        .OrderBy(x => x.ReferenceDate)
+                                        .Select(x => new InquiryViewModel
+                                        {
+                                            Name = x.Client.FullName,
+                                            Subject = x.Subject,
+                                            Email = x.Client.Email,
+                                            Assignee = x.SafeGet(z => z.Assignee.FullName),
+                                            Phone = x.Client.Phone,
+                                            PhotoUri = x.Client.PhotoUri
+                                        })
+                                }
+
+                    }
             });
         }
 
@@ -252,78 +307,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         //
         // GET: /MonthView/
 
-        public ViewResult Month()
-        {
-            var today = Clock.Now;
-
-            var start = today.GetStartOfMonth();
-            var end = today.GetEndOfMonth().AddDays(1);
-            
-            var startWeek = start.WeekNumber();
-            if (start.DayOfWeek == DayOfWeek.Saturday ||
-                start.DayOfWeek == DayOfWeek.Sunday)
-            {
-                startWeek++;
-            }
-
-            var finishWeek = end.AddDays(-1).WeekNumber();
-
-            int skipDaysCount;
-            switch (start.DayOfWeek)
-            {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    skipDaysCount = 0;
-                    break;
-                default:
-                    skipDaysCount = (int)start.DayOfWeek - 1;
-                    break;
-            }
-
-            var inquiryThisMonthList = repository
-                .Query<Inquiry>(x => x.Client)
-                .Where(x => x.ReferenceDate >= start && x.ReferenceDate < end)
-                .ToList();
-
-            inquiryThisMonthList = inquiryThisMonthList
-                .Where(y => y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Saturday
-                            && y.ReferenceDate.Value.DayOfWeek != DayOfWeek.Sunday)
-                .ToList();
-
-            return View(new MonthViewModel
-            {
-                SkippedDays = skipDaysCount,
-                StartingWeek = startWeek,
-                FinishingWeek = finishWeek,
-                MonthName = start.Date.ToString("MMMM"),
-                Weeks = (from range in Enumerable.Range(0, (finishWeek - startWeek))
-                         let weeknum = startWeek + range
-                         select new MonthItemViewModel
-                         {
-                             WeekNumber = weeknum,
-                             Days = (
-                                 from index in Enumerable.Range(1, 5)
-                                 let date = start.AddDays(index - skipDaysCount + range * 7)
-                                 select new WeekItemViewModel
-                                 {
-                                     Name = date.ToString("ddd"),
-                                     Date = date,
-                                     Inquiries = inquiryThisMonthList
-                                         .Where(x => x.ReferenceDate.Value.Date == date)
-                                         .OrderBy(x => x.ReferenceDate)
-                                         .Select(x => new InquiryViewModel
-                                         {
-                                             Id = x.Id,
-                                             Name = x.Client.FullName,
-                                             Subject = x.Subject,
-                                             Email = x.Client.Email,
-                                             Assignee = x.SafeGet(z => z.Assignee.FullName),
-                                             Phone = x.Client.Phone,
-                                             PhotoUri = x.Client.PhotoUri
-                                         }).AsEnumerable()
-                                 }).AsEnumerable()
-                         }).AsEnumerable(),
-            });
-        }
+        
     }
 }
