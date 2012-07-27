@@ -48,12 +48,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
         [Test, TestCaseSource("Should_ReturnNumberOfWeek_WhenCalledOn_TestCaseSource")]
         public void Should_ReturnNumberOfWeek_WhenCalledOn(DateTime date)
         {
-            date.WeekNumber().Should().Be(2);
+            date.GetWeekNumber().Should().Be(2);
+        }
+
+        [Test, TestCaseSource("Should_DefineWeekend_WhenCalledOn_TestCaseSource")]
+        public void Should_DefineWeekend_WhenCalledOn(DateTime date, bool isWeekend)
+        {
+            date.IsWeekEnd().Should().Be(isWeekend);
         }
 
         public IEnumerable<TestCaseData> Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource()
         {
-            //all monthes
+            //all months
             yield return new TestCaseData(January.The10th);
             yield return new TestCaseData(February.The1st);
             yield return new TestCaseData(March.The19th);
@@ -144,6 +150,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
             yield return new TestCaseData(new DateTime(2012, 1, 6));
             yield return new TestCaseData(new DateTime(2012, 1, 7));
             yield return new TestCaseData(new DateTime(2012, 1, 8));
+        }
+
+        public IEnumerable<TestCaseData> Should_DefineWeekend_WhenCalledOn_TestCaseSource()
+        {
+            yield return new TestCaseData(new DateTime(2012, 7, 23), false);
+            yield return new TestCaseData(new DateTime(2012, 7, 24), false);
+            yield return new TestCaseData(new DateTime(2012, 7, 25), false);
+            yield return new TestCaseData(new DateTime(2012, 7, 26), false);
+            yield return new TestCaseData(new DateTime(2012, 7, 27), false);
+            yield return new TestCaseData(new DateTime(2012, 7, 28), true);
+            yield return new TestCaseData(new DateTime(2012, 7, 29), true);
         }
     }
 }
