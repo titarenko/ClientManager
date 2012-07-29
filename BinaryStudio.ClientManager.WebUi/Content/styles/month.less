@@ -3,34 +3,43 @@
 //
 
 #month {
-    .day {
-        width: 20%;
-        min-width: 20%;
-        float: left;
-        padding: 0;
-        margin: 0;
+	height: 100%;
+	min-height: 100%;
+	.week{
+		height: 20%;
+        min-height: 20%;
+
+		.day {
+			width: 20%;
+			min-width: 20%;
+
+			float: left;
+			padding: 0;
+			margin: 0;
+		
         
-        > ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
+			> ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
 		           
-        title {
-            display: block;
-            width: inherit;
-            text-align: center;
-            font-weight: bold;
-            color: #555;
-            font-size: 90%;
-            text-shadow: lightgray 2px 2px 4px;
-            padding: 8px;
-        }
+			title {
+				display: block;
+				width: inherit;
+				text-align: center;
+				font-weight: bold;
+				color: #555;
+				font-size: 90%;
+				text-shadow: lightgray 2px 2px 4px;
+				padding: 8px;
+			}
 		               
-		.inquiry {
-            width: inherit;
-            height: auto;
-			.card;     
-        }		
-    } 
-   }
+			.inquiry {
+				width: inherit;
+				height: auto;
+				.card;     
+			}		
+		} 
+	}
+}
