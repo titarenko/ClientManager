@@ -165,8 +165,10 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var viewResult = (MonthViewModel)inquiriesController.Month().Model;
 
             // assert
-            var inquiriesCount = viewResult.Weeks.Sum(x => x.Days.Sum(y => y.Inquiries.Count()));
-            inquiriesCount.Should().Be(10);
+            Assert.That(viewResult.Weeks
+                .All(x => x.Days
+                    .Where(y => y.Inquiries.Any())
+                    .All(z => z.Date.Month == month)));
         }
         
         [Test]
