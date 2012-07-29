@@ -17,7 +17,7 @@
     <ul>
         @foreach (var inquiry in Model.Inquiries)
         {
-            <li class="inquiry card">
+            <li class="inquiry">
                 <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
                     <div class="row-fluid">
                         <div class="span4">
@@ -68,6 +68,7 @@
                                     <ul class="dropdown-menu sub-menu">
                                         @{
                                             var day = Clock.Now.Date;    
+                                            @MoveForward("Today", day, @inquiry.Id)
                                             @MoveForward("1 day", day.AddDays(1), @inquiry.Id)
                                             @MoveForward("2 days", day.AddDays(2), @inquiry.Id)
                                             @MoveForward("3 days", day.AddDays(3), @inquiry.Id)

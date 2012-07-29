@@ -1,3 +1,5 @@
+using System;
+
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class TagViewModel
@@ -6,7 +8,8 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public string CssClass
         {
-            get {
+            get
+            {         
                 return Name.Replace(".", "dot").Replace("+", "plus").ToLower();
             }
         }
