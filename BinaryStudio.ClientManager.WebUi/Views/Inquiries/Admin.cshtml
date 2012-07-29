@@ -17,13 +17,13 @@
     <ul>
         @foreach (var inquiry in Model.Inquiries)
         {
-            <li class="inquiry">
+            <li class="inquiry bordered">
                 <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
                     <div class="row-fluid">
                         <div class="span4">
                             <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
                         </div>
-                        <div class="span8 primary-info">
+                        <div class="span8 primary-info shadowed">
                             <span class="name">@inquiry.Name</span>
                             <span class="subject">@inquiry.Subject</span>
                         </div>

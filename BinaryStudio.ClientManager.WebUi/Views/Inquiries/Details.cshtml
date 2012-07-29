@@ -13,12 +13,12 @@
         <div class="span5">
             <div>
                 <div>
-                    <div class="inquiry">
+                    <div class="inquiry bordered">
                         <div class="row-fluid">
                             <div class="span4">
                                 <img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
                             </div>
-                            <div class="span8 primary-info">
+                            <div class="span8 primary-info shadowed">
                                 <span class="name">@Model.Client.FullName</span><br/>
                                 <span class="subject">@Model.Subject</span><br/>
                             </div>
@@ -49,11 +49,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="comments">
+                <div class="comments bordered">
                     <h2>Comments</h2>
                     @foreach(var comment in Model.Comments)
                     {
-                        <div class="comment">
+                        <div class="comment bordered">
                             <div class="comment-text">@comment.Text</div>
                             <div class="comment-date">@comment.Date</div>                               
                         </div>

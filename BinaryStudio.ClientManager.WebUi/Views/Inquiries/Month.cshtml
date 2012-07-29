@@ -32,13 +32,13 @@
                             }
                             if (counter < 4)
                             {
-                                <li class="inquiry">
+                                <li class="inquiry bordered">
                                     @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
                                 </li>
                             }
                             else
                             {
-                                <li id="@inquiry.Id" class="inquiry">
+                                <li id="@inquiry.Id" class="inquiry bordered">
                                     @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
                                     @inquiry.Id
                                     @{

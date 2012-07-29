@@ -23,15 +23,18 @@
                 <title>@day.Name (@day.Date.ToString("dd.MM"))</title>
                 @foreach (var inquiry in day.Inquiries)
                 {
-                    <li class="inquiry">
+                    <li class="inquiry bordered">
                         <div class="row-fluid">
-                            <div class="span4"><img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/></div>
-                            <div class="span8 primary-info">
-                                <a href="@Url.Action("Details",new {id=inquiry.Id})">
+                            <a href="@Url.Action("Details",new {id=inquiry.Id})">
+                                <div class="span4">
+                                    <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+                                </div>
+                                <div class="span8 primary-info shadowed">                                
                                     <span class="name">@inquiry.Name</span>
                                     <span class="subject">@inquiry.Subject</span>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
+                            
                         </div>
                         <div class="secondary-info">
                             <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
