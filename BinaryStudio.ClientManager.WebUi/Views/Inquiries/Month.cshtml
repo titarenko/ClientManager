@@ -1,6 +1,7 @@
 ﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
    ViewBag.Title = String.Format("Month - {0}", Model.Name);
+   const int MAX_INQUIRIES = 4;
 }
 
 <div id="month" class="container">
@@ -8,38 +9,25 @@
     {
         <div class="row">
             <div class="week">
-                @foreach(var day in week.Days)
+                @foreach (var day in week.Days)
                 {
                     <div class="day">            
                         <ul>
                             <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
-                            @{ 
+                            @{
                                 var counter = 0;
-                                var thisday = day.Date.Day;
-                            }      
-                            @foreach (var inquiry in day.Inquiries)
-                            {
-                                if(counter == 4)
+                                foreach (var inquiry in day.Inquiries)
                                 {
-                                    <li class="inquiry">
-                                        <input type="button" class="btn btn-primary btn-mini" value="Show/hide" onclick="hidebelow(@thisday)"/>
+                                    <li class="@(counter++ > MAX_INQUIRIES ? "inquiry hide hidden" + day.Date.Day : "inquiry")">
+                                         @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
                                     </li>
                                 }
-                                if (counter < 4)
+                                if (counter > MAX_INQUIRIES + 1)
                                 {
-                                    <li class="inquiry">
-                                        @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
+                                    <li style="text-align: center">
+                                         <input type="button" class="btn btn-primary btn-mini" value="More" onclick="toggleList('.hidden' + @(day.Date.Day), this)"/>
                                     </li>
                                 }
-                                else
-                                {
-                                    <div id="@day.Date.Day" class="hide">
-                                        <li class="inquiry">
-                                            @Html.ActionLink(@inquiry.Name, "Details", new { id = inquiry.Id })
-                                        </li>
-                                    </div>
-                                }
-                                counter++;
                             }
                         </ul>
                     </div>
@@ -50,12 +38,8 @@
 </div>   
 
 <script type="text/javascript">
-    function hidebelow(id) {
-        if ($("#" + id).is(':visible')) {
-            $("#" + id).hide();
-        }
-        else {
-            $("#" + id).show();
-        }
+    function toggleList(id, self) {
+        $(id).slideToggle('slow');
+        $(self).val($(self).val() == 'More' ? 'Less' : 'More');
     }
 </script>
