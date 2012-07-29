@@ -37,11 +37,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             {
                 repository.Save(new Tag
                                     {
-                                        Name = "cplusplus"
+                                        Name = "C++"
                                     });
                 repository.Save(new Tag
                                     {
-                                        Name = "dotnet"
+                                        Name = ".Net"
                                     });
             }
         }
@@ -55,7 +55,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var tags = repository.Query<Tag>().ToList();
             var randomTag = new RandomItemPicker<Tag>(tags, new RandomGenerator());
 
-            var iquiries = Builder<Inquiry>.CreateListOfSize(20)
+            var iquiries = Builder<Inquiry>.CreateListOfSize(30)
                 .All()
                 .With(x => x.Id = 0)
                 .With(x => x.Client = randomClient.Pick())
@@ -75,6 +75,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .TheNext(5)
                 .With(x => x.ReferenceDate = null)
                 .With(x => x.Tags = null)
+                .TheNext(5)
+                .With(x=>x.ReferenceDate=Clock.Now.GetEndOfBusinessWeek())
                 .Build();
 
             foreach (var inquiry in iquiries)
@@ -93,11 +95,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var randomFacebookUri = new RandomItemPicker<string>(facebookUris, new RandomGenerator());
             var randomlinkedInUri = new RandomItemPicker<string>(linkedInUris, new RandomGenerator());
 
-            var persons = Builder<Person>.CreateListOfSize(10)
+            var persons = Builder<Person>.CreateListOfSize(15)
                 .All()
                 .With(x => x.FirstName = GetRandom.FirstName())
                 .With(x => x.LastName = GetRandom.LastName())
-                .With(x => x.Role = GetRandom.Int(0, 2))
+                .With(x => x.Role = PersonRole.Employee)
                 .With(x => x.Country = GetRandom.Phrase(10))
                 .With(x => x.Email = x.FullName.Replace(" ", "") + "@example.com")
                 .With(x => x.Phone = GetRandom.Usa.PhoneNumber())
@@ -116,6 +118,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                     .With(z => z.Sender = x)
                     .With(z => z.Receivers = new List<Person> {x})
                     .Build())
+                .TheFirst(10)
+                .With(x=>x.Role=PersonRole.Client)
                 .Build();
 
             foreach (var person in persons)
