@@ -150,26 +150,25 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             employeesList.Count.Should().Be(7);
         }
 
-        /*[Test]
+        [Test]
         [TestCase(2)]
         [TestCase(3)]
         public void Should_ReturnListOfInquiriesForCurrentMonth_WhenMonthRequested(int month)
         {
             // arrange
-            Clock.FreezedTime = new DateTime(DateTime.Now.Year, month, 10);
+            Clock.FreezedTime = new DateTime(Clock.Now.Year, month, 10);
             var mock = new Mock<IRepository>();
             mock.Setup(x => x.Query<Inquiry>(z => z.Client)).Returns(inquiries.AsQueryable());
 
             // act
             var inquiriesController = new InquiriesController(mock.Object);
-            var viewResult = inquiriesController.Month().Model as MonthViewModel;
-            var inquiriesList = viewResult.Days;
+            var viewResult = (MonthViewModel)inquiriesController.Month().Model;
 
             // assert
-            var inquiriesCount = inquiriesList.Sum(day => day.Inquiries.Count());
+            var inquiriesCount = viewResult.Weeks.Sum(x => x.Days.Sum(y => y.Inquiries.Count()));
             inquiriesCount.Should().Be(10);
         }
-        */
+        
         [Test]
         public void Should_ReturnFullListOfInquiriesSortedByTag_WhenCalledAllFunction()
         {

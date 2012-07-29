@@ -68,10 +68,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <summary>
         /// Calculates week number
         /// </summary>
-        public static int WeekNumber (this DateTime dateWithinWeek)
+        public static int GetWeekNumber (this DateTime dateWithinWeek)
         {
-            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dateWithinWeek, CalendarWeekRule.FirstDay,
-                                                                              DayOfWeek.Monday);
+            return CultureInfo
+                .CurrentCulture
+                .Calendar
+                .GetWeekOfYear(dateWithinWeek, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+        }
+
+        /// <summary>
+        /// Defines if specified date is weekend
+        /// </summary>
+        public static bool IsWeekend(this DateTime date, int weekendLength = 2, DayOfWeek endOfWeek = DayOfWeek.Sunday)
+        {
+            return date.GetEndOfWeek(endOfWeek).AddDays(-weekendLength) < date;
         }
     }
 }
