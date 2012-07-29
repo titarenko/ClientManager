@@ -22,7 +22,7 @@
                                 if(counter == 4)
                                 {
                                     <li class="inquiry">
-                                        <input type="button" value="Show/hide" onclick="hidebelow(@thisday)"/>
+                                        <input type="button" class="btn btn-primary btn-mini" value="Show/hide" onclick="hidebelow(@thisday)"/>
                                     </li>
                                 }
                                 if (counter < 4)
@@ -49,7 +49,6 @@
     }
 </div>   
 
-<script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
 <script type="text/javascript">
     function hidebelow(id) {
         if ($("#" + id).is(':visible')) {
