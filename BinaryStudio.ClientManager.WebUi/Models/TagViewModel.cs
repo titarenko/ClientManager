@@ -6,7 +6,9 @@ namespace BinaryStudio.ClientManager.WebUi.Models
 
         public string CssClass
         {
-            get { return Name; }
+            get {
+                return Name.Replace(".", "dot").Replace("+", "plus").ToLower();
+            }
         }
     }
 }

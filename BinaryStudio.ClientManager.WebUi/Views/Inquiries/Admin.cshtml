@@ -17,7 +17,7 @@
     <ul>
         @foreach (var inquiry in Model.Inquiries)
         {
-            <li class="inquiry bordered">
+            <li class="inquiry card">
                 <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
                     <div class="row-fluid">
                         <div class="span4">

@@ -23,7 +23,7 @@
                 <title>@day.Name (@day.Date.ToString("dd.MM"))</title>
                 @foreach (var inquiry in day.Inquiries)
                 {
-                    <li class="inquiry bordered">
+                    <li class="inquiry card">
                         <div class="row-fluid">
                             <a href="@Url.Action("Details",new {id=inquiry.Id})">
                                 <div class="span4">

@@ -12,7 +12,7 @@
         <ul>
             @foreach (var inquiry in category.Inquiries)
             {                                
-                <li class="inquiry bordered @category.Tag.CssClass">
+                <li class="inquiry card @category.Tag.CssClass">
                     <a href="@Url.Action("Details", new { id = inquiry.Id })">
                         @inquiry.FullName <br/>
                         @inquiry.Subject 

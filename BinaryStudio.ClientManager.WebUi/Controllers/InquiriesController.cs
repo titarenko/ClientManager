@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -185,7 +183,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                     {
                                         Tag = new TagViewModel
                                                 {
-                                                    Name = tag.Name
+                                                    Name = tag.Name,
                                                 },
 
                                         Inquiries = tag.Inquiries
