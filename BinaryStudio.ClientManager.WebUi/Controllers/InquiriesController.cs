@@ -127,7 +127,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(new MonthViewModel
             {
                 Name = today.ToString("MMMM"),
-
+                MaxInquiriesWithoutToggling = 4,
                 Weeks =
                     from week in Enumerable.Range(0, lastWeek - firstWeek + 1)
                     let weekStart = start.AddDays(week * 7)
