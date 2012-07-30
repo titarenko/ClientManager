@@ -81,10 +81,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             return Equals((Person) obj);
         }
 
+        /// <summary>
+        /// Uri for twitter
+        /// </summary>
         public string TwitterUri { get; set; }
 
+        /// <summary>
+        /// Uri for facebook
+        /// </summary>
         public string FacebookUri { get; set; }
 
+        /// <summary>
+        /// Uri for LinkedIn
+        /// </summary>
         public string LinkedInUri { get; set; }
         
 
