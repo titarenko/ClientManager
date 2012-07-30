@@ -1,11 +1,10 @@
 ﻿@model BinaryStudio.ClientManager.WebUi.Models.MonthViewModel
 @{
-   ViewBag.Title = String.Format("Month - {0}", Model.Name);
-   const int MAX_INQUIRIES = 4;
+    ViewBag.Title = String.Format("Month - {0}", Model.Name);
 }
 
 <div id="month" class="container">
-    @foreach( var week in Model.Weeks)
+    @foreach (var week in Model.Weeks)
     {
         <div class="row">
             <div class="week">
@@ -18,11 +17,11 @@
                                 var counter = 0;
                                 foreach (var inquiry in day.Inquiries)
                                 {
-                                    <li class="@(counter++ > MAX_INQUIRIES ? "inquiry hide hidden" + day.Date.Day : "inquiry")">
+                                    <li class="@(counter++ > Model.MaxInquiriesWithoutToggling ? "inquiry hide hidden" + day.Date.Day : "inquiry")">
                                          @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
                                     </li>
                                 }
-                                if (counter > MAX_INQUIRIES + 1)
+                                if (counter > Model.MaxInquiriesWithoutToggling + 1)
                                 {
                                     <li style="text-align: center">
                                          <input type="button" class="btn btn-primary btn-mini" value="More" onclick="toggleList('.hidden' + @(day.Date.Day), this)"/>
@@ -38,8 +37,8 @@
 </div>   
 
 <script type="text/javascript">
-    function toggleList(id, self) {
-        $(id).slideToggle('slow');
+    function toggleList(selector, self) {
+        $(selector).slideToggle();
         $(self).val($(self).val() == 'More' ? 'Less' : 'More');
     }
 </script>

@@ -7,5 +7,10 @@ namespace BinaryStudio.ClientManager.WebUi.Models
         public string Name { get; set; }
 
         public IEnumerable<MonthItemViewModel> Weeks { get; set; }
+
+        /// <summary>
+        /// within zero
+        /// </summary>
+        public int MaxInquiriesWithoutToggling { get; set; }
     }
 }
