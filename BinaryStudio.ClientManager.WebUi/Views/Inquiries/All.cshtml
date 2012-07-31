@@ -14,15 +14,15 @@
             {                                
                 <li class="inquiry">
                     <a href="@Url.Action("Details", new { id = inquiry.Id })">
-                        @inquiry.FullName <br/>
-                        @inquiry.Subject 
+                        <div align="center">
+                            <div class="name">@inquiry.FullName</div>
+                            <div class="subject">@inquiry.Subject</div>
+                        </div>
+                        <div class="tags">@category.Tag.Name.Or("No tags")</div>
                     </a>
-                    <div>
-                        @category.Tag.Name.Or("No tags")
-                    </div>
                 </li>
             }
         </ul>
-    </div>    
+        </div>
 }
 </div>
