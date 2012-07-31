@@ -28,9 +28,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 createTags(repository);
             if (!repository.Query<Person>().Any())
                 createPersons(repository);
+            var beginOfNowWeek = Clock.Now.GetStartOfBusinessWeek();
+            var endOfNowWeek = Clock.Now.GetEndOfBusinessWeek();
             if (!repository.Query<Inquiry>()
-                .Any(x=>(x.ReferenceDate.Value>=Clock.Now.GetStartOfBusinessWeek()
-                    && x.ReferenceDate.Value<=Clock.Now.GetEndOfBusinessWeek())))
+                .Any(x=>(x.ReferenceDate.Value>=beginOfNowWeek
+                    && x.ReferenceDate.Value<=endOfNowWeek)))
                 createInquiries(repository);
         }
 
