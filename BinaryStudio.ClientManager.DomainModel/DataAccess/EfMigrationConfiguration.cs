@@ -24,11 +24,16 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var repository = new EfRepository();
 
-            createTags(repository);
-
-            createPersons(repository);
-
-            createInquiries(repository);
+            if (!repository.Query<Tag>().Any())
+                createTags(repository);
+            if (!repository.Query<Person>().Any())
+                createPersons(repository);
+            var beginOfNowWeek = Clock.Now.GetStartOfBusinessWeek();
+            var endOfNowWeek = Clock.Now.GetEndOfBusinessWeek();
+            if (!repository.Query<Inquiry>()
+                .Any(x=>(x.ReferenceDate.Value>=beginOfNowWeek
+                    && x.ReferenceDate.Value<=endOfNowWeek)))
+                createInquiries(repository);
         }
 
         private void createTags(EfRepository repository)
@@ -43,6 +48,10 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                                     {
                                         Name = ".Net"
                                     });
+                repository.Save(new Tag
+                                    {
+                                        Name = "Php"
+                                    });
             }
         }
 
@@ -55,7 +64,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var tags = repository.Query<Tag>().ToList();
             var randomTag = new RandomItemPicker<Tag>(tags, new RandomGenerator());
 
-            var iquiries = Builder<Inquiry>.CreateListOfSize(30)
+            var iquiries = Builder<Inquiry>.CreateListOfSize(45)
                 .All()
                 .With(x => x.Id = 0)
                 .With(x => x.Client = randomClient.Pick())
@@ -75,8 +84,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .TheNext(5)
                 .With(x => x.ReferenceDate = null)
                 .With(x => x.Tags = null)
-                .TheNext(5)
-                .With(x=>x.ReferenceDate=Clock.Now.GetEndOfBusinessWeek())
+                .TheNext(7)
+                .With(x=>x.ReferenceDate=Clock.Now.GetStartOfBusinessWeek())
                 .Build();
 
             foreach (var inquiry in iquiries)
@@ -118,7 +127,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                     .With(z => z.Sender = x)
                     .With(z => z.Receivers = new List<Person> {x})
                     .Build())
-                .TheFirst(10)
+                .TheFirst(11)
                 .With(x=>x.Role=PersonRole.Client)
                 .Build();
 

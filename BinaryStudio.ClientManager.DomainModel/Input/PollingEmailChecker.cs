@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
@@ -37,15 +38,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <param name="eventArgs">Arguments of the event</param>
         private void OnTick(object sender, EventArgs eventArgs)
         {
-            foreach (var message in emailClient.GetUnreadMessages())
+            foreach (var message in emailClient.GetUnreadMessages().Where(message => EmailReceived != null))
             {
-                if (EmailReceived != null)
-                {
-                    EmailReceived(this, new EmailReceivedEventArgs
-                    {
-                        Message = message
-                    });
-                }
+                EmailReceived(this, new EmailReceivedEventArgs
+                                        {
+                                            Message = message
+                                        });
             }
         }
     }
