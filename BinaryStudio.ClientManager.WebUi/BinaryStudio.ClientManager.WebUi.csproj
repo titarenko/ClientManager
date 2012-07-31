@@ -105,6 +105,7 @@
     <Content Include="Content\styles.less" />
     <Content Include="Content\styles\admin.less" />
     <Content Include="Content\styles\all.less" />
+    <Content Include="Content\styles\tags.less" />
     <Content Include="Content\styles\details.less" />
     <Content Include="Content\styles\mailinghistory.less" />
     <Content Include="Content\styles\shared.less" />
