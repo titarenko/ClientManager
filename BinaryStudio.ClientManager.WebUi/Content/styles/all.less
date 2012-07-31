@@ -1,26 +1,41 @@
 #all {
+	.category {
+		.bordered;
+		margin: 0 0 10px 0;
+		padding: 10px;
+		display: inline-block;
+	}
+	
     .inquiry 
     {
-        width: 13%;
+        width: 14%;
         height: auto;
 
-		.card;	
+		.card;
 
-        font-weight: bold;
         vertical-align: middle;
         list-style-type: none;
         float: left;
-        display: inline;   
-        a {
-            color: #2222FF; 
-        }
-    }
+        display: inline;
 
-	.dotnet {
-		background-color: #B6DBEB;     
-	}
-    
-	.cplusplus {
-		background-color: #FFEDC3;     
-	}
+		a:hover {
+            text-decoration: none;
+        }
+
+		.name, .subject {
+			.shadowed;
+		}
+
+		.name {
+			color: #555;
+		}
+
+		.subject {
+			color: #777;
+		}
+
+		.tags {
+			color: #aaa;
+		}
+    }
 }
