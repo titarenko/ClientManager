@@ -1,19 +1,9 @@
-﻿@using BinaryStudio.ClientManager.DomainModel.Entities
-@using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@using BinaryStudio.ClientManager.WebUi.Models
+﻿@using BinaryStudio.ClientManager.WebUi.Models
 @model BinaryStudio.ClientManager.WebUi.Models.WeekViewModel
-
-
-@helper MoveForward(string text, DateTime date, int inquiryId)
-{
-    <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
-}
 
 @{
     ViewBag.Title = "This Week";
 }
-
-@Html.Partial("_CommentEditor")
 
 <div id="week" class="container">
     @foreach (var day in Model.Days)
@@ -23,9 +13,17 @@
                 <title>@day.Name (@day.Date.ToString("dd.MM"))</title>
                 @foreach (var inquiry in day.Inquiries)
                 {
-                    @Html.Partial("_Inquiry", new InquiryPartialViewModel{Inquiry = inquiry,Employees = Model.Employees,Tags = Model.Tags})          
+                    @Html.Partial("_Inquiry",
+                                  new InquiryPartialViewModel
+                                    {
+                                        Inquiry = inquiry,
+                                        Employees = Model.Employees,
+                                        Tags = Model.Tags
+                                    })
                 }
             </ul>
         </div>
     }
 </div>
+
+@Html.Partial("_CommentEditor")

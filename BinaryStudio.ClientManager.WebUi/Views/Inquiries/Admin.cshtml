@@ -1,22 +1,24 @@
 ﻿@using BinaryStudio.ClientManager.WebUi.Models
 @model AdminViewModel
 
-@helper MoveForward(string text, DateTime date, int inquiryId)
-{
-    <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
-}
-
 @{
     ViewBag.Title = "Admin";
 }
 
-@Html.Partial("_CommentEditor")
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
         {
-            @Html.Partial("_Inquiry",new InquiryPartialViewModel {Inquiry=inquiry, Employees=Model.Employees, Tags=Model.Tags})
+            @Html.Partial("_Inquiry",
+                          new InquiryPartialViewModel
+                            {
+                                Inquiry = inquiry,
+                                Employees = Model.Employees,
+                                Tags = Model.Tags
+                            })
         }
     </ul>
 </div>
+
+@Html.Partial("_CommentEditor")
 
