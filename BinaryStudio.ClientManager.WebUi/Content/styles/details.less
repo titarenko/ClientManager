@@ -1,16 +1,12 @@
 #details {
-    
-    .inquiry {
-        width: 100%;
+	.inquiry, .tags, .comments {
+		.card;
+
+		width: 100%;
         height: auto;
+	}
 
-        padding: 4px;
-        margin: 8px auto;
-
-        vertical-align: middle;
-
-        background-color: #fffff7; 
-           
+    .inquiry {
         .name {
             color: #777;
         }
@@ -19,33 +15,26 @@
             color: #aaa;
         }
     }
+
+	.tags {
+	}
         
     .comments {
-        width: 100%;
-        height: auto;
-
-        padding: 4px;
-        margin: 8px auto;
-
-        background-color: #fffff7; 
-        
-        h2 {
-            text-align: center;
-        }
-
 		.comment{
-			margin: 8px;
+			margin: 4px;
+			padding: 4px;
 		}
         
         .comment-text {
-            font: large sans-serif;
             text-align: left;
         }
         
         .comment-date {
-            width: 25%;
-            padding-left: 75%;
             font-size: 75%;
         }
+    }
+
+	h3 {
+        text-align: center;
     }
 }

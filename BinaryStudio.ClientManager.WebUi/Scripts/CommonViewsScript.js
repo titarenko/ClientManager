@@ -36,8 +36,8 @@ function OnClickAssign(employee, inquiry) {
         location.reload(true);
     };
 
-    var onError = function() {
-        alert("Error while AJAX request");
+    var onError = function () {
+        ShowAlert('Error while AJAX request');
     };
 
     $.ajax({
@@ -67,11 +67,11 @@ function OnClickMoveTo(inquiryId, date) {
 // menu -> Add tag
 function OnClickAddTag(tagId, inquiryId) {
     var onSuccess = function() {
-        location.reload(true);
+        ShowAlert('Tag was added to the inquiry.');
     };
 
     var onError = function() {
-        ShowAlert('Error while AJAX request');
+        ShowAlert('Error while AJAX request.');
     };
 
     $.ajax({

@@ -1,4 +1,5 @@
-﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+﻿@using BinaryStudio.ClientManager.DomainModel.Entities
+@model BinaryStudio.ClientManager.DomainModel.Entities.Person
 
 @{
     Layout = "";
@@ -10,15 +11,10 @@
             <!-- for debug --> 
             @if (Model.RelatedMails != null)
             {
-                int i = 0;
                 foreach (var mail in Model.RelatedMails)
                 {
-                    <!-- for demonstration -->
-                    /*
-                    <li class = "row span5 @(mail.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
-                    */
                     <div class="row">
-                        <li class = "span5 bordered @(i % 2 == 0 ? "client-msg" : "employee-msg")">
+                        <li class = "span5 bordered @(mail.Sender.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
                             <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
                             <span class="emphasis">Subject: </span>@mail.Subject<br/>
                             <span class="emphasis">Date: </span>@mail.Date
@@ -35,7 +31,6 @@
                         
                         </li>                        
                     </div>
-                    i++;
                 }
             }
         </ul>

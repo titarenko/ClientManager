@@ -10,7 +10,7 @@
         <h2>Details</h2>
     </div>
     <div class="row-fluid">
-        <div class="span5">
+        <div class="span4">
             <div>
                 <div>
                     <div class="inquiry bordered">
@@ -49,21 +49,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="tags">
+                    <h3>Tags</h3>
+                    <ul>
+                        @foreach(var tag in Model.Tags)
+                        {
+                            <li>@tag.Name</li>
+                        }
+                    </ul>
+                </div>
                 <div class="comments bordered">
-                    <h2>Comments</h2>
+                    <h3>Comments</h3>
                     @foreach(var comment in Model.Comments)
                     {
                         <div class="comment bordered">
-                            <div class="comment-text">@comment.Text</div>
                             <div class="comment-date">@comment.Date</div>                               
+                            <div class="comment-text">@comment.Text</div>
                         </div>
                     }
                 </div>
             </div>
         </div>
-        <div class="span7">
+        <div class="span8">
             @{
-                Html.RenderAction("MailingHistory","Clients",new {id=Model.Client.Id});
+                Html.RenderAction("MailingHistory","Clients",new {id = Model.Client.Id});
             }
         </div>
     </div>
