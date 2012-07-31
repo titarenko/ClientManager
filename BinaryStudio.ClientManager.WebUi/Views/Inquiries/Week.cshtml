@@ -5,6 +5,8 @@
     ViewBag.Title = "This Week";
 }
 
+@Html.Partial("_CommentEditor")
+
 <div id="week" class="container">
     @foreach (var day in Model.Days)
     {
@@ -25,5 +27,3 @@
         </div>
     }
 </div>
-
-@Html.Partial("_CommentEditor")

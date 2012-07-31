@@ -5,6 +5,8 @@
     ViewBag.Title = "Admin";
 }
 
+@Html.Partial("_CommentEditor")
+
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
@@ -19,6 +21,3 @@
         }
     </ul>
 </div>
-
-@Html.Partial("_CommentEditor")
-
