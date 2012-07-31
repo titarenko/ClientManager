@@ -300,10 +300,5 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             inquiry.Tags.Add(tag);
             repository.Save(inquiry);
         }
-        
-        //
-        // GET: /MonthView/
-
-        
     }
 }

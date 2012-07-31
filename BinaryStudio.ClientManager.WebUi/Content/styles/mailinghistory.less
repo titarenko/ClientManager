@@ -1,27 +1,37 @@
 #mailing-history {
     .wrapper {
+		.card;
         list-style-type: none;
-        background-color: #fffff7; 
         display: inline-block;
-        margin: 8px auto;
-        padding: 0;
         width: 100%;
-        
-        .client-msg,.employee-msg {
-            margin: 4px;
-            padding: 0;
-            text-align: left;
-            width: 70%;
-        }
-        
-        .client-msg {
-            background: lightyellow;
-            float: left;
-        }
-        
-        .employee-msg {
-            background: lightblue;
-            float: right;
-        }
+
+		.row {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		.client-msg,.employee-msg {
+			.bordered;
+
+			width: 70%;
+			margin: 4px;
+			padding: 4px;
+
+			text-align: left;
+
+			.emphasis {
+				font-weight: bold;
+			}
+		}
+
+		.client-msg {
+			background: lightyellow;
+			float: left;
+		}
+
+		.employee-msg {
+			background: lightblue;
+			float: right;
+		}
     } 
 }

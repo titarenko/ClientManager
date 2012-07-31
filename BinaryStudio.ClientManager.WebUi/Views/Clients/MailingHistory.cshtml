@@ -1,4 +1,5 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Entities
+@using BinaryStudio.ClientManager.DomainModel.Infrastructure
 @model BinaryStudio.ClientManager.DomainModel.Entities.Person
 
 @{
@@ -7,21 +8,21 @@
 
 <div id="mailing-history">
     <div>
-        <ul class="wrapper bordered">
+        <ul class="wrapper">
             <!-- for debug --> 
             @if (Model.RelatedMails != null)
             {
                 foreach (var mail in Model.RelatedMails)
                 {
                     <div class="row">
-                        <li class = "span5 bordered @(mail.Sender.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
+                        <li class = "span5 @(mail.Sender.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
                             <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
                             <span class="emphasis">Subject: </span>@mail.Subject<br/>
-                            <span class="emphasis">Date: </span>@mail.Date
+                            <span class="emphasis">Date: </span>@mail.Date<br/>
 
-                            @if (mail.Body.Count() > 50)
+                            @if (mail.Body.Count() > 70)
                             {
-                                <div class="brief-mail">@(mail.Body.Substring(0, 70) + " ...")</div>
+                                <div class="brief-mail">@(mail.Body.Cut(70))</div>
                                 <div class="full-mail hidden">@mail.Body</div>
                             }
                             else
