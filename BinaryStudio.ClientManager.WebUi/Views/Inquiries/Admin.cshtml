@@ -10,9 +10,7 @@
     ViewBag.Title = "Admin";
 }
 
-<div class="wrap">
-    <div id="saved-comment" class="message-alert hide"></div>
-</div>
+@Html.Partial("_CommentEditor")
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
@@ -20,18 +18,5 @@
             @Html.Partial("_Inquiry",new InquiryPartialViewModel {Inquiry=inquiry, Employees=Model.Employees, Tags=Model.Tags})
         }
     </ul>
-    <div class="modal hide" id="comment-editor">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3>New Comment</h3>
-        </div>
-        <div class="modal-body">
-            <textarea id="commentTextArea" rows="10" cols="40"></textarea>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="OnClickAddComment()">Add Comment</a>
-        </div>
-    </div>
 </div>
 
