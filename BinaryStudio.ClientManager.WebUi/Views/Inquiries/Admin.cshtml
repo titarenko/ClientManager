@@ -1,6 +1,4 @@
-﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@using BinaryStudio.ClientManager.WebUi.Models
-@using Microsoft.Web.Mvc
+﻿@using BinaryStudio.ClientManager.WebUi.Models
 @model AdminViewModel
 
 @helper MoveForward(string text, DateTime date, int inquiryId)
@@ -36,13 +34,4 @@
         </div>
     </div>
 </div>
-
-@Html.Script("CommonViewsScript.js")
-
-<script type="text/javascript">
-    var AddComment = { Url: "@Url.Action("AddComment")" };
-    var AssignTo = { Url: "@Url.Action("AssignTo")" };
-    var MoveTo = { Url: "@Url.Action("MoveTo")" };
-    var AddTag= {Url: "@Url.Action("AddTag")"};
-</script>
 

@@ -99,7 +99,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .Where(x => x.Role == PersonRole.Employee)
                     .OrderBy(x => x.FirstName)
                     .ThenBy(x => x.LastName)
-                    .ToList()
+                    .ToList(),
+
+                Tags = repository.Query<Tag>().ToList()
             });
         }
 

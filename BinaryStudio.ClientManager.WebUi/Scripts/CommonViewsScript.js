@@ -12,7 +12,7 @@
     };
 
     $.ajax({
-        url: window.AddComment.Url,
+        url: "/Inquiries/AddComment",
         type: "POST",
         data: { inquiryId: $('#comment-editor').data("inquiryId"), text: comment }
     }).success(onSuccess).error(onError);
@@ -41,7 +41,7 @@ function OnClickAssign(employee, inquiry) {
     };
 
     $.ajax({
-        url: window.AssignTo.Url,
+        url: "/Inquiries/AssignTo",
         type: "POST",
         data: { inquiryId: inquiry, employeeId: employee }
     }).success(onSuccess).error(onError);
@@ -58,7 +58,7 @@ function OnClickMoveTo(inquiryId, date) {
     };
 
     $.ajax({
-        url: window.MoveTo.Url,
+        url: "/Inquiries/MoveTo",
         type: "POST",
         data: { inquiryId: inquiryId, date: date }
     }).success(onSuccess).error(onError);
@@ -71,14 +71,12 @@ function OnClickAddTag(tagId, inquiryId) {
     };
 
     var onError = function() {
-        alert("Error while AJAX request");
+        ShowAlert('Error while AJAX request');
     };
 
-    alert(window.AddTag.Url);
-
     $.ajax({
-        url: window.AddTag.Url,
+        url: "/Inquiries/AddTag",
         type: "POST",
         data: { inquiryId: inquiryId, tagId: tagId }
     }).success(onSuccess).error(onError);
-};
+};Q
