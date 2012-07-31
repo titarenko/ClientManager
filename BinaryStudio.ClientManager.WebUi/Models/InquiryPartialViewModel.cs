@@ -3,12 +3,12 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.WebUi.Models
 {
-    public class AdminViewModel
+    public class InquiryPartialViewModel
     {
-        public IList<Tag> Tags { get; set; }
+        public InquiryViewModel Inquiry { get; set; }
 
         public IList<Person> Employees { get; set; }
 
-        public IEnumerable<InquiryViewModel> Inquiries { get; set; }
+        public IList<Tag> Tags { get; set; }
     }
 }

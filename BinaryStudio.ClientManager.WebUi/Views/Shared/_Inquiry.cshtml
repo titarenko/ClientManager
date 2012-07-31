@@ -1,0 +1,79 @@
+﻿@using BinaryStudio.ClientManager.DomainModel.Infrastructure
+@using Microsoft.Web.Mvc
+@model BinaryStudio.ClientManager.WebUi.Models.InquiryPartialViewModel
+
+@{
+    var inquiry = Model.Inquiry;
+}
+
+@helper MoveForward(string text, DateTime date, int inquiryId)
+{
+    <li><a href="#" onclick="OnClickMoveTo(@inquiryId,'@date.ToString("yyyy-MM-dd")')"><span class="icon-arrow-right"></span> @text (@date.ToString("dd.MM"))</a></li>
+}
+
+<li class="inquiry">
+    <a href="@Url.Action("Details", "Inquiries", new { id = inquiry.Id })">
+        <div class="row-fluid">
+            <div class="span4">
+                <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
+            </div>
+            <div class="span8 primary-info shadowed">
+                <span class="name">@inquiry.Name</span>
+                <span class="subject">@inquiry.Subject</span>
+            </div>
+        </div>
+    </a>
+    <div class="secondary-info">
+        <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
+        <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(20))</div>
+        <div>
+            <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
+            <div class="pull-right dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Menu<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="icon-user"></span> Assign to
+                        </a>
+                        <ul class="dropdown-menu sub-menu">
+                            @foreach(var employee in Model.Employees)
+                            {
+                                <li><a href="#" onclick="OnClickAssign(@employee.Id,@inquiry.Id)">@employee.FullName</a></li>
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="icon-tag"></span> Add tag
+                        </a>
+                        <ul class="dropdown-menu sub-menu">
+                            @foreach (var tag in Model.Tags)
+                            {
+                                <li><a href="#" onclick="OnClickAddTag(@tag.Id, @inquiry.Id)">@tag.Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="icon-calendar"></span> Move to
+                        </a>
+                        <ul class="dropdown-menu sub-menu">
+                            @{
+                                var day = Clock.Now.Date;    
+                                @MoveForward("1 day", day.AddDays(1), inquiry.Id)
+                                @MoveForward("2 days", day.AddDays(2), inquiry.Id)
+                                @MoveForward("3 days", day.AddDays(3), inquiry.Id)
+                                @MoveForward("1 week", day.AddDays(7), inquiry.Id)
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@inquiry.Id)"><span class="icon-pencil"></span> Add comment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>

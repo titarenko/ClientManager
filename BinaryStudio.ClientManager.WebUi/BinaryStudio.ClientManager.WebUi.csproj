@@ -77,6 +77,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AllInquiriesViewModel.cs" />
+    <Compile Include="Models\InquiryPartialViewModel.cs" />
     <Compile Include="Models\TaggedInquiryViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\InquiryViewModel.cs" />
@@ -192,6 +193,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Inquiries\Admin.cshtml" />
+    <Content Include="Views\Shared\_Inquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
