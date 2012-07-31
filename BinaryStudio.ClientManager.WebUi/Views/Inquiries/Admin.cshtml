@@ -23,7 +23,7 @@
                         <div class="span4">
                             <img class="pull-left" src="@inquiry.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
                         </div>
-                        <div class="span8 primary-info shadowed">
+                        <div class="span8 primary-info">
                             <span class="name">@inquiry.Name</span>
                             <span class="subject">@inquiry.Subject</span>
                         </div>
@@ -31,7 +31,7 @@
                 </a>
                 <div class="secondary-info">
                     <div class="phone"><span class="icon-headphones"></span> @Html.SkypeLink(inquiry.Phone)</div>
-                    <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(20))</div>
+                    <div class="email"><span class="icon-envelope"></span> @Html.Email(inquiry.Email, inquiry.Email.Cut(23))</div>
                     <div>
                         <span class="icon-user"></span> @inquiry.Assignee.Cut(20).Or("N/A")
                         <div class="pull-right dropdown">
