@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AE.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
-    public class AeEventBasedEmailClient : IEmailClient
+    public class AeEventBasedEmailClient : IEmailClient, IDisposable
     {
-        private List<MailMessage>  unread = new List<MailMessage>();
+        private List<MailMessage> unread = new List<MailMessage>();
 
-        private ImapClient client;
+        private readonly ImapClient client;
 
         public AeEventBasedEmailClient(IConfiguration configuration)
         {
@@ -30,11 +31,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                                                                  .Select(message => new MailMessage
                                                                                         {
                                                                                             Date = message.Value.Date,
-                                                                                            Sender =
-                                                                                                message.Value.Sender,
+                                                                                            Sender = message.Value.Sender,
                                                                                             Receivers = message.Value.To,
-                                                                                            Subject =
-                                                                                                message.Value.Subject,
+                                                                                            Subject = message.Value.Subject,
                                                                                             Body = message.Value.Body
                                                                                         }));
                                          }
@@ -47,5 +46,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             unread = new List<MailMessage>();
             return temp;
         }
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            client.Dispose();
+        }
+
+        #endregion
     }
 }

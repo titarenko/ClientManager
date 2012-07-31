@@ -67,7 +67,6 @@
     <Compile Include="Infrastructure\SafeExtensions.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
-    <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\AeEventBasedEmailClient.cs" />
     <Compile Include="Input\EmailReceivedEventArgs.cs" />
     <Compile Include="Input\IEmailClient.cs" />
