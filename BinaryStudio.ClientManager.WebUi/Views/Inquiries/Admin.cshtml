@@ -5,19 +5,21 @@
     ViewBag.Title = "Admin";
 }
 
-@Html.Partial("_CommentEditor")
+@Html.Partial("_Alert")
 
 <div id="admin" class="container">
     <ul>
         @foreach (var inquiry in Model.Inquiries)
         {
             @Html.Partial("_Inquiry",
-                          new InquiryPartialViewModel
-                            {
-                                Inquiry = inquiry,
-                                Employees = Model.Employees,
-                                Tags = Model.Tags
-                            })
+                                new InquiryPartialViewModel
+                                    {
+                                        Inquiry = inquiry,
+                                        Employees = Model.Employees,
+                                        Tags = Model.Tags
+                                    })
         }
     </ul>
 </div>
+
+@Html.Partial("_CommentEditor")

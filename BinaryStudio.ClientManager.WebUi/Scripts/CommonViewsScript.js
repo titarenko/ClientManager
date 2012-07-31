@@ -24,7 +24,7 @@ function ShowModal(inquiryId) {
 };
 
 function ShowAlert(message) {
-    $('#saved-comment').text(message)
+    $('#msg-alert').text(message)
         .fadeIn('fast')
         .delay(3000)
         .fadeOut('slow');  

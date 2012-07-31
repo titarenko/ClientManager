@@ -5,7 +5,7 @@
     ViewBag.Title = "This Week";
 }
 
-@Html.Partial("_CommentEditor")
+@Html.Partial("_Alert")
 
 <div id="week" class="container">
     @foreach (var day in Model.Days)
@@ -16,14 +16,16 @@
                 @foreach (var inquiry in day.Inquiries)
                 {
                     @Html.Partial("_Inquiry",
-                                  new InquiryPartialViewModel
-                                    {
-                                        Inquiry = inquiry,
-                                        Employees = Model.Employees,
-                                        Tags = Model.Tags
-                                    })
+                                        new InquiryPartialViewModel
+                                            {
+                                                Inquiry = inquiry,
+                                                Employees = Model.Employees,
+                                                Tags = Model.Tags
+                                            })
                 }
             </ul>
         </div>
     }
 </div>
+
+@Html.Partial("_CommentEditor")

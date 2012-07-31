@@ -195,6 +195,7 @@
     <Content Include="Views\Inquiries\Admin.cshtml" />
     <Content Include="Views\Shared\_Inquiry.cshtml" />
     <Content Include="Views\Shared\_CommentEditor.cshtml" />
+    <Content Include="Views\Shared\_Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
