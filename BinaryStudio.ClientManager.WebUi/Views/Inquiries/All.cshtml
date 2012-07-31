@@ -15,8 +15,8 @@
                 <li class="inquiry">
                     <a href="@Url.Action("Details", new { id = inquiry.Id })">
                         <div align="center">
-                            <div class="name">@inquiry.FullName</div>
-                            <div class="subject">@inquiry.Subject</div>
+                            <div class="name">@inquiry.FullName.Cut(20)</div>
+                            <div class="subject">@inquiry.Subject.Cut(20)</div>
                         </div>
                         <div class="tags">@category.Tag.Name.Or("No tags")</div>
                     </a>
