@@ -28,7 +28,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 createTags(repository);
             if (!repository.Query<Person>().Any())
                 createPersons(repository);
-            if (!repository.Query<Inquiry>().Any())            
+            if (!repository.Query<Inquiry>()
+                .Any(x=>(x.ReferenceDate.Value>=Clock.Now.GetStartOfBusinessWeek()
+                    && x.ReferenceDate.Value<=Clock.Now.GetEndOfBusinessWeek())))
                 createInquiries(repository);
         }
 
