@@ -52,6 +52,15 @@
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OAuth2">
+      <HintPath>..\packages\OAuth2.0.1.2\lib\OAuth2.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.103.4\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
