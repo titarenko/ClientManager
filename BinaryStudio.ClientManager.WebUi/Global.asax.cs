@@ -6,6 +6,7 @@ using Autofac.Integration.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;
+using BinaryStudio.ClientManager.DomainModel.Tests.Input;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
@@ -36,7 +37,8 @@ namespace BinaryStudio.ClientManager.WebUi
 
             SetDependencyResolver();
 
-            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AppConfiguration(""));
+            //TODO all works fine!
+            //mailMessageSaver = new MailMessageSaver(new EfRepository(), TestAppConfiguration.GetTestConfiguration());
         }
 
         private MailMessageSaver mailMessageSaver;

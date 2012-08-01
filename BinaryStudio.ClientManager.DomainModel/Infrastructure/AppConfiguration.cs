@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Globalization;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
@@ -47,15 +48,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>Value converted to requested type.</returns>
         public T GetValue<T>(string key)
         {
-            var value = GetValue(key);
-            try
-            {
-                return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
-            }
-            catch(Exception) //TODO remove
-            {
-                return default(T);
-            }
+            return (T)Convert.ChangeType(GetValue(key), typeof(T), CultureInfo.InvariantCulture);
         }
     }
 }

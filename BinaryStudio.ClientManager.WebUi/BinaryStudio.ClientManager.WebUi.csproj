@@ -205,6 +205,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinaryStudio.ClientManager.DomainModel.Tests\BinaryStudio.ClientManager.DomainModel.Tests.csproj">
+      <Project>{B7987FBB-413D-4C30-8C13-CC3F324379F6}</Project>
+      <Name>BinaryStudio.ClientManager.DomainModel.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BinaryStudio.ClientManager.DomainModel\BinaryStudio.ClientManager.DomainModel.csproj">
       <Project>{7AB0BEB9-0C1C-4768-97A6-72BB61BBDD47}</Project>
       <Name>BinaryStudio.ClientManager.DomainModel</Name>

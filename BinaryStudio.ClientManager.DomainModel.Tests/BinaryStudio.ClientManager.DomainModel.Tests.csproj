@@ -61,6 +61,7 @@
     <Compile Include="Input\ExtensionsTests.cs" />
     <Compile Include="Input\MailMessageConverterTests.cs" />
     <Compile Include="Input\PollingEmailCheckerTests.cs" />
+    <Compile Include="Input\TestAppConfiguration.cs" />
     <Compile Include="Input\TimerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

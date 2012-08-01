@@ -18,9 +18,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             configuration = configuration.GetSubsection("EmailClient");
             client = new ImapClient(
-                configuration.GetValue<string>("Host"),
-                configuration.GetValue<string>("Username"),
-                configuration.GetValue<string>("Password"),
+                configuration.GetValue("Host"),
+                configuration.GetValue("Username"),
+                configuration.GetValue("Password"),
                 ImapClient.AuthMethods.Login,
                 configuration.GetValue<int>("Port"),
                 configuration.GetValue<bool>("Secure"),
