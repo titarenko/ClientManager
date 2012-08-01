@@ -79,4 +79,4 @@ function OnClickAddTag(tagId, inquiryId) {
         type: "POST",
         data: { inquiryId: inquiryId, tagId: tagId }
     }).success(onSuccess).error(onError);
-};Q
+};
