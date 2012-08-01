@@ -5,6 +5,10 @@ String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+String.prototype.contains = function (searchString) {
+     return this.indexOf(searchString) != -1;
+};
+
 //
 // common UI setup
 

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Extensions
@@ -21,6 +22,12 @@ namespace BinaryStudio.ClientManager.WebUi.Extensions
             tag.Attributes.Add("href", "mailto:{0}".Fill(email));
             tag.SetInnerText(text ?? email);
             return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString ToJson(this HtmlHelper helper, object model)
+        {
+            var serializer = new JavaScriptSerializer();
+            return MvcHtmlString.Create(serializer.Serialize(model));
         }
     }
 }
