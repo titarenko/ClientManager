@@ -11,6 +11,7 @@
         @Html.Script("jquery-1.7.2.min.js", "jquery-1.7.2.js")
         @Html.Script("bootstrap.min.js", "bootstrap.js")
         @Html.Script("bootstrap-datepicker.js")
+        @Html.Script("knockout-2.1.0.js", "knockout-2.1.0.debug.js")
         @Html.Script("shared.js")
     </head>
     <body>
@@ -20,7 +21,7 @@
                     @ViewBag.Title
                     <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" id="navigation">
                     <li>@Html.ActionLink("This Week", "Week", "Inquiries")</li>
                     <li>@Html.ActionLink("Month", "Month", "Inquiries")</li>
                     <li>@Html.ActionLink("All", "All", "Inquiries")</li>
@@ -35,13 +36,4 @@
             @RenderBody()
         </div>
     </body>
-    <script type="text/javascript">
-        $(function () {
-            $('.dropdown-menu a').each(function () {
-                if (this.href.substring(this.href.length - document.location.pathname.length) == document.location.pathname) {
-                    $(this).css({ display: "none" });
-                }
-            });
-        });
-    </script> 
 </html>
