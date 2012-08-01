@@ -19,7 +19,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             this.repository = repository;
             converter = new MailMessageConverter(repository);
-            emailClient = new AeEventBasedEmailClient(configuration);
+            emailClient = new AeEmailClient(configuration);
             
             emailClient.OnObtainingMessage += (sender, args) =>
                 {

@@ -6,7 +6,7 @@ using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
-    public class AeEventBasedEmailClient : IEmailClient, IDisposable
+    public class AeEmailClient : IEmailClient, IDisposable
     {
         public event EventHandler OnObtainingMessage;
 
@@ -14,7 +14,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly ImapClient client;
 
-        public AeEventBasedEmailClient(IConfiguration configuration)
+        public AeEmailClient(IConfiguration configuration)
         {
             configuration = configuration.GetSubsection("EmailClient");
             client = new ImapClient(
@@ -51,7 +51,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             var temp = unread;
             unread = new List<MailMessage>();
-            return temp;
+            return temp.AsEnumerable();
         }
 
         public void Dispose()
