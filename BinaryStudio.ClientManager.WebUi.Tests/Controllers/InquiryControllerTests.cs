@@ -110,12 +110,12 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .Build();
 
             var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Get<Inquiry>(id, z => z.Client, z => z.Source,
-                z => z.Source.Sender, z => z.Comments, z => z.Assignee)).Returns(inquiry);
+            mock.Setup(z => z.Get<Inquiry>(id, x => x.Client, x => x.Source,
+                x => x.Source.Sender, x => x.Comments, x => x.Assignee, x => x.Tags)).Returns(inquiry);
             var inquiriesController = new InquiriesController(mock.Object);
             
             //act
-            var result = inquiriesController.Details(id).Model as Inquiry;
+            var result = (Inquiry) inquiriesController.Details(id).Model;
             
             //assert
             Assert.That(result.Id, Is.EqualTo(id));
