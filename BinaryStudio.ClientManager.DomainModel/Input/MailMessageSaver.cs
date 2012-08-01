@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
-using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
@@ -15,11 +14,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly MailMessageConverter converter;
 
-        public MailMessageSaver(IRepository repository, IConfiguration configuration)
+        public MailMessageSaver(IRepository repository, IEmailClient emailClient)
         {
             this.repository = repository;
             converter = new MailMessageConverter(repository);
-            emailClient = new AeEmailClient(configuration);
             
             emailClient.OnObtainingMessage += (sender, args) =>
                 {
