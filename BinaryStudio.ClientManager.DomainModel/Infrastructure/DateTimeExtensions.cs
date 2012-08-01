@@ -81,7 +81,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// </summary>
         public static bool IsWeekend(this DateTime date, int weekendLength = 2, DayOfWeek endOfWeek = DayOfWeek.Sunday)
         {
-            return date.GetEndOfWeek(endOfWeek).AddDays(-weekendLength) < date;
+            return date.GetEndOfWeek(endOfWeek).AddDays(-weekendLength).Day < date.Day;
         }
     }
 }

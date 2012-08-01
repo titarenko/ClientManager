@@ -161,6 +161,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
             yield return new TestCaseData(new DateTime(2012, 7, 27), false);
             yield return new TestCaseData(new DateTime(2012, 7, 28), true);
             yield return new TestCaseData(new DateTime(2012, 7, 29), true);
+            yield return new TestCaseData(new DateTime(2012, 8, 3, 12, 0, 0), false);
         }
     }
 }
