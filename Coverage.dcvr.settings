@@ -1,0 +1,49 @@
+<Configuration>
+  <CoverageResultsController>
+    <CoverageResultsState xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/JetBrains.dotCover.ViewingServices.Impl.CoverageResults">
+  <myExcludeFiltersStates />
+  <myGroupingFilter xmlns:d2p1="http://schemas.datacontract.org/2004/07/JetBrains.dotCover.ViewingServices.Impl">
+    <d2p1:myDisplayName>Assembly, Namespace, Type and Member</d2p1:myDisplayName>
+    <d2p1:myVisibleNodeKinds>SolutionFolder Project Assembly Namespace Type OwnCoverage Property Indexer Event AnonymousMethod Constructor Method ExtensionMethod</d2p1:myVisibleNodeKinds>
+  </myGroupingFilter>
+  <myPerTestStatisticsEnabled>false</myPerTestStatisticsEnabled>
+  <myProjectStructureMatchingEnabled>true</myProjectStructureMatchingEnabled>
+  <mySelectedTest i:nil="true" />
+  <mySortOrders xmlns:d2p1="http://schemas.datacontract.org/2004/07/System.Windows.Forms">
+    <d2p1:SortOrder>None</d2p1:SortOrder>
+    <d2p1:SortOrder>None</d2p1:SortOrder>
+    <d2p1:SortOrder>None</d2p1:SortOrder>
+    <d2p1:SortOrder>None</d2p1:SortOrder>
+  </mySortOrders>
+  <myStatefulNodeDescriptors xmlns:d2p1="http://schemas.datacontract.org/2004/07/JetBrains.dotCover.ViewingServices.Impl">
+    <d2p1:NodeDescriptor>
+      <d2p1:myChildren>
+        <d2p1:NodeDescriptor>
+          <d2p1:myChildren>
+            <d2p1:NodeDescriptor>
+              <d2p1:myChildren>
+                <d2p1:NodeDescriptor>
+                  <d2p1:myChildren />
+                  <d2p1:myExpanded>false</d2p1:myExpanded>
+                  <d2p1:myId>BinaryStudio.ClientManager.DomainModel.Input.PollingEmailChecker.PollingEmailChecker(BinaryStudio.ClientManager.DomainModel.Infrastructure.Timer,BinaryStudio.ClientManager.DomainModel.Input.IEmailClient)</d2p1:myId>
+                  <d2p1:mySelected>true</d2p1:mySelected>
+                </d2p1:NodeDescriptor>
+              </d2p1:myChildren>
+              <d2p1:myExpanded>true</d2p1:myExpanded>
+              <d2p1:myId>BinaryStudio.ClientManager.DomainModel.Input.PollingEmailChecker</d2p1:myId>
+              <d2p1:mySelected>false</d2p1:mySelected>
+            </d2p1:NodeDescriptor>
+          </d2p1:myChildren>
+          <d2p1:myExpanded>true</d2p1:myExpanded>
+          <d2p1:myId>BinaryStudio.ClientManager.DomainModel.Input</d2p1:myId>
+          <d2p1:mySelected>false</d2p1:mySelected>
+        </d2p1:NodeDescriptor>
+      </d2p1:myChildren>
+      <d2p1:myExpanded>true</d2p1:myExpanded>
+      <d2p1:myId>BinaryStudio.ClientManager.DomainModel</d2p1:myId>
+      <d2p1:mySelected>false</d2p1:mySelected>
+    </d2p1:NodeDescriptor>
+  </myStatefulNodeDescriptors>
+</CoverageResultsState>
+  </CoverageResultsController>
+</Configuration>

@@ -52,6 +52,7 @@
     <Compile Include="DataAccess\EfMigrationConfiguration.cs" />
     <Compile Include="DataAccess\EfRepository.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="DataAccess\MultitenantRepository.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Extension.cs" />
     <Compile Include="Entities\Inquiry.cs" />
@@ -64,9 +65,11 @@
     <Compile Include="Infrastructure\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
+    <Compile Include="Infrastructure\IOwned.cs" />
     <Compile Include="Infrastructure\SafeExtensions.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
+    <Compile Include="Infrastructure\UserService.cs" />
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\MailMessage.cs" />
