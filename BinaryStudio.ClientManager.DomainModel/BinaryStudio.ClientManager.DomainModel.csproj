@@ -68,11 +68,10 @@
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
     <Compile Include="Input\AeEventBasedEmailClient.cs" />
-    <Compile Include="Input\EmailReceivedEventArgs.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\MailMessage.cs" />
     <Compile Include="Input\MailMessageConverter.cs" />
-    <Compile Include="Input\PollingEmailChecker.cs" />
+    <Compile Include="Input\MailMessageSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <summary>
         /// Repository that keeps some data about persons.
         /// </summary>
-        private IRepository repository;
+        private readonly IRepository repository;
 
         /// <summary>
         /// Constructor
@@ -39,31 +39,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                                         Body = mailMessage.Body, 
                                         Date = mailMessage.Date, 
                                         Subject = mailMessage.Subject,
-                                        Receivers=new List<Person>()
+                                        Receivers = new List<Person>()
                                     };
             //find a Sender in Repository
             var sender = repository.Query<Person>().FirstOrDefault(x => x.Email == mailMessage.Sender.Address);
-            if (sender!=null)
-            {
-                returnMessage.Sender = sender;
-            }
-            else //if cant find sender in repository then create him.
-            {
-                returnMessage.Sender = addNewPersonToRepository(mailMessage.Sender, mailMessage.Date);
-            }
+
+            returnMessage.Sender = sender ?? AddNewPersonToRepository(mailMessage.Sender, mailMessage.Date);
 
             //find Receivers in repository
             foreach (var receiver in mailMessage.Receivers)
             {
                 var currentReceiver = repository.Query<Person>().FirstOrDefault(x => x.Email == receiver.Address);
-                if (currentReceiver!=null)
-                {
-                    returnMessage.Receivers.Add(currentReceiver);
-                }
-                else //if cant find receiver in repository then create him.
-                {
-                    returnMessage.Receivers.Add(addNewPersonToRepository(receiver, mailMessage.Date));
-                }
+
+                returnMessage.Receivers.Add(currentReceiver ?? AddNewPersonToRepository(receiver, mailMessage.Date));
             }
             
             return returnMessage;
@@ -75,7 +63,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <param name="mailOfPerson">Mail address and name of person</param>
         /// <param name="dateOfIncomingMail">Date when mail is arrived</param>
         /// <returns>Person that was added to repository</returns>
-        private Person addNewPersonToRepository(MailAddress mailOfPerson, DateTime dateOfIncomingMail)
+        private Person AddNewPersonToRepository(MailAddress mailOfPerson, DateTime dateOfIncomingMail)
         {
             //Split name of client into first name and last name
             char[] separator = { ' ' };

@@ -47,12 +47,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <returns>Value converted to requested type.</returns>
         public T GetValue<T>(string key)
         {
-            string value = GetValue(key);
-
-            return (T)Convert.ChangeType(
-                value,
-                typeof(T),
-                System.Globalization.CultureInfo.InvariantCulture);
+            var value = GetValue(key);
+            try
+            {
+                return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch(Exception) //TODO remove
+            {
+                return default(T);
+            }
         }
     }
 }

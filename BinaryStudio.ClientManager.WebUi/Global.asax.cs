@@ -5,6 +5,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.DomainModel.Input;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
@@ -34,7 +35,11 @@ namespace BinaryStudio.ClientManager.WebUi
             RegisterRoutes(RouteTable.Routes);
 
             SetDependencyResolver();
+
+            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AppConfiguration(""));
         }
+
+        private MailMessageSaver mailMessageSaver;
 
         private void SetDependencyResolver()
         {

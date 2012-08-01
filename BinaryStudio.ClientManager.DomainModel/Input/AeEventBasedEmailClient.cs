@@ -8,6 +8,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     public class AeEventBasedEmailClient : IEmailClient, IDisposable
     {
+        public event EventHandler OnObtainingMessage;
+
         private List<MailMessage> unread = new List<MailMessage>();
 
         private readonly ImapClient client;
@@ -16,9 +18,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             configuration = configuration.GetSubsection("EmailClient");
             client = new ImapClient(
-                configuration.GetValue("Host"),
-                configuration.GetValue("Username"),
-                configuration.GetValue("Password"),
+                configuration.GetValue<string>("Host"),
+                configuration.GetValue<string>("Username"),
+                configuration.GetValue<string>("Password"),
                 ImapClient.AuthMethods.Login,
                 configuration.GetValue<int>("Port"),
                 configuration.GetValue<bool>("Secure"),
@@ -37,6 +39,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                                                                                             Body = message.Value.Body
                                                                                         }));
                                          }
+
+                                         if (null != OnObtainingMessage)
+                                         {
+                                             OnObtainingMessage(this, args);
+                                         }
                                      };
         }
 
@@ -47,13 +54,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             return temp;
         }
 
-        #region Implementation of IDisposable
-
         public void Dispose()
         {
             client.Dispose();
         }
-
-        #endregion
     }
 }

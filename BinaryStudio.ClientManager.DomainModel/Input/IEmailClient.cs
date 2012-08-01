@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
@@ -15,5 +16,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Empty collection is returned if there are no new messages on the server.
         /// </returns>
         IEnumerable<MailMessage> GetUnreadMessages();
+
+        event EventHandler OnObtainingMessage;
     }
 }
