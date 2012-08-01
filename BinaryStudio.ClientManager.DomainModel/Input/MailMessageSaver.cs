@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
+    /// <summary>
+    /// saves received messages into repository
+    /// </summary>
     public class MailMessageSaver
     {
         private readonly IRepository repository;

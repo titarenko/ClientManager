@@ -17,6 +17,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// </returns>
         IEnumerable<MailMessage> GetUnreadMessages();
 
+        /// <summary>
+        /// this handler will be called when new message is received
+        /// </summary>
         event EventHandler OnObtainingMessage;
     }
 }
