@@ -8,3 +8,4 @@ packages
 *.suo
 *.user
 *.dotCover
+*ncrunch*
