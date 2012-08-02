@@ -14,11 +14,7 @@
     </a>
     <div class="secondary-info">
         <div class="phone"><span class="icon-headphones"></span> <a class="phone" data-bind="text: Phone, attr: { href: SkypeLink}"></a></div>    @*@Html.SkypeLink(inquiry.Phone)*@
-<<<<<<< HEAD
-        <div class="email"><span class="icon-envelope"></span> <a class="email" data-bind="text: Email.cut(25), attr: { href: EmailLink}"></a></div>   @* @Html.Email(inquiry.Email, inquiry.Email.Cut(20))*@
-=======
         <div class="email"><span class="icon-envelope"></span> <a class="email" data-bind="text: Email.cut(20), attr: { href: EmailLink}"></a>></div>   @* @Html.Email(inquiry.Email, inquiry.Email.Cut(20))*@
->>>>>>> closed #112
         <div>
             <span class="icon-user"></span> <span data-bind="text: Assignee || 'N/A'"></span>
             <div class="pull-right dropdown">
