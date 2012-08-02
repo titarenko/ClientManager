@@ -42,7 +42,7 @@
             <title data-bind="text: Name"></title>
             <ul data-bind="foreach: Inquiries">
                 <li class="inquiry" data-bind="visible: Visible">
-                    <span data-bind="text: Name"></span>
+                    <a data-bind="text: Name, attr:{href: DetailsUri}"></a>
                 </li>
             </ul>
         </div>
