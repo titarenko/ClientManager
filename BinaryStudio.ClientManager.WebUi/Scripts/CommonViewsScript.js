@@ -54,7 +54,7 @@ function OnClickMoveTo(inquiryId, date) {
     };
 
     var onError = function() {
-        alert("Error while AJAX request");
+        ShowAlert("Error while AJAX request");
     };
 
     $.ajax({

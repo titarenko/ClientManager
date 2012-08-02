@@ -267,7 +267,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public void MoveTo(int inquiryId, DateTime date)
         {
             var inquiry = repository.Get<Inquiry>(inquiryId);
-            if (inquiry == null)
+            if (inquiry == null || date.IsWeekend())
             {
                 throw new ModelIsNotValidException();
             }
