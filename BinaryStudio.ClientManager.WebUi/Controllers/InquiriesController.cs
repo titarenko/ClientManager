@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.WebUi.Infrastructure;
 using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
@@ -11,10 +12,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
     public class InquiriesController : Controller
     {
         private readonly IRepository repository;
+        private readonly IUrlHelper urlHelper;
 
-        public InquiriesController(IRepository repository)
+        public InquiriesController(IRepository repository, IUrlHelper urlHelper)
         {
             this.repository = repository;
+            this.urlHelper = urlHelper;
         }
 
         /// <summary>
@@ -166,9 +169,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 new CategoryViewModel
                 {
                     Tag = new TagViewModel { Name = "" },
-
                     Inquiries = repository
-                        .Query<Inquiry>(x => x.Client, x => x.Tags)
+                        .Query<Inquiry>()
                         .Where(x => !x.Tags.Any() && x.ReferenceDate.HasValue)
                         .Select(inquiry => new TaggedInquiryViewModel
                         {
@@ -177,17 +179,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             LastName = inquiry.Client.LastName,
                             Subject = inquiry.Subject
                         })
+                        .ToList()
                 };
-            
+
             var categories = repository
-                .Query<Tag>(x => x.Inquiries)
+                .Query<Tag>()
+                .Where(x => x.Inquiries.Any(z => z.ReferenceDate.HasValue))
                 .Select(tag => new CategoryViewModel
                 {
                     Tag = new TagViewModel
-                            {
-                                Name = tag.Name,
-                            },
-
+                    {
+                        Name = tag.Name,
+                    },
                     Inquiries = tag.Inquiries
                         .Where(x => x.ReferenceDate.HasValue)
                         .Select(x => new TaggedInquiryViewModel
@@ -197,19 +200,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             LastName = x.Client.LastName,
                             Subject = x.Subject
                         })
-                }).ToList();
-
-            categories.RemoveAll(x => !x.Inquiries.Any());
+                })
+                .ToList();
 
             if (categoryWithEmptyTag.Inquiries.Any())
             {
-                categories.Insert(0, categoryWithEmptyTag);
+                categories.Add(categoryWithEmptyTag);
             }
                                                                                                                                                                                                                                                                            
             return View(new AllInquiriesViewModel
                             {
-                                InquiryDetailsUrl = Url.Action("Details", "Inquiries"),
-
+                                InquiryDetailsUrl = urlHelper.Action("Details", "Inquiries"),
                                 Categories = categories
                             });
         }

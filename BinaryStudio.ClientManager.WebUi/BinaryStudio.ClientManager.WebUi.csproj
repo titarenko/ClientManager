@@ -84,6 +84,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IUrlHelper.cs" />
+    <Compile Include="Infrastructure\UrlHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AllInquiriesViewModel.cs" />
