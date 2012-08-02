@@ -1,5 +1,4 @@
-﻿@using BinaryStudio.ClientManager.WebUi.Models
-@model AdminViewModel
+﻿@model AdminViewModel
 
 @{
     ViewBag.Title = "Admin";
@@ -8,18 +7,62 @@
 @Html.Partial("_Alert")
 
 <div id="admin" class="container">
-    <ul>
-        @foreach (var inquiry in Model.Inquiries)
-        {
-            @Html.Partial("_Inquiry",
-                                new InquiryPartialViewModel
-                                    {
-                                        Inquiry = inquiry,
-                                        Employees = Model.Employees,
-                                        Tags = Model.Tags
-                                    })
-        }
+    <ul data-bind="foreach : Inquiries">
+        @Html.Partial("_Inquiry")        
     </ul>
 </div>
 
 @Html.Partial("_CommentEditor")
+
+<script type="text/javascript">
+    $(function() {
+        var viewModel = @Html.ToJson(Model);
+        viewModel.Filter = ko.observable();
+        
+        viewModel.ClickAssign = function(currentInquiry, employee) {
+            OnClickAssign(employee.Id, currentInquiry.Id);
+        };
+        
+        viewModel.ClickAddTag = function(currentInquiry, tag) {
+            OnClickAddTag(tag.Id, currentInquiry.Id);
+        };
+        
+        viewModel.ClickMoveTo = function(date, currentInquiry) {
+            OnClickMoveTo(currentInquiry.Id,date);
+        };
+        
+        viewModel.ClickAddComment = function(currentInquiry) {
+            ShowModal(currentInquiry.Id);
+        };
+        
+        for (var inquiryIndex in viewModel.Inquiries) {
+            var inquiry = viewModel.Inquiries[inquiryIndex];
+            inquiry.SkypeLink = ko.computed(function() {
+                return 'skype:' + inquiry.Phone + '?call';
+            }, viewModel);
+                
+            inquiry.EmailLink = ko.computed(function() {
+                return 'mailto:' + inquiry.Email;
+            }, viewModel);
+                
+            inquiry.Visible = ko.computed(function() {
+                if (!this.Filter() || this.Filter().length == 0) {
+                    return true;
+                }
+                var localInquiry = this.Inquiry;
+                for (var property in localInquiry) {
+                    if (localInquiry.hasOwnProperty(property) &&
+                        String(localInquiry[property]).contains(this.Filter())) {
+                        return true;
+                    }
+                }
+                return false;
+            }, {
+                Filter: viewModel.Filter,
+                Inquiry: inquiry
+            });
+        }
+
+        ko.applyBindings(viewModel);
+    });
+</script>   
