@@ -3,7 +3,7 @@
     ViewBag.Title = String.Format("This Month - {0}", Model.Name);
 }
 
-<div id="month" class="container">
+@*<div id="month" class="container">
     @foreach (var week in Model.Weeks)
     {
         <div class="row">
@@ -34,7 +34,21 @@
             </div>
         </div>
     }
-</div>   
+</div>   *@
+
+<div id="month" class="container" data-bind="foreach: Weeks">
+    <div class="week" data-bind="foreach: Days">
+        <div class="day">
+            <title data-bind="text: Name"></title>
+            <ul data-bind="foreach: Inquiries">
+                <li class="inquiry" data-bind="visible: Visible">
+                    <span data-bind="text: Name"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
 
 <script type="text/javascript">
     function toggleList(selector, self) {
@@ -51,7 +65,7 @@
         for (var weekIndex in viewModel.Weeks) {
             var week = viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
-                var day = viewModel.Days[dayIndex];
+                var day = week.Days[dayIndex];
                 for (var inquiryIndex in day.Inquiries) {
                     var inquiry = day.Inquiries[inquiryIndex];
                     inquiry.Visible = ko.computed(function() {
