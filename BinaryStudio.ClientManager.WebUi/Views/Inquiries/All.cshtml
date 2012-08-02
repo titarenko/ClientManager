@@ -5,23 +5,27 @@
 }
 
 <div id="all" class="container">
-@foreach (var category in Model.Categories)
-{   
-    <div class="row-fluid">
-        <ul class="category @category.Tag.CssClass">
-            @foreach (var inquiry in category.Inquiries)
-            {                                
-                <li class="inquiry">
-                    <a href="@Url.Action("Details", new { id = inquiry.Id })">
-                        <div align="center">
-                            <div class="name">@inquiry.FullName.Cut(20)</div>
-                            <div class="subject">@inquiry.Subject.Cut(20)</div>
-                        </div>
-                        <div class="tags">@category.Tag.Name.Or("No tags")</div>
-                    </a>
-                </li>
-            }
-        </ul>
+    @foreach (var category in Model.Categories)
+    {   
+        <div class="row-fluid">
+            <ul class="category @category.Tag.CssClass">
+                @foreach (var inquiry in category.Inquiries)
+                {                                
+                    <li class="inquiry">
+                        <a href="@Url.Action("Details", new { id = inquiry.Id })">
+                            <div align="center">
+                                <div class="name">@inquiry.FullName.Cut(20)</div>
+                                <div class="subject">@inquiry.Subject.Cut(20)</div>
+                            </div>
+                            <div class="tags">@category.Tag.Name.Or("No tags")</div>
+                        </a>
+                    </li>
+                }
+            </ul>
         </div>
-}
+    }
 </div>
+
+<script type="text/javascript">
+    
+</script>
