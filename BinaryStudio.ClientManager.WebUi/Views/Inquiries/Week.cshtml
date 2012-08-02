@@ -32,9 +32,7 @@
     <div class="day">
         <ul data-bind="foreach: Inquiries">
             <title data-bind="text: Name"></title>
-            <li class="inquiry" data-bind="visible: Visible">
-                <span data-bind="text: Subject"></span>
-            </li>
+            @Html.Partial("_Inquiry")
         </ul>
     </div>
 </div>
@@ -45,6 +43,22 @@
     $(function() {
         var viewModel = @Html.ToJson(Model);
         viewModel.Filter = ko.observable();
+        
+        viewModel.ClickAssign = function(currentInquiry, employee) {
+            OnClickAssign(employee.Id, currentInquiry.Id);
+        };
+        
+        viewModel.ClickAddTag = function(currentInquiry, tag) {
+            OnClickAddTag(tag.Id, currentInquiry.Id);
+        };
+        
+        viewModel.ClickMoveTo = function(date, currentInquiry) {
+            OnClickMoveTo(currentInquiry.Id,date);
+        };
+        
+        viewModel.ClickAddComment = function(currentInquiry) {
+            ShowModal(currentInquiry.Id);
+        };
 
         for (var dayIndex in viewModel.Days) {
             var day = viewModel.Days[dayIndex];
