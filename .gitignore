@@ -9,3 +9,5 @@ packages
 *.user
 *.dotCover
 *ncrunch*
+*Coverage*
+*NCrunch*
