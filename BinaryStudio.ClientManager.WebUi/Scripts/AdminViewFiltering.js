@@ -1,33 +1,35 @@
-﻿$(function() {
+﻿$(function () {
     window.viewModel.Filter = ko.observable();
-        
-    window.viewModel.ClickAssign = function(currentInquiry, employee) {
+
+    window.viewModel.ClickAssign = function (currentInquiry, employee) {
         OnClickAssign(employee.Id, currentInquiry.Id);
     };
-        
-    window.viewModel.ClickAddTag = function(currentInquiry, tag) {
+
+    window.viewModel.ClickAddTag = function (currentInquiry, tag) {
         OnClickAddTag(tag.Id, currentInquiry.Id);
     };
-        
-    window.viewModel.ClickMoveTo = function(date, currentInquiry) {
-        OnClickMoveTo(currentInquiry.Id,date);
+
+    window.viewModel.ClickMoveTo = function (date, currentInquiry) {
+        OnClickMoveTo(currentInquiry.Id, date);
     };
-        
-    window.viewModel.ClickAddComment = function(currentInquiry) {
+
+    window.viewModel.ClickAddComment = function (currentInquiry) {
         ShowModal(currentInquiry.Id);
     };
-        
+
+    window.viewModel.DateString = new Date();
+
     for (var inquiryIndex in window.viewModel.Inquiries) {
         var inquiry = window.viewModel.Inquiries[inquiryIndex];
-        inquiry.SkypeLink = ko.computed(function() {
+        inquiry.SkypeLink = ko.computed(function () {
             return 'skype:' + inquiry.Phone + '?call';
         }, window.viewModel);
-                
-        inquiry.EmailLink = ko.computed(function() {
+
+        inquiry.EmailLink = ko.computed(function () {
             return 'mailto:' + inquiry.Email;
         }, window.viewModel);
-                
-        inquiry.Visible = ko.computed(function() {
+
+        inquiry.Visible = ko.computed(function () {
             if (!this.Filter() || this.Filter().length == 0) {
                 return true;
             }
