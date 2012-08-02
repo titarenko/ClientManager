@@ -45,6 +45,9 @@
                     <a data-bind="text: Name, attr:{href: DetailsUri}"></a>
                 </li>
             </ul>
+            <div style="text-align: center; margin-bottom: 8px">
+                <input type="button" class="btn btn-primary btn-mini" data-bind="visible: InqCount" value="More"/>
+            </div>
         </div>
     </div>
     
@@ -61,11 +64,13 @@
     $(function () {
         var viewModel = @Html.ToJson(Model);
         viewModel.Filter = ko.observable();
-
         for (var weekIndex in viewModel.Weeks) {
             var week = viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
                 var day = week.Days[dayIndex];
+                day.InqCount = ko.computed(function() {
+                    return true;
+                });
                 for (var inquiryIndex in day.Inquiries) {
                     var inquiry = day.Inquiries[inquiryIndex];
                     inquiry.Visible = ko.computed(function() {
@@ -89,4 +94,6 @@
         }
       ko.applyBindings(viewModel);
     });
+    
+
 </script>
