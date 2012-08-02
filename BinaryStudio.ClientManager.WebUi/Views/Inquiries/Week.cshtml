@@ -30,8 +30,8 @@
 
 <div id="week" class="container" data-bind="foreach: Days">
     <div class="day">
-        <ul data-bind="foreach: Inquiries">
-            <title data-bind="text: Name"></title>
+        <title data-bind="text: Name"></title>
+        <ul data-bind="foreach: Inquiries">            
             @Html.Partial("_Inquiry")
         </ul>
     </div>
@@ -64,6 +64,14 @@
             var day = viewModel.Days[dayIndex];
             for (var inquiryIndex in day.Inquiries) {
                 var inquiry = day.Inquiries[inquiryIndex];
+                inquiry.SkypeLink = ko.computed(function() {
+                    return 'skype:' + inquiry.Phone + '?call';
+                }, viewModel);
+                
+                inquiry.EmailLink = ko.computed(function() {
+                    return 'mailto:' + inquiry.Email;
+                }, viewModel);
+                
                 inquiry.Visible = ko.computed(function() {
                     if (!this.Filter() || this.Filter().length == 0) {
                         return true;
