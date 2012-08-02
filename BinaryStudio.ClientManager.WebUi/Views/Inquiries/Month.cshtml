@@ -39,14 +39,14 @@
 <div id="month" class="container" data-bind="foreach: Weeks">
     <div class="week" data-bind="foreach: Days">
         <div class="day">
-            <title data-bind="text: DateStringForMonth"></title>
+           <title data-bind="text: DateStringForMonth"></title>
             <ul data-bind="foreach: Inquiries">
-                <li class="inquiry" data-bind="visible: Visible">
+                <li id="hideme" class="inquiry" data-bind="visible: Visible">
                     <a data-bind="text: Name, attr:{href: DetailsUri}"></a>
                 </li>
             </ul>
             <div style="text-align: center; margin-bottom: 8px">
-                <input type="button" class="btn btn-primary btn-mini" data-bind="visible: InqCount" value="More"/>
+                <input type="button" class="btn btn-primary btn-mini" data-bind="visible: InqCount" value="Less" onclick="toggleList('#hideme', this)"/>
             </div>
         </div>
     </div>
@@ -68,6 +68,7 @@
             var week = viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
                 var day = week.Days[dayIndex];
+                day.name = day.Name;
                 day.InqCount = ko.computed(function() {
                     if (day.Inquiries.length>@Model.MaxInquiriesWithoutToggling) {
                         return true;
@@ -76,6 +77,11 @@
                 });
                 for (var inquiryIndex in day.Inquiries) {
                     var inquiry = day.Inquiries[inquiryIndex];
+                    if(inquiryIndex > 4) {
+                        inquiry.tog = "hideme";
+                    } else {
+                        inquiry.tog = "";
+                    }
                     inquiry.Visible = ko.computed(function() {
                         if (!this.Filter() || this.Filter().length == 0) {
                             return true;
