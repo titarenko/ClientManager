@@ -169,34 +169,35 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
                     Inquiries = repository
                         .Query<Inquiry>(x => x.Client, x => x.Tags)
-                        .Where(x => !x.Tags.Any())
+                        .Where(x => !x.Tags.Any() && x.ReferenceDate.HasValue)
                         .Select(inquiry => new TaggedInquiryViewModel
-                                            {
-                                                Id = inquiry.Id,
-                                                FirstName = inquiry.Client.FirstName,
-                                                LastName = inquiry.Client.LastName,
-                                                Subject = inquiry.Subject
-                                            })
+                        {
+                            Id = inquiry.Id,
+                            FirstName = inquiry.Client.FirstName,
+                            LastName = inquiry.Client.LastName,
+                            Subject = inquiry.Subject
+                        })
                 };
             
             var categories = repository
                 .Query<Tag>(x => x.Inquiries)
                 .Select(tag => new CategoryViewModel
-                                    {
-                                        Tag = new TagViewModel
-                                                {
-                                                    Name = tag.Name,
-                                                },
+                {
+                    Tag = new TagViewModel
+                            {
+                                Name = tag.Name,
+                            },
 
-                                        Inquiries = tag.Inquiries
-                                            .Select(x => new TaggedInquiryViewModel
-                                                            {
-                                                                Id = x.Id,
-                                                                FirstName = x.Client.FirstName,
-                                                                LastName = x.Client.LastName,
-                                                                Subject = x.Subject
-                                                            })
-                                    }).ToList();
+                    Inquiries = tag.Inquiries
+                        .Where(x => x.ReferenceDate.HasValue)
+                        .Select(x => new TaggedInquiryViewModel
+                        {
+                            Id = x.Id,
+                            FirstName = x.Client.FirstName,
+                            LastName = x.Client.LastName,
+                            Subject = x.Subject
+                        })
+                }).ToList();
 
             categories.RemoveAll(x => !x.Inquiries.Any());
 
@@ -207,6 +208,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                                                                                                                                                                                                                                                            
             return View(new AllInquiriesViewModel
                             {
+                                InquiryDetailsUrl = Url.Action("Details", "Inquiries"),
+
                                 Categories = categories
                             });
         }
