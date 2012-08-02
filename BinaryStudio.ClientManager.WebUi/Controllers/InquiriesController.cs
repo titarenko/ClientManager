@@ -211,8 +211,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(new AllInquiriesViewModel
                             {
                                 InquiryDetailsUrl = urlHelper.Action("Details", "Inquiries"),
-                                Categories = categories
-                            });
+                Categories = categories
+            });
         }
 
         public ViewResult Admin()

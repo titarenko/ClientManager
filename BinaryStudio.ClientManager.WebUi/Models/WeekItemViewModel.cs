@@ -16,6 +16,11 @@ namespace BinaryStudio.ClientManager.WebUi.Models
             } 
         }
 
+        public string DateStringForMonth
+        {
+            get { return Date.ToString("ddd dd MMM"); }
+        }
+
         public IEnumerable<InquiryViewModel> Inquiries { get; set; }
     }
 }

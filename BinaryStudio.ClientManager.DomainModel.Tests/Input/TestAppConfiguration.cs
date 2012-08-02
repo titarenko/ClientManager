@@ -11,10 +11,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var configuration = new Mock<IConfiguration>();
             var settings = new Dictionary<string, string>
             {
-                {"Host", "imap.yandex.ua"},
+                {"Host", "imap.gmail.com"},
                 {"Port", "993"},
-                {"Username", "cman2012@yandex.ua"},
-                {"Password", ""}, // put password here
+                {"Username", "studiobinary@gmail.com"},
+                {"Password", "binarytest"}, // put password here
                 {"Secure", "true"},
                 {"SkipSslValidation", "true"}
             };
