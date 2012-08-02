@@ -9,9 +9,9 @@ String.prototype.endsWith = function (suffix) {
 
 
 //
-// return true if string contains argument
+// return true if string contains insensitive argument
 String.prototype.contains = function(searchString) {
-    return this.indexOf(searchString) != -1;
+    return this.toLowerCase().indexOf(searchString.toLowerCase()) != -1;
 };
 
 //
