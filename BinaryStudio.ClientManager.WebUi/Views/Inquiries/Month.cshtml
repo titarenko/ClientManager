@@ -69,7 +69,10 @@
             for (var dayIndex in week.Days) {
                 var day = week.Days[dayIndex];
                 day.InqCount = ko.computed(function() {
-                    return true;
+                    if (day.Inquiries.length>@Model.MaxInquiriesWithoutToggling) {
+                        return true;
+                    }
+                    return false;
                 });
                 for (var inquiryIndex in day.Inquiries) {
                     var inquiry = day.Inquiries[inquiryIndex];
