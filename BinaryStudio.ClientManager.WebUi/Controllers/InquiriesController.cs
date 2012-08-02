@@ -207,11 +207,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
                                                                                                                                                                                                                                                                            
             return View(new AllInquiriesViewModel
-                            {
-                                InquiryDetailsUrl = Url.Action("Details", "Inquiries"),
+            {
+                InquiryDetailsUrl = Url.Action("Details", "Inquiries"),
 
-                                Categories = categories
-                            });
+                Categories = categories
+            });
         }
 
         public ViewResult Admin()

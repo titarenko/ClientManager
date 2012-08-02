@@ -7,28 +7,6 @@
 
 @Html.Partial("_Alert")
 
-@*
-<div id="week" class="container">
-    @foreach (var day in Model.Days)
-    {
-        <div class="day">
-            <ul>
-                <title>@day.Name (@day.Date.ToString("dd.MM"))</title>
-                @foreach (var inquiry in day.Inquiries)
-                {
-                    @Html.Partial("_Inquiry",
-                                        new InquiryPartialViewModel
-                                            {
-                                                Inquiry = inquiry,
-                                                Employees = Model.Employees,
-                                                Tags = Model.Tags
-                                            })
-                }
-            </ul>
-        </div>
-    }
-</div>*@
-
 <div id="week" class="container" data-bind="foreach: Days">
     <div class="day">
         <title data-bind="text: Name"></title>

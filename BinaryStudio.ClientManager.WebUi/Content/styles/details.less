@@ -17,10 +17,27 @@
     }
 
 	.tags {
+		ul {
+			list-style-type: none;
+			display: inline-block;
+
+			margin: 0px;
+			padding: 0px;
+
+			.tag {
+				.bordered;
+
+				margin: 4px;
+				padding: 4px;
+
+				float: left;
+			}
+		}
 	}
         
     .comments {
 		.comment{
+			.bordered;
 			margin: 4px;
 			padding: 4px;
 		}
@@ -35,6 +52,8 @@
     }
 
 	h3 {
+		color: #555;
+		.shadowed;
         text-align: center;
     }
 }
