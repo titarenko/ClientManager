@@ -63,6 +63,7 @@
     <Compile Include="Controllers\EmployeesControllerTests.cs" />
     <Compile Include="Controllers\InquiryControllerTests.cs" />
     <Compile Include="Controllers\TagViewModelTests.cs" />
+    <Compile Include="Infrastructure\ControllerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +79,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir).nuget\NuGet.exe install $(ProjectDir)packages.config -o $(SolutionDir)packages</PreBuildEvent>

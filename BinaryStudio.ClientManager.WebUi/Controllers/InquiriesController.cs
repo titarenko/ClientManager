@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
-using BinaryStudio.ClientManager.WebUi.Infrastructure;
 using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
@@ -12,12 +11,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
     public class InquiriesController : Controller
     {
         private readonly IRepository repository;
-        private readonly IUrlHelper urlHelper;
 
-        public InquiriesController(IRepository repository, IUrlHelper urlHelper)
+        public InquiriesController(IRepository repository)
         {
             this.repository = repository;
-            this.urlHelper = urlHelper;
         }
 
         /// <summary>
@@ -207,10 +204,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             {
                 categories.Add(categoryWithEmptyTag);
             }
-                                                                                                                                                                                                                                                                           
+
             return View(new AllInquiriesViewModel
-                            {
-                                InquiryDetailsUrl = urlHelper.Action("Details", "Inquiries"),
+            {
+                InquiryDetailsUrl = Url.Action("Details", "Inquiries"),
                 Categories = categories
             });
         }

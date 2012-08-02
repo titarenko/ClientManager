@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Routing;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.WebUi.Controllers;
-using BinaryStudio.ClientManager.WebUi.Infrastructure;
 using BinaryStudio.ClientManager.WebUi.Models;
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Dates;
@@ -16,7 +13,7 @@ using Moq;
 using NSubstitute;
 using NUnit.Framework;
 using FluentAssertions;
-using UrlHelper = System.Web.Mvc.UrlHelper;
+using BinaryStudio.ClientManager.WebUi.Tests.Infrastructure;
 
 
 namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
@@ -55,10 +52,10 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.Tags = new List<Tag>())
                 .TheFirst(10)
                 .With(x => x.ReferenceDate = null)
-                .With(x => x.Tags = new [] {tags[0]})
+                .With(x => x.Tags = tags.Take(1).ToList())
                 .TheNext(10)
                 .With(x => x.ReferenceDate = GetRandom.DateTime(February.The15th, February.The28th))
-                .With(x => x.Tags = new [] {tags[1]})
+                .With(x => x.Tags = tags.Skip(1).Take(1).ToList())
                 .TheNext(1)
                 .With(x => x.ReferenceDate = new DateTime(Clock.Now.Year, 3, 1))
                 .TheNext(9)
@@ -78,7 +75,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             // arrange
             var mock = new Mock<IRepository>();
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Source)).Returns(inquiries.AsQueryable());
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object);
 
             // act
             var response = inquiriesController.Index();
@@ -94,7 +91,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             // arrange
             var mock = new Mock<IRepository>();
             mock.Setup(x => x.Query<Inquiry>()).Returns(new List<Inquiry>().AsQueryable());
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object);
 
             // act
             var response = inquiriesController.Index();
@@ -117,7 +114,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var mock = new Mock<IRepository>();
             mock.Setup(z => z.Get<Inquiry>(id, x => x.Client, x => x.Source,
                 x => x.Source.Sender, x => x.Comments, x => x.Assignee, x => x.Tags)).Returns(inquiry);
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object);
             
             //act
             var result = (Inquiry) inquiriesController.Details(id).Model;
@@ -140,7 +137,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .With(x => x.Role = PersonRole.Employee)
                 .Build()
                 .AsQueryable());
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object);
 
             // act
             var viewModel = inquiriesController.Week().Model as WeekViewModel;
@@ -166,7 +163,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             mock.Setup(x => x.Query<Inquiry>(z => z.Client)).Returns(inquiries.AsQueryable());
 
             // act
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object);
             var viewResult = (MonthViewModel)inquiriesController.Month().Model;
 
             // assert
@@ -184,17 +181,13 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             repository.Query<Inquiry>().Returns(inquiries.AsQueryable());
             repository.Query<Tag>().Returns(tags.AsQueryable());
 
-            var urlHelper = Substitute.For<IUrlHelper>();
-            urlHelper.Action("Details", "Inquiries").Returns("awesomeUri");
-
-            var inquiriesController = new InquiriesController(repository, urlHelper);
+            var inquiriesController = new InquiriesController(repository).MockHttpContext();
 
             // act
             var viewResult = (AllInquiriesViewModel) inquiriesController.All().Model;
             var categories = viewResult.Categories.ToList(); 
 
             // assert
-            viewResult.InquiryDetailsUrl.Should().Be("awesomeUri");
             categories.Count.Should().Be(2);
             categories[1].Tag.Name.Should().Be("");
             categories[1].Inquiries.Count().Should().Be(20);
@@ -221,7 +214,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             repository.Query<Tag>().Returns(tags.AsQueryable());
             repository.Query<Inquiry>().Returns(inquiries.AsQueryable());
 
-            var inquiriesController = new InquiriesController(repository, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(repository).MockHttpContext();
 
             // act
             var viewResult = (AllInquiriesViewModel) inquiriesController.All().Model;
@@ -246,7 +239,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void ShouldNot_ReturnCategoriesWithEmptyInquiries_WhenAllRequested()
         {
-            //arange
+            // arrange
             var mock = new Mock<IRepository>();
             mock.Setup(z => z.Query<Inquiry>(x => x.Client, x => x.Tags)).Returns(new List<Inquiry>().AsQueryable());
             mock.Setup(z => z.Query<Tag>(x => x.Inquiries)).Returns(new List<Tag>
@@ -258,7 +251,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                     Id = 1
                 }
             }.AsQueryable());
-            var inquiriesController = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var inquiriesController = new InquiriesController(mock.Object).MockHttpContext();
 
             //act
             var viewResult = (AllInquiriesViewModel) inquiriesController.All().Model;
@@ -276,7 +269,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .Returns(inquiries.AsQueryable());
 
             // act
-            var controller = new InquiriesController(mock.Object, Substitute.For<IUrlHelper>());
+            var controller = new InquiriesController(mock.Object);
             var viewResult = (AdminViewModel)controller.Admin().Model;
 
             // assert

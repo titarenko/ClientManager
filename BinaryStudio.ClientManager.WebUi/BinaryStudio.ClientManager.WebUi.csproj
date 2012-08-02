@@ -85,8 +85,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthModel.cs" />
-    <Compile Include="Infrastructure\IUrlHelper.cs" />
-    <Compile Include="Infrastructure\UrlHelper.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AllInquiriesViewModel.cs" />
     <Compile Include="Models\InquiryPartialViewModel.cs" />
