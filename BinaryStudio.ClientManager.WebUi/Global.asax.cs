@@ -7,6 +7,8 @@ using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;
 using BinaryStudio.ClientManager.DomainModel.Tests.Input;
+using OAuth2.Client;
+using RestSharp;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
@@ -20,6 +22,13 @@ namespace BinaryStudio.ClientManager.WebUi
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //routes.MapRoute("Auth", // Route name
+            //                "Auth", // URL with parameters
+            //                new {
+            //                    controller = "Auth",
+            //                    action = "Auth",
+            //                    id = UrlParameter.Optional
+            //                });
 
             routes.MapRoute(
                 "Default", // Route name
@@ -57,6 +66,11 @@ namespace BinaryStudio.ClientManager.WebUi
                 .AsImplementedInterfaces();
 
             builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), 
+                    Assembly.GetAssembly(typeof(Client)), 
+                    Assembly.GetAssembly(typeof(RestClient)))
+                .AsImplementedInterfaces().AsSelf();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
         }
