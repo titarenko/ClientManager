@@ -4,28 +4,53 @@
     ViewBag.Title = "All Inquiries";
 }
 
-<div id="all" class="container">
-    @foreach (var category in Model.Categories)
-    {   
-        <div class="row-fluid">
-            <ul class="category @category.Tag.CssClass">
-                @foreach (var inquiry in category.Inquiries)
-                {                                
-                    <li class="inquiry">
-                        <a href="@Url.Action("Details", new { id = inquiry.Id })">
-                            <div align="center">
-                                <div class="name">@inquiry.FullName.Cut(20)</div>
-                                <div class="subject">@inquiry.Subject.Cut(20)</div>
-                            </div>
-                            <div class="tags">@category.Tag.Name.Or("No tags")</div>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-    }
+<div id="all" class="container" data-bind="foreach: Categories">
+    <div class="row-fluid">
+        <ul data-bind="attr: {class: 'category ' + Tag.CssClass}, foreach: Inquiries">
+            <li class="inquiry" data-bind="visible: Visible">
+                <a data-bind="attr: {href: InquiryDetailsUrl}">
+                    <div align="center">
+                        <div class="name" data-bind="text: FullName"></div>
+                        <div class="subject" data-bind="text: Subject"></div>
+                    </div>
+                    <div class="tags" data-bind="text: Tag || 'No tags'"></div>
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <script type="text/javascript">
-    
+    $(function() {
+        var viewModel = @Html.ToJson(Model);
+        viewModel.Filter = ko.observable('');
+        
+        for (var categoryIndex in viewModel.Categories) {
+            var category = viewModel.Categories[categoryIndex];
+            for (var inquiryIndex in category.Inquiries) {
+                var inquiry = category.Inquiries[inquiryIndex];
+                inquiry.Tag = category.Tag.Name;
+                inquiry.InquiryDetailsUrl = viewModel.InquiryDetailsUrl + '/' + inquiry.Id;
+                inquiry.Visible = ko.computed(function() {
+                    if (this.Filter().length == 0) {
+                        return true;
+                    }
+                    var localInquiry = this.Inquiry;
+                    for (var property in localInquiry) {
+                        if (localInquiry.hasOwnProperty(property) &&
+                            property != 'InquiryDetailsUrl' &&
+                            String(localInquiry[property]).contains(this.Filter())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }, {
+                    Filter: viewModel.Filter,
+                    Inquiry: inquiry
+                });
+            }
+        }
+
+        ko.applyBindings(viewModel);
+    });
 </script>
