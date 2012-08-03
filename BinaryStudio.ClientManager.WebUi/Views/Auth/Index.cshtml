@@ -1,0 +1,12 @@
+﻿@model LogOnModel
+
+@{
+    ViewBag.Title = "Authorization";
+}
+
+<div class="container">
+    @foreach (var uri in Model.LoginUris)
+    {
+        <p><a href="@uri">Log In (@uri)</a></p>
+    }
+</div>

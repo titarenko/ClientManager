@@ -210,6 +210,7 @@
     <Content Include="Views\Shared\_Inquiry.cshtml" />
     <Content Include="Views\Shared\_CommentEditor.cshtml" />
     <Content Include="Views\Shared\_Alert.cshtml" />
+    <Content Include="Views\Auth\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

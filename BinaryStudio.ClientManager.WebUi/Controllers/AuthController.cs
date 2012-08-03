@@ -39,7 +39,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             {
                 return View(client.GetUserInfo(client.GetAccessToken(code, error)));
             }
-            throw new ApplicationException("oO");
+
+            throw new ApplicationException("oO"); //TODO fix
         }
     }
 }

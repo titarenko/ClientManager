@@ -22,17 +22,11 @@ namespace BinaryStudio.ClientManager.WebUi
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            //routes.MapRoute("Auth", // Route name
-            //                "Auth", // URL with parameters
-            //                new {
-            //                    controller = "Auth",
-            //                    action = "Auth",
-            //                    id = UrlParameter.Optional
-            //                });
+            routes.MapRoute("Auth", // Route name
+                            "Auth", // URL with parameters
+                            new { controller = "Auth", action = "Index", id = UrlParameter.Optional });
 
-            routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
+            routes.MapRoute("Default", "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
             );
         }
