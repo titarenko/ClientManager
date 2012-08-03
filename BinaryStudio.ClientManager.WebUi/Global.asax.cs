@@ -41,7 +41,7 @@ namespace BinaryStudio.ClientManager.WebUi
             SetDependencyResolver();
 
             //TODO all works fine!
-            //mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
+            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
         }
 
         private MailMessageSaver mailMessageSaver;

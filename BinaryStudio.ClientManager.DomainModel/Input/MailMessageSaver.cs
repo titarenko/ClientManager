@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
@@ -28,7 +29,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             x.Subject == convertedMessage.Subject &&
                             x.Sender.Email == convertedMessage.Sender.Email))
                         {
+
                             repository.Save(convertedMessage);
+                            var inquiry=repository.Query<Inquiry>(x => x.Client)
+                                .SingleOrDefault(x => x.Client.Email == convertedMessage.Sender.Email);
                         }
                     }
                 };

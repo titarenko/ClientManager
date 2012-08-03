@@ -29,14 +29,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                                      {
                                          if (args.MessageCount > 0)
                                          {
-                                             unread.AddRange(client.SearchMessages(SearchCondition.New())
+                                             unread.AddRange(client.GetMessages(0, client.GetMessageCount()-1,false)
                                                                  .Select(message => new MailMessage
                                                                                         {
-                                                                                            Date = message.Value.Date,
-                                                                                            Sender = message.Value.Sender,
-                                                                                            Receivers = message.Value.To,
-                                                                                            Subject = message.Value.Subject,
-                                                                                            Body = message.Value.Body
+                                                                                            Date = message.Date,
+                                                                                            Sender = message.From,
+                                                                                            Receivers = message.To,
+                                                                                            Subject = message.Subject,
+                                                                                            Body = message.Body
                                                                                         }));
                                          }
 
