@@ -25,7 +25,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult MailingHistory(int id)
         {
             var person = repository.Get<Person>(id, x => x.RelatedMails);
-            person.RelatedMails = person.RelatedMails.OrderBy(x => x.Date).ToList();
+            person.RelatedMails = person.RelatedMails
+                .Select(x => repository
+                    .Get<MailMessage>(x.Id, z => z.Sender, z => z.Receivers))
+                .OrderBy(x => x.Date)
+                .ToList();
 
             return View(person);
 

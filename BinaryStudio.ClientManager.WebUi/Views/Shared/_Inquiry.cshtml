@@ -7,8 +7,8 @@
                 <img class="pull-left" data-bind="attr: {src: PhotoUri||'@Url.DefaultPhoto()'}" alt="Photo" width="48" height="48"/>
             </div>
             <div class="span8 primary-info">
-                <span class="name" data-bind="text: Name"></span>
-                <span class="subject" data-bind="text: Subject"></span>
+                <span class="name" data-bind="text: Name.cut(15)"></span>
+                <span class="subject" data-bind="text: Subject.cut(15)"></span>
             </div>
         </div>
     </a>
