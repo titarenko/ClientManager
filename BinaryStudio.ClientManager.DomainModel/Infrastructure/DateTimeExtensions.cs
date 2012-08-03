@@ -54,7 +54,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             {
                 difference += 7;
             }
-            return dateWithinWeek.AddDays(difference).Date;
+            return dateWithinWeek.Date.AddDays(difference).Date;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// </summary>
         public static bool IsWeekend(this DateTime date, int weekendLength = 2, DayOfWeek endOfWeek = DayOfWeek.Sunday)
         {
-            return date.GetEndOfWeek(endOfWeek).AddDays(-weekendLength).Day < date.Day;
+            return date.GetEndOfWeek(endOfWeek).AddDays(-weekendLength).Date < date.Date;
         }
     }
 }
