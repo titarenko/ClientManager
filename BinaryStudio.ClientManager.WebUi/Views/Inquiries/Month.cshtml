@@ -41,12 +41,12 @@
         <div class="day">
            <title data-bind="text: DateStringForMonth"></title>
             <ul data-bind="foreach: Inquiries">
-                <li data-bind="visible: Visible,attr: {'class': 'inquiry day-' + day}, css:{'hidden-inquiry': isToggle,'hide': isToggle}">
+                <li data-bind="visible: Visible,attr: {'class': 'inquiry day-' + day}, css:{'hidden-inquiry': isHidden,'hide': isHidden}">
                     <a data-bind="text: Name, attr:{href: DetailsUri}"></a>
                 </li>
             </ul>
             <div style="text-align: center; margin-bottom: 8px">
-                <input type="button" class="btn btn-primary btn-mini" data-bind="attr: {id: 'button-'+DateString}, visible: InqCount, click: toggleList" value="More"/> @*onclick="isTogglegleList('#hideme', this)"/>*@
+                <input type="button" class="btn btn-primary btn-mini" data-bind="attr: {id: 'button-'+DateString}, visible: isToggle, click: toggleList" value="More"/> @*onclick="isHiddengleList('#hideme', this)"/>*@
             </div>
         </div>
     </div>
@@ -69,23 +69,15 @@
             var week = viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
                 var day = week.Days[dayIndex];
-                day.name = day.Name;
-                day.InqCount = ko.computed(function() {
-                    if (day.Inquiries.length>viewModel.MaxInquiriesWithoutToggling) {
-                        return true;
-                    }
-                    return false;
-                });
+                               
                 for (var inquiryIndex in day.Inquiries) {
                     var inquiry = day.Inquiries[inquiryIndex];
-                    if(inquiryIndex > viewModel.MaxInquiriesWithoutToggling) {
-                        inquiry.isToggle = true;
-                    }
-                    else {
-                        inquiry.isToggle = false;
-                    }
-                    
+                
                     inquiry.day = new Date(day.DateString).getDate();
+                    
+                    inquiry.isHidden = ko.computed(function() {
+                        return inquiryIndex > viewModel.MaxInquiriesWithoutToggling ? true : false;
+                    });
                     
                     inquiry.Visible = ko.computed(function() {
                         if (!this.Filter() || this.Filter().length == 0) {
@@ -104,10 +96,27 @@
                         Inquiry: inquiry
                     });
                 }
+                
+                day.visibleInquiriesCount = ko.computed(function() {
+                    var inquiriesCount = 0;
+                    for (var inquiryIndex in this.Inquiries) {
+                        var inquiry = this.Inquiries[inquiryIndex];
+                        if (inquiry.Visible()) {
+                            inquiriesCount++;
+                        }
+                    }
+                    return inquiriesCount;
+                },day);
+                
+                day.isToggle = ko.computed(function() {
+                    if (this.visibleInquiriesCount()>viewModel.MaxInquiriesWithoutToggling) {
+                        return true;
+                    }
+                    return false;
+                },day);
             }
         }
-      ko.applyBindings(viewModel);
-    });
-    
+        ko.applyBindings(viewModel);
+    });    
 
 </script>
