@@ -3,41 +3,8 @@
     ViewBag.Title = String.Format("This Month - {0}", Model.Name);
 }
 
-@*<div id="month" class="container">
-    @foreach (var week in Model.Weeks)
-    {
-        <div class="row">
-            <div class="week">
-                @foreach (var day in week.Days)
-                {
-                    <div class="day">            
-                        <ul>
-                            <title>@String.Format("{0} ({1})", day.Name, day.Date.ToString("dd"))</title>
-                            @{
-                                var counter = 0;
-                                foreach (var inquiry in day.Inquiries)
-                                {
-                                    <li class="@(counter++ > Model.MaxInquiriesWithoutToggling ? "inquiry hide hidden" + day.Date.Day : "inquiry")">
-                                         @Html.ActionLink(@inquiry.Name, "Details", new {id = inquiry.Id})
-                                    </li>
-                                }
-                                if (counter > Model.MaxInquiriesWithoutToggling + 1)
-                                {
-                                    <li style="text-align: center">
-                                         <input type="button" class="btn btn-primary btn-mini" value="More" onclick="isTogglegleList('.hidden' + @(day.Date.Day), this)"/>
-                                    </li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                }
-            </div>
-        </div>
-    }
-</div>   *@
-
 <div id="month" class="container" data-bind="foreach: Weeks">
-    <div class="week" data-bind="foreach: Days">
+    <div class="week row" data-bind="foreach: Days">
         <div class="day">
            <title data-bind="text: DateStringForMonth"></title>
             <ul data-bind="foreach: Inquiries">
@@ -109,7 +76,7 @@
                 },day);
                 
                 day.isToggle = ko.computed(function() {
-                    if (this.visibleInquiriesCount()>viewModel.MaxInquiriesWithoutToggling) {
+                    if (this.visibleInquiriesCount()>viewModel.MaxInquiriesWithoutToggling+1) {
                         return true;
                     }
                     return false;
