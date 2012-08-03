@@ -65,17 +65,15 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                     Builder<MailMessage>
                     .CreateListOfSize(10)
                     .All()
+                    .With(d => d.Id = 7777)
                     .With(d => d.Date = GetRandom.DateTime())
                     .With(d => d.Receivers = new List<Person>{x})
                     .Build())
                .Build();
 
-            /*var repository = Substitute.For<IRepository>();
-            repository.Get<Person>(7777,x => x.RelatedMails).Returns(person);
-            var clientController = new ClientsController(repository);*/
-
             var mock = new Mock<IRepository>();
             mock.Setup(x => x.Get<Person>(7777, z => z.RelatedMails)).Returns(person);
+            mock.Setup(x => x.Get<MailMessage>(7777, z => z.Sender, z => z.Receivers)).Returns(person.RelatedMails.FirstOrDefault());
             var clientController = new ClientsController(mock.Object);
 
             // act
