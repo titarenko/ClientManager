@@ -13,7 +13,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             ReferenceDate = null;
             Comments = new List<Comment>();
-            Tags = new List<Tag> ();
+            Tags = new List<Tag>();
         }
 
         /// <summary>
