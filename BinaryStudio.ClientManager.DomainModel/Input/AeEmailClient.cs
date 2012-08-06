@@ -28,7 +28,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
             //client.SelectMailbox("INBOX");
 
-            unread.AddRange(client.SearchMessages(SearchCondition.New()).Select(message => new MailMessage
+            unread.AddRange(client.SearchMessages(SearchCondition.Unseen()).Select(message => new MailMessage
                 {
                     Date = message.Value.Date,
                     Sender = message.Value.From,

@@ -75,7 +75,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 CreationDate = dateOfIncomingMail,
                 Email = mailOfPerson.Address,
                 FirstName =  personNameList.Count>=1? personNameList[0]:"",
-                LastName = personNameList.Count>=2 ? personNameList[1] : ""
+                LastName = personNameList.Count>=2 ? personNameList[1] : "",
+                Role = mailOfPerson.Address.Contains("binary-studio") ? PersonRole.Employee : PersonRole.Client //TODO fix
             };
             repository.Save(addingPerson);
             return addingPerson;
