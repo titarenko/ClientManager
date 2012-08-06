@@ -22,7 +22,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <summary>
         /// Renders page with login link.
         /// </summary>
-        public ActionResult Index()
+        public ActionResult LogOn()
         {
             return View(new LogOnModel
                 {

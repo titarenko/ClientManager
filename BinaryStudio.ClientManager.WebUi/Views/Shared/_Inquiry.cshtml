@@ -43,13 +43,10 @@
                             <span class="icon-calendar"></span> Move to
                         </a>
                         <ul class="dropdown-menu sub-menu">
-                             @{ 
-                                 var day = Clock.Now.Date;    
-                                <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(1).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '1 day('+new Date($parent.DateString).addDays(1).format('dd.mm')+')'"></span></a></li>
-                                <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(2).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '2 day('+new Date($parent.DateString).addDays(2).format('dd.mm')+')'"></span></a></li>
-                                <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(3).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '3 day('+new Date($parent.DateString).addDays(3).format('dd.mm')+')'"></span></a></li>
-                                <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(7).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '7 day('+new Date($parent.DateString).addDays(7).format('dd.mm')+')'"></span></a></li>
-                             }
+                            <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(1).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '1 day('+new Date($parent.DateString).addDays(1).format('dd.mm')+')'"></span></a></li>
+                            <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(2).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '2 day('+new Date($parent.DateString).addDays(2).format('dd.mm')+')'"></span></a></li>
+                            <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(3).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '3 day('+new Date($parent.DateString).addDays(3).format('dd.mm')+')'"></span></a></li>
+                            <li><a href="#" data-bind="click: $root.ClickMoveTo.bind($data,new Date($parent.DateString).addDays(7).format('yyyy-mm-dd'))"><span class="icon-arrow-right"></span> <span data-bind="text: '7 day('+new Date($parent.DateString).addDays(7).format('dd.mm')+')'"></span></a></li>                             
                         </ul>
                     </li>
                     <li>

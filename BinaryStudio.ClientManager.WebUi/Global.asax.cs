@@ -24,7 +24,7 @@ namespace BinaryStudio.ClientManager.WebUi
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute("Auth", // Route name
                             "Auth", // URL with parameters
-                            new { controller = "Auth", action = "Index", id = UrlParameter.Optional });
+                            new { controller = "Auth", action = "LogOn", id = UrlParameter.Optional });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
@@ -39,9 +39,8 @@ namespace BinaryStudio.ClientManager.WebUi
             RegisterRoutes(RouteTable.Routes);
 
             SetDependencyResolver();
-
             //TODO all works fine!
-            //mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
+            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
         }
 
         private MailMessageSaver mailMessageSaver;
