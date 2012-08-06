@@ -31,7 +31,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             unread.AddRange(client.SearchMessages(SearchCondition.New()).Select(message => new MailMessage
                 {
                     Date = message.Value.Date,
-                    Sender = message.Value.Sender,
+                    Sender = message.Value.From,
                     Receivers = message.Value.To,
                     Subject = message.Value.Subject,
                     Body = message.Value.Body
