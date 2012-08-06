@@ -39,9 +39,8 @@ namespace BinaryStudio.ClientManager.WebUi
             RegisterRoutes(RouteTable.Routes);
 
             SetDependencyResolver();
-
             //TODO all works fine!
-            //mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
+            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
         }
 
         private MailMessageSaver mailMessageSaver;

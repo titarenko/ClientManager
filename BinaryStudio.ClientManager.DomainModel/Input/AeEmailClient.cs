@@ -25,26 +25,35 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 configuration.GetValue<int>("Port"),
                 configuration.GetValue<bool>("Secure"),
                 configuration.GetValue<bool>("SkipSslValidation"));
-            client.NewMessage += (sender, args) =>
-                                     {
-                                         if (args.MessageCount > 0)
-                                         {
-                                             unread.AddRange(client.SearchMessages(SearchCondition.New())
-                                                                 .Select(message => new MailMessage
-                                                                                        {
-                                                                                            Date = message.Value.Date,
-                                                                                            Sender = message.Value.Sender,
-                                                                                            Receivers = message.Value.To,
-                                                                                            Subject = message.Value.Subject,
-                                                                                            Body = message.Value.Body
-                                                                                        }));
-                                         }
 
-                                         if (null != OnObtainingMessage)
-                                         {
-                                             OnObtainingMessage(this, args);
-                                         }
-                                     };
+            //client.SelectMailbox("INBOX");
+
+            unread.AddRange(client.SearchMessages(SearchCondition.New()).Select(message => new MailMessage
+                {
+                    Date = message.Value.Date,
+                    Sender = message.Value.Sender,
+                    Receivers = message.Value.To,
+                    Subject = message.Value.Subject,
+                    Body = message.Value.Body
+                }));
+
+            client.NewMessage += (sender, args) =>
+                {
+                    var message = client.GetMessage(args.MessageCount - 1, false, true);
+                    unread.Add(new MailMessage
+                        {
+                            Date = message.Date,
+                            Sender = message.From,
+                            Receivers = message.To,
+                            Subject = message.Subject,
+                            Body = message.Body
+                        });
+
+                    if (null != OnObtainingMessage)
+                        {
+                            OnObtainingMessage(this, args);
+                        }
+                };
         }
 
         public IEnumerable<MailMessage> GetUnreadMessages() //renew count of unread messages
