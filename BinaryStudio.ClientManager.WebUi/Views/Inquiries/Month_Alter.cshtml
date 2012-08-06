@@ -1,0 +1,57 @@
+﻿@model MonthViewModel
+@{
+    ViewBag.Title = String.Format("This Month - {0}", Model.Name);
+}
+
+<div id="month-alter" class="container">
+    <table id="calendar">
+        <tr>
+            <th class="week-day">Monday</th>
+            <th class="week-day">Tuesday</th>
+            <th class="week-day">Wednesday</th>
+            <th class="week-day">Thursday</th>
+            <th class="week-day">Friday</th>
+        </tr>
+        @foreach (var week in Model.Weeks)
+        {
+            <tr>
+                @foreach (var day in week.Days)
+                {
+                    <td>
+                        <div class="day-wrap">
+                            <div class="day-header">@day.Date.Day</div>
+                            <div class="day-inquiries">
+                                    <ul class="unstyled">
+                                    @{
+                                        int i = 0;
+                                        foreach (var inquiry in day.Inquiries)
+                                        {
+                                            i++;
+                                            <li class="@(i > Model.MaxInquiriesWithoutToggling ? "hide hidden" + day.Date.Day : "")">
+                                                <a href="@Url.Action("Details", new {id = inquiry.Id})">@inquiry.Subject</a>
+                                            </li>
+                                        }
+                                        if (i > Model.MaxInquiriesWithoutToggling)
+                                        {
+                                            <li align="center">
+                                                <span class="icon-chevron-down" onclick="toggleList('.hidden' + @day.Date.Day, this)"></span>
+                                            </li>
+                                        }
+                                    }
+                                    </ul>
+                            </div>
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>
+
+<script type="text/javascript">
+    function toggleList(selector, self) {
+        $(selector).slideToggle('slow');
+        $(self).toggleClass('icon-chevron-down');
+        $(self).toggleClass('icon-chevron-up');
+    }
+</script>

@@ -126,10 +126,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var firstWeek = start.GetWeekNumber();
             var lastWeek = end.GetWeekNumber();
 
-            return View(new MonthViewModel
+            return View("Month_Alter", new MonthViewModel
             {
                 Name = today.ToString("MMMM"),
-                MaxInquiriesWithoutToggling = 4,
+                MaxInquiriesWithoutToggling = 3,
                 Weeks =
                     from week in Enumerable.Range(0, lastWeek - firstWeek + 1)
                     let weekStart = start.AddDays(week * 7)
