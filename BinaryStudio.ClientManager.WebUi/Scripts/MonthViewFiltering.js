@@ -52,7 +52,7 @@
                                 break;
                         }
                     }
-                    return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling ? true : false;
+                    return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling-1 ? true : false;
                 },
                 {
                     ViewModel: window.viewModel,
@@ -76,7 +76,7 @@
 
 
             day.isToggle = ko.computed(function() {
-                if (this.visibleInquiriesCount()>window.viewModel.MaxInquiriesWithoutToggling+1) {
+                if (this.visibleInquiriesCount()>window.viewModel.MaxInquiriesWithoutToggling-1) {
                     return true;
                 }
                 return false;
