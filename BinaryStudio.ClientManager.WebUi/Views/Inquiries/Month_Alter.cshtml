@@ -1,0 +1,83 @@
+﻿@model MonthViewModel
+@{
+    ViewBag.Title = String.Format("This Month - {0}", Model.Name);
+}
+
+<div id="month-alter" class="container">
+    <table id="calendar">
+        <thead>
+            <tr>
+                <th class="week-day">Monday</th>
+                <th class="week-day">Tuesday</th>
+                <th class="week-day">Wednesday</th>
+                <th class="week-day">Thursday</th>
+                <th class="week-day">Friday</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: Weeks">
+            <tr data-bind="foreach: Days">
+                <td>
+                    <div class="day-wrap">
+                        <div class="day-header" data-bind="text: Day"></div>
+                        <div class="day-inquiries">
+                            <ul class="unstyled" data-bind="foreach: Inquiries">
+                                <li data-bind="visible: Visible">
+                                    <a data-bind="text: Subject, attr: {href: DetailsUri}"></a>
+                                </li>
+                                @*if (i > Model.MaxInquiriesWithoutToggling)
+                                    {
+                                        <li align="center">
+                                            <span class="icon-chevron-down" onclick="toggleList('.hidden' + @day.Date.Day, this)"></span>
+                                        </li>
+                                    }*@
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function toggleList(selector, self) {
+        $(selector).slideToggle('slow');
+        $(self).toggleClass('icon-chevron-down').toggleClass('icon-chevron-up');
+    }
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        var viewModel = @Html.ToJson(Model);
+        viewModel.Filter = ko.observable('');
+        for (var weekIndex in viewModel.Weeks) {
+            var week = viewModel.Weeks[weekIndex];
+            for (var dayIndex in week.Days) {
+                var day = week.Days[dayIndex];
+                day.Day = parseDate(day.Date).getDate();
+                for (var inquiryIndex in day.Inquiries) {
+                    var inquiry = day.Inquiries[inquiryIndex];
+                    inquiry.Visible = ko.computed(function() {
+                        if (this.Filter().length == 0) {
+                            return true;
+                        }
+
+                        var localInquiry = this.Inquiry;
+                        for (var property in localInquiry) {
+                            if (localInquiry.hasOwnProperty(property) &&
+                                String(localInquiry[property]).contains(this.Filter())) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }, {
+                        Filter: viewModel.Filter,
+                        Inquiry: inquiry
+                    });
+                }
+            }
+        }
+
+        ko.applyBindings(viewModel);
+    });
+</script>

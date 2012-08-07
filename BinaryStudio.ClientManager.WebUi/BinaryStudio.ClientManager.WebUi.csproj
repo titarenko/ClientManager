@@ -116,6 +116,7 @@
     <Content Include="Content\styles.less" />
     <Content Include="Content\styles\admin.less" />
     <Content Include="Content\styles\all.less" />
+    <None Include="Content\styles\month_alter.less" />
     <Content Include="Content\styles\tags.less" />
     <Content Include="Content\styles\details.less" />
     <Content Include="Content\styles\mailinghistory.less" />
@@ -213,6 +214,7 @@
     <Content Include="Views\Shared\_CommentEditor.cshtml" />
     <Content Include="Views\Shared\_Alert.cshtml" />
     <Content Include="Views\Auth\LogOn.cshtml" />
+    <Content Include="Views\Inquiries\Month_Alter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

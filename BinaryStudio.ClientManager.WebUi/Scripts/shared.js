@@ -27,7 +27,13 @@ Date.prototype.addDays = function (days) {
 /// var result=s.Cut(7); //result will be equal "This..."
 String.prototype.cut = function (maxLength) {
      return this.length > maxLength ? this.substring(0, maxLength - 3) + "..." : this;
-};
+ };
+
+ //
+ // Converts JSON date into JavaScript date
+ function parseDate(jsonDate) {
+     return new Date(parseInt(jsonDate.replace('/Date(', '')));
+ }
 
  /*
  * Date Format 1.2.3
