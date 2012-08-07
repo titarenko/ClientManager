@@ -153,6 +153,7 @@
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\AdminViewFiltering.js" />
+    <Content Include="Scripts\AllViewFiltering.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -181,6 +182,7 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\MonthViewFiltering.js" />
     <Content Include="Scripts\shared.js" />
     <Content Include="Scripts\WeekViewFiltering.js" />
     <Content Include="Web.config">

@@ -1,11 +1,12 @@
-﻿@model MonthViewModel
+﻿@using Microsoft.Web.Mvc
+@model MonthViewModel
 @{
     ViewBag.Title = String.Format("This Month - {0}", Model.Name);
 }
 
 <div id="month" class="container" data-bind="foreach: Weeks">
     <div class="week row" data-bind="foreach: Days">
-        <div class="day">
+        <div class="day">   
            <title data-bind="text: DateStringForMonth"></title>
             <ul data-bind="foreach: Inquiries">
                 <li data-bind="visible: Visible,attr: {'class': 'inquiry day-' + day}, css:{'hidden-inquiry': isHidden,'hide': isHidden}">
@@ -29,96 +30,10 @@
         var buttonSelector = '#button-' + day.DateString;
         $(buttonSelector).val($(buttonSelector).val() == 'More' ? 'Less' : 'More');
     }
+    
+    $(function() {
+        window.viewModel = @Html.ToJson(Model);
+    });
 </script>
 
-<script type="text/javascript">
-    $(function () {
-        var viewModel = @Html.ToJson(Model);
-        viewModel.Filter = ko.observable();
-
-        viewModel.Filter.subscribe(function(newValue) {
-            for (var weekIndex in this.Weeks) {
-                var week = viewModel.Weeks[weekIndex];
-                for (var dayIndex in week.Days) {
-                    var day = week.Days[dayIndex];
-                    var buttonSelector = '#button-' + day.DateString;
-                    if ($(buttonSelector).val() == 'Less') {
-                        toggleList(day,0);
-                    }
-                }
-            }
-        }, viewModel);
-        
-        for (var weekIndex in viewModel.Weeks) {
-            var week = viewModel.Weeks[weekIndex];
-            for (var dayIndex in week.Days) {
-                var day = week.Days[dayIndex];
-                               
-                for (var inquiryIndex in day.Inquiries) {
-                    var inquiry = day.Inquiries[inquiryIndex];
-                
-                    inquiry.day = new Date(day.DateString).getDate();
-                                                                                
-                    inquiry.Visible = ko.computed(function() {
-                        if (!this.Filter() || this.Filter().length == 0 ) {
-                            return true;
-                        }
-                        var localInquiry = this.Inquiry;
-                        for (var property in localInquiry) {
-                            if (localInquiry.hasOwnProperty(property) &&
-                                String(localInquiry[property]).contains(this.Filter())) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    }, {
-                        Filter: viewModel.Filter,
-                        Inquiry: inquiry,
-                        Day: day
-                    });
-                    
-                    inquiry.isHidden = ko.computed(function() {
-                        var inquiryCurrentVisibleIndex = -1;
-                        for (var inquiryIndex in this.Day.Inquiries) {
-                            var inquiry = this.Day.Inquiries[inquiryIndex];
-                            if (inquiry.Visible()) {
-                                inquiryCurrentVisibleIndex++;
-                                if (this.Index==inquiryIndex)
-                                    break;
-                            }
-                        }
-                        return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling ? true : false;
-                    },
-                    {
-                        ViewModel: viewModel,
-                        Day: day,
-                        Index: inquiryIndex
-                    });
-                }
-                    
-                
-                day.visibleInquiriesCount = ko.computed(function() {
-                    var inquiryCurrentVisibleIndex = -1;
-                    for (var inquiryIndex in this.Inquiries) {
-                        var inquiry = this.Inquiries[inquiryIndex];
-                        if (inquiry.Visible()) {
-                            inquiryCurrentVisibleIndex++;
-                        }
-                    }
-                    return inquiryCurrentVisibleIndex;
-                },day);
-                
-
-
-                day.isToggle = ko.computed(function() {
-                    if (this.visibleInquiriesCount()>viewModel.MaxInquiriesWithoutToggling+1) {
-                        return true;
-                    }
-                    return false;
-                },day);
-            }
-        }
-        ko.applyBindings(viewModel);
-    });    
-
-</script>
+@Html.Script("MonthViewFiltering.js")
