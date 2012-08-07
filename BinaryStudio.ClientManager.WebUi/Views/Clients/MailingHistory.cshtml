@@ -18,16 +18,18 @@
                         <li class = "span5 @(mail.Sender.Role == PersonRole.Client ? "client-msg" : "employee-msg")">
                             <span class="emphasis">From: </span>@mail.Sender.FullName<br/>
                             <span class="emphasis">Subject: </span>@mail.Subject<br/>
-                            <span class="emphasis">Date: </span>@mail.Date<br/>
+                            <span class="emphasis">Date: </span>@mail.Date
+                            <hr/>
 
                             @if (mail.Body.Count() > 70)
                             {
-                                <div class="brief-mail">@(mail.Body.Cut(70))</div>
-                                <div class="full-mail hidden">@mail.Body</div>
+                                <span>@(mail.Body.Substring(0, 80))</span>
+                                <span class="full-mail">@mail.Body.Substring(80)</span>
+                                <span class="icon-chevron-down pull-right" onclick="toggleMail(this)"></span>
                             }
                             else
                             {
-                                <div class="full-mail">@mail.Body</div>
+                                <span>@mail.Body</span>
                             }
                         
                         </li>                        
@@ -39,14 +41,8 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("li").click(function () {
-            var briefMail = $(this).children(".brief-mail");
-
-            if (briefMail.length > 0) {
-                briefMail.toggle();
-                $(this).children(".full-mail").toggleClass("hidden");
-            }
-        });
-    });
+function toggleMail(self) {
+    $(self).parent().children(".full-mail").toggle();
+    $(self).toggleClass("icon-chevron-down").toggleClass("icon-chevron-up");
+}
 </script>
