@@ -40,10 +40,10 @@ namespace BinaryStudio.ClientManager.WebUi
 
             SetDependencyResolver();
             //TODO all works fine!
-            mailMessageSaver = new MailMessageSaver(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
+            _mailMessagePersister = new MailMessagePersister(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
         }
 
-        private MailMessageSaver mailMessageSaver;
+        private MailMessagePersister _mailMessagePersister;
 
         private void SetDependencyResolver()
         {

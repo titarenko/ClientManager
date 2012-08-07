@@ -8,7 +8,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     /// <summary>
     /// saves received messages into repository
     /// </summary>
-    public class MailMessageSaver
+    public class MailMessagePersister
     {
         private readonly IRepository repository;
 
@@ -16,7 +16,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly MailMessageConverter converter;
 
-        public MailMessageSaver(IRepository repository, IEmailClient emailClient)
+        public MailMessagePersister(IRepository repository, IEmailClient emailClient)
         {
             this.repository = repository;
             converter = new MailMessageConverter(repository);
