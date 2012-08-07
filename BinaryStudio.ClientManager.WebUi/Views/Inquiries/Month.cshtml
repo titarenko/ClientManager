@@ -20,9 +20,12 @@
 </div>
 
 <script type="text/javascript">
-    function toggleList(day) {
+    function toggleList(day,timeout) {
         var selector = '.day-' + new Date(day.DateString).getDate() + '.hidden-inquiry';
-        $(selector).slideToggle();
+        if (timeout == null) {
+            timeout = 600;
+        }
+        $(selector).slideToggle(timeout);
         var buttonSelector = '#button-' + day.DateString;
         $(buttonSelector).val($(buttonSelector).val() == 'More' ? 'Less' : 'More');
     }
@@ -32,6 +35,20 @@
     $(function () {
         var viewModel = @Html.ToJson(Model);
         viewModel.Filter = ko.observable();
+
+        viewModel.Filter.subscribe(function(newValue) {
+            for (var weekIndex in this.Weeks) {
+                var week = viewModel.Weeks[weekIndex];
+                for (var dayIndex in week.Days) {
+                    var day = week.Days[dayIndex];
+                    var buttonSelector = '#button-' + day.DateString;
+                    if ($(buttonSelector).val() == 'Less') {
+                        toggleList(day,0);
+                    }
+                }
+            }
+        }, viewModel);
+        
         for (var weekIndex in viewModel.Weeks) {
             var week = viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
@@ -41,13 +58,9 @@
                     var inquiry = day.Inquiries[inquiryIndex];
                 
                     inquiry.day = new Date(day.DateString).getDate();
-                    
-                    inquiry.isHidden = ko.computed(function() {
-                        return inquiryIndex > viewModel.MaxInquiriesWithoutToggling ? true : false;
-                    });
-                    
+                                                                                
                     inquiry.Visible = ko.computed(function() {
-                        if (!this.Filter() || this.Filter().length == 0) {
+                        if (!this.Filter() || this.Filter().length == 0 ) {
                             return true;
                         }
                         var localInquiry = this.Inquiry;
@@ -60,21 +73,43 @@
                         return false;
                     }, {
                         Filter: viewModel.Filter,
-                        Inquiry: inquiry
+                        Inquiry: inquiry,
+                        Day: day
+                    });
+                    
+                    inquiry.isHidden = ko.computed(function() {
+                        var inquiryCurrentVisibleIndex = -1;
+                        for (var inquiryIndex in this.Day.Inquiries) {
+                            var inquiry = this.Day.Inquiries[inquiryIndex];
+                            if (inquiry.Visible()) {
+                                inquiryCurrentVisibleIndex++;
+                                if (this.Index==inquiryIndex)
+                                    break;
+                            }
+                        }
+                        return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling ? true : false;
+                    },
+                    {
+                        ViewModel: viewModel,
+                        Day: day,
+                        Index: inquiryIndex
                     });
                 }
+                    
                 
                 day.visibleInquiriesCount = ko.computed(function() {
-                    var inquiriesCount = 0;
+                    var inquiryCurrentVisibleIndex = -1;
                     for (var inquiryIndex in this.Inquiries) {
                         var inquiry = this.Inquiries[inquiryIndex];
                         if (inquiry.Visible()) {
-                            inquiriesCount++;
+                            inquiryCurrentVisibleIndex++;
                         }
                     }
-                    return inquiriesCount;
+                    return inquiryCurrentVisibleIndex;
                 },day);
                 
+
+
                 day.isToggle = ko.computed(function() {
                     if (this.visibleInquiriesCount()>viewModel.MaxInquiriesWithoutToggling+1) {
                         return true;
