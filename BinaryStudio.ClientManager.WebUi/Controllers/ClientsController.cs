@@ -27,7 +27,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             return View(repository.Query<MailMessage>(x => x.Sender, x => x.Receivers)
                 .Where(x => x.Sender.Id == id || x.Receivers.Any(y => y.Id == id))
                 .OrderBy(x => x.Date)
-                .AsEnumerable());
+                .ToList());
         }
 
         public ViewResult Details(int id)

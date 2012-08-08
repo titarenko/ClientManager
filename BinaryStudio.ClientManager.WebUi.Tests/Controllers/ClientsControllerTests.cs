@@ -55,48 +55,44 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             Assert.DoesNotThrow(() => clientController.Index());
         }
 
-        //[Test]
-        //public void Should_ReturnSpecifiedPersonWithRelatedMailSortedByDate_WhenRequested()
-        //{
-        //    // arrange
-        //    var person = Builder<Person>.CreateNew()
-        //        .With(x => x.Id = 7777).Build();
+        [Test]
+        public void Should_ReturnMailingHistoryOfSpecifiedPerson_WhenRequested()
+        {
+            // arrange
+            var person = Builder<Person>.CreateNew()
+                .With(x => x.Id = 7777).Build();
 
-        //    var mails = Builder<MailMessage>.CreateListOfSize(25)
-        //        .All().With(x => x.Date = GetRandom.DateTime())
-        //        .With(x => x.Sender = Builder<Person>.CreateNew().Build())
-        //        .With(x => x.Receivers = Builder<Person>.CreateListOfSize(3).Build())
-        //        .TheFirst(7).With(x => x.Sender = person)
-        //        .TheLast(7).With(x => x.Receivers = new List<Person> {person})
-        //        .Build();
+            var mails = Builder<MailMessage>.CreateListOfSize(25)
+                .All().With(x => x.Date = GetRandom.DateTime())
+                .With(x => x.Sender = Builder<Person>.CreateNew().Build())
+                .With(x => x.Receivers = Builder<Person>.CreateListOfSize(3).Build())
+                .TheFirst(7).With(x => x.Sender = person)
+                .TheLast(7).With(x => x.Receivers = new List<Person> {person})
+                .Build();
 
-        //    var mock = new Mock<IRepository>();
-        //    mock.Setup(x => x.Get<Person>(7777)).Returns(person);
-        //    mock.Setup(x => x.Query<MailMessage>(y => y.Sender, y => y.Receivers)).Returns(mails.AsQueryable());
-        //    var clientController = new ClientsController(mock.Object);
+            var mock = new Mock<IRepository>();
+            mock.Setup(x => x.Query<MailMessage>(y => y.Sender, y => y.Receivers)).Returns(mails.AsQueryable());
+            var clientController = new ClientsController(mock.Object);
 
-        //    // act
-        //    var viewResult = (MailingHistoryModel)clientController.MailingHistory(7777).Model;
+            // act
+            var viewResult = (IList<MailMessage>)clientController.MailingHistory(7777).Model;
 
-        //    // assert
-        //    viewResult.Person.Id.Should().Be(7777);
+            // assert
+            viewResult.Count().Should().Be(14);
 
-        //    viewResult.MailMessages.Count().Should().Be(14);
-
-        //    //for (int i = 1; i < viewResult.MailMessages.Count; i++)
-        //    //    Assert.That(viewResult.MailMessages[i].Date >=
-        //    //        viewResult.MailMessages[i - 1].Date);
-        //}
+            for (int i = 1; i < viewResult.Count; i++)
+                viewResult[i].Date.Should().BeOnOrAfter(viewResult[i - 1].Date);
+        }
 
         [Test]
         public void ShouldNot_ReturnNullAndShouldCallMethodGetOfIRepository_WhenRequestedDetails()
         {
             //arrange
             var returnedClient = new Person
-                                     {
-                                         Id = 1,
-                                         Role=PersonRole.Client
-                                     };
+            {
+                Id = 1,
+                Role=PersonRole.Client
+            };
             var repository = Substitute.For<IRepository>();
             repository.Get<Person>(1).Returns(returnedClient);
             var clientController = new ClientsController(repository);
