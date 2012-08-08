@@ -3,10 +3,8 @@ using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
-using BinaryStudio.ClientManager.WebUi.Models;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using NSubstitute;
 using FizzWare.NBuilder;
@@ -30,16 +28,16 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_Return300_WhenFillsListWith300Clients()
+        public void Should_ReturnListOf300Persons_WhenListOfClientsRequested()
         {
-            //arrange
+            // arrange
             var repository = Substitute.For<IRepository>();
             repository.Query<Person>().Returns(persons.AsQueryable());
 
-            //act
+            // act
             var model = (IEnumerable<Person>)new ClientsController(repository).Index().Model;
 
-            //assert
+            // assert
             model.Count().Should().Be(300);
         }
 
@@ -70,9 +68,9 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
                 .TheLast(7).With(x => x.Receivers = new List<Person> {person})
                 .Build();
 
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<MailMessage>(y => y.Sender, y => y.Receivers)).Returns(mails.AsQueryable());
-            var clientController = new ClientsController(mock.Object);
+            var repository = Substitute.For<IRepository>();
+            repository.Query<MailMessage>().ReturnsForAnyArgs(mails.AsQueryable());
+            var clientController = new ClientsController(repository);
 
             // act
             var viewResult = (IList<MailMessage>)clientController.MailingHistory(7777).Model;
@@ -87,7 +85,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void ShouldNot_ReturnNullAndShouldCallMethodGetOfIRepository_WhenRequestedDetails()
         {
-            //arrange
+            // arrange
             var returnedClient = new Person
             {
                 Id = 1,
@@ -96,12 +94,11 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             var repository = Substitute.For<IRepository>();
             repository.Get<Person>(1).Returns(returnedClient);
             var clientController = new ClientsController(repository);
-            
 
-            //act 
+            // act 
             var viewModel = clientController.Details(1).Model as Person;
 
-            //assert
+            // assert
             viewModel.Should().NotBeNull();
             repository.Received().Get<Person>(1);
         }
@@ -109,7 +106,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void ShouldNot_ReturnNullAnd_ShouldCallMethodGetOfIRepository_WhenRequestedEditWith1Parameter()
         {
-            //arrange
+            // arrange
             var returnedClient = new Person
             {
                 Id = 3,
@@ -119,11 +116,10 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             repository.Get<Person>(3).Returns(returnedClient);
             var clientController = new ClientsController(repository);
 
-
-            //act 
+            // act 
             var viewModel = clientController.Edit(3).Model as Person;
 
-            //assert
+            // assert
             viewModel.Should().NotBeNull();
             repository.Received().Get<Person>(3);
         }
@@ -131,22 +127,21 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [Test]
         public void Should_GoToDetailsViewAndCallSaveMethodOfIRepository_WhenRequestedEditWith2Parameters()
         {
-            //arrange
+            // arrange
             var savedClient = new Person
-                                  {
-                                      Id = 1,
-                                      Role = PersonRole.Client
-                                  };
+            {
+                Id = 1,
+                Role = PersonRole.Client
+            };
             var repository = Substitute.For<IRepository>();
             var clientController = new ClientsController(repository);
 
-            //act
+            // act
             var viewResult = clientController.Edit(1, savedClient);
 
-            //act
+            // assert
             viewResult.ViewName.Should().Be("Details");
             repository.Received().Save(savedClient);
         }
-
     }
 }
