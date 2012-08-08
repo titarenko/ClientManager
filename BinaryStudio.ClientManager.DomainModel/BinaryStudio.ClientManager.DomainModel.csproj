@@ -74,7 +74,6 @@
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\MailMessage.cs" />
-    <Compile Include="Input\MailMessageConverter.cs" />
     <Compile Include="Input\MailMessagePersister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,6 +9,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Person:IIdentifiable
     {
+        public Person()
+        {
+            RelatedMails = new List<MailMessage>();
+        }
+
         /// <summary>
         /// Unique identifier.
         /// </summary>
