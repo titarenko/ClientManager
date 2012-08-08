@@ -7,7 +7,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Class that represents model of person.
     /// </summary>
-    public class Person:IIdentifiable
+    public class Person : IIdentifiable
     {
         public Person()
         {
@@ -82,8 +82,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (Person)) return false;
-            return Equals((Person) obj);
+            return obj.GetType() == typeof (Person) && Equals((Person)obj);
         }
 
         /// <summary>
