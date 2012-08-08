@@ -9,34 +9,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     /// </summary>
     public class InquiryFactory : IInquiryFactory
     {
-        private IRepository repository;
-
-        public InquiryFactory(IRepository repository)
-        {
-            this.repository = repository;
-        }
-
         /// <summary>
         /// Creates Inquiry from MailMessage and save it to repository.
         /// </summary>
         /// <param name="message">Source MailMessage for Inquiry</param>
-        public void CreateInquiry(Entities.MailMessage message)
+        public Inquiry CreateInquiry(Entities.MailMessage message)
         {
-            if (message.Sender.Role == PersonRole.Client &&
-                !repository.Query<Inquiry>(x => x.Source)
-                .Select(x=>x.Source)
-                .Any(message.SameMessagePredicate()))
-                
-            {
-                repository.Save(new Inquiry
-                                    {
+                return new Inquiry {
                                         Client = message.Sender,
                                         Description = message.Body,
                                         Source = message,
                                         Subject = message.Subject,
                                         ReferenceDate = null
-                                    });
-            }
+                                    };
         }
     }
 }

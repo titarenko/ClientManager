@@ -39,12 +39,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             {
                 var convertedMessage = Convert(message);
 
-                var person = repository.Query<Person>(x => x.RelatedMails)
-                    .First(x => x.Email == convertedMessage.Sender.Email);
-                person.RelatedMails.Add(convertedMessage);
-                repository.Save(person);
+                    //var person = repository.Query<Person>(x => x.RelatedMails)
+                    //    .First(x => x.Email == convertedMessage.Sender.Email);
+                    //person.RelatedMails.Add(convertedMessage);
+                repository.Save(convertedMessage);
 
-                inquiryFactory.CreateInquiry(convertedMessage);
+                if (convertedMessage.Sender.Role == PersonRole.Client &&
+                    !repository.Query<Inquiry>(x => x.Source)
+                        .Select(x=>x.Source)
+                        .Any(convertedMessage.SameMessagePredicate()))
+                {
+                    var inquiry = inquiryFactory.CreateInquiry(convertedMessage);
+                    repository.Save(inquiry);
+                }
+                
             }
         }
 

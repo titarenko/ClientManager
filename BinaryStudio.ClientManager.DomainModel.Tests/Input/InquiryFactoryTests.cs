@@ -33,7 +33,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                         Source = new MailMessage()
                     }
                 }.AsQueryable());
-            var inquiryFactory = new InquiryFactory(repository);
+            var inquiryFactory = new InquiryFactory();
 
             //act
             inquiryFactory.CreateInquiry(mailMessage);

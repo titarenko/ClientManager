@@ -1,3 +1,5 @@
+using BinaryStudio.ClientManager.DomainModel.Entities;
+
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     /// <summary>
@@ -9,6 +11,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Creates Inquiry from MailMessage
         /// </summary>
         /// <param name="message">Source MailMessage for Inquiry</param>
-        void CreateInquiry(Entities.MailMessage message);
+        Inquiry CreateInquiry(Entities.MailMessage message);
     }
 }
