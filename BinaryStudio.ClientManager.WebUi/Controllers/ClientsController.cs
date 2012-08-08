@@ -24,15 +24,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult MailingHistory(int id)
         {
-            var person = repository.Get<Person>(id, x => x.RelatedMails);
-            person.RelatedMails = person.RelatedMails
-                .Select(x => repository
-                    .Get<MailMessage>(x.Id, z => z.Sender, z => z.Receivers))
+            return View(repository.Query<MailMessage>(x => x.Sender, x => x.Receivers)
+                .Where(x => x.Sender.Id == id || x.Receivers.Any(y => y.Id == id))
                 .OrderBy(x => x.Date)
-                .ToList();
-
-            return View(person);
-
+                .AsEnumerable());
         }
 
         public ViewResult Details(int id)
@@ -48,12 +43,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         [HttpPost]
         public ActionResult AddPhoto(int id, HttpPostedFileBase photo)
         {
-            if (photo!=null && photo.ContentLength>0)
+            if (photo != null && photo.ContentLength>0)
             {
-                var pathToPhoto=Path.Combine(Server.MapPath("~/Content/photos"), id.ToString()+Path.GetExtension(photo.FileName));
+                var pathToPhoto = Path.Combine(Server.MapPath("~/Content/photos"), id.ToString() + Path.GetExtension(photo.FileName));
                 photo.SaveAs(pathToPhoto);
-                var client = repository.Get<Person>(id, x => x.RelatedMails);
-                client.PhotoUri = "~/Content/photos/"+Path.GetFileName(pathToPhoto);
+                var client = repository.Get<Person>(id);
+                client.PhotoUri = "~/Content/photos/" + Path.GetFileName(pathToPhoto);
                 repository.Save(client);
             }
             return RedirectToAction("Edit", new {id});

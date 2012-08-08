@@ -1,6 +1,5 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Entities
-@using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@model Person
+@model IEnumerable<MailMessage>
 
 @{
     Layout = "";
@@ -10,9 +9,9 @@
     <div>
         <ul class="wrapper">
             <!-- for debug --> 
-            @if (Model.RelatedMails != null)
+            @if (Model != null)
             {
-                foreach (var mail in Model.RelatedMails)
+                foreach (var mail in Model)
                 {
                     <div class="row">
                         <li class = "span5 @(mail.Sender.Role == PersonRole.Client ? "client-msg" : "employee-msg")">

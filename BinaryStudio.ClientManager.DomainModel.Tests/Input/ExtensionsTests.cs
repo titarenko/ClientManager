@@ -25,15 +25,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Shoud_ReturnRelatedMailsDotSender_WhenXDotRelatedMails0DotSender()
-        {
-            Expression<Func<Person, Person>> expression = x => x.RelatedMails[0].Sender;
-            var e = expression.GetPath();
-            Assert.AreEqual("RelatedMails.Sender", e);
-        }
-
-        [Test]
-        public void Shoud_ReturnSourceDotSenderDotLastName_WhgenXDotSourceDotSenderDotLastName()
+        public void Shoud_ReturnSourceDotSenderDotLastName_WhenXDotSourceDotSenderDotLastName()
         {
             Expression<Func<Inquiry, string>> expression = x => x.Source.Sender.LastName;
             var e = expression.GetPath();

@@ -30,7 +30,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
             modelBuilder.Entity<Person>()
                 .HasMany(x => x.RelatedMails)
-                .WithMany(y => y.Receivers);
+                .WithMany(x => x.Receivers);
+
             modelBuilder.Entity<Inquiry>()
                 .HasMany(x => x.Tags)
                 .WithMany(y => y.Inquiries);

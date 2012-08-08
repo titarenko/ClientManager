@@ -39,9 +39,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             {
                 var convertedMessage = Convert(message);
 
-                    //var person = repository.Query<Person>(x => x.RelatedMails)
-                    //    .First(x => x.Email == convertedMessage.Sender.Email);
-                    //person.RelatedMails.Add(convertedMessage);
                 repository.Save(convertedMessage);
 
                 if (convertedMessage.Sender.Role == PersonRole.Client &&
