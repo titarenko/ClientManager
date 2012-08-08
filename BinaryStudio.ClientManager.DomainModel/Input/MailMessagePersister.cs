@@ -24,7 +24,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             
             emailClient.OnObtainingMessage += (sender, args) =>
                 {
-                    foreach (var message in emailClient.GetUnreadMessages())
+                    var unreadMessages = emailClient.GetUnreadMessages();
+                    foreach (var message in unreadMessages)
                     {
                         var convertedMessage = Convert(message);
 

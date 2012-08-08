@@ -26,9 +26,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 configuration.GetValue<bool>("Secure"),
                 configuration.GetValue<bool>("SkipSslValidation"));
 
-            //client.SelectMailbox("INBOX");
+            var unreadMessages = client.SearchMessages(SearchCondition.Unseen());
+            foreach (var message in unreadMessages)
+            {
+                client.SetFlags(Flags.Seen, message.Value);
+            }
 
-            unread.AddRange(client.SearchMessages(SearchCondition.Unseen()).Select(message => new MailMessage
+            unread.AddRange(unreadMessages.Select(message => new MailMessage
                 {
                     Date = message.Value.Date,
                     Sender = message.Value.From,
@@ -36,10 +40,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                     Subject = message.Value.Subject,
                     Body = message.Value.Body
                 }));
+            
 
             client.NewMessage += (sender, args) =>
                 {
                     var message = client.GetMessage(args.MessageCount - 1, false, true);
+                    client.SetFlags(Flags.Seen, message);
                     unread.Add(new MailMessage
                         {
                             Date = message.Date,
@@ -60,7 +66,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             var temp = unread;
             unread = new List<MailMessage>();
-            return temp.AsEnumerable();
+            return temp;
         }
 
         public void Dispose()
