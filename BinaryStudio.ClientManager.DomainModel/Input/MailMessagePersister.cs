@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using AE.Net.Mail.Imap;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
@@ -16,32 +17,36 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly IInquiryFactory inquiryFactory;
 
+        private readonly IEmailClient emailClient;
+
         public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory)
         {
             this.repository = repository;
 
             this.inquiryFactory = inquiryFactory;
-            
-            emailClient.OnObtainingMessage += (sender, args) =>
-                {
-                    var unreadMessages = emailClient.GetUnreadMessages();
-                    foreach (var message in unreadMessages)
-                    {
-                        var convertedMessage = Convert(message);
 
-                        if (!repository.Query<Entities.MailMessage>().Any(convertedMessage.SameMessagePredicate())) //if this is a new message
-                        {
-                            var person = repository.Query<Person>(x => x.RelatedMails)
-                                .First(x => x.Email == convertedMessage.Sender.Email);
-                            person.RelatedMails.Add(convertedMessage);
-                            repository.Save(person);
+            this.emailClient = emailClient;
 
-                            this.inquiryFactory.CreateInquiry(convertedMessage);
-                        }
-                    }
-                };
+            emailClient.OnObtainingMessage += Proceed;
+
+            Proceed(emailClient, new MessageEventArgs());
         }
 
+        void Proceed(object sender, EventArgs args)
+        {
+            var unreadMessages = emailClient.GetUnreadMessages();
+            foreach (var message in unreadMessages)
+            {
+                var convertedMessage = Convert(message);
+
+                var person = repository.Query<Person>(x => x.RelatedMails)
+                    .First(x => x.Email == convertedMessage.Sender.Email);
+                person.RelatedMails.Add(convertedMessage);
+                repository.Save(person);
+
+                inquiryFactory.CreateInquiry(convertedMessage);
+            }
+        }
 
         /// <summary>
         /// Converts Input.MailMessage to Entities.MailMessage.
