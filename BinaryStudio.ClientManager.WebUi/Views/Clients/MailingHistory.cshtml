@@ -1,6 +1,6 @@
 ﻿@using BinaryStudio.ClientManager.DomainModel.Entities
 @using BinaryStudio.ClientManager.DomainModel.Infrastructure
-@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+@model Person
 
 @{
     Layout = "";
@@ -21,10 +21,10 @@
                             <span class="emphasis">Date: </span>@mail.Date
                             <hr/>
 
-                            @if (mail.Body.Count() > 70)
+                            @if (mail.Body.Count() > 80)
                             {
-                                <span>@(mail.Body.Substring(0, 80))</span>
-                                <span class="full-mail">@mail.Body.Substring(80)</span>
+                                <span class="short-mail">@mail.Body.Cut(80)</span>
+                                <span class="full-mail">@mail.Body</span>
                                 <span class="icon-chevron-down pull-right" onclick="toggleMail(this)"></span>
                             }
                             else
@@ -42,7 +42,7 @@
 
 <script type="text/javascript">
 function toggleMail(self) {
-    $(self).parent().children(".full-mail").toggle();
+    $(self).parent().children(".full-mail, .short-mail").toggle();
     $(self).toggleClass("icon-chevron-down").toggleClass("icon-chevron-up");
 }
 </script>
