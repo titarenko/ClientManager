@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
@@ -9,6 +10,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class MailMessage : IIdentifiable
     {
+        public Expression<Func<MailMessage,bool>> SameMessagePredicate()
+        {
+            return (x => x.Body == Body && x.Sender.Email == Sender.Email && x.Subject == Subject);
+        }
+
         /// <summary>
         /// Date when message was received.
         /// </summary>

@@ -24,32 +24,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                     {
                         var convertedMessage = Convert(message);
 
-                        if (!repository.Query<Entities.MailMessage>().Any(x =>
-                            x.Body == convertedMessage.Body &&
-                            x.Subject == convertedMessage.Subject &&
-                            x.Sender.Email == convertedMessage.Sender.Email)) //if this is a new message
+                        if (!repository.Query<Entities.MailMessage>().Any(convertedMessage.SameMessagePredicate())) //if this is a new message
                         {
                             var person = repository.Query<Person>(x => x.RelatedMails)
                                 .First(x => x.Email == convertedMessage.Sender.Email);
                             person.RelatedMails.Add(convertedMessage);
                             repository.Save(person);
 
-                            if (convertedMessage.Sender.Role == PersonRole.Client &&
-                                !repository.Query<Inquiry>(x => x.Source).Any(x => x.Source.Equals(convertedMessage)))
-                            {
-                                repository.Save(new Inquiry
-                                {
-                                    Client = convertedMessage.Sender, 
-                                    Description = convertedMessage.Body, 
-                                    Source = convertedMessage, 
-                                    Subject = convertedMessage.Subject, 
-                                    ReferenceDate = null
-                                });
-                            }
+                            var inquiryFactory = new InquiryFactory(repository);
+                            inquiryFactory.CreateInquiry(convertedMessage);
                         }
                     }
                 };
         }
+
 
         /// <summary>
         /// Converts Input.MailMessage to Entities.MailMessage.
