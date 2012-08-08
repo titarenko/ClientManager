@@ -14,9 +14,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     {
         private readonly IRepository repository;
 
-        public MailMessagePersister(IRepository repository, IEmailClient emailClient)
+        private readonly IInquiryFactory inquiryFactory;
+
+        public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory)
         {
             this.repository = repository;
+
+            this.inquiryFactory = inquiryFactory;
             
             emailClient.OnObtainingMessage += (sender, args) =>
                 {
@@ -31,8 +35,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             person.RelatedMails.Add(convertedMessage);
                             repository.Save(person);
 
-                            var inquiryFactory = new InquiryFactory(repository);
-                            inquiryFactory.CreateInquiry(convertedMessage);
+                            this.inquiryFactory.CreateInquiry(convertedMessage);
                         }
                     }
                 };

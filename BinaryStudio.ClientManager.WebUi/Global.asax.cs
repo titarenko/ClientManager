@@ -40,10 +40,11 @@ namespace BinaryStudio.ClientManager.WebUi
 
             SetDependencyResolver();
             //TODO all works fine!
-            _mailMessagePersister = new MailMessagePersister(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()));
+            var repository = new EfRepository();
+            mailMessagePersister = new MailMessagePersister(repository, new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),new InquiryFactory(repository));
         }
 
-        private MailMessagePersister _mailMessagePersister;
+        private MailMessagePersister mailMessagePersister;
 
         private void SetDependencyResolver()
         {
@@ -57,6 +58,8 @@ namespace BinaryStudio.ClientManager.WebUi
                     Assembly.GetAssembly(typeof (IIdentifiable)),
                     Assembly.GetExecutingAssembly())
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<InquiryFactory>().As<IInquiryFactory>();
 
             builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
 

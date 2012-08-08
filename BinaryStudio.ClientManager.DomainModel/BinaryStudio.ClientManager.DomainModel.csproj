@@ -73,6 +73,7 @@
     <Compile Include="Infrastructure\UserService.cs" />
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\IEmailClient.cs" />
+    <Compile Include="Input\IInquiryFactory.cs" />
     <Compile Include="Input\InquiryFactory.cs" />
     <Compile Include="Input\MailMessage.cs" />
     <Compile Include="Input\MailMessagePersister.cs" />

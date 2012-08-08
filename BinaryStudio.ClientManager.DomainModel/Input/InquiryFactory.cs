@@ -4,7 +4,10 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
-    public class InquiryFactory
+    /// <summary>
+    /// Class creates inquiry from MailMessage
+    /// </summary>
+    public class InquiryFactory : IInquiryFactory
     {
         private IRepository repository;
 
@@ -13,6 +16,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Creates Inquiry from MailMessage and save it to repository.
+        /// </summary>
+        /// <param name="message">Source MailMessage for Inquiry</param>
         public void CreateInquiry(Entities.MailMessage message)
         {
             if (message.Sender.Role == PersonRole.Client &&
