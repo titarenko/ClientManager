@@ -35,6 +35,8 @@ namespace BinaryStudio.ClientManager.WebUi
         {
             AreaRegistration.RegisterAllAreas();
 
+            AuthenticateRequest += (sender, args) => { };
+
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
