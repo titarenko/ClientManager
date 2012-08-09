@@ -43,5 +43,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             return line.SafeGet(x => x.Length) > maxLength ? line.Substring(0, maxLength - 3) + "..." : line;
         }
+
     }
 }

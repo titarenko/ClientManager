@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using MailMessage = BinaryStudio.ClientManager.DomainModel.Input.MailMessage;
 
 namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
@@ -16,11 +18,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     {
         private IRepository repository=Substitute.For<IRepository>() ;
         private MailMessagePersister mailMessagePersister;
+        private IEmailClient aeEmailClient = Substitute.For<IEmailClient>();
 
         [SetUp]
         public void Initializer()
         {
-            var aeEmailClient = new AeEmailClient(TestAppConfiguration.GetTestConfiguration());
             var inquiryFactory = new InquiryFactory();
             mailMessagePersister = new MailMessagePersister(repository,aeEmailClient,inquiryFactory);
         }
@@ -146,6 +148,47 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             //assert
             result.Sender.Should().NotBeNull();
             result.Receivers.Should().NotBeEmpty();
+        }
+
+        [Test]
+        public void Should_SaveMailMessageToRepository_WhenEmployeeSendMessageToClientWithCarbonCopyToOurSystem()
+        {
+            //arrange
+            aeEmailClient.GetUnreadMessages().Returns(new List<MailMessage>
+                {
+                    new MailMessage
+                    {
+                        Body = "a",
+                        Date = Clock.Now,
+                        Subject = "s",
+                        Sender = new MailAddress("employee@gmail.com","employee"),
+                        Receivers = new List<MailAddress>{new MailAddress("client@gmail.com","client")},
+                    }
+                });
+            repository.Query<Person>().ReturnsForAnyArgs(new List<Person>
+                {
+                    new Person
+                        {
+                            Email = "employee@gmail.com",
+                            FirstName = "employee",
+                            Role = PersonRole.Employee
+                        },
+                    new Person
+                        {
+                            Email="client@gmail.com",
+                            FirstName = "client",
+                            Role = PersonRole.Client
+                        }
+                }.AsQueryable());
+            
+
+            //act
+            mailMessagePersister.Proceed(aeEmailClient, EventArgs.Empty);
+ 
+            //assert
+            repository.Received().Save(Arg.Is<Entities.MailMessage>(x => x.Sender.Email == "employee@gmail.com"
+                && x.Receivers.Any(receiver => receiver.Email == "client@gmail.com")
+                && x.Receivers.Count == 1));
         }
     }
 }

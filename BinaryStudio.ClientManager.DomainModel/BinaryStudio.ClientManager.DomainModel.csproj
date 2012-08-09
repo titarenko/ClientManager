@@ -88,6 +88,7 @@
     <Compile Include="Input\IInquiryFactory.cs" />
     <Compile Include="Input\InquiryFactory.cs" />
     <Compile Include="Input\MailMessage.cs" />
+    <Compile Include="Input\MailMessageParser.cs" />
     <Compile Include="Input\MailMessagePersister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

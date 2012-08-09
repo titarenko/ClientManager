@@ -52,7 +52,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             Sender = message.From,
                             Receivers = message.To,
                             Subject = message.Subject,
-                            Body = message.Body
+                            Body = message.Body,
                         });
 
                     if (null != OnObtainingMessage)

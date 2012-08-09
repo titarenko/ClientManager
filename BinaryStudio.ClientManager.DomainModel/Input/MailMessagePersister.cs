@@ -32,7 +32,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             Proceed(emailClient, new MessageEventArgs());
         }
 
-        void Proceed(object sender, EventArgs args)
+        public void Proceed(object sender, EventArgs args)
         {
             var unreadMessages = emailClient.GetUnreadMessages();
             foreach (var message in unreadMessages)
