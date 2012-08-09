@@ -56,6 +56,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <summary>
         /// Converts Input.MailMessage to Entities.MailMessage.
         /// If sender or receivers isn't exist then they will be added to repository
+        /// If email forwarded then sender will be taken from body <see cref="MailMessageParser"/>
         /// </summary>
         /// <param name="mailMessage">Input.MailMessage type of message</param>
         /// <returns>Entities.MailMessage type of message</returns>
@@ -68,6 +69,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 Subject = mailMessage.Subject,
                 Receivers = new List<Person>()
             };
+
+            var mailMessageParser = new MailMessageParser(mailMessage);
+            // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
+            if (mailMessageParser.IsForwardedMail())
+            {             
+                mailMessage.Receivers = new List<MailAddress> { mailMessage.Sender };
+                mailMessage.Sender = mailMessageParser.GetSenderFromForwardedMail();
+            }
+
             //find a Sender in Repository
             var sender = repository.Query<Person>().FirstOrDefault(x => x.Email == mailMessage.Sender.Address);
 

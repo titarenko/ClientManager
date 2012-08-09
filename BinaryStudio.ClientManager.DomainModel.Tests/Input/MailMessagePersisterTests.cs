@@ -128,6 +128,36 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
+        public void Should_ReturnMailMessageWith_WhenCallingConvertWithForwardedEmail()
+        {
+            //arrange
+            var mailMessage = new DomainModel.Input.MailMessage
+                                  {
+                                      Subject = "FW: Subject",
+                                      Sender = new MailAddress("employee@gmail.com"),
+                                      Body = "some text... from: client@gmail.com To:..."
+                                  };
+
+            repository.Query<Person>().Returns(new List<Person>{
+                    new Person
+                        {
+                            Email = "client@gmail.com"
+                        },
+                    new Person
+                        {
+                            Email = "employee@gmail.com"
+                        }
+                }.AsQueryable());
+
+            //act
+            var result = mailMessagePersister.Convert(mailMessage);
+
+            //assert
+            result.Sender.Email.Should().Be("client@gmail.com");
+            result.Receivers.Any(x => x.Email == "employee@gmail.com").Should().BeTrue();
+        }
+
+        [Test]
         public void ShouldNot_ReturnNullInSenderAndEmptyCollectionInReceiverFields_WhenCallingConvertMethodWhenSenderAndReceiverIsNotExistInRepository()
         {
             //arrange

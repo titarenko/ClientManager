@@ -56,5 +56,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
             return mailAddress;
         }
+
+        public bool IsForwardedMail()
+        {
+            return mailMessage.Subject.ToLower().StartsWith("fwd:") || mailMessage.Subject.ToLower().StartsWith("fw:");
+        }
     }
 }
