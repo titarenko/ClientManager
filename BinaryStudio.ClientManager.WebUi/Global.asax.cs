@@ -41,7 +41,7 @@ namespace BinaryStudio.ClientManager.WebUi
             SetDependencyResolver();
             //TODO all works fine!
             var repository = new EfRepository();
-            mailMessagePersister = new MailMessagePersister(repository, new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),new InquiryFactory(repository));
+            mailMessagePersister = new MailMessagePersister(repository, new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),new InquiryFactory());
         }
 
         private MailMessagePersister mailMessagePersister;

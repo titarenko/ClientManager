@@ -25,20 +25,21 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             var repository = new EfRepository();
 
             if (!repository.Query<Tag>().Any())
-                createTags(repository);
+                CreateTags(repository);
             if (!repository.Query<Person>().Any())
             {
-                createPersons(repository);
+                CreatePersons(repository);
+                CreateMails(repository);
             }
             var beginOfNowWeek = Clock.Now.GetStartOfBusinessWeek();
             var endOfNowWeek = Clock.Now.GetEndOfBusinessWeek();
             if (!repository.Query<Inquiry>()
                 .Any(x => (x.ReferenceDate.Value >= beginOfNowWeek
                     && x.ReferenceDate.Value <= endOfNowWeek)))
-                createInquiries(repository);
+                CreateInquiries(repository);
         }
 
-        private void createTags(EfRepository repository)
+        private void CreateTags(EfRepository repository)
         {
             var tags = new List<Tag>
             {
@@ -53,9 +54,9 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             }
         }
 
-        private void createInquiries(EfRepository repository)
+        private void CreateInquiries(EfRepository repository)
         {
-            var clients = repository.Query<Person>(x => x.RelatedMails)
+            var clients = repository.Query<Person>()
                 .Where(x => x.Role == PersonRole.Client).ToList();
             var randomClient = new RandomItemPicker<Person>(clients, new RandomGenerator());
 
@@ -93,7 +94,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             }
         }
 
-        private void createPersons(EfRepository repository)
+        private void CreatePersons(EfRepository repository)
         {
             var twitterUris = new List<string> {"https://twitter.com/1van1111", "https://twitter.com/mnzadornov"};
             var facebookUris = new List<string> { "http://www.facebook.com/ivan.zaporozhchenko", "http://www.facebook.com/dmitriy.stranger.7" };
@@ -123,15 +124,23 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                 .With(x => x.Role = PersonRole.Client)
                 .Build();
 
-            var clients = persons.Where(x => x.Role == PersonRole.Client).ToList();
-            var employees = persons.Where(x => x.Role == PersonRole.Employee).ToList();
+            foreach (var person in persons)
+            {
+                repository.Save(person);
+            }
+        }
+
+        private void CreateMails(IRepository repository)
+        {
+            var clients = repository.Query<Person>()
+                .Where(x => x.Role == PersonRole.Client).ToList();
+            var employees = repository.Query<Person>()
+                .Where(x => x.Role == PersonRole.Employee).ToList();
 
             var randomEmployee = new RandomItemPicker<Person>(employees, new RandomGenerator());
 
             foreach (var client in clients)
             {
-                client.RelatedMails = new List<MailMessage>();
-
                 var date = GetRandom.DateTime(January.The1st, DateTime.Now);
 
                 for (int i = 0; i < 3; i++)
@@ -139,30 +148,25 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
                     var clientMail = Builder<MailMessage>.CreateNew()
                         .With(x => x.Id = 0)
                         .With(x => x.Sender = client)
-                        .With(x => x.Receivers = new List<Person> { randomEmployee.Pick() })
+                        .With(x => x.Receivers = new List<Person> {randomEmployee.Pick()})
                         .With(x => x.Subject = GetRandom.Phrase(10))
                         .With(x => x.Body = GetRandom.Phrase(GetRandom.Int(60, 250)))
                         .With(x => x.Date = date.AddDays(i * 7))
                         .Build();
 
-                    client.RelatedMails.Add(clientMail);
+                    repository.Save(clientMail);
 
                     var employeeMail = Builder<MailMessage>.CreateNew()
                         .With(x => x.Id = 0)
                         .With(x => x.Sender = randomEmployee.Pick())
-                        .With(x => x.Receivers = new List<Person> { client })
+                        .With(x => x.Receivers = new List<Person> {client})
                         .With(x => x.Subject = GetRandom.Phrase(10))
                         .With(x => x.Body = GetRandom.Phrase(GetRandom.Int(60, 250)))
                         .With(x => x.Date = date.AddDays(i * 7 + 3))
                         .Build();
 
-                    client.RelatedMails.Add(employeeMail);
+                    repository.Save(employeeMail);
                 }
-            }
-
-            foreach (var person in persons)
-            {
-                repository.Save(person);
             }
         }
     }
