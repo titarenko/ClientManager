@@ -76,6 +76,7 @@
     <Compile Include="Infrastructure\Clock.cs" />
     <Compile Include="Infrastructure\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\IAppContext.cs" />
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
     <Compile Include="Infrastructure\IOwned.cs" />

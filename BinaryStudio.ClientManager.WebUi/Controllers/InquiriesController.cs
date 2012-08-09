@@ -8,6 +8,7 @@ using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
+    [Authorize]
     public class InquiriesController : Controller
     {
         private readonly IRepository repository;

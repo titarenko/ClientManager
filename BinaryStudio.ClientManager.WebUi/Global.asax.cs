@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
@@ -9,6 +12,7 @@ using BinaryStudio.ClientManager.DomainModel.Input;
 using BinaryStudio.ClientManager.DomainModel.Tests.Input;
 using OAuth2.Client;
 using RestSharp;
+using log4net;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
@@ -35,7 +39,11 @@ namespace BinaryStudio.ClientManager.WebUi
         {
             AreaRegistration.RegisterAllAreas();
 
-            AuthenticateRequest += (sender, args) => { };
+            AuthenticateRequest += (sender, args) =>
+                                       {
+                                           var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
+                                           HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+                                       };
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
@@ -44,6 +52,7 @@ namespace BinaryStudio.ClientManager.WebUi
             //TODO all works fine!
             var repository = new EfRepository();
             mailMessagePersister = new MailMessagePersister(repository, new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),new InquiryFactory());
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         private MailMessagePersister mailMessagePersister;
@@ -71,6 +80,14 @@ namespace BinaryStudio.ClientManager.WebUi
                 .AsImplementedInterfaces().AsSelf();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+        }
+        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
+
+        void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+
+            log.Error("App_Error", ex);
         }
     }
 }
