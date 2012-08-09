@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
@@ -35,7 +37,11 @@ namespace BinaryStudio.ClientManager.WebUi
         {
             AreaRegistration.RegisterAllAreas();
 
-            AuthenticateRequest += (sender, args) => { };
+            AuthenticateRequest += (sender, args) =>
+                                       {
+                                           var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
+                                           HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+                                       };
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
