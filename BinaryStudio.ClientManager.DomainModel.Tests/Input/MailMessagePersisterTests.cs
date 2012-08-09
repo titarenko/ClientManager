@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
     [TestFixture]
-    class MailMessageConverterTests
+    class MailMessagePersisterTests
     {
         private IRepository repository=Substitute.For<IRepository>() ;
         private MailMessagePersister mailMessagePersister;
