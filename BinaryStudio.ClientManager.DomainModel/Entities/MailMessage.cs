@@ -10,9 +10,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class MailMessage : IIdentifiable
     {
-        public Expression<Func<MailMessage,bool>> SameMessagePredicate()
+        public Expression<Func<MailMessage,bool>> SameMessagePredicate;
+
+        public MailMessage()
         {
-            return (x => x.Body == Body && x.Sender.Email == Sender.Email && x.Subject == Subject);
+            SameMessagePredicate = (x => x.Body == Body && x.Sender.Email == Sender.Email && x.Subject == Subject);
         }
 
         /// <summary>

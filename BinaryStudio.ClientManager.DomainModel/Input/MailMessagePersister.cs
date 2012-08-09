@@ -44,7 +44,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 if (convertedMessage.Sender.Role == PersonRole.Client &&
                     !repository.Query<Inquiry>(x => x.Source)
                         .Select(x=>x.Source)
-                        .Any(convertedMessage.SameMessagePredicate()))
+                        .Any(convertedMessage.SameMessagePredicate))
                 {
                     var inquiry = inquiryFactory.CreateInquiry(convertedMessage);
                     repository.Save(inquiry);
