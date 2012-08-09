@@ -41,7 +41,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// <summary>
         /// Renders information received from authentication service.
         /// </summary>
-        public ActionResult GoogleAuth(string code, string error)
+        public ActionResult GoogleAuth(string code, string error) //TODO refactor this
         {
             UserInfo userInfo;
             try
@@ -50,7 +50,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             catch
             {
-                return RedirectToRoute("LogOn");
+                return RedirectToAction("LogOn");
             }
             
 
@@ -61,14 +61,26 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 user = new User
                             {
                                 GoogleCode = code,
-                                RelatedUser =repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
+                                RelatedUser = repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
                             };
+                if (null == user.RelatedUser)
+                {
+                    var person = new Person
+                                     {
+                                         Email = userInfo.Email,
+                                         FirstName = userInfo.FirstName,
+                                         LastName = userInfo.LastName,
+                                         Role = PersonRole.Employee
+                                     };
+                    user.RelatedUser = person;
+                    repository.Save(person);
+                }
                 repository.Save(user);
             }
 
             appContext.User = user;
 
-            return RedirectToRoute("default");
+            return RedirectToRoute("Default");
         }
 
 
