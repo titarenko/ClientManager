@@ -54,25 +54,19 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             
 
-            var savedUser = repository.Query<User>().SingleOrDefault(x => x.GoogleCode == code);
+            var user = repository.Query<User>().SingleOrDefault(x => x.GoogleCode == code);
 
-            if (null != savedUser)
+            if (null == user)
             {
-                appContext.User = savedUser;
-            }
-            else
-            {
-                var newUser = new User
-                                  {
-                                      GoogleCode = code,
-                                      RelatedUser = repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
-                                  };
-
-                repository.Save(newUser);
-
-                appContext.User = newUser;
+                user = new User
+                            {
+                                GoogleCode = code,
+                                RelatedUser =repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
+                            };
+                repository.Save(user);
             }
 
+            appContext.User = user;
 
             return RedirectToRoute("default");
         }
