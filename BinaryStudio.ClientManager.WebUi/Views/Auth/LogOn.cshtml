@@ -1,12 +1,25 @@
-﻿@model LogOnModel
+﻿@using Microsoft.Web.Mvc
+@model LogOnModel
 
-@{
-    ViewBag.Title = "Authorization";
-}
+@(Layout = null)
 
-<div class="container">
-    @foreach (var uri in Model.LoginUris)
-    {
-        <p><a href="@uri">Log In (@uri)</a></p>
-    }
-</div>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Authorization</title>
+    </head>
+
+    <body>
+        <div class="container hero-unit">
+            <h1>Hello user!!!!!!</h1>
+            <div class="pull-right">
+                <p><a class="btn btn-primary btn-large" href="@(Model.FacebookLoginUri)">Log in via Facebook</a></p>
+                <p><a class="btn btn-primary btn-large" href="@(Model.GoogleLoginUri)">Log in via Google</a></p>
+            </div>
+        </div>
+    </body>
+
+    @Html.Css("bootstrap.min.css")
+    @Html.Css("bootstrap-responsive.min.css")
+    @Html.Script("bootstrap.min.js", "bootstrap.js")
+</html>

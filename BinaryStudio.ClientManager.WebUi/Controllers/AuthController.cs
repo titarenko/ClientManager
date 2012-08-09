@@ -10,23 +10,26 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly IEnumerable<IClient> clients;
         private readonly IRepository repository;
+        private readonly GoogleClient googleClient;
+        private readonly FacebookClient facebookClient;
 
-        public AuthController(IRepository repository, IEnumerable<IClient> clients)
+        public AuthController(IRepository repository, GoogleClient googleClient, FacebookClient facebookClient)
         {
             this.repository = repository;
-            this.clients = clients;
+            this.googleClient = googleClient;
+            this.facebookClient = facebookClient;
         }
 
         /// <summary>
-        /// Renders page with login link.
+        /// Renders page with login links
         /// </summary>
         public ActionResult LogOn()
         {
             return View(new LogOnModel
                 {
-                    LoginUris = clients.Select(x => x.GetAccessCodeRequestUri())
+                    FacebookLoginUri = facebookClient.GetAccessCodeRequestUri(),
+                    GoogleLoginUri = googleClient.GetAccessCodeRequestUri()
                 });
         }
 
@@ -35,12 +38,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult Auth(string code, string error)
         {
-            foreach (var client in clients)
-            {
-                return View(client.GetUserInfo(client.GetAccessToken(code, error)));
-            }
+            //foreach (var client in clients)
+            //{
+            //    return View(client.GetUserInfo(client.GetAccessToken(code, error)));
+            //}
 
-            throw new ApplicationException("oO"); //TODO fix
+            return RedirectToRoute("default");
         }
     }
 }

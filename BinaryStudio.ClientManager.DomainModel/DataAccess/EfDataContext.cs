@@ -14,6 +14,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         public DbSet<Person> Persons { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public DbSet<MailMessage> MailMessages { get; set; }
 
         public DbSet<Inquiry> Inquiries { get; set; }
