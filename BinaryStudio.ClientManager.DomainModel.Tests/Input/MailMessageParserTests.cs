@@ -15,9 +15,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         {
             //arrange
             var mailMessage = new MailMessage
-                                  {
-                                      Body = body,
-                                  };
+            {
+                Body = body,
+            };
             var mailMessageParser = new MailMessageParser();
 
             //act
@@ -84,5 +84,22 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                         new MailAddress("1van1111@mail.ru"),
                     });
             }
+
+        [Test, TestCaseSource("Should_ReturnRightSubject_WhenCalledGetSubject_TestCaseSource")]
+        public void Should_ReturnRightSubject_WhenCalledGetSubject(string subject)
+        {
+            var parser = new MailMessageParser();
+            var parsedSubject = parser.GetSubject(subject);
+            parsedSubject.Should().Be("Test subject");
+        }
+
+        public IEnumerable<TestCaseData> Should_ReturnRightSubject_WhenCalledGetSubject_TestCaseSource()
+        {
+            yield return new TestCaseData("Fwd: Test subject");
+            yield return new TestCaseData("Fw: Test subject");
+            yield return new TestCaseData("fwd: Test subject");
+            yield return new TestCaseData("fw: Test subject");
+            yield return new TestCaseData("Test subject");
+        }
     }
 }

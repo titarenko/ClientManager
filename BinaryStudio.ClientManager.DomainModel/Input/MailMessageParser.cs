@@ -7,6 +7,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     public class MailMessageParser
     {
+        public string GetSubject(string subject)
+        {
+            int startPos = 0;
+
+            if (subject.ToLower().StartsWith("fwd:"))
+                startPos = 5;
+            if (subject.ToLower().StartsWith("fw:"))
+                startPos = 4;
+
+            return subject.Substring(startPos);
+        }
+
         public ICollection<MailAddress> GetReceivers(MailMessage mailMessage)
         {
             var stringBuilderForMailAddress = new StringBuilder();
