@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
-using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;

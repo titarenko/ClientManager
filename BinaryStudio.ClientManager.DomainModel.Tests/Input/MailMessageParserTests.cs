@@ -17,10 +17,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                                   {
                                       Body = body,
                                   };
-            var mailMessageParser = new MailMessageParser(mailMessage);
+            var mailMessageParser = new MailMessageParser();
 
             //act
-            var result = mailMessageParser.GetSenderFromForwardedMail();
+            var result = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
 
             //assert
             result.Address.Should().Be(mailAddress);

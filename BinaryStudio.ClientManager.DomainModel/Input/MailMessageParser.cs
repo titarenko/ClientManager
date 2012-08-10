@@ -6,16 +6,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     public class MailMessageParser
     {
-        private MailMessage mailMessage;
-
-        public MailMessageParser(MailMessage mailMessage)
+        public MailAddress GetSenderFromForwardedMail(MailMessage mailMessage)
         {
-            this.mailMessage = mailMessage;
-        }
-
-        public MailAddress GetSenderFromForwardedMail()
-        {
-            this.mailMessage = mailMessage;
             var stringBuilderForMailAddress = new StringBuilder();
             var bodyInLower = mailMessage.Body.ToLower();
             //find in end of body from: 
@@ -57,7 +49,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             return mailAddress;
         }
 
-        public bool IsForwardedMail()
+        public bool IsForwardedMail(MailMessage mailMessage)
         {
             return mailMessage.Subject.ToLower().StartsWith("fwd:") || mailMessage.Subject.ToLower().StartsWith("fw:");
         }

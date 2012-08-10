@@ -74,12 +74,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 Receivers = new List<Person>()
             };
 
-            var mailMessageParser = new MailMessageParser(mailMessage);
+            var mailMessageParser = new MailMessageParser();
             // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
-            if (mailMessageParser.IsForwardedMail())
+            if (mailMessageParser.IsForwardedMail(mailMessage))
             {             
                 mailMessage.Receivers = new List<MailAddress> { mailMessage.Sender };
-                mailMessage.Sender = mailMessageParser.GetSenderFromForwardedMail();
+                mailMessage.Sender = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
             }
 
             //find a Sender in Repository
