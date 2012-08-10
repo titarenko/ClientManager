@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     public class MailMessageParser
     {
+        public string GetBody(string body)
+        {
+            var ccStart = body.IndexOf("\ncc", StringComparison.OrdinalIgnoreCase);
+            var ccEnd = body.IndexOf('\n', ccStart + 1);
+
+            return body.Substring(ccEnd + 1).Trim();
+        }
+
         public string GetSubject(string subject)
         {
             int startPos = 0;
@@ -80,21 +89,34 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         public MailAddress GetSenderFromForwardedMail(MailMessage mailMessage)
         {
+            //const string emailPattern = @"(([^<>()[\]\\.,;:\s@\""]+"
+            //                            + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+            //                            + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+            //                            + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+            //                            + @"[a-zA-Z]{2,}))";
+
+            //const string fromPattern = @"From:(\b\w*\b){0,3}(<" + emailPattern + ">)|" + emailPattern;
+
+            //var regexFrom = new Regex(fromPattern);
+            //var match = regexFrom.Match(mailMessage.Body);
+            //var regexAddress = new Regex(emailPattern);
+            //return new MailAddress(regexAddress.Match(match.Value).Value);
+
             var stringBuilderForMailAddress = new StringBuilder();
             var bodyInLower = mailMessage.Body.ToLower();
             //find in end of body from: 
-            var indexOfFrom=bodyInLower.LastIndexOf("from: ", System.StringComparison.Ordinal);
+            var indexOfFrom = bodyInLower.LastIndexOf("from: ", System.StringComparison.Ordinal);
             //find symbol @ in "from: ........ @...."
-            var indexOfAt=bodyInLower.IndexOf("@", indexOfFrom, System.StringComparison.Ordinal);
+            var indexOfAt = bodyInLower.IndexOf("@", indexOfFrom, System.StringComparison.Ordinal);
 
             stringBuilderForMailAddress.Append("@");
-            
+
             //append to mail address everything that lefter of @
-            for (var i=indexOfAt-1;i>0;i--)
+            for (var i = indexOfAt - 1; i > 0; i--)
             {
-                if(Char.IsLetterOrDigit(bodyInLower[i]))
+                if (Char.IsLetterOrDigit(bodyInLower[i]))
                 {
-                    stringBuilderForMailAddress.Insert(0,bodyInLower[i]);
+                    stringBuilderForMailAddress.Insert(0, bodyInLower[i]);
                 }
                 else
                 {
@@ -103,7 +125,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             }
 
             //append to mail address everything that righter of @
-            for (var i = indexOfAt+1; i < bodyInLower.Length; i++)
+            for (var i = indexOfAt + 1; i < bodyInLower.Length; i++)
             {
                 if (Char.IsLetterOrDigit(bodyInLower[i]) || bodyInLower[i] == '.')
                 {
