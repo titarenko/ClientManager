@@ -78,7 +78,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
             if (mailMessageParser.IsForwardedMail(mailMessage))
             {             
-                mailMessage.Receivers = new List<MailAddress> { mailMessage.Sender };
+                mailMessage.Receivers = mailMessageParser.GetReceivers(mailMessage);
                 mailMessage.Sender = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
             }
 
