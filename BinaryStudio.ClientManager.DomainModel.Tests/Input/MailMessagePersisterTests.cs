@@ -128,14 +128,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         }
 
         [Test]
-        public void Should_ReturnMailMessageWith_WhenCallingConvertWithForwardedEmail()
+        public void Should_ReturnMailMessageWithSenderEqualClientAndReceiverEqualEmployee_WhenCallingConvertWithForwardedEmail()
         {
             //arrange
             var mailMessage = new DomainModel.Input.MailMessage
                                   {
                                       Subject = "FW: Subject",
                                       Sender = new MailAddress("employee@gmail.com"),
-                                      Body = "some text... from: client@gmail.com To:..."
+                                      Body = "some text...\n from: client@gmail.com \n To:employee@gmail.com \n...."
                                   };
 
             repository.Query<Person>().Returns(new List<Person>{
@@ -219,6 +219,54 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             repository.Received().Save(Arg.Is<Entities.MailMessage>(x => x.Sender.Email == "employee@gmail.com"
                 && x.Receivers.Any(receiver => receiver.Email == "client@gmail.com")
                 && x.Receivers.Count == 1));
+        }
+
+        [Test]
+        public void Should_SaveMailMessageToRepositoryAndCreateAndSaveInquiry_WhenClientSendMessageToEmployeeWithCarbonCopyToOurSystem()
+        {
+            //arrange
+            var mailMessage = new MailMessage
+                {
+                    Body = "a",
+                    Date = Clock.Now,
+                    Subject = "s",
+                    Sender = new MailAddress("client@gmail.com", "client"),
+                    Receivers =
+                        new List<MailAddress> {new MailAddress("employee@gmail.com", "employee")},
+                };
+            aeEmailClient.GetUnreadMessages().Returns(new List<MailMessage>
+                {
+                    mailMessage
+                }.AsQueryable());
+            repository.Query<Person>().ReturnsForAnyArgs(new List<Person>
+                {
+                    new Person
+                        {
+                            Email = "employee@gmail.com",
+                            FirstName = "employee",
+                            Role = PersonRole.Employee
+                        },
+                    new Person
+                        {
+                            Email="client@gmail.com",
+                            FirstName = "client",
+                            Role = PersonRole.Client
+                        }
+                }.AsQueryable());
+            repository.Query<Inquiry>().ReturnsForAnyArgs(new List<Inquiry>().AsQueryable());
+
+            //act
+            mailMessagePersister.Proceed(aeEmailClient, EventArgs.Empty);
+
+            //assert
+            repository.Received().Save(Arg.Is<Entities.MailMessage>(x => x.Sender.Email == "client@gmail.com"
+                && x.Receivers.Any(receiver => receiver.Email == "employee@gmail.com")
+                && x.Receivers.Count == 1));
+            repository.Received().Save(Arg.Is<Inquiry>(x=>x.Subject=="s" &&
+                x.ReferenceDate==null &&
+                x.Client.Email=="client@gmail.com" && 
+                x.Client.FirstName=="client" &&
+                x.Client.Role==PersonRole.Client));
         }
     }
 }
