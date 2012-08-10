@@ -54,13 +54,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         {  
             //Outlook 2010
             yield return new TestCaseData(
-                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Thursday, August 09, 2012 1:30 PM \n To: 1van1111@i.ua; Ivan Zaporozhchenko \n Cc: studiobinary@gmail.com \n Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\n \n asdfdgfdvcdx vds f",
+                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Thursday, August 09, 2012 1:30 PM \nTo: 1van1111@i.ua; Ivan Zaporozhchenko \n Cc: studiobinary@gmail.com \n Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\n \n asdfdgfdvcdx vds f",
                 new List<MailAddress>
                     {
                         new MailAddress("1van1111@i.ua")
                     });
             yield return new TestCaseData(
-                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Friday, August 10, 2012 12:31 PM \n To: 1van1111@mail.ru; 1van1111@i.ua; clientmanagertest@yandex.ru \n Subject: Hi \n \n HIIIIIIII!!",
+                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Friday, August 10, 2012 12:31 PM \nTo: 1van1111@mail.ru; 1van1111@i.ua; clientmanagertest@yandex.ru \n Subject: Hi \n \n HIIIIIIII!!",
                 new List<MailAddress>
                     {
                         new MailAddress("1van1111@mail.ru"),
@@ -75,6 +75,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                         new MailAddress("1van1111@i.ua"),
                         new MailAddress("1van1111@mail.ru"),
                     });
-        }
+            //mozilla thunderbird (english)
+            yield return new TestCaseData(
+                "-------- Original Message --------\nSubject: 	AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nDate: 	Thu, 09 Aug 2012 14:30:00 +0400\nFrom: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nReply-To: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nTo: 	1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCC: 	studiobinary@gmail.com <studiobinary@gmail.com>\n\n\nasdfdgfdvcdx vds f",
+                new List<MailAddress>
+                    {
+                        new MailAddress("1van1111@i.ua"),
+                        new MailAddress("1van1111@mail.ru"),
+                    });
+            }
     }
 }

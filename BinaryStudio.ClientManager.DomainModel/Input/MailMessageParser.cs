@@ -12,9 +12,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             var stringBuilderForMailAddress = new StringBuilder();
             var bodyInLower = mailMessage.Body.ToLower();
             //find in end of body to: 
-            var indexOfTo = bodyInLower.IndexOf("to: ", System.StringComparison.Ordinal);
+            var indexOfTo = bodyInLower.IndexOf("\nto: ", System.StringComparison.Ordinal);
 
-            var indexOfEndOfLine = bodyInLower.IndexOf("\n", indexOfTo, System.StringComparison.Ordinal);
+            var indexOfEndOfLine = bodyInLower.IndexOf("\n", indexOfTo+1, System.StringComparison.Ordinal);
 
             var currentIndex = indexOfTo;
 
