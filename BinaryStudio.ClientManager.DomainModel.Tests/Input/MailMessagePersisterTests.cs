@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 using BinaryStudio.ClientManager.DomainModel.Input;
+using FizzWare.NBuilder;
+using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
@@ -16,7 +19,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     [TestFixture]
     class MailMessagePersisterTests
     {
-        private IRepository repository=Substitute.For<IRepository>() ;
+        private IRepository repository = Substitute.For<IRepository>();
         private MailMessagePersister mailMessagePersister;
         private IEmailClient aeEmailClient = Substitute.For<IEmailClient>();
 
@@ -24,85 +27,68 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         public void Initializer()
         {
             var inquiryFactory = new InquiryFactory();
-            mailMessagePersister = new MailMessagePersister(repository,aeEmailClient,inquiryFactory);
+            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, inquiryFactory);
         }
 
         [Test]
-        public void Should_ReturnMailMessageWithRightData_WhenCallingConvertMethod()
+        public void Should_ReturnMailMessageWithRightData_WhenCallingConvertForMailWithExistingClientAndEmloyees()
         {
             //arrange 
             var receiver1 = new MailAddress("employee@gmail.com", "Employee Petrov");
             var receiver2 = new MailAddress("employee2@gmail.com", "Employee Kozlov");
 
-            var mailMessage = new DomainModel.Input.MailMessage
-            {
-                Body = "This is Body",
-                Date = new DateTime(2012, 1, 1),
-                Subject = "This is Subject",
-                Sender = new MailAddress("client@gmail.com", "Client Ivanov"),
-                Receivers = new List<MailAddress> { receiver1, receiver2 }
-            };
+            var mailMessage = Builder<MailMessage>.CreateNew()
+                .With(x => x.Date = GetRandom.DateTime())
+                .With(x => x.Sender = new MailAddress("client@gmail.com", "Client Ivanov"))
+                .With(x => x.Receivers = new List<MailAddress> {receiver1, receiver2})
+                .Build();
 
-            var expectedPerson = new Person
-            {
-                Id = 1,
-                Role = PersonRole.Client,
-                CreationDate = new DateTime(2000, 1, 1),
-                FirstName = "Client",
-                LastName = "Ivanov",
-                Email = "client@gmail.com",
-            };
+            var persons = Builder<Person>.CreateListOfSize(3)
+                .All().With(x => x.CreationDate = GetRandom.DateTime())
+                .TheFirst(1)
+                .With(x => x.Role = PersonRole.Client)
+                .With(x => x.FirstName = "Client")
+                .With(x => x.LastName = "Ivanov")
+                .With(x => x.Email = "client@gmail.com")
+                .TheNext(1)
+                .With(x => x.Role = PersonRole.Employee)
+                .With(x => x.FirstName = "Employee")
+                .With(x => x.LastName = "Petrov")
+                .With(x => x.Email = "employee@gmail.com")
+                .TheNext(1)
+                .With(x => x.Role = PersonRole.Employee)
+                .With(x => x.FirstName = "Employee")
+                .With(x => x.LastName = "Kozlov")
+                .With(x => x.Email = "employee2@gmail.com")
+                .Build();
 
-            var expectedReceiver1 = new Person
-            {
-                Id = 2,
-                Role = PersonRole.Employee,
-                CreationDate = new DateTime(2000, 1, 1),
-                FirstName = "Employee",
-                LastName = "Petrov",
-                Email = "employee@gmail.com"
-            };
-
-            var expectedReceiver2 = new Person
-            {
-                Id = 3,
-                Role = (int)PersonRole.Employee,
-                CreationDate = new DateTime(2000, 1, 1),
-                FirstName = "Employee",
-                LastName = "Kozlov",
-                Email = "employee2@gmail.com"
-            };
-
-            repository.Query<Person>().ReturnsForAnyArgs(new List<Person> { expectedPerson, expectedReceiver1, expectedReceiver2 }.AsQueryable());
+            repository.Query<Person>().ReturnsForAnyArgs(persons.AsQueryable());
 
             //act
             var result = mailMessagePersister.Convert(mailMessage);
 
             //assert
-            result.Body.Should().Be("This is Body");
-            result.Subject.Should().Be("This is Subject");
-            result.Date.Should().Be(new DateTime(2012, 1, 1));
-            result.Sender.Should().Be(expectedPerson);
-            result.Receivers.Should().Contain(expectedReceiver1);
-            result.Receivers.Should().Contain(expectedReceiver2);
-            result.Receivers.Count.Should().Be(2);
+            Assert.That(result.Body == mailMessage.Body &&
+                result.Subject == mailMessage.Subject &&
+                result.Date == mailMessage.Date &&
+                result.Sender == persons[0] &&
+                result.Receivers.Count == 2 &&
+                result.Receivers.Contains(persons[1]) &&
+                result.Receivers.Contains(persons[2]));
         }
 
         [Test]
-        public void Should_CallSaveMethodOfRepositoryObjectForClientAndEmployee_WhenCallingConvertWithUnknownYetMailAddressesOfClientAndEmployee()
+        public void Should_CallSaveMethodOfRepository_WhenCallingConvertForMailWithUnknownClientAndEmployee()
         {
             //arrange
-            var receiver = new MailAddress("employee@gmail.com", "Employee 1");
-            var mailMessage = new DomainModel.Input.MailMessage
-            {
-                Body = "Body",
-                Date = new DateTime(2012, 1, 1),
-                Subject = "Subject",
-                Sender = new MailAddress("client@gmail.com", "Client 1"),
-                Receivers = new List<MailAddress> { receiver }
-            };
+            var mailMessage = Builder<MailMessage>.CreateNew()
+                .With(x => x.Sender =
+                    new MailAddress("client@gmail.com", "Client 1"))
+                .With(x => x.Receivers =
+                    new List<MailAddress> { new MailAddress("employee@gmail.com", "Employee 1") })
+                .Build();
 
-            var addingClient = new Person
+            var client = new Person
             {
                 CreationDate = mailMessage.Date,
                 FirstName = "Client",
@@ -110,33 +96,34 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 Email = "client@gmail.com"
             };
 
-            var addingEmployee = new Person
+            var employee = new Person
             {
                 CreationDate = mailMessage.Date,
                 FirstName = "Employee",
                 LastName = "1",
                 Email = "employee@gmail.com"
             };
+
             repository.Query<Person>().Returns(new List<Person>().AsQueryable());
 
             //act
-            var result = mailMessagePersister.Convert(mailMessage);
+            mailMessagePersister.Convert(mailMessage);
 
             //assert
-            repository.Received().Save(addingClient);
-            repository.Received().Save(addingEmployee);
+            repository.Received().Save(client);
+            repository.Received().Save(employee);
         }
 
         [Test]
-        public void Should_ReturnMailMessageWithSenderEqualClientAndReceiverEqualEmployee_WhenCallingConvertWithForwardedEmail()
+        public void Should_ReturnMailMessageWithRightSenderAndReceivers_WhenCallingConvertWithForwardedEmail()
         {
             //arrange
             var mailMessage = new DomainModel.Input.MailMessage
-                                  {
-                                      Subject = "FW: Subject",
-                                      Sender = new MailAddress("employee@gmail.com"),
-                                      Body = "some text...\n from: client@gmail.com \n To:employee@gmail.com \n...."
-                                  };
+            {
+                Subject = "FW: Subject",
+                Sender = new MailAddress("employee@gmail.com"),
+                Body = "some text... from: client@gmail.com To:..."
+            };
 
             repository.Query<Person>().Returns(new List<Person>{
                     new Person

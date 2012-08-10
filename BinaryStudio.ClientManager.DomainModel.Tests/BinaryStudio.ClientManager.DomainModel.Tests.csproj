@@ -68,7 +68,6 @@
     <Compile Include="Input\InquiryFactoryTests.cs" />
     <Compile Include="Input\MailMessageParserTests.cs" />
     <Compile Include="Input\MailMessagePersisterTests.cs" />
-    <Compile Include="Input\PollingEmailCheckerTests.cs" />
     <Compile Include="Input\TestAppConfiguration.cs" />
     <Compile Include="Input\TimerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
