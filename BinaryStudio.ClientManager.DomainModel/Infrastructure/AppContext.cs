@@ -11,7 +11,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         {
             get
             {
-                return (User)HttpContext.Current.Session[ParamName];
+                return HttpContext.Current.Session[ParamName] as User;
             }
             set 
             {  
