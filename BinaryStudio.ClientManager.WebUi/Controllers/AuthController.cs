@@ -50,7 +50,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             catch
             {
-                return RedirectToAction("LogOn");
+                //return RedirectToAction("LogOn");
+                userInfo = new UserInfo {Email = "sss"};
             }
             
 
@@ -70,7 +71,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                          Email = userInfo.Email,
                                          FirstName = userInfo.FirstName,
                                          LastName = userInfo.LastName,
-                                         Role = PersonRole.Employee
+                                         Role = PersonRole.Employee,
+                                         CreationDate = DateTime.Now
                                      };
                     user.RelatedUser = person;
                     repository.Save(person);

@@ -39,20 +39,23 @@ namespace BinaryStudio.ClientManager.WebUi
         {
             AreaRegistration.RegisterAllAreas();
 
-            AuthenticateRequest += (sender, args) =>
-                                       {
-                                           var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
-                                           HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
-                                       };
+            //AuthenticateRequest += (sender, args) =>
+            //                           {
+            //                               var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
+            //                               HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+            //                           };
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
             SetDependencyResolver();
-            //TODO all works fine!
-            var repository = new EfRepository();
-            mailMessagePersister = new MailMessagePersister(repository, new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),new InquiryFactory());
+
+            //mailMessagePersister = DependencyResolver.Current.GetService<MailMessagePersister>();
+            //TODO delete
+            mailMessagePersister = new MailMessagePersister(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()), new InquiryFactory());
+
             log4net.Config.XmlConfigurator.Configure();
+            LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
         }
 
         private MailMessagePersister mailMessagePersister;
@@ -71,6 +74,8 @@ namespace BinaryStudio.ClientManager.WebUi
                 .AsImplementedInterfaces();
 
             builder.RegisterType<InquiryFactory>().As<IInquiryFactory>();
+
+            builder.RegisterType<AppContext>().As<IAppContext>();
 
             builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
 
