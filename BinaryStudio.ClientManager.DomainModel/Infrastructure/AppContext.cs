@@ -1,11 +1,21 @@
 ﻿using System.Web;
-using System.Web.Security;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
     public class AppContext : IAppContext
     {
+        private readonly ISession session;
+        private readonly IRandomToken randomToken;
+
+        public AppContext(ISession session, IRandomToken randomToken)
+        {
+            this.session = session;
+            this.randomToken = randomToken;
+        }
+
+        private const string Separetor = "##";
+
         private const string ParamName = "User";
 
         public User User
@@ -16,7 +26,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             }
             set 
             {  
-                 FormsAuthentication.SetAuthCookie(value.RelatedUser.Email, true);
                 HttpContext.Current.Session[ParamName] = value; 
             }
         }

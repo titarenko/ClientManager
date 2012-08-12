@@ -1,6 +1,6 @@
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
-    interface ISession
+    public interface ISession
     {
         /// <summary>
         /// returns object that associated with key. if nothing associated returns null
