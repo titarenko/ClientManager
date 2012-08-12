@@ -16,7 +16,7 @@ using log4net;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -26,15 +26,21 @@ namespace BinaryStudio.ClientManager.WebUi
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute("Auth", // Route name
-                            "Auth", // URL with parameters
-                            new { controller = "Auth", action = "LogOn", id = UrlParameter.Optional });
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
+            //routes.MapRoute("Auth", // Route name
+            //                "Auth", // URL with parameters
+            //                new { controller = "Auth", action = "LogOn", id = UrlParameter.Optional });
+
+            routes.MapRoute("Default", 
+                            "{controller}/{action}/{id}", // URL with parameters
+                            new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
             );
         }
-
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
+            HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+        }
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
