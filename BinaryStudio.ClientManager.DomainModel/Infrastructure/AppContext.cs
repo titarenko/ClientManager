@@ -27,7 +27,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             }
             set
             {
-                var token = this.randomToken.GetParametrizedRandomToken(ParamName);
+                var token = this.randomToken.GetRandomToken();
                 this.session.Set(token, value);
                 HttpContext.Current.Response.Cookies.Add(new HttpCookie(ParamName, token) { HttpOnly = true });
             }

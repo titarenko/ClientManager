@@ -7,6 +7,7 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         private readonly IRepository repository;
