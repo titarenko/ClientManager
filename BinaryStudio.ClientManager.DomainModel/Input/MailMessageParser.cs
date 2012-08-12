@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
-    public class MailMessageParser
+    public class MailMessageParser : IMailMessageParser
     {
         public string GetSubject(string subject)
         {

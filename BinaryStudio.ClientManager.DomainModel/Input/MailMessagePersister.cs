@@ -19,13 +19,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly IEmailClient emailClient;
 
-        public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory)
+        private readonly IMailMessageParser parser;
+
+        public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory, IMailMessageParser parser)
         {
             this.repository = repository;
-
             this.inquiryFactory = inquiryFactory;
-
             this.emailClient = emailClient;
+            this.parser = parser;
 
             emailClient.OnObtainingMessage += Proceed;
 
@@ -74,13 +75,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 Receivers = new List<Person>()
             };
 
-            var mailMessageParser = new MailMessageParser();
             // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
-            if (mailMessageParser.IsForwardedMail(mailMessage))
+            if (parser.IsForwardedMail(mailMessage))
             {
-                mailMessage.Subject = mailMessageParser.GetSubject(mailMessage.Subject);
-                mailMessage.Receivers = mailMessageParser.GetReceivers(mailMessage);
-                mailMessage.Sender = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
+                mailMessage.Subject = parser.GetSubject(mailMessage.Subject);
+                mailMessage.Receivers = parser.GetReceivers(mailMessage);
+                mailMessage.Sender = parser.GetSenderFromForwardedMail(mailMessage);
             }
 
             //find a Sender in Repository

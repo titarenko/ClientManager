@@ -25,8 +25,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         [SetUp]
         public void Initializer()
         {
-            var inquiryFactory = new InquiryFactory();
-            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, inquiryFactory);
+            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(), new MailMessageParser());
         }
 
         [Test]
