@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AE.Net.Mail;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
@@ -53,6 +54,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             Receivers = message.To,
                             Subject = message.Subject,
                             Body = message.Body,
+                            UserAgent = GetUserAgent(message.Raw)
                         });
 
                     if (null != MailMessageReceived)
@@ -60,6 +62,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             MailMessageReceived(this, args);
                         }
                 };
+        }
+
+        private string GetUserAgent(string raw)
+        {   
+            var userAgentMatch = @"\r\nUser-Agent:.*\r\n";
+            var userAgentRegex = new Regex(userAgentMatch, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var matchesUserAgent = userAgentRegex.Matches(raw);
+            return matchesUserAgent[0].Value;
         }
 
         public IEnumerable<MailMessage> GetUnreadMessages() //renew count of unread messages

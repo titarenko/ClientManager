@@ -18,7 +18,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             {
                 Body = body,
             };
-            var mailMessageParser = new MailMessageParser();
+            var mailMessageParser = new MailMessageParserThunderbird();
 
             //act
             var result = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
@@ -40,7 +40,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             {
                 Body = body,
             };
-            var mailMessageParser = new MailMessageParser();
+            var mailMessageParser = new MailMessageParserThunderbird();
 
             //act
             var result = mailMessageParser.GetReceivers(mailMessage);
@@ -88,7 +88,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         [Test, TestCaseSource("Should_ReturnRightSubject_WhenCalledGetSubject_TestCaseSource")]
         public void Should_ReturnRightSubject_WhenCalledGetSubject(string subject)
         {
-            var parser = new MailMessageParser();
+            var parser = new MailMessageParserThunderbird();
             var parsedSubject = parser.GetSubject(subject);
             parsedSubject.Should().Be("Test subject");
         }

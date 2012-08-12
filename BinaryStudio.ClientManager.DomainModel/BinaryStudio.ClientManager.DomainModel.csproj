@@ -88,9 +88,11 @@
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\IInquiryFactory.cs" />
     <Compile Include="Input\IMailMessageParser.cs" />
+    <Compile Include="Input\IMailMessageParserFactory.cs" />
     <Compile Include="Input\InquiryFactory.cs" />
     <Compile Include="Input\MailMessage.cs" />
-    <Compile Include="Input\MailMessageParser.cs" />
+    <Compile Include="Input\MailMessageParserThunderbird.cs" />
+    <Compile Include="Input\MailMessageParserFactory.cs" />
     <Compile Include="Input\MailMessagePersister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

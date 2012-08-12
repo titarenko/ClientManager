@@ -25,7 +25,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         [SetUp]
         public void Initializer()
         {
-            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(), new MailMessageParser());
+            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(), new MailMessageParserFactory());
         }
 
         [Test]
@@ -120,7 +120,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             {
                 Subject = "FW: Subject",
                 Sender = new MailAddress("employee@gmail.com"),
-                Body = "some text... from: client@gmail.com \nTo: employee@gmail.com \n....."
+                Body = "some text... from: client@gmail.com \nTo: employee@gmail.com \n.....",
+                UserAgent = "Thunderbird"
             };
 
             repository.Query<Person>().Returns(new List<Person>{
@@ -153,7 +154,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                                       Subject = "",
                                       Date = new DateTime(2000, 1, 1),
                                       Receivers = new List<MailAddress> { receiver },
-                                      Sender = new MailAddress("client@gmail.com")
+                                      Sender = new MailAddress("client@gmail.com"),
+                                      UserAgent = "Thunderbird"
                                   };
             repository.Query<Person>().Returns(new List<Person>().AsQueryable());
 
@@ -178,6 +180,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                         Subject = "s",
                         Sender = new MailAddress("employee@gmail.com","employee"),
                         Receivers = new List<MailAddress>{new MailAddress("client@gmail.com","client")},
+                        UserAgent = "Thunderbird"
                     }
                 });
             repository.Query<Person>().ReturnsForAnyArgs(new List<Person>
@@ -218,6 +221,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                     Sender = new MailAddress("client@gmail.com", "client"),
                     Receivers =
                         new List<MailAddress> {new MailAddress("employee@gmail.com", "employee")},
+                    UserAgent = "Thunderbird"
                 };
             aeEmailClient.GetUnreadMessages().Returns(new List<MailMessage>
                 {

@@ -19,14 +19,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         private readonly IEmailClient emailClient;
 
-        private readonly IMailMessageParser parser;
+        private readonly IMailMessageParserFactory mailMessageParserFactory;
 
-        public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory, IMailMessageParser parser)
+        public MailMessagePersister(IRepository repository, IEmailClient emailClient, IInquiryFactory inquiryFactory, IMailMessageParserFactory mailMessageParserFactory)
         {
             this.repository = repository;
             this.inquiryFactory = inquiryFactory;
             this.emailClient = emailClient;
-            this.parser = parser;
+            this.mailMessageParserFactory = mailMessageParserFactory;
 
             emailClient.MailMessageReceived += ProcessMessage;
 
@@ -61,7 +61,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <summary>
         /// Converts Input.MailMessage to Entities.MailMessage.
         /// If sender or receivers isn't exist then they will be added to repository
-        /// If email forwarded then sender will be taken from body <see cref="MailMessageParser"/>
+        /// If email forwarded then sender will be taken from body <see cref="MailMessageParserThunderbird"/>
         /// </summary>
         /// <param name="mailMessage">Input.MailMessage type of message</param>
         /// <returns>Entities.MailMessage type of message</returns>
@@ -74,6 +74,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 Subject = mailMessage.Subject,
                 Receivers = new List<Person>()
             };
+
+            var parser = mailMessageParserFactory.GetMailMessageParser(mailMessage.UserAgent);
 
             // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
             if (parser.IsForwardedMail(mailMessage))

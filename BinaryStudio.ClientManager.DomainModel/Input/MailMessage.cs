@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net.Mail;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
@@ -34,5 +33,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// Body of the message.
         /// </summary>
         public string Body { get; set; }
+
+        /// <summary>
+        /// User agent string that shows email client
+        /// </summary>
+        public string UserAgent { get; set; }
     }
 }
