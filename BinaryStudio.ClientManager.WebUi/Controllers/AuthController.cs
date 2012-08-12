@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
@@ -31,6 +30,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         /// </summary>
         public ActionResult LogOn()
         {
+            if (null != appContext.User)
+            {
+                return RedirectToAction("Week", "Inquiries");
+            }
+
             return View(new LogOnModel
                 {
                     FacebookLoginUri = facebookClient.GetAccessCodeRequestUri(),
@@ -50,8 +54,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             catch
             {
-                //return RedirectToAction("LogOn");
-                userInfo = new UserInfo {Email = "sss"};
+                return RedirectToAction("LogOn");
             }
             
 

@@ -5,6 +5,7 @@ using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IRepository repository;

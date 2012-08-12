@@ -16,34 +16,52 @@ using log4net;
 
 namespace BinaryStudio.ClientManager.WebUi
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
+
+        private MailMessagePersister mailMessagePersister;
+
+
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
         }
 
+
         public void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute("Auth", // Route name
-                            "Auth", // URL with parameters
-                            new { controller = "Auth", action = "LogOn", id = UrlParameter.Optional });
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
+            //routes.MapRoute("Auth", // Route name
+            //                "Auth", // URL with parameters
+            //                new { controller = "Auth", action = "LogOn", id = UrlParameter.Optional });
+
+            routes.MapRoute("Default", 
+                            "{controller}/{action}/{id}", // URL with parameters
+                            new { controller = "Inquiries", action = "Week", id = UrlParameter.Optional } // Parameter defaults
             );
         }
+
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+
+            log.Error("App_Error", ex);
+        }
+
+
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
+            HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+        }
+
 
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
-            //AuthenticateRequest += (sender, args) =>
-            //                           {
-            //                               var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
-            //                               HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
-            //                           };
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
@@ -58,8 +76,6 @@ namespace BinaryStudio.ClientManager.WebUi
             log4net.Config.XmlConfigurator.Configure();
             LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
         }
-
-        private MailMessagePersister mailMessagePersister;
 
         private void SetDependencyResolver()
         {
@@ -86,14 +102,6 @@ namespace BinaryStudio.ClientManager.WebUi
                 .AsImplementedInterfaces().AsSelf();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
-        }
-        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
-
-        void Application_Error(Object sender, EventArgs e)
-        {
-            Exception ex = Server.GetLastError().GetBaseException();
-
-            log.Error("App_Error", ex);
         }
     }
 }

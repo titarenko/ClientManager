@@ -80,7 +80,11 @@
     <Compile Include="Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\IIdentifiable.cs" />
     <Compile Include="Infrastructure\IOwned.cs" />
+    <Compile Include="Infrastructure\IRandomToken.cs" />
+    <Compile Include="Infrastructure\ISession.cs" />
+    <Compile Include="Infrastructure\RandomToken.cs" />
     <Compile Include="Infrastructure\SafeExtensions.cs" />
+    <Compile Include="Infrastructure\Session.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
     <Compile Include="Infrastructure\UserService.cs" />
