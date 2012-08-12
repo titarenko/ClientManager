@@ -20,6 +20,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <summary>
         /// this handler will be called when new message is received
         /// </summary>
-        event EventHandler OnObtainingMessage;
+        event EventHandler MailMessageReceived;
     }
 }

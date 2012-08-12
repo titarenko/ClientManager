@@ -8,7 +8,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 {
     public class AeEmailClient : IEmailClient, IDisposable
     {
-        public event EventHandler OnObtainingMessage;
+        public event EventHandler MailMessageReceived;
 
         private List<MailMessage> unread = new List<MailMessage>();
 
@@ -55,9 +55,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                             Body = message.Body,
                         });
 
-                    if (null != OnObtainingMessage)
+                    if (null != MailMessageReceived)
                         {
-                            OnObtainingMessage(this, args);
+                            MailMessageReceived(this, args);
                         }
                 };
         }

@@ -28,12 +28,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             this.emailClient = emailClient;
             this.parser = parser;
 
-            emailClient.OnObtainingMessage += Proceed;
+            emailClient.MailMessageReceived += ProcessMessage;
 
-            Proceed(emailClient, new MessageEventArgs());
+            ProcessMessage(emailClient, new MessageEventArgs());
         }
 
-        public void Proceed(object sender, EventArgs args)
+        public void ProcessMessage(object sender, EventArgs args)
         {
             var unreadMessages = emailClient.GetUnreadMessages();
             foreach (var message in unreadMessages)

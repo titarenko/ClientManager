@@ -198,7 +198,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             
 
             //act
-            mailMessagePersister.Proceed(aeEmailClient, EventArgs.Empty);
+            mailMessagePersister.ProcessMessage(aeEmailClient, EventArgs.Empty);
  
             //assert
             repository.Received().Save(Arg.Is<Entities.MailMessage>(x => x.Sender.Email == "employee@gmail.com"
@@ -241,7 +241,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             repository.Query<Inquiry>().ReturnsForAnyArgs(new List<Inquiry>().AsQueryable());
 
             //act
-            mailMessagePersister.Proceed(aeEmailClient, EventArgs.Empty);
+            mailMessagePersister.ProcessMessage(aeEmailClient, EventArgs.Empty);
 
             //assert
             repository.Received().Save(Arg.Is<Entities.MailMessage>(x => x.Sender.Email == "client@gmail.com"
