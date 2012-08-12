@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
-    public class MailMessageParser : IMailMessageParser
+    public class MailMessageParserThunderbird : IMailMessageParser
     {
+        const string emailMatch = @"\b([A-Z0-9._%-]+)@([A-Z0-9.-]+\.[A-Z]{2,6})\b";
+
         public string GetSubject(string subject)
         {
             int startPos = 0;
@@ -80,50 +83,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
         public MailAddress GetSenderFromForwardedMail(MailMessage mailMessage)
         {
-            var stringBuilderForMailAddress = new StringBuilder();
-            var bodyInLower = mailMessage.Body.ToLower();
-            //find in end of body from: 
-            var indexOfFrom=bodyInLower.LastIndexOf("from: ", System.StringComparison.Ordinal);
-            //find symbol @ in "from: ........ @...."
-            var indexOfAt=bodyInLower.IndexOf("@", indexOfFrom, System.StringComparison.Ordinal);
-
-            stringBuilderForMailAddress.Append("@");
-            
-            //append to mail address everything that lefter of @
-            for (var i=indexOfAt-1;i>0;i--)
-            {
-                if(Char.IsLetterOrDigit(bodyInLower[i]))
-                {
-                    stringBuilderForMailAddress.Insert(0,bodyInLower[i]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            //append to mail address everything that righter of @
-            for (var i = indexOfAt+1; i < bodyInLower.Length; i++)
-            {
-                if (Char.IsLetterOrDigit(bodyInLower[i]) || bodyInLower[i] == '.')
-                {
-                    stringBuilderForMailAddress.Append(bodyInLower[i]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            //return mail address
-            var mailAddress = new MailAddress(stringBuilderForMailAddress.ToString());
-
-            return mailAddress;
-        }
+            var mailRegex = new Regex(emailMatch, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var matchesEmails = mailRegex.Matches(mailMessage.Body);
+            var sender = matchesEmails[0].Value;
+            return new MailAddress(sender);
+        }   
 
         public bool IsForwardedMail(MailMessage mailMessage)
         {
-            return mailMessage.Subject.ToLower().StartsWith("fwd:") || mailMessage.Subject.ToLower().StartsWith("fw:");
+            return mailMessage.Subject.ToLower().Trim().StartsWith("fwd:") || mailMessage.Subject.ToLower().StartsWith("fw:");
         }
     }
 }
