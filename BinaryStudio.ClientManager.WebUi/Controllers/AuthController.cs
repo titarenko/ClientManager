@@ -89,6 +89,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
 
+        public ActionResult LogOff()
+        {
+            appContext.User = null;
+            return RedirectToAction("LogOn");
+        }
+
 
         public ActionResult FacebookAuth(string code, string error)
         {
