@@ -71,7 +71,7 @@ namespace BinaryStudio.ClientManager.WebUi
             //mailMessagePersister = DependencyResolver.Current.GetService<MailMessagePersister>();
             //TODO delete
             mailMessagePersister = new MailMessagePersister(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),
-                new InquiryFactory(), new MailMessageParser());
+                new InquiryFactory(), new MailMessageParserFactory());
 
             log4net.Config.XmlConfigurator.Configure();
             LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
