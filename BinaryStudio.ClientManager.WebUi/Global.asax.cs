@@ -20,7 +20,7 @@ namespace BinaryStudio.ClientManager.WebUi
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
 
-        private MailMessagePersister mailMessagePersister;
+        private static MailMessagePersister mailMessagePersister;
 
 
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -68,10 +68,15 @@ namespace BinaryStudio.ClientManager.WebUi
 
             SetDependencyResolver();
 
-            //mailMessagePersister = DependencyResolver.Current.GetService<MailMessagePersister>();
-            //TODO delete
-            mailMessagePersister = new MailMessagePersister(new EfRepository(), new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),
-                new InquiryFactory(), new MailMessageParserFactory());
+            if (null == mailMessagePersister)
+            {
+                //mailMessagePersister = DependencyResolver.Current.GetService<MailMessagePersister>();
+                //TODO delete
+                mailMessagePersister = new MailMessagePersister(new EfRepository(),
+                                                                new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),
+                                                                new InquiryFactory(),
+                                                                new MailMessageParserFactory());
+            }
 
             log4net.Config.XmlConfigurator.Configure();
             LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");

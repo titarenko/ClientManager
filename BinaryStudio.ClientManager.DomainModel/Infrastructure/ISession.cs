@@ -14,6 +14,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <param name="value"></param>
         void Set(string key, object value);
 
+        /// <summary>
+        /// returns object as T that associated with key. Returns null if nothing associated or object isn't of type T
+        /// </summary>
         T Get<T>(string key) where T : class;
     }
 }

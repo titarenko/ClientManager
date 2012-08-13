@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
-    // TODO think about implementing thread safety
     public class Session : ISession
     {
         private static readonly Dictionary<string, object> session = new Dictionary<string, object>();
@@ -24,7 +23,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         }
 
         /// <summary>
-        /// adds value to session. If the specified key already exists, value will be overwriten.
+        /// adds value to session. If the specified key already exists, value will be overwritten.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -35,9 +34,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
                 throw new ArgumentNullException();
             }
 
-            session[key] = value;
+            lock (session)
+            {
+                session[key] = value;
+            }
         }
 
+        /// <summary>
+        /// returns object as T that associated with key. Returns null if nothing associated or object isn't of type T
+        /// </summary>
         public T Get<T>(string key) where T : class
         {
             return this.Get(key) as T;
