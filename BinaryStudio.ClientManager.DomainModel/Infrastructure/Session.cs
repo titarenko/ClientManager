@@ -23,7 +23,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         }
 
         /// <summary>
-        /// adds value to session. If the specified key already exists, value will be overwriten.
+        /// adds value to session. If the specified key already exists, value will be overwritten.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -40,6 +40,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             }
         }
 
+        /// <summary>
+        /// returns object as T that associated with key. Returns null if nothing associated or object isn't of type T
+        /// </summary>
         public T Get<T>(string key) where T : class
         {
             return this.Get(key) as T;
