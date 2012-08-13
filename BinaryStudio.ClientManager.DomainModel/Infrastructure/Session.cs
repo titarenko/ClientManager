@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
-    // TODO think about implementing thread safety
     public class Session : ISession
     {
         private static readonly Dictionary<string, object> session = new Dictionary<string, object>();
@@ -35,7 +34,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
                 throw new ArgumentNullException();
             }
 
-            session[key] = value;
+            lock (session)
+            {
+                session[key] = value;
+            }
         }
 
         public T Get<T>(string key) where T : class
