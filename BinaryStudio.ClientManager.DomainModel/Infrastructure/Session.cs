@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Web.Caching;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
-    // TODO think about implementing thread safety
     public class Session : ISession
     {
-        private static readonly Dictionary<string, object> session = new Dictionary<string, object>();
+        private static readonly Cache session = new Cache();
 
         /// <summary>
         /// returns object that associated with key. Returns null if nothing associated
@@ -18,9 +17,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
                 throw new ArgumentNullException();
             }
 
-            object expectedObject;
-            session.TryGetValue(key, out expectedObject);
-            return expectedObject;
+            return session[key];
         }
 
         /// <summary>
@@ -30,12 +27,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <param name="value"></param>
         public void Set(string key, object value)
         {
-            if (null == key)
+            if (null == key || null == value)
             {
                 throw new ArgumentNullException();
             }
 
-            session[key] = value;
+            session.Add(key, value, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0),
+                      CacheItemPriority.NotRemovable, null);
         }
 
         public T Get<T>(string key) where T : class
