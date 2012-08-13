@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
@@ -30,7 +29,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             {
                 var token = this.randomToken.GetRandomToken();
                 this.session.Set(token, value);
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie(ParamName, token) { HttpOnly = true, Expires = DateTime.Now.AddDays(1) });
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(ParamName, token) { HttpOnly = true });
             }
         }
     }
