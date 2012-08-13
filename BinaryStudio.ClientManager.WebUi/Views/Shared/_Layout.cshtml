@@ -16,6 +16,12 @@
     </head>
     <body>
         <div id="header" class="container">
+            <div class="btn-group pull-right">
+                @Html.ActionLink("Log Off", "LogOff", "Auth", null, new {
+                                                                            @class="btn",
+                                                                            id="logoff"
+                                                                        })
+            </div>
             <div class="btn-group pull-left">
                 <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
                     @ViewBag.Title
