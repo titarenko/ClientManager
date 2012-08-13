@@ -92,7 +92,7 @@ namespace BinaryStudio.ClientManager.WebUi
 
             builder.RegisterType<InquiryFactory>().As<IInquiryFactory>();
 
-            builder.RegisterType<MailMessageParserFactory>().As<IMailMessageParser>();
+            builder.RegisterType<MailMessageParserFactory>().As<IMailMessageParserFactory>();
 
             builder.RegisterType<AppContext>().As<IAppContext>();
 
