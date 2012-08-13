@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using FluentAssertions;
 using NUnit.Framework;
@@ -27,9 +28,28 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             result.Address.Should().Be(mailAddress);
         }
 
-        public IEnumerable<TestCaseData> Should_ReturnSenderMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource()
+        public IEnumerable<TestCaseData> Should_ReturnSenderMailAddressFromBody_WnehCalledGetSender_TestCaseSource()
         {
             yield return  new TestCaseData("olololo From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] Sent: Thursday, August 09, 2012 1:30 PM To: 1van1111@i.ua; Ivan Zaporozhchenko Cc: studiobinary@gmail.com Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!! asdfdgfdvcdx vds f","1van1111@mail.ru");
+        }
+
+        [Test]
+        public void Should_ThrowException_WhenCalledGetSenderWithNoEmailAddressInBody()
+        {
+            //arrange
+            var mailMessage = new MailMessage
+                                  {
+                                      Body = "No email addresses there"
+                                  };
+            var mailMessageParser = new MailMessageParserThunderbird();
+
+            //act
+            Action action = () => mailMessageParser.GetSender(mailMessage);
+
+            //assert
+            action
+                .ShouldThrow<ApplicationException>()
+                .WithMessage("Forwarded message has illegal format");
         }
 
         [Test, TestCaseSource("Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource")]

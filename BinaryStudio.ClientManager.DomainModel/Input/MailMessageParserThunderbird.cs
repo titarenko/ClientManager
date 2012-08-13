@@ -98,8 +98,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             var mailRegex = new Regex(emailMatch, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             var matchesEmails = mailRegex.Matches(mailMessage.Body);
-            var sender = matchesEmails[0].Value;
-            return new MailAddress(sender);
+            try
+            {
+                var sender = matchesEmails[0].Value;
+                return new MailAddress(sender);
+            }
+            catch (Exception)
+            {
+                throw new ApplicationException("Forwarded message has illegal format");
+            }
+            
         }   
 
         public bool IsForwarded(MailMessage mailMessage)

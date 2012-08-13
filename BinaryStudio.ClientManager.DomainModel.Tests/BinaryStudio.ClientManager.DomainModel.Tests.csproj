@@ -66,6 +66,7 @@
     <Compile Include="Input\AeEventBasedEmailClientTest.cs" />
     <Compile Include="Input\ExtensionsTests.cs" />
     <Compile Include="Input\InquiryFactoryTests.cs" />
+    <Compile Include="Input\MailMessageParserFactoryTests.cs" />
     <Compile Include="Input\MailMessageParserTests.cs" />
     <Compile Include="Input\MailMessagePersisterTests.cs" />
     <Compile Include="Input\TestAppConfiguration.cs" />
