@@ -70,6 +70,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\PersonRole.cs" />
     <Compile Include="Entities\Tag.cs" />
+    <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\AppContext.cs" />
