@@ -33,35 +33,32 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 client.SetFlags(Flags.Seen, message.Value);
             }
 
-            unread.AddRange(unreadMessages.Select(message => new MailMessage
-                {
-                    Date = message.Value.Date,
-                    Sender = message.Value.From,
-                    Receivers = message.Value.To,
-                    Subject = message.Value.Subject,
-                    Body = message.Value.Body
-                }));
-            
+            unread.AddRange(unreadMessages.Select(message => GetInputMailMessage(message.Value)));
 
             client.NewMessage += (sender, args) =>
                 {
                     var message = client.GetMessage(args.MessageCount - 1, false, true);
                     client.SetFlags(Flags.Seen, message);
-                    unread.Add(new MailMessage
-                        {
-                            Date = message.Date,
-                            Sender = message.From,
-                            Receivers = message.To,
-                            Subject = message.Subject,
-                            Body = message.Body,
-                            UserAgent = GetUserAgent(message.Raw)
-                        });
+                    unread.Add(GetInputMailMessage(message));
 
                     if (null != MailMessageReceived)
                         {
                             MailMessageReceived(this, args);
                         }
                 };
+        }
+
+        private MailMessage GetInputMailMessage(AE.Net.Mail.MailMessage message)
+        {
+            return new MailMessage
+            {
+                Date = message.Date,
+                Sender = message.From,
+                Receivers = message.To,
+                Subject = message.Subject,
+                Body = message.Body,
+                UserAgent = GetUserAgent(message.Raw)
+            };
         }
 
         private string GetUserAgent(string raw)
