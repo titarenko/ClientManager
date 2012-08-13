@@ -67,6 +67,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <returns>Entities.MailMessage type of message</returns>
         public Entities.MailMessage Convert(MailMessage mailMessage)
         {
+            // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
+            if (isForwardedMailMessage(mailMessage))
+            {
+                var parser = mailMessageParserFactory.GetMailMessageParser(mailMessage.UserAgent);
+                mailMessage.Subject = parser.GetSubject(mailMessage.Subject);
+                mailMessage.Receivers = new List<MailAddress>{mailMessage.Sender};
+                mailMessage.Sender = parser.GetSender(mailMessage);
+                mailMessage.Body = parser.GetBody(mailMessage);
+            }
+
             var returnMessage = new Entities.MailMessage
             {
                 Body = mailMessage.Body,
@@ -74,16 +84,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                 Subject = mailMessage.Subject,
                 Receivers = new List<Person>()
             };
-
-            var parser = mailMessageParserFactory.GetMailMessageParser(mailMessage.UserAgent);
-
-            // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
-            if (parser.IsForwarded(mailMessage))
-            {
-                mailMessage.Subject = parser.GetSubject(mailMessage.Subject);
-                mailMessage.Receivers = new List<MailAddress>{mailMessage.Sender};
-                mailMessage.Sender = parser.GetSender(mailMessage);
-            }
 
             //find a Sender in Repository
             var sender = repository.Query<Person>().FirstOrDefault(x => x.Email == mailMessage.Sender.Address);
@@ -99,6 +99,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             }
 
             return returnMessage;
+        }
+
+        /// <summary>
+        /// Returns true if mail message have fwd: or fw: in subject
+        /// </summary>
+        private static bool isForwardedMailMessage(MailMessage mailMessage)
+        {
+            return mailMessage.Subject.ToLower().Trim().StartsWith("fwd:") || mailMessage.Subject.ToLower().StartsWith("fw:");
         }
 
         /// <summary>

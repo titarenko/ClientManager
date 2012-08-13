@@ -123,7 +123,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             {
                 Subject = "FW: Subject",
                 Sender = new MailAddress("employee@gmail.com"),
-                Body = "some text... from: client@gmail.com \nTo: employee@gmail.com \n.....",
+                Body = "some text... from: \tclient@gmail.com \r\nTo: \temployee@gmail.com \r\n.....",
             };
 
             repository.Query<Person>().Returns(new List<Person>{

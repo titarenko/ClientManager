@@ -52,8 +52,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 .WithMessage("Forwarded message has illegal format");
         }
 
-        [Test, TestCaseSource("Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource")]
-        public void Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail(string body, List<MailAddress> mailAddress)
+        [Test, TestCaseSource("Should_ReturnBodyFromOriginalMessage_WnehCalledGetBody_TestCaseSource")]
+        public void Should_ReturnBodyFromOriginalMessage_WnehCalledGetBody(string body, string originalBody)
         {
             //arrange
             var mailMessage = new MailMessage
@@ -63,50 +63,17 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var mailMessageParser = new MailMessageParserThunderbird();
 
             //act
-            var result = mailMessageParser.GetReceivers(mailMessage);
+            var result = mailMessageParser.GetBody(mailMessage);
 
             //assert
-            result.Should().Contain(mailAddress);
-            result.Count.Should().Be(mailAddress.Count);
+            result.Should().Be(originalBody);
         }
 
-        public IEnumerable<TestCaseData> Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource()
-        {  
-            //Outlook 2010
-            yield return new TestCaseData(
-                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Thursday, August 09, 2012 1:30 PM \nTo: 1van1111@i.ua; Ivan Zaporozhchenko \n Cc: studiobinary@gmail.com \n Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\n \n asdfdgfdvcdx vds f",
-                new List<MailAddress>
-                    {
-                        new MailAddress("1van1111@i.ua"),
-                        new MailAddress("studiobinary@gmail.com")
-                    });
-            yield return new TestCaseData(
-                "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Friday, August 10, 2012 12:31 PM \nTo: 1van1111@mail.ru; 1van1111@i.ua; clientmanagertest@yandex.ru \n Subject: Hi \n \n HIIIIIIII!!",
-                new List<MailAddress>
-                    {
-                        new MailAddress("1van1111@mail.ru"),
-                        new MailAddress("1van1111@i.ua"),
-                        new MailAddress("clientmanagertest@yandex.ru"),
-                    });
-            //gmail web ui
-            yield return new TestCaseData(
-                "---------- Forwarded message ----------\nFrom: Ivan Zaporozhchenko <1van1111@mail.ru>\nDate: 2012/8/9\nSubject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nTo: 1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCc: <studiobinary@gmail.com>\n\n\n asdfdgfdvcdx vds f",
-                new List<MailAddress>
-                    {
-                        new MailAddress("1van1111@i.ua"),
-                        new MailAddress("1van1111@mail.ru"),
-                        new MailAddress("studiobinary@gmail.com")
-                    });
-            //mozilla thunderbird (english)
-            
+        public IEnumerable<TestCaseData> Should_ReturnBodyFromOriginalMessage_WnehCalledGetBody_TestCaseSource()
+        {       
              yield return new TestCaseData(
-                "-------- Original Message --------\nSubject: 	AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nDate: 	Thu, 09 Aug 2012 14:30:00 +0400\nFrom: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nReply-To: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nTo: 	1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCC: 	<studiobinary@gmail.com>\n\n\nasdfdgfdvcdx vds f",
-                new List<MailAddress>
-                    {
-                        new MailAddress("1van1111@i.ua"),
-                        new MailAddress("1van1111@mail.ru"),
-                        new MailAddress("studiobinary@gmail.com")
-                    });
+                "-------- Original Message --------\r\nSubject: \tAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\r\nDate: 	\tThu, 09 Aug 2012 14:30:00 +0400\r\nFrom: 	\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nReply-To: 	\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nTo: 	\t1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\r\nCC: 	\t<studiobinary@gmail.com>\r\n\r\noriginal body",
+               "\r\noriginal body");
             }
 
         [Test, TestCaseSource("Should_ReturnRightSubject_WhenCalledGetSubject_TestCaseSource")]
