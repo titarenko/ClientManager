@@ -7,7 +7,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     public class MailMessageParserThunderbird : IMailMessageParser
     {
         const string emailMatch = @"\b([A-Z0-9._%-]+)@([A-Z0-9.-]+\.[A-Z]{2,6})\b";
-        const string tableMatch = @"\t.*\r\n";
+        const string tableMatch = @"\w:\s*\t.*\r\n";
 
         public string GetSubject(string subject)
         {

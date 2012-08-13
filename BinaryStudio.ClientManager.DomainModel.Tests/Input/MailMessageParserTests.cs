@@ -72,7 +72,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         public IEnumerable<TestCaseData> Should_ReturnBodyFromOriginalMessage_WnehCalledGetBody_TestCaseSource()
         {       
              yield return new TestCaseData(
-                "-------- Original Message --------\r\nSubject: \tAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\r\nDate: 	\tThu, 09 Aug 2012 14:30:00 +0400\r\nFrom: 	\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nReply-To: 	\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nTo: 	\t1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\r\nCC: 	\t<studiobinary@gmail.com>\r\n\r\noriginal body",
+                "-------- Original Message --------\r\nSubject:\tAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\r\nDate:\tThu, 09 Aug 2012 14:30:00 +0400\r\nFrom:\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nReply-To:\tIvan Zaporozhchenko <1van1111@mail.ru>\r\nTo:\t1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\r\nCC:\t<studiobinary@gmail.com>\r\n\r\noriginal body",
                "\r\noriginal body");
             }
 
