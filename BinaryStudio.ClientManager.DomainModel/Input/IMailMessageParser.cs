@@ -7,7 +7,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
     {
         string GetSubject(string subject);
         ICollection<MailAddress> GetReceivers(MailMessage mailMessage);
-        MailAddress GetSenderFromForwardedMail(MailMessage mailMessage);
-        bool IsForwardedMail(MailMessage mailMessage);
+        MailAddress GetSender(MailMessage mailMessage);
+        bool IsForwarded(MailMessage mailMessage);
     }
 }

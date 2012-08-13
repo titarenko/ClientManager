@@ -10,8 +10,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
     [TestFixture]
     class MailMessageParserTests
     {
-        [Test, TestCaseSource("Should_ReturnMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource")]
-        public void Should_ReturnMailAddressFromBody_WnehCalledGetSenderFromForwardedMail(string body, string mailAddress)
+        [Test, TestCaseSource("Should_ReturnSenderMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource")]
+        public void Should_ReturnSenderMailAddressFromBody_WnehCalledGetSenderFromForwardedMail(string body, string mailAddress)
         {
             //arrange
             var mailMessage = new MailMessage
@@ -21,19 +21,19 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             var mailMessageParser = new MailMessageParserThunderbird();
 
             //act
-            var result = mailMessageParser.GetSenderFromForwardedMail(mailMessage);
+            var result = mailMessageParser.GetSender(mailMessage);
 
             //assert
             result.Address.Should().Be(mailAddress);
         }
 
-        public IEnumerable<TestCaseData> Should_ReturnMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource()
+        public IEnumerable<TestCaseData> Should_ReturnSenderMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource()
         {
             yield return  new TestCaseData("olololo From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] Sent: Thursday, August 09, 2012 1:30 PM To: 1van1111@i.ua; Ivan Zaporozhchenko Cc: studiobinary@gmail.com Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!! asdfdgfdvcdx vds f","1van1111@mail.ru");
         }
 
-        [Test, TestCaseSource("Should_ReturnMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource")]
-        public void Should_ReturnMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail(string body, List<MailAddress> mailAddress)
+        [Test, TestCaseSource("Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource")]
+        public void Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail(string body, List<MailAddress> mailAddress)
         {
             //arrange
             var mailMessage = new MailMessage
@@ -50,14 +50,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             result.Count.Should().Be(mailAddress.Count);
         }
 
-        public IEnumerable<TestCaseData> Should_ReturnMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource()
+        public IEnumerable<TestCaseData> Should_ReturnReceiversMailAddressFromBody_WnehCalledGetReceiversFromForwardedMail_TestCaseSource()
         {  
             //Outlook 2010
             yield return new TestCaseData(
                 "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Thursday, August 09, 2012 1:30 PM \nTo: 1van1111@i.ua; Ivan Zaporozhchenko \n Cc: studiobinary@gmail.com \n Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\n \n asdfdgfdvcdx vds f",
                 new List<MailAddress>
                     {
-                        new MailAddress("1van1111@i.ua")
+                        new MailAddress("1van1111@i.ua"),
+                        new MailAddress("studiobinary@gmail.com")
                     });
             yield return new TestCaseData(
                 "From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] \n Sent: Friday, August 10, 2012 12:31 PM \nTo: 1van1111@mail.ru; 1van1111@i.ua; clientmanagertest@yandex.ru \n Subject: Hi \n \n HIIIIIIII!!",
@@ -69,19 +70,22 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                     });
             //gmail web ui
             yield return new TestCaseData(
-                "---------- Forwarded message ----------\nFrom: Ivan Zaporozhchenko <1van1111@mail.ru>\nDate: 2012/8/9\nSubject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nTo: 1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCc: \"studiobinary@gmail.com\" <studiobinary@gmail.com>\n\n\n asdfdgfdvcdx vds f",
+                "---------- Forwarded message ----------\nFrom: Ivan Zaporozhchenko <1van1111@mail.ru>\nDate: 2012/8/9\nSubject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nTo: 1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCc: <studiobinary@gmail.com>\n\n\n asdfdgfdvcdx vds f",
                 new List<MailAddress>
                     {
                         new MailAddress("1van1111@i.ua"),
                         new MailAddress("1van1111@mail.ru"),
+                        new MailAddress("studiobinary@gmail.com")
                     });
             //mozilla thunderbird (english)
-            yield return new TestCaseData(
-                "-------- Original Message --------\nSubject: 	AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nDate: 	Thu, 09 Aug 2012 14:30:00 +0400\nFrom: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nReply-To: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nTo: 	1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCC: 	studiobinary@gmail.com <studiobinary@gmail.com>\n\n\nasdfdgfdvcdx vds f",
+            
+             yield return new TestCaseData(
+                "-------- Original Message --------\nSubject: 	AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!\nDate: 	Thu, 09 Aug 2012 14:30:00 +0400\nFrom: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nReply-To: 	Ivan Zaporozhchenko <1van1111@mail.ru>\nTo: 	1van1111@i.ua, Ivan Zaporozhchenko <1van1111@mail.ru>\nCC: 	<studiobinary@gmail.com>\n\n\nasdfdgfdvcdx vds f",
                 new List<MailAddress>
                     {
                         new MailAddress("1van1111@i.ua"),
                         new MailAddress("1van1111@mail.ru"),
+                        new MailAddress("studiobinary@gmail.com")
                     });
             }
 

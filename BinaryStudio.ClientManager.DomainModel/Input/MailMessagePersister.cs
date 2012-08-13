@@ -78,11 +78,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             var parser = mailMessageParserFactory.GetMailMessageParser(mailMessage.UserAgent);
 
             // If mail message is forwarded then Receiver will be person who forward mail and Sender taken from body
-            if (parser.IsForwardedMail(mailMessage))
+            if (parser.IsForwarded(mailMessage))
             {
                 mailMessage.Subject = parser.GetSubject(mailMessage.Subject);
-                mailMessage.Receivers = parser.GetReceivers(mailMessage);
-                mailMessage.Sender = parser.GetSenderFromForwardedMail(mailMessage);
+                mailMessage.Receivers = new List<MailAddress>{mailMessage.Sender};
+                mailMessage.Sender = parser.GetSender(mailMessage);
             }
 
             //find a Sender in Repository
