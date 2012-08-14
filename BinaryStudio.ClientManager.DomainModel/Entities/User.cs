@@ -1,4 +1,5 @@
-﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+﻿using System.Collections.Generic;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
@@ -11,5 +12,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         public string FacebookCode { get; set; }
 
         public Person RelatedUser { get; set; }
+
+        public IList<Team> Teams { get; set; }
     }
 }

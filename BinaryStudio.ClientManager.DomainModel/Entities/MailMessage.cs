@@ -8,7 +8,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Represents e-mail message of domain entity.
     /// </summary>
-    public class MailMessage : IIdentifiable
+    public class MailMessage : IOwned
     {
         public Expression<Func<MailMessage,bool>> SameMessagePredicate;
 
@@ -16,6 +16,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         {
             SameMessagePredicate = (x => x.Body == Body && x.Sender.Email == Sender.Email && x.Subject == Subject);
         }
+
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Owner of the mail message
+        /// </summary>
+        public Team Owner { get; set; }
 
         /// <summary>
         /// Date when message was received.
@@ -42,17 +52,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string Body { get; set; }
 
-        /// <summary>
-        /// Unique identifier.
-        /// </summary>
-        public int Id { get; set; }
-
-
         public bool Equals(MailMessage other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other.Date.Equals(Date) && Equals(other.Sender, Sender) && Equals(other.Receivers, Receivers) && Equals(other.Subject, Subject) && Equals(other.Body, Body) && other.Id == Id;
+            return other.Date.Equals(Date) && Equals(other.Sender, Sender)
+                && Equals(other.Receivers, Receivers)
+                && Equals(other.Subject, Subject)
+                && Equals(other.Body, Body)
+                && other.Id == Id;
         }
 
         public override bool Equals(object obj)

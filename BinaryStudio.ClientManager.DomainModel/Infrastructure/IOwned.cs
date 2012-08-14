@@ -1,9 +1,11 @@
-﻿namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
+﻿using BinaryStudio.ClientManager.DomainModel.Entities;
+
+namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
     public interface IOwned : IIdentifiable
     {
-        new int Id { get; set; }
+        int Id { get; set; }
 
-        int OwnerId { get; set; }
-    }   
+        Team Owner { get; set; }
+    }
 }
