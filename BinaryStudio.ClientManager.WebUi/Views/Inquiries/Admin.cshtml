@@ -21,7 +21,9 @@
             </div>
         </div>
         <div class="tab-pane" id="teams-tab">
-            <h1>teams will be situated here</h1>
+            @{
+                Html.RenderAction("Index", "Teams");
+            }
         </div>
     </div>
 </div>

@@ -82,6 +82,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InquiriesController.cs" />
     <Compile Include="Controllers\ModelIsNotValidException.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -220,6 +221,7 @@
     <Content Include="Views\Shared\_Alert.cshtml" />
     <Content Include="Views\Auth\LogOn.cshtml" />
     <Content Include="Views\Inquiries\Month_Alter.cshtml" />
+    <Content Include="Views\Teams\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
