@@ -173,6 +173,7 @@
     <Content Include="Scripts\jquery-ui-1.8.11.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.js" />
+    <Content Include="Scripts\jquery-ui-1.8.22.custom.min.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery.ui.core.js" />
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />

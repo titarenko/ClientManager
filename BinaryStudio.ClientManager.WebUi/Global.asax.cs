@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Principal;
 using System.Web;
@@ -79,7 +80,7 @@ namespace BinaryStudio.ClientManager.WebUi
             }
 
             log4net.Config.XmlConfigurator.Configure();
-            LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
+            //LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
         }
 
         private void SetDependencyResolver()
@@ -100,6 +101,8 @@ namespace BinaryStudio.ClientManager.WebUi
             builder.RegisterType<MailMessageParserFactory>().As<IMailMessageParserFactory>();
 
             builder.RegisterType<AppContext>().As<IAppContext>();
+
+            
 
             builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
 

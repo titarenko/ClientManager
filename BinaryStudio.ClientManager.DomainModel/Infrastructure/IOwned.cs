@@ -5,5 +5,5 @@
         new int Id { get; set; }
 
         int OwnerId { get; set; }
-    }
+    }   
 }

@@ -1,6 +1,6 @@
 ﻿@using Microsoft.Web.Mvc
 
-<li class="inquiry" data-bind="visible: Visible">
+<li class="inquiry" data-bind="visible: Visible, attr: {id: Id}">
     <a data-bind="attr: { href: DetailsUri}">
         <div class="row-fluid">
             <div class="span4">
@@ -58,4 +58,3 @@
     </div>
 </li>
 
-@Html.Script("CommonViewsScript.js")
