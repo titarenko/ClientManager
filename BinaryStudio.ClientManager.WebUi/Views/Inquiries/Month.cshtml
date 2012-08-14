@@ -4,12 +4,12 @@
     ViewBag.Title = String.Format("This Month - {0}", Model.Name);
 }
 
-<div id="month" class="container" data-bind="foreach: Weeks">
+<div id="month" class="container" data-bind="foreach: Weeks, attr: {dayCount: DayCount}">
     <div class="week row" data-bind="foreach: Days">
         <div class="day">   
            <title data-bind="text: DateStringForMonth"></title>
-            <ul data-bind="foreach: Inquiries">
-                <li data-bind="visible: Visible,attr: {'class': 'inquiry day-' + day}, css:{'hidden-inquiry': isHidden,'hide': isHidden}">
+            <ul class="inquiry-list" data-bind="foreach: Inquiries, attr: {id: Id, data: DateString}">
+                <li data-bind="visible: Visible,attr: {'class': 'inquiry day-' + day, id: Id}, css:{'hidden-inquiry': isHidden,'hide': isHidden}">
                     <a data-bind="text: Name, attr:{href: DetailsUri}"></a>
                 </li>
             </ul>
@@ -37,3 +37,52 @@
 </script>
 
 @Html.Script("MonthViewFiltering.js")
+
+<script type="text/javascript">
+    $(function () {
+
+        var dragMove = function (dayFromId, dayToId, inquiryId) {
+            var date = $('#' + dayToId).attr('data');
+
+            var onSuccess = function () {
+                ShowAlert("success");
+            };
+
+            var onError = function () {
+                ShowAlert("Error while AJAX request");
+            };
+
+            if (dayFromId != dayToId) {
+                $.ajax({
+                    url: "/Inquiries/MoveTo",
+                    type: "POST",
+                    data: { inquiryId: inquiryId, date: date }
+                }).success(onSuccess).error(onError);
+            }
+        };
+
+
+
+        var dayFromId, dayToId, inquiryId;
+
+        var selector = "";
+        var dayCount = $('#month').attr('dayCount');
+        for (var i = 1; i < dayCount - 1; i++) {
+            selector += '#day' + i + ', ';
+        }
+
+        selector += '#day' + dayCount;
+
+        $(selector).sortable({
+            connectWith: ".inquiry-list",
+            cursor: 'move',
+            placeHolder: "highlight", //TODO highlight in a place holder. Change class in shared.less
+            receive: function (event, ui) {
+                dayToId = $(this).closest(".inquiry-list").attr("id");
+                dayFromId = $(ui.sender).attr("id");
+                inquiryId = $(ui.item).attr("id");
+                dragMove(dayFromId, dayToId, inquiryId);
+            }
+        }).disableSelection();
+    });
+</script>

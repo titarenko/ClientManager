@@ -1,31 +1,36 @@
 ﻿$(function () {
     window.viewModel.Filter = ko.observable();
 
-    window.viewModel.Filter.subscribe(function(newValue) {
+    window.viewModel.Filter.subscribe(function (newValue) {
         for (var weekIndex in this.Weeks) {
             var week = window.viewModel.Weeks[weekIndex];
             for (var dayIndex in week.Days) {
                 var day = week.Days[dayIndex];
                 var buttonSelector = '#button-' + day.DateString;
                 if ($(buttonSelector).val() == 'Less') {
-                    toggleList(day,0);
+                    toggleList(day, 0);
                 }
             }
         }
     }, window.viewModel);
-        
+
+    var dayCount = 0;
+
     for (var weekIndex in window.viewModel.Weeks) {
         var week = window.viewModel.Weeks[weekIndex];
         for (var dayIndex in week.Days) {
             var day = week.Days[dayIndex];
-                               
+            var dayNum = weekIndex * 7 +'+' +dayIndex +'+'+ 1;
+            day.Id = 'day' + eval('('+dayNum+')');
+            dayCount = dayNum;
             for (var inquiryIndex in day.Inquiries) {
                 var inquiry = day.Inquiries[inquiryIndex];
-                
+
                 inquiry.day = new Date(day.DateString).getDate();
-                                                                                
-                inquiry.Visible = ko.computed(function() {
-                    if (!this.Filter() || this.Filter().length == 0 ) {
+
+
+                inquiry.Visible = ko.computed(function () {
+                    if (!this.Filter() || this.Filter().length == 0) {
                         return true;
                     }
                     var localInquiry = this.Inquiry;
@@ -41,18 +46,18 @@
                     Inquiry: inquiry,
                     Day: day
                 });
-                    
-                inquiry.isHidden = ko.computed(function() {
+
+                inquiry.isHidden = ko.computed(function () {
                     var inquiryCurrentVisibleIndex = -1;
                     for (var inquiryIndex in this.Day.Inquiries) {
                         var inquiry = this.Day.Inquiries[inquiryIndex];
                         if (inquiry.Visible()) {
                             inquiryCurrentVisibleIndex++;
-                            if (this.Index==inquiryIndex)
+                            if (this.Index == inquiryIndex)
                                 break;
                         }
                     }
-                    return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling-1 ? true : false;
+                    return inquiryCurrentVisibleIndex > this.ViewModel.MaxInquiriesWithoutToggling - 1 ? true : false;
                 },
                 {
                     ViewModel: window.viewModel,
@@ -60,9 +65,9 @@
                     Index: inquiryIndex
                 });
             }
-                    
-                
-            day.visibleInquiriesCount = ko.computed(function() {
+
+
+            day.visibleInquiriesCount = ko.computed(function () {
                 var inquiryCurrentVisibleIndex = -1;
                 for (var inquiryIndex in this.Inquiries) {
                     var inquiry = this.Inquiries[inquiryIndex];
@@ -71,17 +76,20 @@
                     }
                 }
                 return inquiryCurrentVisibleIndex;
-            },day);
-                
+            }, day);
 
 
-            day.isToggle = ko.computed(function() {
-                if (this.visibleInquiriesCount()>window.viewModel.MaxInquiriesWithoutToggling-1) {
+
+            day.isToggle = ko.computed(function () {
+                if (this.visibleInquiriesCount() > window.viewModel.MaxInquiriesWithoutToggling - 1) {
                     return true;
                 }
                 return false;
-            },day);
+            }, day);
         }
     }
+
+    window.viewModel.DayCount = parseInt(eval('(' + dayCount + ')'));
+
     ko.applyBindings(window.viewModel);
 });    
