@@ -7,7 +7,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Details about both inquiry
     /// </summary>
-    public class Inquiry : IIdentifiable
+    public class Inquiry : IOwned
     {
         public Inquiry()
         {
@@ -17,14 +17,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         }
 
         /// <summary>
-        /// list of tags appointed to inquiry
-        /// </summary>
-        public IList<Tag> Tags { get; set; }
-
-        /// <summary>
         /// Unique identifier.
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Owner of the inquiry
+        /// </summary>
+        public Team Owner { get; set; }
 
         /// <summary>
         /// Author of inquiry.
@@ -60,6 +60,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// List of comments.
         /// </summary>
         public IList<Comment> Comments { get; set; }
+
+        /// <summary>
+        /// list of tags appointed to inquiry
+        /// </summary>
+        public IList<Tag> Tags { get; set; }
 
         public bool Equals(Inquiry other)
         {
