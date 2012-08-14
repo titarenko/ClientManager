@@ -7,10 +7,23 @@
 
 @Html.Partial("_Alert")
 
-<div id="admin" class="container">
-    <ul data-bind="foreach : Inquiries">
-        @Html.Partial("_Inquiry")        
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#inquiries-tab" data-toggle="tab">Inquiries</a></li>
+        <li><a href="#teams-tab" data-toggle="tab">Teams</a></li>
     </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="inquiries-tab">
+            <div id="admin" class="container">
+                <ul data-bind="foreach : Inquiries">
+                    @Html.Partial("_Inquiry")        
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane" id="teams-tab">
+            <h1>teams will be situated here</h1>
+        </div>
+    </div>
 </div>
 
 @Html.Partial("_CommentEditor")
