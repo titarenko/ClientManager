@@ -6,7 +6,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// Represents team of users
     /// </summary>
-    class Team: IIdentifiable
+    public class Team : IIdentifiable
     {
         /// <summary>
         /// Unique identifier
@@ -21,6 +21,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// <summary>
         /// List of users who belong to the team
         /// </summary>
-        public List<User> Users { get; set; }
+        public IList<User> Users { get; set; }
     }
 }

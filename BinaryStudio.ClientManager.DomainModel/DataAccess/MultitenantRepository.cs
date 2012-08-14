@@ -67,7 +67,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             if (IsMultitenant<T>())
             {
                 var multitenant = (IOwned)instance;
-                multitenant.OwnerId = userService.CurrentUser.Id;
+                multitenant.Owner = (Team)userService.CurrentUser;
             }
 
             repository.Save(instance);
@@ -79,7 +79,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <param name="instance">The instance.</param>
         public void Delete<T>(T instance) where T : class, IIdentifiable
         {
-            if (IsMultitenant<T>() && ((IOwned)instance).OwnerId != userService.CurrentUser.Id)
+            if (IsMultitenant<T>() && ((IOwned)instance).Owner != userService.CurrentUser)
             {
                 throw new ApplicationException("An attempt to delete foreign multitenant data was made.");
             }
@@ -113,7 +113,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             return repository
                 .Query(eagerlyLoadedProperties)
-                .Where(x => x.OwnerId == userService.CurrentUser.Id);
+                .Where(x => x.Owner.Id == userService.CurrentUser.Id);
         }
     }
 }
