@@ -112,7 +112,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var res = repository
                 .Query(eagerlyLoadedProperties)
-                .Where(x => x.Owner.Id == this.appContext.User.CurrentTeam.Id);
+                .Where(x => x.Owner == this.appContext.User.CurrentTeam);
 
             return res;
         }

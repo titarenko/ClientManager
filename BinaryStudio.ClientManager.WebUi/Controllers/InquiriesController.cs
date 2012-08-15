@@ -180,6 +180,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                         .ToList()
                 };
 
+            // !!! TODO: This query won't work properly in case of multitenant repository because Tag entity doesn't implement IOwned interface
             var categories = repository
                 .Query<Tag>()
                 .Where(x => x.Inquiries.Any(z => z.ReferenceDate.HasValue))
