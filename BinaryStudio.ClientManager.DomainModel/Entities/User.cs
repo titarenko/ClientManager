@@ -5,6 +5,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
 {
     public class User : IIdentifiable
     {
+        public User()
+        {
+            Teams = new List<Team>();
+        }
+
         public int Id { get; set; }
 
         public string GoogleId { get; set; }
