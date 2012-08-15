@@ -68,7 +68,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             var start = today.GetStartOfBusinessWeek();
             var end = today.GetEndOfBusinessWeek().AddDays(1);
 
-            var thisWeekInquiries = repository.Query<Inquiry>(x => x.Client)
+            var thisWeekInquiries = repository.Query<Inquiry>(x => x.Client,x=>x.Owner)
                 .Where(x => x.ReferenceDate >= start && x.ReferenceDate < end)
                 .ToList();
 
