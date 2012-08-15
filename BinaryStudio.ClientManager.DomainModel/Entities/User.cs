@@ -7,9 +7,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     {
         public int Id { get; set; }
 
-        public string GoogleCode { get; set; }
+        public string GoogleId { get; set; }
 
-        public string FacebookCode { get; set; }
+        public string FacebookId { get; set; }
 
         public Person RelatedUser { get; set; }
 

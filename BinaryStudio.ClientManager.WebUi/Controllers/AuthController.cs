@@ -58,13 +58,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             
 
-            var user = repository.Query<User>().SingleOrDefault(x => x.GoogleCode == code);
+            var user = repository.Query<User>().SingleOrDefault(x => x.GoogleId == userInfo.Id);
 
             if (null == user)
             {
                 user = new User
                             {
-                                GoogleCode = code,
+                                GoogleId = userInfo.Id,
                                 RelatedUser = repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
                             };
                 if (null == user.RelatedUser)
