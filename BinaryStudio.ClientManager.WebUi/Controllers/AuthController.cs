@@ -57,17 +57,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 return RedirectToAction("LogOn");
             }
             
-
-            var user = repository.Query<User>().SingleOrDefault(x => x.GoogleCode == code);
+            var user = repository.Query<User>(x => x.RelatedPerson, x => x.Teams)
+                .SingleOrDefault(x => x.GoogleId == userInfo.Id);
 
             if (null == user)
             {
                 user = new User
                             {
-                                GoogleCode = code,
-                                RelatedUser = repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
+                                GoogleId = userInfo.Id,
+                                RelatedPerson = repository.Query<Person>().SingleOrDefault(x => x.Email == userInfo.Email)
                             };
-                if (null == user.RelatedUser)
+                if (null == user.RelatedPerson)
                 {
                     var person = new Person
                                      {
@@ -77,12 +77,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                          Role = PersonRole.Employee,
                                          CreationDate = DateTime.Now
                                      };
-                    user.RelatedUser = person;
+                    user.RelatedPerson = person;
                     repository.Save(person);
                 }
                 repository.Save(user);
             }
 
+            user.CurrentTeam = user.Teams.Any() ? user.Teams[0] : null;
             appContext.User = user;
 
             return RedirectToRoute("Default");

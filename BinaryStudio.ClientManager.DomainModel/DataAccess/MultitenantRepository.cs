@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.DataAccess
@@ -28,7 +27,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// Initializes a new instance of the <see cref="MultitenantRepository"/> class.
         /// </summary>
         /// <param name="repository">Base repository.</param>
-        /// <param name="userService">User service.</param>
+        /// <param name="appContext">Current AppContext.</param>
         public MultitenantRepository(IRepository repository, IAppContext appContext)
         {
             this.repository = repository;
@@ -111,9 +110,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// </summary>
         private IQueryable<T> QueryFilteredInternal<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable, IOwned
         {
-            return repository
+            var res = repository
                 .Query(eagerlyLoadedProperties)
                 .Where(x => x.Owner.Id == this.appContext.User.CurrentTeam.Id);
+
+            return res;
         }
     }
 }
