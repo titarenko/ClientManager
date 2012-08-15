@@ -11,8 +11,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
 
         public string FacebookCode { get; set; }
 
-        public Person RelatedUser { get; set; }
+        public Person RelatedPerson { get; set; }
 
         public IList<Team> Teams { get; set; }
+
+        public Team CurrentTeam { get; set; }
     }
 }

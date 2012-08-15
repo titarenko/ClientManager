@@ -56,7 +56,7 @@ namespace BinaryStudio.ClientManager.WebUi
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
-            HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedUser.Email), null);
+            HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedPerson.Email), null);
         }
 
 
