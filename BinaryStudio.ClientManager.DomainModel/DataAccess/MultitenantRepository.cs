@@ -23,7 +23,6 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         private readonly IDictionary<Type, MethodInfo> queryFiltered = new Dictionary<Type, MethodInfo>();
 
         private readonly object[] queryFilteredArguments = new object[1];
-        private readonly Team currentTeam;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRepository"/> class.
@@ -34,7 +33,6 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             this.repository = repository;
             this.appContext = appContext;
-            currentTeam = this.appContext.User.CurrentTeam;
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             if (IsMultitenant<T>())
             {
                 var multitenant = (IOwned)instance;
-                multitenant.Owner = currentTeam;
+                multitenant.Owner = this.appContext.User.CurrentTeam;
             }
 
             repository.Save(instance);
@@ -81,7 +79,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <param name="instance">The instance.</param>
         public void Delete<T>(T instance) where T : class, IIdentifiable
         {
-            if (IsMultitenant<T>() && ((IOwned)instance).Owner != currentTeam)
+            if (IsMultitenant<T>() && ((IOwned)instance).Owner != this.appContext.User.CurrentTeam)
             {
                 throw new ApplicationException("An attempt to delete foreign multitenant data was made.");
             }
@@ -115,7 +113,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             return repository
                 .Query(eagerlyLoadedProperties)
-                .Where(x => x.Owner.Id == currentTeam.Id);
+                .Where(x => x.Owner.Id == this.appContext.User.CurrentTeam.Id);
         }
     }
 }

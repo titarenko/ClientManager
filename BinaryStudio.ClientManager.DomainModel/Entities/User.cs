@@ -13,7 +13,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
 
         public Person RelatedPerson { get; set; }
 
-        public IList<Team> Teams { get; set; }
+        public List<Team> Teams { get; set; }
 
         public Team CurrentTeam { get; set; }
     }

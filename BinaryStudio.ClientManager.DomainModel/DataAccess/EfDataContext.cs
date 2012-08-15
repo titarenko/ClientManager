@@ -37,6 +37,13 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             modelBuilder.Entity<Inquiry>()
                 .HasMany(x => x.Tags)
                 .WithMany(y => y.Inquiries);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Teams)
+                .WithMany(x => x.Users);
+
+            modelBuilder.Entity<User>()
+                .Ignore(x => x.CurrentTeam);
         }
     }
 }

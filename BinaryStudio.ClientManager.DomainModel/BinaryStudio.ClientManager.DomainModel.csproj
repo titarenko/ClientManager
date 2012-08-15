@@ -88,7 +88,6 @@
     <Compile Include="Infrastructure\Session.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Timer.cs" />
-    <Compile Include="Infrastructure\UserService.cs" />
     <Compile Include="Input\AeEmailClient.cs" />
     <Compile Include="Input\IEmailClient.cs" />
     <Compile Include="Input\IInquiryFactory.cs" />
