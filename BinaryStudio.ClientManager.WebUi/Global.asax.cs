@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Principal;
 using System.Web;
@@ -23,12 +22,10 @@ namespace BinaryStudio.ClientManager.WebUi
 
         private static MailMessagePersister mailMessagePersister;
 
-
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
         }
-
 
         public void RegisterRoutes(RouteCollection routes)
         {
@@ -44,7 +41,6 @@ namespace BinaryStudio.ClientManager.WebUi
             );
         }
 
-
         protected void Application_Error(Object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError().GetBaseException();
@@ -52,13 +48,12 @@ namespace BinaryStudio.ClientManager.WebUi
             log.Error("App_Error", ex);
         }
 
-
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var currentUser = DependencyResolver.Current.GetService<IAppContext>().User;
-            HttpContext.Current.User = currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedPerson.Email), null);
+            HttpContext.Current.User =
+                currentUser == null ? null : new GenericPrincipal(new GenericIdentity(currentUser.RelatedPerson.Email), null);
         }
-
 
         protected void Application_Start()
         {
@@ -102,9 +97,9 @@ namespace BinaryStudio.ClientManager.WebUi
 
             builder.RegisterType<AppContext>().As<IAppContext>();
 
-            //builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
-            builder.Register(c => new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>())).
-                As<IRepository>().InstancePerHttpRequest();
+            builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
+            //builder.Register(c => new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>())).
+            //    As<IRepository>().InstancePerHttpRequest();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), 
                     Assembly.GetAssembly(typeof(Client)), 

@@ -16,7 +16,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             this.randomToken = randomToken;
         }
 
-
         public User User
         {
             get 
