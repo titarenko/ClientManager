@@ -15,7 +15,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
     {
         private readonly IRepository repository;
 
-        private readonly UserService userService;
+        private readonly IAppContext appContext;
 
         private readonly MethodInfo queryFilteredInternal = typeof(MultitenantRepository)
             .GetMethod("QueryFilteredInternal", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -23,16 +23,18 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         private readonly IDictionary<Type, MethodInfo> queryFiltered = new Dictionary<Type, MethodInfo>();
 
         private readonly object[] queryFilteredArguments = new object[1];
+        private readonly Team currentTeam;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitenantRepository"/> class.
         /// </summary>
         /// <param name="repository">Base repository.</param>
         /// <param name="userService">User service.</param>
-        public MultitenantRepository(IRepository repository, UserService userService)
+        public MultitenantRepository(IRepository repository, IAppContext appContext)
         {
             this.repository = repository;
-            this.userService = userService;
+            this.appContext = appContext;
+            currentTeam = this.appContext.User.CurrentTeam;
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             if (IsMultitenant<T>())
             {
                 var multitenant = (IOwned)instance;
-                multitenant.Owner = (Team)userService.CurrentUser;
+                multitenant.Owner = currentTeam;
             }
 
             repository.Save(instance);
@@ -79,7 +81,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <param name="instance">The instance.</param>
         public void Delete<T>(T instance) where T : class, IIdentifiable
         {
-            if (IsMultitenant<T>() && ((IOwned)instance).Owner != userService.CurrentUser)
+            if (IsMultitenant<T>() && ((IOwned)instance).Owner != currentTeam)
             {
                 throw new ApplicationException("An attempt to delete foreign multitenant data was made.");
             }
@@ -113,7 +115,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             return repository
                 .Query(eagerlyLoadedProperties)
-                .Where(x => x.Owner.Id == userService.CurrentUser.Id);
+                .Where(x => x.Owner.Id == currentTeam.Id);
         }
     }
 }
