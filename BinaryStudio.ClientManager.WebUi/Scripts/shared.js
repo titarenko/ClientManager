@@ -19,6 +19,10 @@ Date.prototype.addDays = function (days) {
     return this;
 };
 
+function div(op1, op2) {
+    return (op1 / op2 - op1 % op2 / op2);
+}
+
 //
 //
 /// If string is more then maximum length then it will be cutten for maximum length and last 3 symbols will be changed for "..."

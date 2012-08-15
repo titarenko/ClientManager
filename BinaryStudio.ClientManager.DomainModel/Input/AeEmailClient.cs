@@ -66,7 +66,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             var userAgentMatch = @"\r\nUser-Agent:.*\r\n";
             var userAgentRegex = new Regex(userAgentMatch, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             var matchesUserAgent = userAgentRegex.Matches(raw);
-            return matchesUserAgent[0].Value;
+            if (matchesUserAgent.Count>0)
+            {
+                return matchesUserAgent[0].Value;
+            }
+            return "Unknown User Agent";
         }
 
         public IEnumerable<MailMessage> GetUnreadMessages() //renew count of unread messages
