@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
@@ -20,6 +22,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public void CreateTeam(string name)
+        {
+            if (repository.Query<Team>().Any(x => x.Name == name))
+                throw new ModelIsNotValidException();
+
+            var team = new Team { Name = name };
+            team.Users.Add(appContext.User);
+            repository.Save(team);
+
+            appContext.User.Teams.Add(team);
+            appContext.User.CurrentTeam = team;
         }
     }
 }
