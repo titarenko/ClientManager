@@ -37,5 +37,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             appContext.User.Teams.Add(team);
             appContext.User.CurrentTeam = team;
         }
+
+        [HttpPost]
+        public void AddUser(int userId, int teamId)
+        {
+            var user = repository.Get<User>(userId);
+            var team = repository.Get<Team>(teamId);
+
+            if (user == null || team == null)
+                throw new ModelIsNotValidException();
+
+            team.Users.Add(user);
+            repository.Save(team);
+
+            appContext.User.Teams.First(x => x.Id == teamId).Users.Add(user);
+        }
     }
 }
