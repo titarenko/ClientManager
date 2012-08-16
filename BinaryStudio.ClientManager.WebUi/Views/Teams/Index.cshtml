@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Team>
+﻿@model BinaryStudio.ClientManager.DomainModel.Entities.User
 
 @(Layout = null)
 
@@ -7,7 +7,7 @@
         <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
         @if (Model != null)
         {
-            foreach (var team in Model)
+            foreach (var team in Model.Teams)
             {
                 <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
             }
@@ -15,13 +15,13 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="main-tab">
-            <span>Team Name </span>
-            <input id="new-team-name"> </input>
-            <button onclick="CreateTeam()">Create Team</button>
+            <span>Team Name: </span>
+            <input id="new-team-name" />
+            <input type="button" class="btn" value="Create" onclick="CreateTeam()" />
         </div>
         @if (Model != null)
         {
-            foreach (var team in Model)
+            foreach (var team in Model.Teams)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
                     <ul>
@@ -29,7 +29,7 @@
                         {
                             <li>
                                 <span>@user.RelatedPerson.FullName</span>
-                                <button onclick="RemoveUser(@user.Id, @team.Id)">Kick</button>
+                            <input type="button" class="btn" value="@(user.Id == Model.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id)" />
                             </li>
                         }
                     </ul>

@@ -19,12 +19,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.appContext = appContext;
         }
 
-
         public ViewResult Index()
         {
-            return View(GetCurrentUser.Teams);
+            return View(CurrentUser);
         }
-
 
         [HttpPost]
         public void CreateTeam(string name)
@@ -33,8 +31,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             var team = new Team { Name = name };
-            team.Users.Add(GetCurrentUser);
-            repository.Save(team);
+            var user = CurrentUser;
+
+            user.Teams.Add(team);
+            user.CurrentTeam = user.Teams.Last();
+            repository.Save(user);
         }
 
         [HttpPost]
@@ -48,8 +49,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             team.Users.Add(user);
             repository.Save(team);
-
-            appContext.User.Teams.First(x => x.Id == teamId).Users.Add(user);
         }
 
         [HttpPost]
@@ -62,24 +61,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             team.Users.Remove(user);
-            user.Teams.Remove(team);
-            repository.Save(team);
-            repository.Save(user);
 
-            //TODO: ask what should we do with inquiries?
+            //TODO: ask what should we do with associated inquiries?
             if (!team.Users.Any())
                 repository.Delete(team);
-
-            //if (userId == appContext.User.Id)
-            //    appContext.User.Teams.Remove(team);
-            //else
-            //    appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
+            else
+                repository.Save(team);
         }
 
-
-        private User GetCurrentUser
+        private User CurrentUser
         {
-            get { return repository.Get<User>(appContext.User.Id, x => x.Teams); }
+            get
+            {
+                return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
+            }
         }
     }
 }

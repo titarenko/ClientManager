@@ -83,7 +83,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 repository.Save(user);
             }
 
-            user.CurrentTeam = user.Teams.Any() ? user.Teams[0] : null;
             appContext.User = user;
 
             return RedirectToRoute("Default");
