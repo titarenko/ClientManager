@@ -52,5 +52,27 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             appContext.User.Teams.First(x => x.Id == teamId).Users.Add(user);
         }
+
+        [HttpPost]
+        public void RemoveUser(int userId, int teamId)
+        {
+            var user = repository.Get<User>(userId);
+            var team = repository.Get<Team>(teamId);
+
+            if (user == null || team == null)
+                throw new ModelIsNotValidException();
+
+            team.Users.Remove(user);
+            repository.Save(team);
+
+            // What should we do with empty team's inquiries?
+            //if (!team.Users.Any())
+            //    repository.Delete(team);
+
+            if (userId == appContext.User.Id)
+                appContext.User.Teams.Remove(team);
+            else
+                appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
+        }
     }
 }
