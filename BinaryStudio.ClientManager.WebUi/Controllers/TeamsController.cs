@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
@@ -21,7 +22,18 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Index()
         {
-            return View(CurrentUser);
+            return View(new TeamsViewModel
+            {
+                User = CurrentUser,
+                Employees = repository
+                    .Query<Person>()
+                    .Where(x => x.Role == PersonRole.Employee)
+                    .Select(x => new EmployeeViewModel
+                    {
+                        label = x.FullName,
+                        value = x.Id
+                    })
+            });
         }
 
         [HttpPost]
