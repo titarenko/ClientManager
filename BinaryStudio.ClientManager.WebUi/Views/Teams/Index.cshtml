@@ -1,4 +1,4 @@
-﻿@model BinaryStudio.ClientManager.DomainModel.Entities.User
+﻿@model TeamsViewModel
 
 @(Layout = null)
 
@@ -7,7 +7,7 @@
         <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
         @if (Model != null)
         {
-            foreach (var team in Model.Teams)
+            foreach (var team in Model.User.Teams)
             {
                 <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
             }
@@ -21,7 +21,7 @@
         </div>
         @if (Model != null)
         {
-            foreach (var team in Model.Teams)
+            foreach (var team in Model.User.Teams)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
                     <ul>

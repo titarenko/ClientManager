@@ -93,6 +93,7 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AllInquiriesViewModel.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\InquiryPartialViewModel.cs" />
     <Compile Include="Models\TaggedInquiryViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Models\MonthItemViewModel.cs" />
     <Compile Include="Models\MonthViewModel.cs" />
     <Compile Include="Models\TagViewModel.cs" />
+    <Compile Include="Models\TeamsViewModel.cs" />
     <Compile Include="Models\WeekItemViewModel.cs" />
     <Compile Include="Models\WeekViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
