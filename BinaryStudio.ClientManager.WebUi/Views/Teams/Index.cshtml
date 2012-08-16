@@ -9,19 +9,21 @@
         {
             foreach (var team in Model)
             {
-                <li><a href="#@(team.Name)-tab">@(team.Name)</a></li>
+                <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)</a></li>
             }
         }
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="#main-tab">
-            <h1>Main tab</h1>
+        <div class="tab-pane active" id="main-tab">
+            <span>Team Name </span>
+            <input id="new-team-name"> </input>
+            <button onclick="CreateTeam()">Create Team</button>
         </div>
         @if (Model != null)
         {
             foreach (var team in Model)
             {
-                <div class="tab-pane" id="#@(team.Name)-tab">
+                <div class="tab-pane" id="@(team.Name)-tab">
                     <ul>
                         @foreach(var user in team.Users)
                         {
@@ -35,3 +37,24 @@
         }
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function CreateTeam() {
+        var teamName = $('#new-team-name').val();
+        
+        var onSuccess = function () {
+            ShowAlert("Success");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");  
+        };
+
+        $.ajax({
+            url: "/Teams/CreateTeam",
+            type: "POST",
+            data: { name: teamName }
+        }).success(onSuccess).error(onError);
+    }
+</script>

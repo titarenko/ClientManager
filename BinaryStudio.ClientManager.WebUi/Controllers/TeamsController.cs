@@ -21,7 +21,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Index()
         {
-            return View();
+            return View(appContext.User.Teams);
         }
 
         [HttpPost]
@@ -32,7 +32,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             var team = new Team { Name = name };
             team.Users.Add(appContext.User);
-            repository.Save(team);
 
             appContext.User.Teams.Add(team);
             appContext.User.CurrentTeam = team;

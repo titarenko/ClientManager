@@ -8,6 +8,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// </summary>
     public class Team : IIdentifiable
     {
+        public Team()
+        {
+            Users=new List<User>();
+        }
+
         /// <summary>
         /// Unique identifier
         /// </summary>
