@@ -22,6 +22,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         public DbSet<Tag> Tags { get; set; }
 
+        public DbSet<Team> Teams { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 #if DEBUG
@@ -41,9 +43,6 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Teams)
                 .WithMany(x => x.Users);
-
-            modelBuilder.Entity<User>()
-                .Ignore(x => x.CurrentTeam);
         }
     }
 }

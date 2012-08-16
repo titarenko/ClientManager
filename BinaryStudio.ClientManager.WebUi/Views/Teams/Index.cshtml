@@ -9,7 +9,7 @@
         {
             foreach (var team in Model)
             {
-                <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)</a></li>
+                <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
             }
         }
     </ul>
@@ -28,7 +28,8 @@
                         @foreach(var user in team.Users)
                         {
                             <li>
-                                @user.RelatedPerson.FullName
+                                <span>@user.RelatedPerson.FullName</span>
+                                <button onclick="RemoveUser(@user.Id, @team.Id)">Kick</button>
                             </li>
                         }
                     </ul>
@@ -55,6 +56,22 @@
             url: "/Teams/CreateTeam",
             type: "POST",
             data: { name: teamName }
+        }).success(onSuccess).error(onError);
+    }
+
+    function RemoveUser(userId, teamId) {
+       var onSuccess = function () {
+            ShowAlert("Success");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "/Teams/RemoveUser",
+            type: "POST",
+            data: { userId: userId, teamId: teamId }
         }).success(onSuccess).error(onError);
     }
 </script>

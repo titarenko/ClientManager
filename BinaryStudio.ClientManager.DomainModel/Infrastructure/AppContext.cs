@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Infrastructure

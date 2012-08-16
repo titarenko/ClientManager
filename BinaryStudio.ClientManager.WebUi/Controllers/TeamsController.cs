@@ -19,10 +19,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.appContext = appContext;
         }
 
+
         public ViewResult Index()
         {
-            return View(appContext.User.Teams);
+            return View(GetCurrentUser.Teams);
         }
+
 
         [HttpPost]
         public void CreateTeam(string name)
@@ -31,10 +33,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             var team = new Team { Name = name };
-            team.Users.Add(appContext.User);
-
-            appContext.User.Teams.Add(team);
-            appContext.User.CurrentTeam = team;
+            team.Users.Add(GetCurrentUser);
+            repository.Save(team);
         }
 
         [HttpPost]
@@ -62,16 +62,24 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             team.Users.Remove(user);
+            user.Teams.Remove(team);
             repository.Save(team);
+            repository.Save(user);
 
-            // What should we do with empty team's inquiries?
-            //if (!team.Users.Any())
-            //    repository.Delete(team);
+            //TODO: ask what should we do with inquiries?
+            if (!team.Users.Any())
+                repository.Delete(team);
 
-            if (userId == appContext.User.Id)
-                appContext.User.Teams.Remove(team);
-            else
-                appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
+            //if (userId == appContext.User.Id)
+            //    appContext.User.Teams.Remove(team);
+            //else
+            //    appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
+        }
+
+
+        private User GetCurrentUser
+        {
+            get { return repository.Get<User>(appContext.User.Id, x => x.Teams); }
         }
     }
 }
