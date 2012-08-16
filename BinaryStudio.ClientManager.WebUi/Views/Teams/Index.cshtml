@@ -1,3 +1,37 @@
-﻿@(Layout = null)
+﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Team>
 
-<h1>Teams will be here</h1>
+@(Layout = null)
+
+<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
+        @if (Model != null)
+        {
+            foreach (var team in Model)
+            {
+                <li><a href="#@(team.Name)-tab">@(team.Name)</a></li>
+            }
+        }
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="#main-tab">
+            <h1>Main tab</h1>
+        </div>
+        @if (Model != null)
+        {
+            foreach (var team in Model)
+            {
+                <div class="tab-pane" id="#@(team.Name)-tab">
+                    <ul>
+                        @foreach(var user in team.Users)
+                        {
+                            <li>
+                                @user.RelatedPerson.FullName
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+    </div>
+</div>
