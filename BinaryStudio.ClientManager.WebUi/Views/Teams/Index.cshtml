@@ -24,6 +24,7 @@
             foreach (var team in Model)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
+                    <button onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
                     <ul>
                         @foreach(var user in team.Users)
                         {
@@ -72,6 +73,22 @@
             url: "/Teams/RemoveUser",
             type: "POST",
             data: { userId: userId, teamId: teamId }
+        }).success(onSuccess).error(onError);
+    }
+
+    function MakeTeamCurrent(teamId) {
+        var onSuccess = function () {
+            ShowAlert("Success");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");
+        };
+
+        $.ajax({
+            url: "/Teams/MakeTeamCurrent",
+            type: "POST",
+            data: {teamId: teamId }
         }).success(onSuccess).error(onError);
     }
 </script>

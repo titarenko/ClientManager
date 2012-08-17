@@ -76,6 +76,14 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             //    appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
         }
 
+        [HttpPost]
+        public void MakeTeamCurrent(int teamId)
+        {
+            var team = repository.Get<Team>(teamId);
+            var user = GetCurrentUser;
+            user.CurrentTeam = team;
+            repository.Save(user);
+        }
 
         private User GetCurrentUser
         {
