@@ -27,7 +27,7 @@
                     <div class="ui-widget">
                         <label for="employees">Employees: </label>
                         <input id="employees" />
-                        <input type="button" class="btn" value="Add" onclick="AddUser()" />
+                        <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id)" />
                     </div>
                     <ul>
                         @foreach(var user in team.Users)
@@ -50,7 +50,10 @@
         var employees = @Html.ToJson(Model.Employees);
 
         $("#employees").autocomplete({
-            source: employees
+            source: employees,
+            select: function (event, ui) {
+                $('#employees').data('Id', ui.item.Id);
+            }
         });
     });
 
@@ -85,6 +88,24 @@
             url: "/Teams/RemoveUser",
             type: "POST",
             data: { userId: userId, teamId: teamId }
+        }).success(onSuccess).error(onError);
+    }
+    
+    function AddUser(teamId) {
+        var personId = $('#employees').data('Id');
+        
+        var onSuccess = function () {
+            ShowAlert("User was succesfully added to the team");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");  
+        };
+
+        $.ajax({
+            url: '/Teams/AddUser',
+            type: 'POST',
+            data: { personId: personId, teamId: teamId }
         }).success(onSuccess).error(onError);
     }
 </script>

@@ -22,6 +22,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Index()
         {
+            var user = CurrentUser;
+            user.Teams = repository
+                .Query<Team>(x => x.Users)
+                .Where(x => x.Users.Any(y => y.Id == user.Id))
+                .ToList();
+
             return View(new TeamsViewModel
             {
                 User = CurrentUser,
@@ -52,9 +58,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         [HttpPost]
-        public void AddUser(int userId, int teamId)
+        public void AddUser(int personId, int teamId)
         {
-            var user = repository.Get<User>(userId);
+            var user = repository.Query<User>().FirstOrDefault(x => x.RelatedPerson.Id == personId);
             var team = repository.Get<Team>(teamId);
 
             if (user == null || team == null)
@@ -68,7 +74,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public void RemoveUser(int userId, int teamId)
         {
             var user = repository.Get<User>(userId);
-            var team = repository.Get<Team>(teamId);
+            var team = repository.Get<Team>(teamId, x => x.Users);
 
             if (user == null || team == null)
                 throw new ModelIsNotValidException();
