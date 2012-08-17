@@ -30,8 +30,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                     .Where(x => x.Role == PersonRole.Employee)
                     .Select(x => new EmployeeViewModel
                     {
-                        label = x.FullName,
-                        value = x.Id
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName
                     })
             });
         }

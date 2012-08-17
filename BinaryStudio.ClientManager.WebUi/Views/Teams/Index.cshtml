@@ -24,12 +24,17 @@
             foreach (var team in Model.User.Teams)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
+                    <div class="ui-widget">
+                        <label for="employees">Employees: </label>
+                        <input id="employees" />
+                        <input type="button" class="btn" value="Add" onclick="AddUser()" />
+                    </div>
                     <ul>
                         @foreach(var user in team.Users)
                         {
                             <li>
                                 <span>@user.RelatedPerson.FullName</span>
-                            <input type="button" class="btn" value="@(user.Id == Model.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id)" />
+                                <input type="button" class="btn" value="@(user.Id == Model.User.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id)" />
                             </li>
                         }
                     </ul>
@@ -41,6 +46,14 @@
 
 
 <script type="text/javascript">
+    $(function () {
+        var employees = @Html.ToJson(Model.Employees);
+
+        $("#employees").autocomplete({
+            source: employees
+        });
+    });
+
     function CreateTeam() {
         var teamName = $('#new-team-name').val();
         
@@ -60,7 +73,7 @@
     }
 
     function RemoveUser(userId, teamId) {
-       var onSuccess = function () {
+        var onSuccess = function () {
             ShowAlert("Success");
         };
 

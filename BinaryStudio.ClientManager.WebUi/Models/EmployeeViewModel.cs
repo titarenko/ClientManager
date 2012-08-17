@@ -1,9 +1,18 @@
-﻿namespace BinaryStudio.ClientManager.WebUi.Models
+﻿using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+
+namespace BinaryStudio.ClientManager.WebUi.Models
 {
     public class EmployeeViewModel
     {
-        public string label { get; set; }
+        public int Id { get; set; }
 
-        public int value { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string label
+        {
+            get { return "{0} {1}".Fill(FirstName, LastName); }
+        }
     }
 }
