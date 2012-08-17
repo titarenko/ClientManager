@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BinaryStudio.ClientManager.DomainModel.Entities.Team>
+﻿@model TeamsViewModel
 
 @(Layout = null)
 
@@ -7,7 +7,7 @@
         <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
         @if (Model != null)
         {
-            foreach (var team in Model)
+            foreach (var team in Model.User.Teams)
             {
                 <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
             }
@@ -15,22 +15,31 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="main-tab">
-            <span>Team Name </span>
-            <input id="new-team-name"> </input>
-            <button onclick="CreateTeam()">Create Team</button>
+            <span>Team Name: </span>
+            <input id="new-team-name" />
+            <input type="button" class="btn" value="Create" onclick="CreateTeam()" />
         </div>
         @if (Model != null)
         {
-            foreach (var team in Model)
+            foreach (var team in Model.User.Teams)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
                     <button onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
+
+
+
+
+                    <div class="ui-widget">
+                        <label for="employees">Employees: </label>
+                        <input id="employees" />
+                        <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id)" />
+                    </div>
                     <ul>
                         @foreach(var user in team.Users)
                         {
                             <li>
                                 <span>@user.RelatedPerson.FullName</span>
-                                <button onclick="RemoveUser(@user.Id, @team.Id)">Kick</button>
+                                <input type="button" class="btn" value="@(user.Id == Model.User.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id)" />
                             </li>
                         }
                     </ul>
@@ -42,6 +51,17 @@
 
 
 <script type="text/javascript">
+    $(function () {
+        var employees = @Html.ToJson(Model.Employees);
+
+        $("#employees").autocomplete({
+            source: employees,
+            select: function (event, ui) {
+                $('#employees').data('Id', ui.item.Id);
+            }
+        });
+    });
+
     function CreateTeam() {
         var teamName = $('#new-team-name').val();
         
@@ -61,7 +81,7 @@
     }
 
     function RemoveUser(userId, teamId) {
-       var onSuccess = function () {
+        var onSuccess = function () {
             ShowAlert("Success");
         };
 
@@ -73,6 +93,24 @@
             url: "/Teams/RemoveUser",
             type: "POST",
             data: { userId: userId, teamId: teamId }
+        }).success(onSuccess).error(onError);
+    }
+    
+    function AddUser(teamId) {
+        var personId = $('#employees').data('Id');
+        
+        var onSuccess = function () {
+            ShowAlert("User was succesfully added to the team");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");  
+        };
+
+        $.ajax({
+            url: '/Teams/AddUser',
+            type: 'POST',
+            data: { personId: personId, teamId: teamId }
         }).success(onSuccess).error(onError);
     }
 

@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
+using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
@@ -19,12 +20,28 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             this.appContext = appContext;
         }
 
-
         public ViewResult Index()
         {
-            return View(GetCurrentUser.Teams);
-        }
+            var user = GetCurrentUser;
+            user.Teams = repository
+                .Query<Team>(x => x.Users)
+                .Where(x => x.Users.Any(y => y.Id == user.Id))
+                .ToList();
 
+            return View(new TeamsViewModel
+            {
+                User = GetCurrentUser,
+                Employees = repository
+                    .Query<Person>()
+                    .Where(x => x.Role == PersonRole.Employee)
+                    .Select(x => new EmployeeViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName
+                    })
+            });
+        }
 
         [HttpPost]
         public void CreateTeam(string name)
@@ -33,14 +50,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             var team = new Team { Name = name };
-            team.Users.Add(GetCurrentUser);
-            repository.Save(team);
+            var user = GetCurrentUser;
+
+            user.Teams.Add(team);
+            user.CurrentTeam = user.Teams.Last();
+            repository.Save(user);
         }
 
         [HttpPost]
-        public void AddUser(int userId, int teamId)
+        public void AddUser(int personId, int teamId)
         {
-            var user = repository.Get<User>(userId);
+            var user = repository.Query<User>().FirstOrDefault(x => x.RelatedPerson.Id == personId);
             var team = repository.Get<Team>(teamId);
 
             if (user == null || team == null)
@@ -48,32 +68,24 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             team.Users.Add(user);
             repository.Save(team);
-
-            appContext.User.Teams.First(x => x.Id == teamId).Users.Add(user);
         }
 
         [HttpPost]
         public void RemoveUser(int userId, int teamId)
         {
             var user = repository.Get<User>(userId);
-            var team = repository.Get<Team>(teamId);
+            var team = repository.Get<Team>(teamId, x => x.Users);
 
             if (user == null || team == null)
                 throw new ModelIsNotValidException();
 
             team.Users.Remove(user);
-            user.Teams.Remove(team);
-            repository.Save(team);
-            repository.Save(user);
 
-            //TODO: ask what should we do with inquiries?
+            //TODO: ask what should we do with associated inquiries?
             if (!team.Users.Any())
                 repository.Delete(team);
-
-            //if (userId == appContext.User.Id)
-            //    appContext.User.Teams.Remove(team);
-            //else
-            //    appContext.User.Teams.First(x => x.Id == teamId).Users.Remove(user);
+            else
+                repository.Save(team);
         }
 
         [HttpPost]
@@ -87,7 +99,10 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         private User GetCurrentUser
         {
-            get { return repository.Get<User>(appContext.User.Id, x => x.Teams); }
+            get
+            {
+                return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
+            }
         }
     }
 }

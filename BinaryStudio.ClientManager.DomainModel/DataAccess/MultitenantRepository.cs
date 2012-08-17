@@ -110,12 +110,12 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// </summary>
         private IQueryable<T> QueryFilteredInternal<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable, IOwned
         {
-            var res = repository
+            return repository
                 .Query(eagerlyLoadedProperties)
                 .ToList()
-                .Where(x => x.SafeGet(z=>z.Owner.Id) == this.appContext.User.SafeGet(z=>z.CurrentTeam.Id));
-
-            return res.AsQueryable();
+                .Where(x => x.SafeGet(z => z.Owner.Id) ==
+                    this.appContext.User.SafeGet(z => z.CurrentTeam.Id))
+                .AsQueryable();
         }
     }
 }
