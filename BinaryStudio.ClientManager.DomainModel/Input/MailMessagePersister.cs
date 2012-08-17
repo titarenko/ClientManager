@@ -54,8 +54,13 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                      .Any(convertedMessage.SameMessagePredicate))
             {
                 var inquiry = inquiryFactory.CreateInquiry(convertedMessage);
-                if (inquiry!=null)
+                var receiver = inquiry.Source.Receivers.FirstOrDefault();
+                var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == receiver.Id);
+                if (ownerPerson != null)
+                {
+                    inquiry.Owner = ownerPerson.CurrentTeam;
                     repository.Save(inquiry);
+                }  
             }
         }
 

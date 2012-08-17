@@ -27,7 +27,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         public void Initializer()
         {
             parserFactory.GetMailMessageParser(Arg.Any<String>()).ReturnsForAnyArgs(new MailMessageParserThunderbird());
-            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(repository), parserFactory);
+            mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(), parserFactory);
      
         }
 

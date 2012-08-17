@@ -37,7 +37,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                     }
                 }.AsQueryable());
 
-            var inquiryFactory = new InquiryFactory(repository);
+            var inquiryFactory = new InquiryFactory();
 
             // act
             var inquiry = inquiryFactory.CreateInquiry(mailMessage);
