@@ -1,5 +1,3 @@
-using System.Linq;
-using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
@@ -15,13 +13,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         /// <param name="message">Source MailMessage for Inquiry</param>
         public Inquiry CreateInquiry(Entities.MailMessage message)
         {
-                return new Inquiry {
-                                        Client = message.Sender,
-                                        Description = message.Body,
-                                        Source = message,
-                                        Subject = message.Subject,
-                                        ReferenceDate = null
-                                    };
+            return new Inquiry
+                    {
+                        Client = message.Sender,
+                        Description = message.Body,
+                        Source = message,
+                        Subject = message.Subject,
+                        ReferenceDate = null,
+                    };
         }
+
+
     }
 }

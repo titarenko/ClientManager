@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
+using Autofac.Core;
 using Autofac.Integration.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
@@ -63,16 +64,18 @@ namespace BinaryStudio.ClientManager.WebUi
             RegisterRoutes(RouteTable.Routes);
 
             SetDependencyResolver();
+            DependencyResolver.Current.GetService<MailMessagePersister>();
 
-            if (null == mailMessagePersister)
-            {
-                //mailMessagePersister = DependencyResolver.Current.GetService<MailMessagePersister>();
-                //TODO delete
-                mailMessagePersister = new MailMessagePersister(new EfRepository(),
-                                                                new AeEmailClient(TestAppConfiguration.GetTestConfiguration()),
-                                                                new InquiryFactory(),
-                                                                new MailMessageParserFactory());
-            }
+            //if (null == mailMessagePersister)
+            //{
+            //    //mailMessagePersister = 
+                
+            //    //TODO delete
+                //mailMessagePersister = new MailMessagePersister(new EfRepository(), 
+                //                                                DependencyResolver.Current.GetService<IEmailClient>(),
+                //                                                DependencyResolver.Current.GetService<IInquiryFactory>(), 
+                //                                                DependencyResolver.Current.GetService<IMailMessageParserFactory>());
+            //}
 
             log4net.Config.XmlConfigurator.Configure();
             //LogManager.GetLogger(typeof(AppConfiguration)).Fatal("We are the champion");
@@ -91,14 +94,29 @@ namespace BinaryStudio.ClientManager.WebUi
                     Assembly.GetExecutingAssembly())
                 .AsImplementedInterfaces();
 
-            builder.RegisterType<InquiryFactory>().As<IInquiryFactory>();
+            builder.RegisterType<AppContext>().As<IAppContext>().SingleInstance();
+
+            //builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
+            builder.Register(c => new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>())).
+                As<IRepository>().SingleInstance();
+
+            builder.Register(c=>TestAppConfiguration.GetTestConfiguration()).As<IConfiguration>();
+
+            builder.RegisterType<AeEmailClient>().As<IEmailClient>().SingleInstance();
 
             builder.RegisterType<MailMessageParserFactory>().As<IMailMessageParserFactory>();
 
-            builder.RegisterType<AppContext>().As<IAppContext>();
+          ////  builder.RegisterType<MailMessagePersister>();
+            builder.Register(
+                c => 
+                 new MailMessagePersister(new EfRepository(), c.Resolve<IEmailClient>(),
+                                         c.Resolve<IInquiryFactory>(), c.Resolve<IMailMessageParserFactory>())).ExternallyOwned();
 
-            builder.Register(c => new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>())).
-                As<IRepository>().InstancePerHttpRequest();
+
+                //new MailMessagePersister(new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>()), c.Resolve<IEmailClient>(),
+                //                         c.Resolve<IInquiryFactory>(), c.Resolve<IMailMessageParserFactory>())).SingleInstance();
+
+ 
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), 
                     Assembly.GetAssembly(typeof(Client)), 
@@ -106,6 +124,8 @@ namespace BinaryStudio.ClientManager.WebUi
                 .AsImplementedInterfaces().AsSelf();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+
+  
         }
     }
 }

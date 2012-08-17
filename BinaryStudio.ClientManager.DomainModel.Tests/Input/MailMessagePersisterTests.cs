@@ -28,7 +28,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
         {
             parserFactory.GetMailMessageParser(Arg.Any<String>()).ReturnsForAnyArgs(new MailMessageParserThunderbird());
             mailMessagePersister = new MailMessagePersister(repository, aeEmailClient, new InquiryFactory(), parserFactory);
-            
+     
         }
 
         [Test]
@@ -226,14 +226,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 {
                     mailMessage
                 }.AsQueryable());
+            var employeePerson = new Person
+                                     {
+                                         Email = "employee@gmail.com",
+                                         FirstName = "employee",
+                                         Role = PersonRole.Employee
+                                     };
             repository.Query<Person>().ReturnsForAnyArgs(new List<Person>
                 {
-                    new Person
-                        {
-                            Email = "employee@gmail.com",
-                            FirstName = "employee",
-                            Role = PersonRole.Employee
-                        },
+                    employeePerson,
                     new Person
                         {
                             Email="client@gmail.com",
@@ -241,6 +242,18 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                             Role = PersonRole.Client
                         }
                 }.AsQueryable());
+
+            repository.Query<User>().ReturnsForAnyArgs(new List<User>
+                                                           {
+                                                               new User
+                                                                   {
+                                                                       RelatedPerson = employeePerson,
+                                                                       CurrentTeam = new Team
+                                                                                         {
+                                                                                             Name = "1"
+                                                                                         }
+                                                                   }
+                                                           }.AsQueryable());
             repository.Query<Inquiry>().ReturnsForAnyArgs(new List<Inquiry>().AsQueryable());
 
             //act
