@@ -54,7 +54,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                      .Any(convertedMessage.SameMessagePredicate))
             {
                 var inquiry = inquiryFactory.CreateInquiry(convertedMessage);
-                repository.Save(inquiry);
+                if (inquiry!=null)
+                    repository.Save(inquiry);
             }
         }
 
