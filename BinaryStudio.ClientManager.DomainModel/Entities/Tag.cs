@@ -6,7 +6,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
     /// <summary>
     /// adds tagging to inquiry
     /// </summary>
-    public class Tag : IIdentifiable
+    public class Tag : IIdentifiable, IOwned
     {
         public Tag()           
         {
@@ -27,5 +27,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// Inquiries with that tag
         /// </summary>
         public IList<Inquiry> Inquiries { get; set; }
+
+        /// <summary>
+        /// Owner of tag
+        /// </summary>
+        public Team Owner { get; set; }
     }
 }

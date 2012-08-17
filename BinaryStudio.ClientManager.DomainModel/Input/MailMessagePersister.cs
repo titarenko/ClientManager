@@ -40,8 +40,20 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             {
                 var convertedMessage = Convert(message);
 
-                repository.Save(convertedMessage);
+                var messageReceiver = convertedMessage.Receivers.FirstOrDefault();
+                var messageSender = convertedMessage.Sender;
+                var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == messageReceiver.Id);
+                if (ownerPerson == null)
+                {
+                    ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == messageSender.Id);
+                }
 
+                if (ownerPerson != null)
+                {
+                    convertedMessage.Owner = ownerPerson.CurrentTeam;
+                    repository.Save(convertedMessage);
+                }
+                
                 CreateInquiry(convertedMessage);
             }
         }
