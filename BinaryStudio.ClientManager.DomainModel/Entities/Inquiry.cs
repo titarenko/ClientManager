@@ -14,6 +14,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
             ReferenceDate = null;
             Comments = new List<Comment>();
             Tags = new List<Tag>();
+            Archived = false;
         }
 
         /// <summary>
@@ -65,6 +66,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// list of tags appointed to inquiry
         /// </summary>
         public IList<Tag> Tags { get; set; }
+
+        /// <summary>
+        /// Indicates whether inquiry is archived
+        /// </summary>
+        public bool Archived { get; set; }
 
         public bool Equals(Inquiry other)
         {

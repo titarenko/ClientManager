@@ -54,7 +54,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             user.Teams.Add(team);
             user.CurrentTeam = user.Teams.Last();
+            team.Users.Add(user);
             repository.Save(user);
+            repository.Save(team);
         }
 
         [HttpPost]

@@ -98,7 +98,7 @@ namespace BinaryStudio.ClientManager.WebUi
 
             //builder.RegisterType<EfRepository>().As<IRepository>().InstancePerHttpRequest();
             builder.Register(c => new MultitenantRepository(new EfRepository(), c.Resolve<IAppContext>())).
-                As<IRepository>().SingleInstance();
+                As<IRepository>().InstancePerHttpRequest();
 
             builder.Register(c=>TestAppConfiguration.GetTestConfiguration()).As<IConfiguration>();
 

@@ -5,6 +5,7 @@ using System.Net.Mail;
 using AE.Net.Mail.Imap;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.Input
 {
@@ -29,8 +30,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             this.mailMessageParserFactory = mailMessageParserFactory;
 
             emailClient.MailMessageReceived += ProcessMessage;
-
-            ProcessMessage(emailClient, new MessageEventArgs());
         }
 
         public void ProcessMessage(object sender, EventArgs args)
@@ -54,27 +53,11 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                     repository.Save(convertedMessage);
                 }
                 
-                CreateInquiry(convertedMessage);
+                createInquiry(convertedMessage);
             }
         }
 
-        private void CreateInquiry(Entities.MailMessage convertedMessage)
-        {
-            if (convertedMessage.Sender.Role == PersonRole.Client &&
-                !repository.Query<Inquiry>(x => x.Source)
-                     .Select(x => x.Source)
-                     .Any(convertedMessage.SameMessagePredicate))
-            {
-                var inquiry = inquiryFactory.CreateInquiry(convertedMessage);
-                var receiver = inquiry.Source.Receivers.FirstOrDefault();
-                var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == receiver.Id);
-                if (ownerPerson != null)
-                {
-                    inquiry.Owner = ownerPerson.CurrentTeam;
-                    repository.Save(inquiry);
-                }  
-            }
-        }
+
 
         /// <summary>
         /// Converts Input.MailMessage to Entities.MailMessage.
@@ -117,6 +100,34 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
             }
 
             return returnMessage;
+        }
+
+        private void createInquiry(Entities.MailMessage convertedMessage)
+        {
+            if (convertedMessage.Sender.Role == PersonRole.Client &&
+                !repository.Query<Inquiry>(x => x.Source)
+                     .Select(x => x.Source)
+                     .Any(convertedMessage.SameMessagePredicate))
+            {
+                var inquiry = repository.Query<Inquiry>(x => x.Client)
+                    .FirstOrDefault(x => x.Client.Id == convertedMessage.Sender.Id && !x.Archived);
+                if (inquiry==null)
+                {
+                    var newInquiry = inquiryFactory.CreateInquiry(convertedMessage);
+                    var receiver = newInquiry.Source.Receivers.FirstOrDefault();
+                    var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == receiver.Id);
+                    if (ownerPerson != null)
+                    {
+                        newInquiry.Owner = ownerPerson.CurrentTeam;
+                        repository.Save(newInquiry);
+                    }
+                }
+                else
+                {
+                    inquiry.ReferenceDate = null;
+                    repository.Save(inquiry);
+                }
+           }
         }
 
         /// <summary>

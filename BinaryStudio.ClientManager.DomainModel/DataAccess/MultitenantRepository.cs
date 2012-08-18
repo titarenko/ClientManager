@@ -63,11 +63,11 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <param name="instance">The instance.</param>
         public void Save<T>(T instance) where T : class, IIdentifiable
         {
-            if (IsMultitenant<T>())
-            {
-                var multitenant = (IOwned)instance;
-                multitenant.Owner = this.appContext.User.CurrentTeam;
-            }
+            //if (IsMultitenant<T>())
+            //{
+            //    var multitenant = (IOwned)instance;
+            //    multitenant.Owner = this.appContext.User.CurrentTeam;
+            //}
 
             repository.Save(instance);
         }
@@ -112,12 +112,10 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         {
             var properties = new List<Expression<Func<T, object>>> {x => x.Owner};
             properties.AddRange(eagerlyLoadedProperties);
-            return repository
-                .Query(properties.ToArray())
-                .ToList()
-                .Where(x => x.SafeGet(z => z.Owner.Id) ==
-                    this.appContext.User.SafeGet(z => z.CurrentTeam.Id))
-                .AsQueryable();
+            return appContext.User.SafeGet(x=>x.CurrentTeam)!=null?
+                repository.Query(properties.ToArray())
+                .Where(x => x.Owner!=null && x.Owner.Id == appContext.User.CurrentTeam.Id)
+                :repository.Query(properties.ToArray());
         }
     }
 }

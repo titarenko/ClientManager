@@ -168,7 +168,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 {
                     Tag = new TagViewModel { Name = "" },
                     Inquiries = repository
-                        .Query<Inquiry>()
+                        .Query<Inquiry>(x=>x.Client,x=>x.Tags)
                         .Where(x => !x.Tags.Any() && x.ReferenceDate.HasValue)
                         .Select(inquiry => new TaggedInquiryViewModel
                         {
