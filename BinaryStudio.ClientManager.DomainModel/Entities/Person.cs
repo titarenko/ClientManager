@@ -29,7 +29,15 @@ namespace BinaryStudio.ClientManager.DomainModel.Entities
         /// </summary>
         public string FullName
         {
-            get { return string.Format("{0} {1}", FirstName, LastName); }
+            get 
+            {
+                var fullName=string.Format("{0} {1}", FirstName, LastName); 
+                if (fullName.Trim()=="")
+                {
+                    fullName = "Unknown";
+                }
+                return fullName;
+            }
         }
 
         /// <summary>

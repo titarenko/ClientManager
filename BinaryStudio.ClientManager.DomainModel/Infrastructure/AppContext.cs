@@ -22,7 +22,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             get 
             { 
                 var token = HttpContext.Current.Request.SafeGet(x => x.Cookies[ParamName].Value);
-
                 return null == token ? null : this.session.Get<User>(token);
             }
             set

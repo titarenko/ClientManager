@@ -217,7 +217,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public ViewResult Admin()
         {
             var inquiries = repository
-                .Query<Inquiry>(x => x.Client, x => x.Assignee,x=>x.Owner)
+                .Query<Inquiry>(x => x.Client, x => x.Assignee)
                 .Where(x => x.ReferenceDate == null)
                 .OrderBy(x => x.Client.FirstName)
                 .ThenBy(x => x.Client.LastName)

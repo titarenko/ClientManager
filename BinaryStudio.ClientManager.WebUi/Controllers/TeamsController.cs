@@ -22,7 +22,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Index()
         {
-            var user = GetCurrentUser;
+            var user = CurrentUser;
             user.Teams = repository
                 .Query<Team>(x => x.Users)
                 .Where(x => x.Users.Any(y => y.Id == user.Id))
@@ -30,7 +30,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             return View(new TeamsViewModel
             {
-                User = GetCurrentUser,
+                User = CurrentUser,
                 Employees = repository
                     .Query<Person>()
                     .Where(x => x.Role == PersonRole.Employee)
@@ -50,13 +50,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             var team = new Team { Name = name };
-            var user = GetCurrentUser;
+            var user = CurrentUser;
 
             user.Teams.Add(team);
             user.CurrentTeam = user.Teams.Last();
             team.Users.Add(user);
-            repository.Save(user);
             repository.Save(team);
+            CurrentUser = user;
         }
 
         [HttpPost]
@@ -69,7 +69,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             team.Users.Add(user);
+            user.Teams.Add(team);
             repository.Save(team);
+            CurrentUser = user;
         }
 
         [HttpPost]
@@ -82,28 +84,33 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             team.Users.Remove(user);
+            user.Teams.Remove(team);
 
+            repository.Save(team);
+            CurrentUser = user;
             //TODO: ask what should we do with associated inquiries?
-            if (!team.Users.Any())
-                repository.Delete(team);
-            else
-                repository.Save(team);
+            //if (!team.Users.Any())
+            //    repository.Delete(team);
         }
 
         [HttpPost]
         public void MakeTeamCurrent(int teamId)
         {
             var team = repository.Get<Team>(teamId);
-            var user = GetCurrentUser;
+            var user = CurrentUser;
             user.CurrentTeam = team;
-            repository.Save(user);
+            CurrentUser = user;
         }
 
-        private User GetCurrentUser
+        private User CurrentUser
         {
             get
             {
                 return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
+            }
+            set 
+            {
+                repository.Save(value);
             }
         }
     }

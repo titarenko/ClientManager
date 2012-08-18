@@ -109,8 +109,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                      .Select(x => x.Source)
                      .Any(convertedMessage.SameMessagePredicate))
             {
-                var inquiry = repository.Query<Inquiry>(x => x.Client)
-                    .FirstOrDefault(x => x.Client.Id == convertedMessage.Sender.Id && !x.Archived);
+                var receiverId = convertedMessage.Receivers.First().Id;
+                var inquiry = repository.Query<Inquiry>(x => x.Client, x=>x.Owner)
+                    .FirstOrDefault(x => x.Client.Id == convertedMessage.Sender.Id && x.Owner.Id==receiverId && !x.Archived);
                 if (inquiry==null)
                 {
                     var newInquiry = inquiryFactory.CreateInquiry(convertedMessage);
