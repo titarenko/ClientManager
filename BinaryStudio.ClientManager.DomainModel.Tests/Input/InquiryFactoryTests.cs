@@ -48,8 +48,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                 inquiry.ReferenceDate == null &&
                 inquiry.Client == mailMessage.Sender &&
                 inquiry.Subject == mailMessage.Subject &&
-                inquiry.Source == mailMessage &&
-                inquiry.Owner.Name=="1");
+                inquiry.Source == mailMessage
+                );
         }
     }
 }

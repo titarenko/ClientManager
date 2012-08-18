@@ -29,18 +29,21 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         public void GenerateInquiriesList()
         {
             Clock.FreezedTime = new DateTime(2012, 7, 19);
+            var team = Builder<Team>.CreateNew().Build();
 
             tags = new List<Tag>
             {
                 new Tag
                 {
                     Id = 1,
-                    Name = "tag1"
+                    Name = "tag1",
+                    Owner = team
                 },
                 new Tag
                 {
                     Id = 2,
-                    Name = "tag2"
+                    Name = "tag2",
+                    Owner = team
                 }
             };
 
@@ -178,8 +181,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         {
             // arrange
             var repository = Substitute.For<IRepository>();
-            repository.Query<Inquiry>().Returns(inquiries.AsQueryable());
-            repository.Query<Tag>().Returns(tags.AsQueryable());
+            repository.Query<Inquiry>().ReturnsForAnyArgs(inquiries.AsQueryable());
+            repository.Query<Tag>().ReturnsForAnyArgs(tags.AsQueryable());
 
             var inquiriesController = new InquiriesController(repository).MockHttpContext();
 
@@ -196,7 +199,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         }
 
         [Test]
-        public void Should_ReturnSingleInquiryInEveryCategory_When_SeveralTagsAreAssigned_And_AllViewIsRequested()
+        public void Should_ReturnSingleInquiryInEveryCategory_WhenSeveralTagsAreAssignedAndAllViewIsRequested()
         {
             // arrange
             var tags = Builder<Tag>.CreateListOfSize(2).Build();
@@ -211,8 +214,8 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             tags.ForEach(x => x.Inquiries = inquiries.Where(z => z.Tags.Any(y => y.Name == x.Name)).ToList());
 
             var repository = Substitute.For<IRepository>();
-            repository.Query<Tag>().Returns(tags.AsQueryable());
-            repository.Query<Inquiry>().Returns(inquiries.AsQueryable());
+            repository.Query<Tag>().ReturnsForAnyArgs(tags.AsQueryable());
+            repository.Query<Inquiry>().ReturnsForAnyArgs(inquiries.AsQueryable());
 
             var inquiriesController = new InquiriesController(repository).MockHttpContext();
 
@@ -264,12 +267,13 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         public void Should_ReturnOnlyInquiriesWhereReferenceDateEqualNull_WhenAdminRequested()
         {
             // arrange
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Inquiry>(z => z.Client, z => z.Assignee))
-                .Returns(inquiries.AsQueryable());
+            var repository = Substitute.For<IRepository>();
+            repository.Query<Inquiry>().ReturnsForAnyArgs(inquiries.AsQueryable());
+            repository.Query<Person>().ReturnsForAnyArgs(new List<Person>().AsQueryable());
+            repository.Query<Tag>().ReturnsForAnyArgs(new List<Tag>().AsQueryable());
 
             // act
-            var controller = new InquiriesController(mock.Object);
+            var controller = new InquiriesController(repository);
             var viewResult = (AdminViewModel)controller.Admin().Model;
 
             // assert

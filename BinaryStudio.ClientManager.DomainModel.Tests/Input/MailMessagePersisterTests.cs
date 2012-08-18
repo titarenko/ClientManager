@@ -183,14 +183,16 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                         Receivers = new List<MailAddress>{new MailAddress("client@gmail.com","client")},
                     }
                 });
+            var employee = new Person
+                               {
+                                   Email = "employee@gmail.com",
+                                   FirstName = "employee",
+                                   Role = PersonRole.Employee
+                               };
+
             repository.Query<Person>().ReturnsForAnyArgs(new List<Person>
                 {
-                    new Person
-                        {
-                            Email = "employee@gmail.com",
-                            FirstName = "employee",
-                            Role = PersonRole.Employee
-                        },
+                    employee,
                     new Person
                         {
                             Email="client@gmail.com",
@@ -198,6 +200,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
                             Role = PersonRole.Client
                         }
                 }.AsQueryable());
+            repository.Query<User>().ReturnsForAnyArgs(new List<User>{new User
+                                                           {
+                                                               RelatedPerson = employee,
+                                                               CurrentTeam = new Team()
+                                                           }
+                                                       }.AsQueryable());
             
 
             //act
