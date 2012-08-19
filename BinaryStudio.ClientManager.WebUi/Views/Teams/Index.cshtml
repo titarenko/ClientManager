@@ -31,8 +31,8 @@
 
                     <div class="ui-widget">
                         <label for="employees">Employees: </label>
-                        <input id="employees" />
-                        <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id)" />
+                    <input id="@(team.Name+"-employees")" class="employees"/>
+                        <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id,'@team.Name')" />
                     </div>
                     <ul>
                         @foreach(var user in team.Users)
@@ -54,10 +54,10 @@
     $(function () {
         var employees = @Html.ToJson(Model.Employees);
 
-        $("#employees").autocomplete({
+        $(".employees").autocomplete({
             source: employees,
             select: function (event, ui) {
-                $('#employees').data('Id', ui.item.Id);
+                $(this).data('Id', ui.item.Id);
             }
         });
     });
@@ -66,7 +66,7 @@
         var teamName = $('#new-team-name').val();
         
         var onSuccess = function () {
-            ShowAlert("Success");
+             location.reload();
         };
 
         var onError = function () {
@@ -82,7 +82,7 @@
 
     function RemoveUser(userId, teamId) {
         var onSuccess = function () {
-            ShowAlert("Success");
+            location.reload();
         };
 
         var onError = function () {
@@ -96,11 +96,11 @@
         }).success(onSuccess).error(onError);
     }
     
-    function AddUser(teamId) {
-        var personId = $('#employees').data('Id');
+    function AddUser(teamId,teamName) {
+        var personId = $('#'+teamName+"-employees").data('Id');
         
         var onSuccess = function () {
-            ShowAlert("User was succesfully added to the team");
+            location.reload();
         };
 
         var onError = function () {
@@ -116,7 +116,7 @@
 
     function MakeTeamCurrent(teamId) {
         var onSuccess = function () {
-            ShowAlert("Success");
+            location.reload();
         };
 
         var onError = function () {

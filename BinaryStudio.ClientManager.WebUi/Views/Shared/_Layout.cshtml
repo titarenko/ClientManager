@@ -13,7 +13,6 @@
         @Html.Script("jquery-ui-1.8.22.custom.min.js")
         @Html.Script("jquery-ui-1.8.22.min.js", "jquery-ui-1.8.22.js")
         @Html.Script("bootstrap.min.js", "bootstrap.js")
-        @Html.Script("jquery.dragsort-0.5.1.min.js", "jquery.dragsort-0.5.1.js")
         @Html.Script("bootstrap-datepicker.js")
         @Html.Script("knockout-2.1.0.js", "knockout-2.1.0.debug.js")
         @Html.Script("shared.js")
@@ -21,11 +20,11 @@
     </head>
     <body>
         <div id="header" class="container">
-            <div class="btn-group pull-right">
-                @Html.ActionLink("Log Off", "LogOff", "Auth", null, new {
-                                                                            @class="btn",
-                                                                            id="logoff"
-                                                                        })
+            <div class="pull-right">
+                @{
+                    Html.RenderAction("CurrentTeamAndUser","Teams");
+                }
+                
             </div>
             <div class="btn-group pull-left">
                 <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
