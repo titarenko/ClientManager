@@ -14,7 +14,7 @@
             </div>
             
             <div class="well span2">
-                <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = Model.Id } ) %>' alt="Photo" height="100px" width="100px"/>
+                <img src=@Model.PhotoUri.Or(Url.DefaultPhoto()) alt="Photo" height="100px" width="100px"/>
             </div>
 
             <div class = "span4 well form-horizontal">
@@ -43,7 +43,6 @@
         <div class = "row">
             <div class="btn-group offset4">
                 <input type="submit" class = "btn btn-inverse" value="Save" />
-                <a class = "btn" href="@Url.Action("Index", "Employees")">Back to list</a>
             </div>
         </div>
     </div>

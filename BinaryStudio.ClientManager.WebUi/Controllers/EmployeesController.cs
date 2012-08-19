@@ -36,16 +36,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         [HttpPost]
-        public ViewResult Edit(int id, Person employee)
+        public RedirectToRouteResult Edit(int id, Person employee)
         {
             if(ModelState.IsValid)
             {
                 repository.Save(employee);
                 appContext.CurrentUser.RelatedPerson = employee;
-                return View("Details", employee);
             }
 
-            return View(employee);
+            return RedirectToAction("Week", "Inquiries");
         }
     }
 }
