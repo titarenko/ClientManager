@@ -4,7 +4,7 @@
         var date = $('#' + dayToId).attr('data');
 
         var onSuccess = function () {
-
+            location.reload();
         };
 
         var onError = function () {

@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
@@ -9,10 +10,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
     public class EmployeesController : Controller
     {
         private readonly IRepository repository;
+        private IAppContext appContext;
 
-        public EmployeesController(IRepository repository)
+        public EmployeesController(IRepository repository, IAppContext appContext)
         {
             this.repository = repository;
+            this.appContext = appContext;
         }
 
         //
@@ -33,15 +36,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         [HttpPost]
-        public ViewResult Edit(int id, Person employee)
+        public RedirectToRouteResult Edit(int id, Person employee)
         {
             if(ModelState.IsValid)
             {
                 repository.Save(employee);
-                return View("Details", employee);
+                appContext.CurrentUser.RelatedPerson = employee;
             }
 
-            return View(employee);
+            return RedirectToAction("Week", "Inquiries");
         }
     }
 }

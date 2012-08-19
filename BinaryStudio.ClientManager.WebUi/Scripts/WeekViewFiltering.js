@@ -19,7 +19,9 @@
 
     for (var dayIndex in window.viewModel.Days) {
         var day = window.viewModel.Days[dayIndex];
-        day.Id = 'day'+dayIndex;
+        day.Id = 'day' + dayIndex;
+
+
         for (var inquiryIndex in day.Inquiries) {
             var inquiry = day.Inquiries[inquiryIndex];
             inquiry.SkypeLink = ko.computed(function () {
@@ -29,6 +31,14 @@
             inquiry.EmailLink = ko.computed(function () {
                 return 'mailto:' + inquiry.Email;
             }, window.viewModel);
+
+//            inquiry.MoveToList = ko.computed(function () {
+//                return new Array(
+//                    new Date(this.DateString).addDays(1).format('yyyy-mm-dd'),
+//                    new Date(this.DateString).addDays(2).format('yyyy-mm-dd'),
+//                    new Date(this.DateString).addDays(3).format('yyyy-mm-dd'),
+//                    new Date(this.DateString).addDays(7).format('yyyy-mm-dd'));
+//            }, day);
 
             inquiry.Visible = ko.computed(function () {
                 if (!this.Filter() || this.Filter().length == 0) {
@@ -45,7 +55,7 @@
             }, {
                 Filter: window.viewModel.Filter,
                 Inquiry: inquiry
-            }); 
+            });
         }
     }
 

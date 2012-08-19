@@ -7,7 +7,7 @@
             <li class ="well span8">
                 <div class="form-horizontal" >
                     <div class="span2">
-                        <img src="@Url.Content(employee.PhotoUri)" alt="Photo" height="100px" width="100px"/>
+                        <img src="@Url.Content(employee.PhotoUri).Or(Url.DefaultPhoto())" alt="Photo" height="100px" width="100px"/>
                     </div>
                     <div class="span3">
                         <p>
