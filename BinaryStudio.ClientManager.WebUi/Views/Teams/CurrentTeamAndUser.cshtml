@@ -5,12 +5,12 @@
 }
 
 <div id="logoff">
-    <a href="@Url.Action("Edit","Employees",new {id = @Model.RelatedPerson.Id})">
+    @*<a href="@Url.Action("Edit","Employees",new {id = @Model.RelatedPerson.Id})">
         <span>@Model.RelatedPerson.FullName</span> 
-    </a>
+    </a>*@
     @Html.ActionLink("Log Off", "LogOff", "Auth", null, new {
                                                             @class="btn",
                                                         })
     <br/>
-<span>@Model.CurrentTeam.SafeGet(x=>x.Name).Or("No current team")</span>
+@*<span>@Model.CurrentTeam.SafeGet(x=>x.Name).Or("No current team")</span>*@
 </div>

@@ -3,54 +3,82 @@
 @{
     ViewBag.Title = "Client edit";
 }   
-<div class = "container">
-    <div class ="row-fluid">
-        <div class ="page-header">
-            <h2>Client Editing</h2>
+<div id="client-edit" class = "container span5">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.Id)
+            
+        <div class="block">
+            <div class="field-label">
+                First Name
+            </div>
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "field-editor" })
+        </div>
+                
+        <div class="block">
+            <div class="field-label">
+                Last Name
+            </div>
+            @Html.TextBoxFor(m => m.LastName, new { @class = "field-editor" })
         </div>
             
-        <div class="well span2">
-            <img src="@Model.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" height="100px" width="100px"/> 
+        <div class="block">
+            <div class="field-label">
+                Creation Date
+            </div>
+            <div class="field-editor">
+                @Html.EditorFor(m => m.CreationDate )
+            </div>
         </div>
-        @using (Html.BeginForm())
-        {
-            @Html.HiddenFor(m => m.Id)
-            <div class = "span4 well form-horizontal">
-                <h2>Information</h2>
-                @Html.LabelFor(m => m.FirstName)
-                @Html.TextBoxFor(m => m.FirstName)
             
-                @Html.LabelFor(m => m.LastName)
-                @Html.TextBoxFor(m => m.LastName)
-                
-                @Html.LabelFor(m => m.CreationDate)
-                @Html.EditorFor(m => m.CreationDate)
-                
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-                
-                @Html.LabelFor(m => m.Phone)
-                @Html.TextBoxFor(m => m.Phone)
-                
-                @Html.LabelFor(m => m.Country)
-                @Html.TextBoxFor(m => m.Country)
-                    
-                @*@Html.HiddenFor(m=>m.FacebookUri)
-                    
-                    @Html.HiddenFor(m=>m.TwitterUri)
-                    
-                    @Html.HiddenFor(m=>m.LinkedInUri)
-                    *@
+        <div class="block">
+            <div class="field-label">
+                Country
+            </div>
+            @Html.TextBoxFor(m => m.Country, new { @class = "field-editor" })
+        </div>
             
-                  <div class = "row">
-                      <div class="btn-group offset1">
-                          <input type="submit" class = "btn btn-inverse" value="Save" />
-                          <a class = "btn" href="@Url.Action("Index", "Clients")">Back to list</a>
-                      </div>
-                  </div>
-               </div>
-        }
-    </div>
+        <div class="block">
+            <div class="field-label">
+                Email
+            </div>
+            @Html.TextBoxFor(m => m.Email, new { @class = "field-editor" })
+        </div>
+            
+        <div class="block">
+            <div class="field-label">
+                Skype
+            </div>
+            @Html.TextBoxFor(m => m.Phone, new { @class = "field-editor" })
+        </div>
+            
+            
+        <div class="block">
+            <div class="field-label">
+                LinkedIn Profile
+            </div>
+            @Html.TextBoxFor(m => m.LinkedInUri, new { @class = "field-editor" })
+        </div>
+            
+        <div class="block">
+            <div class="field-label">
+                Facebook Profile
+            </div>
+            @Html.TextBoxFor(m => m.FacebookUri, new {@class = "field-editor"})
+        </div>
+            
+        <div class="block">
+            <div class="field-label">
+                Twitter Profile
+            </div>
+            @Html.TextBoxFor(m => m.TwitterUri, new { @class = "field-editor" })
+        </div>
+
+        <div class="btn-group">
+            <input type="submit" class = "btn" value="Save" />
+            <a class = "btn" href="@Url.Action("Details", "Clients", new {id = Model.Id})">Cancel</a>
+        </div>
+    }
 </div>
 
     

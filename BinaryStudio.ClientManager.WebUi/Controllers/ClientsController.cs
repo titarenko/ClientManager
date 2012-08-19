@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.WebUi.Models;
@@ -61,12 +62,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         [HttpPost]
-        public ViewResult Edit(int id, Person client)
+        public ActionResult Edit(int id, Person client)
         {
             if (ModelState.IsValid)
             {
                 repository.Save(client);
-                return View("Details", client);
+                return RedirectToAction("Details", new {id});
             }
 
             return View(client);
