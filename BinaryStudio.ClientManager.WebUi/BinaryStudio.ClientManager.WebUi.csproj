@@ -258,6 +258,7 @@
     <Content Include="Views\Auth\LogOn.cshtml" />
     <Content Include="Views\Inquiries\Month_Alter.cshtml" />
     <Content Include="Views\Teams\Index.cshtml" />
+    <Content Include="Views\Teams\CurrentTeamAndUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

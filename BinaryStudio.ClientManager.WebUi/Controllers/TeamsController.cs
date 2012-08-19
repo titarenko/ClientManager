@@ -43,6 +43,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             });
         }
 
+        public ViewResult CurrentTeamAndUser()
+        {
+            return View(appContext.CurrentUser);
+        }
+
         [HttpPost]
         public void CreateTeam(string name)
         {
@@ -62,12 +67,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         [HttpPost]
         public void AddUser(int personId, int teamId)
         {
-            var user = repository.Query<User>().FirstOrDefault(x => x.RelatedPerson.Id == personId);
+            var user = repository.Query<User>(x=>x.RelatedPerson,x=>x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == personId);
             var team = repository.Get<Team>(teamId);
 
             if (user == null || team == null)
                 throw new ModelIsNotValidException();
-
+            if (team.Users.Contains(user))
+            {
+                throw new ModelIsNotValidException();
+            }
             team.Users.Add(user);
             user.Teams.Add(team);
             repository.Save(team);
@@ -77,7 +85,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         [HttpPost]
         public void RemoveUser(int userId, int teamId)
         {
-            var user = repository.Get<User>(userId);
+            var user = repository.Get<User>(userId, x=>x.Teams, x=>x.RelatedPerson);
             var team = repository.Get<Team>(teamId, x => x.Users);
 
             if (user == null || team == null)
@@ -85,7 +93,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             team.Users.Remove(user);
             user.Teams.Remove(team);
-            if (user.CurrentTeam.Id==team.Id)
+            if (user.SafeGet(x=>x.CurrentTeam.Id)==team.Id)
             {
                 user.CurrentTeam = null;
             }

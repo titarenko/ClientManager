@@ -20,12 +20,11 @@
     </head>
     <body>
         <div id="header" class="container">
-            <span>@ViewBag.User</span>
-            <div class="btn-group pull-right">
-                @Html.ActionLink("Log Off", "LogOff", "Auth", null, new {
-                                                                  @class="btn",
-                                                                  id="logoff"
-                                                              })
+            <div class="pull-right">
+                @{
+                    Html.RenderAction("CurrentTeamAndUser","Teams");
+                }
+                
             </div>
             <div class="btn-group pull-left">
                 <a class="btn dropdown-toggle" href="#" data-toggle="dropdown">
