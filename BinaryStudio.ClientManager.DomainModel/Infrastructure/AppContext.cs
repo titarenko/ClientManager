@@ -17,6 +17,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
             this.randomToken = randomToken;
         }
 
+        public User CurrentUser { get; set; }
+
         public User User
         {
             get 
@@ -29,6 +31,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
                 var token = HttpContext.Current.Request.SafeGet(x => x.Cookies[ParamName].Value) ?? this.randomToken.GetRandomToken();
                 this.session.Set(token, value);
                 HttpContext.Current.Response.Cookies.Add(new HttpCookie(ParamName, token) { HttpOnly = true });
+                CurrentUser = User;
             }
         }
     }

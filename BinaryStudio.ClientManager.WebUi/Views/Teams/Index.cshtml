@@ -66,7 +66,7 @@
         var teamName = $('#new-team-name').val();
         
         var onSuccess = function () {
-            ShowAlert("Success");
+             location.reload();
         };
 
         var onError = function () {
@@ -82,7 +82,7 @@
 
     function RemoveUser(userId, teamId) {
         var onSuccess = function () {
-            ShowAlert("Success");
+            location.reload();
         };
 
         var onError = function () {
@@ -116,7 +116,7 @@
 
     function MakeTeamCurrent(teamId) {
         var onSuccess = function () {
-            ShowAlert("Success");
+            location.reload();
         };
 
         var onError = function () {

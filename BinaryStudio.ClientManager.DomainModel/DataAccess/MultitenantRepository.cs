@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
 
 namespace BinaryStudio.ClientManager.DomainModel.DataAccess
@@ -16,7 +17,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         private readonly IAppContext appContext;
 
-        private readonly MethodInfo queryFilteredInternal = typeof(MultitenantRepository)
+        private readonly MethodInfo queryFilteredInternal = typeof (MultitenantRepository)
             .GetMethod("QueryFilteredInternal", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private readonly IDictionary<Type, MethodInfo> queryFiltered = new Dictionary<Type, MethodInfo>();
@@ -38,7 +39,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// Queries the specified eagerly loaded properties.
         /// </summary>
         /// <param name="eagerlyLoadedProperties">The eagerly loaded properties.</param>
-        public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
+        public IQueryable<T> Query<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties)
+            where T : class, IIdentifiable
         {
             return IsMultitenant<T>()
                        ? QueryFiltered(eagerlyLoadedProperties)
@@ -50,7 +52,8 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="eagerlyLoadedProperties">The eagerly loaded properties.</param>
-        public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable
+        public T Get<T>(int id, params Expression<Func<T, object>>[] eagerlyLoadedProperties)
+            where T : class, IIdentifiable
         {
             return IsMultitenant<T>()
                        ? QueryFiltered(eagerlyLoadedProperties).First(x => x.Id == id)
@@ -78,7 +81,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <param name="instance">The instance.</param>
         public void Delete<T>(T instance) where T : class, IIdentifiable
         {
-            if (IsMultitenant<T>() && ((IOwned)instance).Owner != appContext.User.CurrentTeam)
+            if (IsMultitenant<T>() && ((IOwned)instance).Owner.Id != appContext.CurrentUser.CurrentTeam.Id)
             {
                 throw new ApplicationException("An attempt to delete foreign multitenant data was made.");
             }
@@ -91,12 +94,12 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// </summary>
         private bool IsMultitenant<T>() where T : class
         {
-            return typeof(IOwned).IsAssignableFrom(typeof(T));
+            return typeof (IOwned).IsAssignableFrom(typeof (T));
         }
 
         private IQueryable<T> QueryFiltered<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties)
         {
-            var type = typeof(T);
+            var type = typeof (T);
             if (!queryFiltered.ContainsKey(type))
             {
                 queryFiltered.Add(type, queryFilteredInternal.MakeGenericMethod(type));
@@ -108,14 +111,15 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
         /// <summary>
         /// Queries data for current tenant.
         /// </summary>
-        private IQueryable<T> QueryFilteredInternal<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties) where T : class, IIdentifiable, IOwned
+        private IQueryable<T> QueryFilteredInternal<T>(params Expression<Func<T, object>>[] eagerlyLoadedProperties)
+            where T : class, IIdentifiable, IOwned
         {
             var properties = new List<Expression<Func<T, object>>> {x => x.Owner};
             properties.AddRange(eagerlyLoadedProperties);
-            return appContext.User.SafeGet(x => x.CurrentTeam) != null ?
-                repository.Query(properties.ToArray())
-                .Where(x => x.Owner != null && x.Owner.Id == appContext.User.CurrentTeam.Id)
-                :repository.Query(properties.ToArray());
+            return appContext.CurrentUser.SafeGet(x => x.CurrentTeam) != null
+                       ? repository.Query(properties.ToArray())
+                             .Where(x => x.Owner != null && x.Owner.Id == appContext.CurrentUser.CurrentTeam.Id)
+                       : repository.Query(properties.ToArray());
         }
     }
 }

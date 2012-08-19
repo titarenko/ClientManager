@@ -303,5 +303,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             inquiry.Tags.Add(tag);
             repository.Save(inquiry);
         }
+
+        [HttpPost]
+        public void ToArchive(int id)
+        {
+            var inquiry = repository.Get<Inquiry>(id);
+            inquiry.Archived = true;
+            repository.Save(inquiry);
+        }
     }
 }

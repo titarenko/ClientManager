@@ -85,8 +85,12 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             team.Users.Remove(user);
             user.Teams.Remove(team);
-
+            if (user.CurrentTeam.Id==team.Id)
+            {
+                user.CurrentTeam = null;
+            }
             repository.Save(team);
+            
             CurrentUser = user;
             //TODO: ask what should we do with associated inquiries?
             //if (!team.Users.Any())
@@ -108,8 +112,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             {
                 return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
             }
-            set 
+            set
             {
+                appContext.CurrentUser = value;
                 repository.Save(value);
             }
         }

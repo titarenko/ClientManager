@@ -5,6 +5,8 @@
     ViewBag.Title = "Inquiry Details";
 }
 
+
+@Html.Partial("_Alert")
 <div id="details" class="container">
     <div class="row-fluid">
         <div class="span4">
@@ -43,6 +45,8 @@
                             <a href="@Model.Client.LinkedInUri">
                                 <span class="linkedin-icon"> </span>
                             </a>
+                            <br/>
+                            <button onclick="ToArchive(@Model.Id)">To archive</button>
                         </div>
                     </div>
                 </div>
@@ -74,3 +78,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function ToArchive(id) {
+        var onSuccess = function() {
+            ShowAlert("Inquiry was archived");
+        };
+
+        var onError = function() {
+            ShowAlert("Error while ajax request");
+        };
+
+        $.ajax({
+            url: "/Inquiries/ToArchive",
+            type: "POST",
+            data: { id: id}
+        }).success(onSuccess).error(onError);
+    }
+</script>
