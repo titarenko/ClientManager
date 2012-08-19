@@ -93,6 +93,7 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AllInquiriesViewModel.cs" />
+    <Compile Include="Models\ClientDetailsViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\InquiryPartialViewModel.cs" />
     <Compile Include="Models\TaggedInquiryViewModel.cs" />
@@ -125,6 +126,7 @@
     <Content Include="Content\styles\admin.less" />
     <Content Include="Content\styles\all.less" />
     <None Include="Content\styles\month_alter.less" />
+    <Content Include="Content\styles\client_details.less" />
     <Content Include="Content\styles\tags.less" />
     <Content Include="Content\styles\details.less" />
     <Content Include="Content\styles\mailinghistory.less" />
