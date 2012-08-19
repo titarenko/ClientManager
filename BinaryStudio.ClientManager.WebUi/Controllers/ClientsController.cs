@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
+using BinaryStudio.ClientManager.WebUi.Models;
 
 namespace BinaryStudio.ClientManager.WebUi.Controllers
 {
@@ -33,7 +34,11 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Details(int id)
         {
-            return View(repository.Get<Person>(id));
+            return View(new ClientDetailsViewModel
+            {
+                Client = repository.Get<Person>(id),
+                Inquiries = repository.Query<Inquiry>().Where(x => x.Client.Id == id)
+            });
         }
 
         public ViewResult Edit(int id)

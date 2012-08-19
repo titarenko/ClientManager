@@ -1,0 +1,85 @@
+#client {
+	.hint {
+			font-weight: bold;
+	}
+
+	hr {
+		margin: 7px;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.summary {
+		.card;
+
+		.icons {
+			list-style-type: none;
+			display: inline-block;
+			margin: 0px;
+			padding: 0px;
+
+			.icon {
+				float: left;
+			}
+		}
+
+		.name {
+			margin-top: 5px;
+			color: #777;
+			.shadowed;
+			font-size: 150%;
+
+			margin-bottom: 5px;
+		}
+
+		.email {
+            a {
+                text-decoration: none;
+            }
+            
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            a, a:active, a:hover, a:visited {
+                color: #777;
+            }
+        }
+
+		.icon-facebook, .icon-linkedin, .icon-twitter, .icon-skype {
+			background-repeat: no-repeat;
+			background-position: top left;
+			height: 16px;
+			width: 16px;
+			margin: 5px 5px 5px 0;
+		}
+
+		.icon-facebook {
+			background-image: url('../images/facebook.png');
+		}
+
+		.icon-linkedin {
+			background-image: url('../images/linkedin.png');
+		}
+
+		.icon-twitter {
+			background-image: url('../images/twitter.png');
+		}
+
+		.icon-skype {
+			background-image: url('../images/skype.png');
+		}
+	}
+
+	.inquiries {
+		.card;
+
+		.description {
+			margin-top: 7px;
+		}
+	}
+}

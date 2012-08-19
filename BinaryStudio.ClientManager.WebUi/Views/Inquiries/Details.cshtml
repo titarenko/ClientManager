@@ -5,70 +5,56 @@
     ViewBag.Title = "Inquiry Details";
 }
 
-
 @Html.Partial("_Alert")
+
 <div id="details" class="container">
     <div class="row-fluid">
         <div class="span4">
-            <div>
-                <div>
-                    <div class="inquiry">
-                        <div class="row-fluid">
-                            <div class="span4">
-                                <img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="48" height="48"/>
-                            </div>
-                            <div class="span8 primary-info">
-                                <span class="name">@Model.Client.FullName</span><br/>
-                                <span class="subject">@Model.Subject</span><br/>
-                            </div>
-                        </div>
-                        <div class="secondary-info">
-                            <p>
-                                <div class="phone">
-                                    <span class="icon-headphones"></span> @Html.SkypeLink(Model.Client.Phone)
-                                </div>
-                                <div class="email">
-                                    <span class="icon-envelope"></span> @Html.Email(Model.Client.Email, Model.Client.Email)
-                                </div>
-                            </p>
-                            <p><span class="icon-flag"></span>Country: @Model.Client.Country</p>
-                            <p><span class="icon-calendar"></span>Since @Model.Client.CreationDate</p>
-                            <p><span class="icon-user"></span> @Model.Assignee.SafeGet(x => x.FullName).Or("N/A")</p>
-                        </div>
-                        <div>
-                            <a href="@Model.Client.FacebookUri">
-                                <span class="facebook-icon"></span>
-                            </a>
-                            <a href="@Model.Client.TwitterUri">
-                                <span class="twitter-icon"></span>
-                            </a> 
-                            <a href="@Model.Client.LinkedInUri">
-                                <span class="linkedin-icon"> </span>
-                            </a>
-                            <br/>
-                            <button onclick="ToArchive(@Model.Id)">To archive</button>
-                        </div>
+            <div class="summary">
+                <div class="title">
+                    <span class="subject">@Model.Subject</span>
+                    <span class="pull-right">[@(Model.Archived ? "Archived" : "Current")]</span>
+                </div>
+                for <a class="client" href="@Url.Action("Details", "Clients", new {id = Model.Client.Id})">@Model.Client.FullName</a>
+                <div class="info">
+                    <div><span class="hint">Due to: </span>@(Model.ReferenceDate.HasValue ? Model.ReferenceDate.Value.ToString("dd.MM.yyyy") : "N/A")</div>
+                    <div><span class="hint">Assigned to: </span>@Model.Assignee.SafeGet(x => x.FullName).Or("N/A")</div>
+                    <div>
+                        <span class="hint">Tags: </span>
+                        <ul class="tags">
+                            @foreach(var tag in Model.Tags)
+                            {
+                                <li class="tag">@tag.Name</li>
+                            }
+                        </ul>
                     </div>
+                    <hr/>
+                    <div class="description">@Model.Description</div>
+                    <div class="edit-link"><a href="@Url.Action("Edit", "Inquiries", new {id = Model.Id})">Edit this inquiry</a></div>
                 </div>
-                <div class="tags">
-                    <h3>Tags</h3>                    
-                    <ul>
-                        @foreach(var tag in Model.Tags)
+            </div>
+            <div class="comments">
+                <div class="title">
+                    <span class="subject">Comments</span>
+                    <span class="pull-right"><a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@Model.Id)">Add</a></span>
+                </div>
+                <ul>
+                    @{
+                        var isFirst = true;
+                        foreach (var comment in Model.Comments)
                         {
-                            <li class="tag">@tag.Name</li>
+                            <li class="comment">
+                                @if (!isFirst)
+                                {
+                                    <hr/>
+                                }
+                                <div class="comment-date">@comment.Date</div>
+                                <div class="comment-text">@comment.Text</div>
+                            </li>
+                            isFirst = false;
                         }
-                    </ul>
-                </div>
-                <div class="comments">
-                    <h3>Comments</h3>
-                    @foreach(var comment in Model.Comments)
-                    {
-                        <div class="comment">
-                            <div class="comment-date">@comment.Date</div>                               
-                            <div class="comment-text">@comment.Text</div>
-                        </div>
                     }
-                </div>
+                </ul>
             </div>
         </div>
         <div class="span8">
@@ -79,20 +65,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    function ToArchive(id) {
-        var onSuccess = function() {
-            ShowAlert("Inquiry was archived");
-        };
-
-        var onError = function() {
-            ShowAlert("Error while ajax request");
-        };
-
-        $.ajax({
-            url: "/Inquiries/ToArchive",
-            type: "POST",
-            data: { id: id}
-        }).success(onSuccess).error(onError);
-    }
-</script>
+@Html.Partial("_CommentEditor")

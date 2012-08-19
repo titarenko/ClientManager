@@ -9,9 +9,8 @@ namespace BinaryStudio.ClientManager.WebUi.Extensions
         public static MvcHtmlString SkypeLink(this HtmlHelper helper, string phone, string text = null)
         {
             var tag = new TagBuilder("a");
-            tag.AddCssClass("phone");
+            tag.AddCssClass("icon-skype");
             tag.Attributes.Add("href", "skype:{0}?call".Fill(phone));
-            tag.SetInnerText(text ?? phone);
             return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
         }
 

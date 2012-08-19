@@ -1,41 +1,72 @@
-﻿@model BinaryStudio.ClientManager.DomainModel.Entities.Person
+﻿@model ClientDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-    
-<div class="container">
-    <div class ="page-header">
-        <h2>Details</h2>
-    </div>        
-    <ul class ="clients">
-        <li class ="well span8">
-            <div class="form-horizontal" >
-                <div class="span2">
-                    <img src='<%= @Url.Action( "ShowPhoto", "Clients", new { id = Model.Id } ) %>' alt="Photo" height="100px" width="100px"/>
+<div id="client" class="container">
+    <div class="row-fluid">
+        <div class="span4">
+            <div class="summary">
+            <div class="row-fluid">
+                <div class="span4">
+                    <img class="pull-left" src="@Model.Client.PhotoUri.Or(Url.DefaultPhoto())" alt="Photo" width="80" height="80"/>
                 </div>
-                <div class="span3">
-                    <p>
-                        Full Name: @Model.FullName 
-                    </p>
-                    <p>
-                        Country: @Model.Country
-                    </p>
-                </div>
-                <div class="span3">
-                    <p>
-                        Email: @Model.Email
-                    </p>  
-                    <p>
-                        Phone: @Model.Phone
-                    </p> 
-                    <div class="btn-group">
-                        <a class = "btn btn-inverse" href="@Url.Action("Edit", "Clients", new { id = Model.Id })">Edit</a>
-                        <a class="btn" href="@Url.Action("Index", "Clients", new { id = Model.Id })">Back to list</a>
-                    </div>
+                <div class="span8">
+                    <div class="name">@Model.Client.FullName.Cut(20)</div>
+                    <ul class="icons">
+                        @{
+                            if (!string.IsNullOrEmpty(Model.Client.Phone))
+                            {
+                                <li class="icon">@Html.SkypeLink(Model.Client.Phone)</li>
+                            }
+                            if (!string.IsNullOrEmpty(Model.Client.LinkedInUri))
+                            {
+                                <li class="icon"><a class="icon-linkedin" href="@Model.Client.LinkedInUri"></a></li>
+                            }
+                            if (!string.IsNullOrEmpty(Model.Client.FacebookUri))
+                            {
+                                <li class="icon"><a class="icon-facebook" href="@Model.Client.FacebookUri"></a></li>
+                            }
+                            if (!string.IsNullOrEmpty(Model.Client.TwitterUri))
+                            {
+                                <li class="icon"><a class="icon-twitter" href="@Model.Client.TwitterUri"></a></li>
+                            }
+                        }
+                    </ul>
+                    <div>@Html.Email(Model.Client.Email, Model.Client.Email.Cut(25))</div>
                 </div>
             </div>
-        </li>
-    </ul>
+            <p>
+                <div><span class="hint">From: </span>@Model.Client.Country</div>
+                <div><span class="hint">Since: </span>@Model.Client.CreationDate.ToString("dd.MM.yyyy")</div>
+            </p>
+            <a href="@Url.Action("Edit", "Clients", new {id = Model.Client.Id})">Edit this client</a>
+        </div>
+        </div>
+        <div class="span8 inquiries">
+            <ul>
+                @{
+                    var isFirst = true;
+                    foreach (var inquiry in Model.Inquiries)
+                    {
+                        <li>
+                            @if (!isFirst)
+                            {
+                                <hr/>
+                            }
+                            <div>
+                                <span class="hint">Subject: </span>
+                                <a href="@Url.Action("Details", "Inquiries", new {id = inquiry.Id})">@inquiry.Subject </a>
+                                [@(inquiry.Archived ? "Archived" : "Current")]
+                            </div>
+                            <div><span class="hint">Assigned to:</span>@inquiry.Assignee.SafeGet(x => x.FullName).Or("N/A")</div>
+                            <div class="description">@inquiry.Description</div>
+                        </li>
+                        isFirst = false;
+                    }
+                }
+            </ul>
+        </div>
+    </div>
 </div>

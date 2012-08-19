@@ -74,6 +74,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                                          Email = userInfo.Email,
                                          FirstName = userInfo.FirstName,
                                          LastName = userInfo.LastName,
+                                         PhotoUri = userInfo.PhotoUri,
                                          Role = PersonRole.Employee,
                                          CreationDate = DateTime.Now
                                      };

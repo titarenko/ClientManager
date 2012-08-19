@@ -1,59 +1,72 @@
 #details {
-	.inquiry, .tags, .comments {
+	.summary, .comments {
 		.card;
 
 		width: 100%;
         height: auto;
 	}
 
-    .inquiry {
-        .name {
-            color: #777;
-        }
-            
+	.info, .edit-link {
+		margin-top: 7px;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	hr {
+		margin: 7px;
+	}
+
+	.title {
+			text-align: center;
+		}
+        
         .subject {
-            color: #aaa;
+            color: #777;
+			.shadowed;
+			font-size: 150%;
         }
-    }
 
-	.tags {
-		ul {
-			list-style-type: none;
-			display: inline-block;
+    .summary {
+		.client {
+			font-size: 120%;
+		}
 
-			margin: 0px;
-			padding: 0px;
+		.info {
+			.hint {
+				font-weight: bold;
+			}
 
-			.tag {
-				.bordered;
+			.tags {
+				display: inline-block;
 
-				margin: 4px;
-				padding: 4px;
+				.tag {
+					.bordered;
 
-				float: left;
+					float: left;
+
+					margin: 3px;
+					padding: 3px;
+				}
 			}
 		}
-	}
-        
-    .comments {
-		.comment{
-			.bordered;
-			margin: 4px;
-			padding: 4px;
-		}
-        
-        .comment-text {
-            text-align: left;
-        }
-        
-        .comment-date {
-            font-size: 75%;
-        }
     }
 
-	h3 {
-		color: #555;
-		.shadowed;
-        text-align: center;
+    .comments {
+		.comment {
+			margin: 3px:
+			padding: 3px;
+
+			.comment-text {
+				text-align: left;
+			}
+        
+			.comment-date {
+				font-size: 75%;
+			}
+		}
     }
 }
