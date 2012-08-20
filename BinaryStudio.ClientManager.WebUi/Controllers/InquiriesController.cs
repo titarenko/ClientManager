@@ -275,19 +275,24 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         }
 
         [HttpPost]
-        public void AddComment(int inquiryId, string text)
+        public JsonResult AddComment(int inquiryId, string text)
         {
             var inquiry = repository.Get<Inquiry>(inquiryId);
             if (inquiry == null)
             {
                 throw new ModelIsNotValidException();
             }
-            inquiry.Comments.Add(new Comment
+
+            var comment = new Comment
             {
                 Date = Clock.Now,
                 Text = text
-            });
+            };
+
+            inquiry.Comments.Add(comment);
             repository.Save(inquiry);
+
+            return Json(new {date = comment.Date, txt = comment.Text});
         }
 
         [HttpPost]
