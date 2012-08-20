@@ -106,6 +106,7 @@
     <Compile Include="Models\WeekItemViewModel.cs" />
     <Compile Include="Models\WeekViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\TeamIndexScripts.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />

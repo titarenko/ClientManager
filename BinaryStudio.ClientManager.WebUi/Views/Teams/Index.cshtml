@@ -1,9 +1,10 @@
-﻿@model TeamsViewModel
+﻿@using Microsoft.Web.Mvc
+@model TeamsViewModel
 
 @(Layout = null)
 
 <div class="tabbable tabs-left">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" id="team-tab">
         <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
         @if (Model != null)
         {
@@ -25,13 +26,9 @@
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
                     <button onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
-
-
-
-
                     <div class="ui-widget">
                         <label for="employees">Employees: </label>
-                    <input id="@(team.Name+"-employees")" class="employees"/>
+                        <input id="@(team.Name+"-employees")" class="employees"/>
                         <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id,'@team.Name')" />
                     </div>
                     <ul>
@@ -39,7 +36,7 @@
                         {
                             <li>
                                 <span>@user.RelatedPerson.FullName</span>
-                                <input type="button" class="btn" value="@(user.Id == Model.User.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id)" />
+                                <input type="button" class="btn" value="@(user.Id == Model.User.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id,'@team.Name')" />
                             </li>
                         }
                     </ul>
@@ -49,84 +46,11 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
-    $(function () {
-        var employees = @Html.ToJson(Model.Employees);
-
-        $(".employees").autocomplete({
-            source: employees,
-            select: function (event, ui) {
-                $(this).data('Id', ui.item.Id);
-            }
-        });
+    $(function() {
+        window.Employees = @Html.ToJson(Model.Employees);
     });
-
-    function CreateTeam() {
-        var teamName = $('#new-team-name').val();
-        
-        var onSuccess = function () {
-            location.reload("@Url.Action("Admin","Inquiries")"+"#teams-tab");
-        };
-
-        var onError = function () {
-            ShowAlert("Error while AJAX request");  
-        };
-
-        $.ajax({
-            url: "/Teams/CreateTeam",
-            type: "POST",
-            data: { name: teamName }
-        }).success(onSuccess).error(onError);
-    }
-
-    function RemoveUser(userId, teamId) {
-        var onSuccess = function () {
-            location.reload("@Url.Action("Admin","Inquiries")"+"#teams-tab");
-        };
-
-        var onError = function () {
-            ShowAlert("Error while AJAX request");
-        };
-
-        $.ajax({
-            url: "/Teams/RemoveUser",
-            type: "POST",
-            data: { userId: userId, teamId: teamId }
-        }).success(onSuccess).error(onError);
-    }
     
-    function AddUser(teamId,teamName) {
-        var personId = $('#'+teamName+"-employees").data('Id');
-        
-        var onSuccess = function () {
-            location.reload("@Url.Action("Admin","Inquiries")"+"#teams-tab");
-        };
-
-        var onError = function () {
-            ShowAlert("Error while AJAX request");  
-        };
-
-        $.ajax({
-            url: '/Teams/AddUser',
-            type: 'POST',
-            data: { personId: personId, teamId: teamId }
-        }).success(onSuccess).error(onError);
-    }
-
-    function MakeTeamCurrent(teamId) {
-        var onSuccess = function () {
-            location.reload("@Url.Action("Admin","Inquiries")"+"#teams-tab");
-        };
-
-        var onError = function () {
-            ShowAlert("Error while AJAX request");
-        };
-
-        $.ajax({
-            url: "/Teams/MakeTeamCurrent",
-            type: "POST",
-            data: {teamId: teamId }
-        }).success(onSuccess).error(onError);
-    }
 </script>
+
+@Html.Script("TeamIndexScripts.js")

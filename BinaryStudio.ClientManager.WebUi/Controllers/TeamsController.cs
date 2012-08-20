@@ -27,10 +27,17 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 .Query<Team>(x => x.Users)
                 .Where(x => x.Users.Any(y => y.Id == user.Id))
                 .ToList();
+            foreach (var team in user.Teams)
+            {
+                team.Users =
+                    repository.Query<User>(x => x.Teams, x => x.RelatedPerson).Where(
+                        x => x.Teams.Any(z => z.Id == team.Id)).ToList();
+            }
+            
 
             return View(new TeamsViewModel
             {
-                User = CurrentUser,
+                User = user,
                 Employees = repository
                     .Query<Person>()
                     .Where(x => x.Role == PersonRole.Employee)
@@ -68,7 +75,9 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public void AddUser(int personId, int teamId)
         {
             var user = repository.Query<User>(x=>x.RelatedPerson,x=>x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == personId);
-            var team = repository.Get<Team>(teamId);
+            var team = repository.Get<Team>(teamId,x => x.Users);
+            //Cant get users related persons so i did it manually   
+            //team.Users = repository.Query<User>(x => x.RelatedPerson, x => x.Teams).Where(x => x.Teams.Any(z=>z.Id==team.Id)).ToList();
 
             if (user == null || team == null)
                 throw new ModelIsNotValidException();
@@ -79,7 +88,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             team.Users.Add(user);
             user.Teams.Add(team);
             repository.Save(team);
-            CurrentUser = user;
+            repository.Save(user);
         }
 
         [HttpPost]
