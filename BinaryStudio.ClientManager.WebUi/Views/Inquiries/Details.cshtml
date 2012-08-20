@@ -48,7 +48,7 @@
                                 {
                                     <hr/>
                                 }
-                                <div class="comment-date">@comment.Date</div>
+                                <div class="comment-date">@comment.Date.ToShortDateString()</div>
                                 <div class="comment-text">@comment.Text</div>
                             </li>
                             isFirst = false;

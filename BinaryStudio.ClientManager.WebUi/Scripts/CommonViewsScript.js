@@ -1,9 +1,19 @@
 ﻿function OnClickAddComment() {
     var comment = $('#commentTextArea').val();
-        
-    var onSuccess = function() {
+
+    var onSuccess = function (data) {
         $('#commentTextArea').val('');
         ShowAlert('Your comment has been saved.');
+
+        var li = $('<li class="comment" />');
+        var date = $('<div class="comment-date" />');
+        date.text(parseDate(data["date"]).format("shortDate"));
+        var txt = $('<div class="comment-text" />');
+        txt.text(data["txt"]);
+
+        li.append('<hr />', date, txt);
+
+        $('li.comment:last').after(li);
     };
 
     var onError = function() {
