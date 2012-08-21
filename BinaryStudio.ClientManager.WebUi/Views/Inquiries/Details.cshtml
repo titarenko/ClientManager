@@ -41,6 +41,7 @@
                     <span class="pull-right"><a href="#comment-editor" data-toggle="modal" onclick="ShowModal(@Model.Id)">Add</a></span>
                 </div>
                 <ul>
+                    <li class="comment"></li>
                     @{
                         var isFirst = true;
                         foreach (var comment in Model.Comments)
