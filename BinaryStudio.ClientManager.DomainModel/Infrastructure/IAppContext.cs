@@ -7,7 +7,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     /// </summary>
     public interface IAppContext
     {
-        User CurrentUser { get; set; }
         User User { get; set; }
         Team CurrentTeam { get; set; }
     }

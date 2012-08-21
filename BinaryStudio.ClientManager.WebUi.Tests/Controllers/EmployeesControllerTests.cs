@@ -19,7 +19,7 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            appContext.CurrentUser.Returns(new User());
+            appContext.CurrentTeam.Returns(new Team());
         }
 
         [Test]

@@ -41,10 +41,10 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
 
                 var messageReceiver = convertedMessage.Receivers.FirstOrDefault();
                 var messageSender = convertedMessage.Sender;
-                var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == messageReceiver.Id);
+                var ownerPerson = repository.Query<User>(x => x.Teams,x=>x.RelatedPerson).FirstOrDefault(x => x.RelatedPerson.Id == messageReceiver.Id);
                 if (ownerPerson == null)
                 {
-                    ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == messageSender.Id);
+                    ownerPerson = repository.Query<User>(x => x.Teams, x => x.RelatedPerson).FirstOrDefault(x => x.RelatedPerson.Id == messageSender.Id);
                 }
 
                 if (ownerPerson != null)
@@ -109,25 +109,30 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
                      .Select(x => x.Source)
                      .Any(convertedMessage.SameMessagePredicate))
             {
-                var receiverId = convertedMessage.Receivers.First().Id;
-                var inquiry = repository.Query<Inquiry>(x => x.Client, x=>x.Owner)
-                    .FirstOrDefault(x => x.Client.Id == convertedMessage.Sender.Id && x.Owner.Id==receiverId && !x.Archived);
-                if (inquiry==null)
+                var receiver = convertedMessage.Receivers.First();
+                var ownerPerson = repository.Query<User>(x => x.Teams, x => x.RelatedPerson).FirstOrDefault(x => x.RelatedPerson.Id == receiver.Id);
+                if (ownerPerson != null)
                 {
-                    var newInquiry = inquiryFactory.CreateInquiry(convertedMessage);
-                    var receiver = newInquiry.Source.Receivers.FirstOrDefault();
-                    var ownerPerson = repository.Query<User>(x => x.Teams).FirstOrDefault(x => x.RelatedPerson.Id == receiver.Id);
-                    if (ownerPerson != null)
+                    var inquiry = repository.Query<Inquiry>(x => x.Client, x => x.Owner)
+                        .FirstOrDefault(
+                            x =>
+                            x.Client.Id == convertedMessage.Sender.Id && x.Owner.Id == ownerPerson.CurrentTeam.Id &&
+                            !x.Archived);
+                    if (inquiry == null)
                     {
+                        var newInquiry = inquiryFactory.CreateInquiry(convertedMessage);
+
                         newInquiry.Owner = ownerPerson.CurrentTeam;
                         repository.Save(newInquiry);
+
+                    }
+                    else
+                    {
+                        inquiry.ReferenceDate = null;
+                        repository.Save(inquiry);
                     }
                 }
-                else
-                {
-                    inquiry.ReferenceDate = null;
-                    repository.Save(inquiry);
-                }
+                
            }
         }
 

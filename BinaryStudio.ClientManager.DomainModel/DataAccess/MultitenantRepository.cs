@@ -118,7 +118,7 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
             properties.AddRange(eagerlyLoadedProperties);
             return appContext.CurrentTeam != null
                        ? repository.Query(properties.ToArray())
-                             .Where(x => x.Owner != null && x.Owner.Id == appContext.CurrentUser.CurrentTeam.Id)
+                             .Where(x => x.Owner != null && x.Owner.Id == appContext.CurrentTeam.Id)
                        : repository.Query(properties.ToArray());
         }
     }
