@@ -5,7 +5,7 @@
 
 <div class="tabbable tabs-left">
     <ul class="nav nav-tabs" id="team-tab">
-        <li class="active"><a href="#main-tab" data-toggle="tab">Create new team</a></li>
+        <li><a href="#main-tab" data-toggle="tab">Create new team</a></li>
         @if (Model != null)
         {
             foreach (var team in Model.User.Teams)
@@ -15,7 +15,7 @@
         }
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="main-tab">
+        <div class="tab-pane @(Model.User.CurrentTeam==null?"active":"")"  id="main-tab">
             <span>Team Name: </span>
             <input id="new-team-name" />
             <input type="button" class="btn" value="Create" onclick="CreateTeam()" />
@@ -24,7 +24,7 @@
         {
             foreach (var team in Model.User.Teams)
             {
-                <div class="tab-pane" id="@(team.Name)-tab">
+                <div class="tab-pane @(Model.User.SafeGet(x=>x.CurrentTeam.Id)==team.Id?"active":"")" id="@(team.Name)-tab">
                     <button class="btn right" onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
                     <div class="ui-widget">
                         <label for="employees">Employees: </label>

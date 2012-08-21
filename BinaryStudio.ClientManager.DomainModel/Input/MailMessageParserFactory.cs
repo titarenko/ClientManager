@@ -8,7 +8,8 @@ namespace BinaryStudio.ClientManager.DomainModel.Input
         {
             if (userAgent.ToLower().Contains("thunderbird"))
                 return new MailMessageParserThunderbird();
-            throw new ApplicationException("Unknown Email Client");
+            //default
+            return new MailMessageParserThunderbird();
         }
     }
 }

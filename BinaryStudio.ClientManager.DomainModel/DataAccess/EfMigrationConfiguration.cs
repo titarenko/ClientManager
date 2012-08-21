@@ -22,21 +22,21 @@ namespace BinaryStudio.ClientManager.DomainModel.DataAccess
 
         protected override void Seed(EfDataContext context)
         {
-            var repository = new EfRepository();
+            //var repository = new EfRepository();
 
-            if (!repository.Query<Tag>().Any())
-                CreateTags(repository);
-            if (!repository.Query<Person>().Any())
-            {
-                CreatePersons(repository);
-                CreateMails(repository);
-            }
-            var beginOfNowWeek = Clock.Now.GetStartOfBusinessWeek();
-            var endOfNowWeek = Clock.Now.GetEndOfBusinessWeek();
-            if (!repository.Query<Inquiry>()
-                .Any(x => (x.ReferenceDate.Value >= beginOfNowWeek
-                    && x.ReferenceDate.Value <= endOfNowWeek)))
-                CreateInquiries(repository);
+            //if (!repository.Query<Tag>().Any())
+            //    CreateTags(repository);
+            //if (!repository.Query<Person>().Any())
+            //{
+            //    CreatePersons(repository);
+            //    CreateMails(repository);
+            //}
+            //var beginOfNowWeek = Clock.Now.GetStartOfBusinessWeek();
+            //var endOfNowWeek = Clock.Now.GetEndOfBusinessWeek();
+            //if (!repository.Query<Inquiry>()
+            //    .Any(x => (x.ReferenceDate.Value >= beginOfNowWeek
+            //        && x.ReferenceDate.Value <= endOfNowWeek)))
+            //    CreateInquiries(repository);
         }
 
         private void CreateTags(EfRepository repository)

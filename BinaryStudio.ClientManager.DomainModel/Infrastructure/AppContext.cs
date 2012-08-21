@@ -6,14 +6,14 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 {
     public class AppContext : IAppContext
     {
-        private readonly ICash cash;
+        private readonly ICache cache;
         private readonly IRandomToken randomToken;
 
         private const string ParamName = "User";
 
-        public AppContext(ICash cash, IRandomToken randomToken)
+        public AppContext(ICache cache, IRandomToken randomToken)
         {
-            this.cash = cash;
+            this.cache = cache;
             this.randomToken = randomToken;
         }
 
@@ -35,12 +35,12 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
 
         private void SetValueToCash<T>(T value, string token, string prefix=null)
         {
-            cash.Set(prefix == null ? token : prefix + token, value);
+            cache.Set(prefix == null ? token : prefix + token, value);
         }
 
         private T GetFromCash<T>(string token,string prefix=null) where T:class 
         {
-            return null == token ? null : cash.Get<T>(prefix==null ? token:prefix+token);
+            return null == token ? null : cache.Get<T>(prefix==null ? token:prefix+token);
         }
 
         public Team CurrentTeam{ 
