@@ -1,6 +1,6 @@
 bin
 obj
-logs
+*Logs*
 *ReSharper*
 packages
 *.pyc
