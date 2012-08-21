@@ -41,7 +41,6 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             if(ModelState.IsValid)
             {
                 repository.Save(employee);
-                appContext.CurrentUser.RelatedPerson = employee;
             }
 
             return RedirectToAction("Week", "Inquiries");

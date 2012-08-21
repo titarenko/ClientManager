@@ -22,7 +22,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult Index()
         {
-            var user = CurrentUser;
+            var user = GetCurrentUser();
             user.Teams = repository
                 .Query<Team>(x => x.Users)
                 .Where(x => x.Users.Any(y => y.Id == user.Id))
@@ -52,7 +52,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
         public ViewResult CurrentTeamAndUser()
         {
-            return View(appContext.CurrentUser);
+            return View(GetCurrentUser());
         }
 
         [HttpPost]
@@ -62,13 +62,13 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 throw new ModelIsNotValidException();
 
             var team = new Team { Name = name };
-            var user = CurrentUser;
+            var user = GetCurrentUser();
 
             user.Teams.Add(team);
             user.CurrentTeam = user.Teams.Last();
             team.Users.Add(user);
             repository.Save(team);
-            CurrentUser = user;
+            SaveCurrentUserAndCurrentTeam(user);
         }
 
         [HttpPost]
@@ -108,7 +108,7 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
             }
             repository.Save(team);
             
-            CurrentUser = user;
+            SaveCurrentUserAndCurrentTeam(user);
             //TODO: ask what should we do with associated inquiries?
             //if (!team.Users.Any())
             //    repository.Delete(team);
@@ -118,22 +118,20 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         public void MakeTeamCurrent(int teamId)
         {
             var team = repository.Get<Team>(teamId);
-            var user = CurrentUser;
+            var user = GetCurrentUser();
             user.CurrentTeam = team;
-            CurrentUser = user;
+            SaveCurrentUserAndCurrentTeam(user);
         }
 
-        private User CurrentUser
+        private void SaveCurrentUserAndCurrentTeam(User value)
         {
-            get
-            {
-                return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
-            }
-            set
-            {
-                appContext.CurrentUser = value;
-                repository.Save(value);
-            }
+            appContext.CurrentTeam = value.CurrentTeam;
+            repository.Save(value);
+        }
+
+        private User GetCurrentUser()
+        {
+            return repository.Get<User>(appContext.User.Id, x => x.RelatedPerson, x => x.Teams);
         }
     }
 }

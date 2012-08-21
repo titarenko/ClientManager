@@ -43,9 +43,9 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// <summary>
         /// returns object as T that associated with key. Returns null if nothing associated or object isn't of type T
         /// </summary>
-        public T Get<T>(string key) where T : class
+        public T Get<T>(string key) 
         {
-            return this.Get(key) as T;
+            return (T) Get(key) ;
         }
     }
 }

@@ -9,5 +9,6 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
     {
         User CurrentUser { get; set; }
         User User { get; set; }
+        Team CurrentTeam { get; set; }
     }
 }
