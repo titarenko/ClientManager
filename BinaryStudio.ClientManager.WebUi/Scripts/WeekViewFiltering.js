@@ -29,7 +29,7 @@
             }, window.viewModel);
 
             inquiry.EmailLink = ko.computed(function () {
-                return 'mailto:' + inquiry.Email;
+                return 'mailto:' + inquiry.Email+'?cc=studiobinary@gmail.com';
             }, window.viewModel);
 
 //            inquiry.MoveToList = ko.computed(function () {
