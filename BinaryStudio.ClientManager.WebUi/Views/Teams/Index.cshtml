@@ -5,7 +5,7 @@
 
 <div class="tabbable tabs-left">
     <ul class="nav nav-tabs" id="team-tab">
-        <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
+        <li class="active"><a href="#main-tab" data-toggle="tab">Create new team</a></li>
         @if (Model != null)
         {
             foreach (var team in Model.User.Teams)
@@ -25,7 +25,7 @@
             foreach (var team in Model.User.Teams)
             {
                 <div class="tab-pane" id="@(team.Name)-tab">
-                    <button onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
+                    <button class="btn right" onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
                     <div class="ui-widget">
                         <label for="employees">Employees: </label>
                         <input id="@(team.Name+"-employees")" class="employees"/>
