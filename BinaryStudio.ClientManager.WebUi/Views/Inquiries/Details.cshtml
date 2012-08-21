@@ -13,10 +13,11 @@
             <div class="summary">
                 <div class="title">
                     <span class="subject">@Model.Subject</span>
-                    <span class="pull-right">[@(Model.Archived ? "Archived" : "Current")]</span>
+                    <span class="pull-right" id="archived">[@(Model.Archived ? "Archived" : "Current")]</span>
                 </div>
                 for <a class="client" href="@Url.Action("Details", "Clients", new {id = Model.Client.Id})">@Model.Client.FullName</a>
                 <div class="info">
+                    <div><span>Email:</span> @Html.Email(Model.Client.Email)</div>
                     <div><span class="hint">Due to: </span>@(Model.ReferenceDate.HasValue ? Model.ReferenceDate.Value.ToString("dd.MM.yyyy") : "N/A")</div>
                     <div><span class="hint">Assigned to: </span>@Model.Assignee.SafeGet(x => x.FullName).Or("N/A")</div>
                     <div>
@@ -30,7 +31,8 @@
                     </div>
                     <hr/>
                     <div class="description">@Model.Description</div>
-                    <div class="edit-link"><a href="@Url.Action("Edit", "Inquiries", new {id = Model.Id})">Edit this inquiry</a></div>
+                    <div class="edit-link"><a href="@Url.Action("Edit", "Inquiries", new {id = Model.Id})">Edit this inquiry</a>
+                    <a class="archive-link pull-right" href="#" onclick="ToArchive(@Model.Id)">To Archive</a></div>
                 </div>
             </div>
             <div class="comments">
@@ -66,3 +68,23 @@
 </div>
 
 @Html.Partial("_CommentEditor")
+
+<script type="text/javascript">
+    function ToArchive(inquiryId) {
+
+        var onSuccess = function () {
+            ShowAlert("Inquiry was added to archive");
+            $('#archived').text("[Archived]");
+        };
+
+        var onError = function () {
+            ShowAlert("Error while AJAX request");
+        };
+        
+        $.ajax({
+            url: "/Inquiries/ToArchive",
+            type: "POST",
+            data: { id: inquiryId }
+        }).success(onSuccess).error(onError);
+    }
+</script>

@@ -18,7 +18,7 @@ namespace BinaryStudio.ClientManager.WebUi.Extensions
         {
             var tag = new TagBuilder("a");
             tag.AddCssClass("email");
-            tag.Attributes.Add("href", "mailto:{0}".Fill(email));
+            tag.Attributes.Add("href", "mailto:{0}?cc=studiobinary@gmail.com".Fill(email));
             tag.SetInnerText(text ?? email);
             return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
         }
