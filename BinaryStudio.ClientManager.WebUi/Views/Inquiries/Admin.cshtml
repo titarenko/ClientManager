@@ -11,6 +11,8 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#inquiries-tab" data-toggle="tab">Inquiries</a></li>
         <li><a href="#teams-tab" data-toggle="tab">Teams</a></li>
+        <li><a href="#clients-tab" data-toggle="tab">Clients</a></li>
+        <li><a href="#employees-tab" data-toggle="tab">Employees</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="inquiries-tab">
@@ -23,6 +25,16 @@
         <div class="tab-pane" id="teams-tab">
             @{
                 Html.RenderAction("Index", "Teams");
+            }
+        </div>
+        <div class="tab-pane" id="clients-tab">
+            @{
+                Html.RenderAction("Index", "Clients");
+            }
+        </div>
+        <div class="tab-pane" id="employees-tab">
+            @{
+                Html.RenderAction("Index", "Employees");
             }
         </div>
     </div>

@@ -9,7 +9,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Infrastructure
         /// </summary>
         public static bool IsNullOrEmpty(this string line)
         {
-            return String.IsNullOrWhiteSpace(line);
+            return String.IsNullOrEmpty(line);
         }
 
         /// <summary>
