@@ -5,12 +5,12 @@
 
 <div class="tabbable tabs-left">
     <ul class="nav nav-tabs" id="team-tab">
-        <li><a href="#main-tab" data-toggle="tab">Create new team</a></li>
+        <li class="@(Model.User.CurrentTeam==null?"active":"")"><a  href="#main-tab" data-toggle="tab">Create new team</a></li>
         @if (Model != null)
         {
             foreach (var team in Model.User.Teams)
             {
-                <li><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
+                <li class="@(Model.User.SafeGet(x=>x.CurrentTeam.Id)==team.Id?"active":"")"><a data-toggle="tab" href="#@(team.Name)-tab">@(team.Name)  </a></li>
             }
         }
     </ul>

@@ -222,6 +222,15 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                 .ThenBy(x => x.Client.LastName)
                 .ToList();
 
+
+            var tags = repository.Query<Tag>()
+                .OrderBy(x => x.Name)
+                .ToList();
+            foreach (var tag in tags)
+            {
+                tag.Owner = null;
+            }
+
             return View(
                 new AdminViewModel
                     {
@@ -243,9 +252,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
                             .ThenBy(x => x.LastName)
                             .ToList(),
 
-                        Tags = repository.Query<Tag>()
-                            .OrderBy(x => x.Name)
-                            .ToList()
+                        Tags = tags
+
                     });
         }
 

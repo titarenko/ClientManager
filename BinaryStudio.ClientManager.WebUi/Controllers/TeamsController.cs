@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
 using BinaryStudio.ClientManager.DomainModel.Entities;
@@ -63,12 +64,30 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
 
             var team = new Team { Name = name };
             var user = GetCurrentUser();
-
+            var tags = new List<Tag>{
+                new Tag
+                    {
+                        Name = "C++",
+                    },
+                new Tag
+                    {
+                        Name = "Php"
+                    },
+                new Tag
+                    {
+                        Name = ".Net"
+                    }
+            };
             user.Teams.Add(team);
             user.CurrentTeam = user.Teams.Last();
             team.Users.Add(user);
             repository.Save(team);
             SaveCurrentUserAndCurrentTeam(user);
+            foreach (var tag in tags)
+            {
+                tag.Owner = repository.Get<Team>(team.Id);
+                repository.Save(tag);
+            }          
         }
 
         [HttpPost]
@@ -126,6 +145,8 @@ namespace BinaryStudio.ClientManager.WebUi.Controllers
         private void SaveCurrentUserAndCurrentTeam(User value)
         {
             appContext.CurrentTeam = value.CurrentTeam;
+            if (value.CurrentTeam!=null)
+                repository.Save(value.CurrentTeam);
             repository.Save(value);
         }
 
