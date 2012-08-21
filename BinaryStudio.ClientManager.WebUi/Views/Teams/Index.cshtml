@@ -15,28 +15,37 @@
         }
     </ul>
     <div class="tab-content">
-        <div class="tab-pane @(Model.User.CurrentTeam==null?"active":"")"  id="main-tab">
-            <span>Team Name: </span>
-            <input id="new-team-name" />
-            <input type="button" class="btn" value="Create" onclick="CreateTeam()" />
+        <div class="tab-pane @(Model.User.CurrentTeam == null ? "active" : "")"  id="main-tab">
+            <div class="navbar-form">
+                <label for="new-team-name">Team Name: </label>
+                <input type="text" id="new-team-name" />
+                <input type="button" class="btn" value="Create" onclick="CreateTeam()" />
+            </div>
         </div>
         @if (Model != null)
         {
             foreach (var team in Model.User.Teams)
             {
-                <div class="tab-pane @(Model.User.SafeGet(x=>x.CurrentTeam.Id)==team.Id?"active":"")" id="@(team.Name)-tab">
-                    <button class="btn right" onclick="MakeTeamCurrent(@team.Id)">Make team current</button>
-                    <div class="ui-widget">
+                <div class="tab-pane @(Model.User.SafeGet(x => x.CurrentTeam.Id) == team.Id ? "active" : "")" id="@(team.Name)-tab">
+                    @if (team.Id == Model.User.SafeGet(x => x.CurrentTeam.Id))
+                    {
+                        <span class="pull-right">[Current]</span>
+                    }
+                    else
+                    {
+                        <button class="btn pull-right" onclick=" MakeTeamCurrent(@team.Id)">Make team current</button>
+                    }
+                    <div class="ui-widget navbar-form">
                         <label for="employees">Employees: </label>
-                        <input id="@(team.Name+"-employees")" class="employees"/>
+                        <input id="@(team.Name + "-employees")" class="employees" type="text"/>
                         <input type="button" class="btn" value="Add" onclick="AddUser(@team.Id,'@team.Name')" />
                     </div>
                     <ul>
-                        @foreach(var user in team.Users)
+                        @foreach (var user in team.Users)
                         {
                             <li>
                                 <span>@user.RelatedPerson.FullName</span>
-                                <input type="button" class="btn" value="@(user.Id == Model.User.Id ? "Leave" : "Kick")" onclick="RemoveUser(@user.Id, @team.Id,'@team.Name')" />
+                                <a href="#" onclick="RemoveUser(@user.Id, @team.Id,'@team.Name')">@(user.Id == Model.User.Id ? "Leave" : "Kick")</a>
                             </li>
                         }
                     </ul>
