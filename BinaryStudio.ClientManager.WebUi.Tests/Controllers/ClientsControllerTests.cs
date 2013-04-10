@@ -3,6 +3,7 @@ using System.Linq;
 using BinaryStudio.ClientManager.WebUi.Controllers;
 using BinaryStudio.ClientManager.DomainModel.Entities;
 using BinaryStudio.ClientManager.DomainModel.DataAccess;
+using BinaryStudio.ClientManager.WebUi.Models;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using NUnit.Framework;
@@ -93,10 +94,11 @@ namespace BinaryStudio.ClientManager.WebUi.Tests.Controllers
             };
             var repository = Substitute.For<IRepository>();
             repository.Get<Person>(1).Returns(returnedClient);
+            repository.Query<Inquiry>().Returns(new[] {new Inquiry {Client = returnedClient}}.AsQueryable());
             var clientController = new ClientsController(repository);
 
             // act 
-            var viewModel = clientController.Details(1).Model as Person;
+            var viewModel = clientController.Details(1).Model as ClientDetailsViewModel;
 
             // assert
             viewModel.Should().NotBeNull();

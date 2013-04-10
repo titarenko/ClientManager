@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 using FluentAssertions;
 using NUnit.Framework;
 using BinaryStudio.ClientManager.DomainModel.Input;
@@ -28,7 +27,7 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
             result.Address.Should().Be(mailAddress);
         }
 
-        public IEnumerable<TestCaseData> Should_ReturnSenderMailAddressFromBody_WnehCalledGetSender_TestCaseSource()
+        public IEnumerable<TestCaseData> Should_ReturnSenderMailAddressFromBody_WnehCalledGetSenderFromForwardedMail_TestCaseSource()
         {
             yield return  new TestCaseData("olololo From: Ivan Zaporozhchenko [mailto:1van1111@mail.ru] Sent: Thursday, August 09, 2012 1:30 PM To: 1van1111@i.ua; Ivan Zaporozhchenko Cc: studiobinary@gmail.com Subject: AAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!! asdfdgfdvcdx vds f","1van1111@mail.ru");
         }

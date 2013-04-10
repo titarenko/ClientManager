@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BinaryStudio.ClientManager.DomainModel.Infrastructure;
-using FizzWare.NBuilder.Dates;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -60,85 +59,85 @@ namespace BinaryStudio.ClientManager.DomainModel.Tests.Infrastructure
         public IEnumerable<TestCaseData> Should_Return1stDay_WhenCalledStartOfMonth_TestCaseSource()
         {
             //all months
-            yield return new TestCaseData(January.The10th);
-            yield return new TestCaseData(February.The1st);
-            yield return new TestCaseData(March.The19th);
-            yield return new TestCaseData(April.The20th);
-            yield return new TestCaseData(May.The30th);
-            yield return new TestCaseData(June.The11th);
-            yield return new TestCaseData(July.The15th);
-            yield return new TestCaseData(August.The8th);
-            yield return new TestCaseData(September.The4th);
-            yield return new TestCaseData(October.The6th);
-            yield return new TestCaseData(November.The19th);
-            yield return new TestCaseData(December.The24th);
+            yield return new TestCaseData(new DateTime(2012, 1, 10));
+            yield return new TestCaseData(new DateTime(2012, 2, 1));
+            yield return new TestCaseData(new DateTime(2012, 3, 19));
+            yield return new TestCaseData(new DateTime(2012, 4, 20));
+            yield return new TestCaseData(new DateTime(2012, 5, 30));
+            yield return new TestCaseData(new DateTime(2012, 6, 11));
+            yield return new TestCaseData(new DateTime(2012, 7, 15));
+            yield return new TestCaseData(new DateTime(2012, 8, 8));
+            yield return new TestCaseData(new DateTime(2012, 9, 4));
+            yield return new TestCaseData(new DateTime(2012, 10, 6));
+            yield return new TestCaseData(new DateTime(2012, 12, 19));
+            yield return new TestCaseData(new DateTime(2012, 12, 24));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnLastDayOfTheMonth_WhenCalledEndOfMonth_TestCaseSource()
         {
-            yield return new TestCaseData(January.The11th,January.The31st);
+            yield return new TestCaseData(new DateTime(2012, 1, 11),new DateTime(2012, 1, 31));
 
             //leap year
             yield return new TestCaseData(new DateTime(2012, 2, 22), new DateTime(2012, 2, 29));
             //not leap year
             yield return new TestCaseData(new DateTime(2011, 2, 23), new DateTime(2011, 2, 28));
 
-            yield return new TestCaseData(March.The19th, March.The31st);
-            yield return new TestCaseData(April.The20th, April.The30th);
-            yield return new TestCaseData(May.The30th,May.The31st);
-            yield return new TestCaseData(June.The11th,June.The30th);
-            yield return new TestCaseData(July.The15th,July.The31st);
-            yield return new TestCaseData(August.The8th,August.The31st);
-            yield return new TestCaseData(September.The4th,September.The30th);
-            yield return new TestCaseData(October.The6th,October.The31st);
-            yield return new TestCaseData(November.The19th,November.The30th);
-            yield return new TestCaseData(December.The24th,December.The31st);
+            yield return new TestCaseData(new DateTime(2012, 3, 19), new DateTime(2012, 3, 31));
+            yield return new TestCaseData(new DateTime(2012, 4, 20), new DateTime(2012, 4, 30));
+            yield return new TestCaseData(new DateTime(2012, 5, 30),new DateTime(2012, 5, 31));
+            yield return new TestCaseData(new DateTime(2012, 6, 11),new DateTime(2012, 6, 30));
+            yield return new TestCaseData(new DateTime(2012, 7, 15),new DateTime(2012, 7, 31));
+            yield return new TestCaseData(new DateTime(2012, 8, 8),new DateTime(2012, 8, 31));
+            yield return new TestCaseData(new DateTime(2012, 9, 4),new DateTime(2012, 9, 30));
+            yield return new TestCaseData(new DateTime(2012, 10, 6),new DateTime(2012, 10, 31));
+            yield return new TestCaseData(new DateTime(2012, 11, 19),new DateTime(2012, 11, 30));
+            yield return new TestCaseData(new DateTime(2012, 12, 24),new DateTime(2012, 12, 31));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnStartOfWeek_WhenCalledOn_TestCaseSource()
         {
             // week is 9, 10, ..., 13, 14, 15 (Mon, Tue, ..., Fri, Sat, Sun) of July
-            yield return new TestCaseData(July.The14th, July.The9th);
-            yield return new TestCaseData(July.The13th, July.The9th);
-            yield return new TestCaseData(July.The10th, July.The9th);
-            yield return new TestCaseData(July.The9th, July.The9th);
-            yield return new TestCaseData(July.The15th, July.The9th);
-            yield return new TestCaseData(July.The16th, July.The16th);
-            yield return new TestCaseData(July.The8th, July.The2nd);
+            yield return new TestCaseData(new DateTime(2012, 7, 14), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 13), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 10), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 9), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 15), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 16), new DateTime(2012, 7, 16));
+            yield return new TestCaseData(new DateTime(2012, 7, 8), new DateTime(2012, 7, 2));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnStartOfBusinessWeek_WhenCalledOn_TestCaseSource()
         {
             // week is 9, 10, ..., 13, 14, 15 (Mon, Tue, ..., Fri, Sat, Sun) of July
-            yield return new TestCaseData(July.The14th, July.The9th);
-            yield return new TestCaseData(July.The13th, July.The9th);
-            yield return new TestCaseData(July.The10th, July.The9th);
-            yield return new TestCaseData(July.The9th, July.The9th);
-            yield return new TestCaseData(July.The15th, July.The9th);
-            yield return new TestCaseData(July.The16th, July.The16th);
-            yield return new TestCaseData(July.The8th, July.The2nd);
+            yield return new TestCaseData(new DateTime(2012, 7, 14), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 13), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 10), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 9), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 15), new DateTime(2012, 7, 9));
+            yield return new TestCaseData(new DateTime(2012, 7, 16), new DateTime(2012, 7, 16));
+            yield return new TestCaseData(new DateTime(2012, 7, 8), new DateTime(2012, 7, 2));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnEndOfWeek_WhenCalledOn_TestCaseSource()
         {
             // week is 9, 10, ..., 13, 14, 15 (Mon, Tue, ..., Fri, Sat, Sun) of July
-            yield return new TestCaseData(July.The14th, July.The15th);
-            yield return new TestCaseData(July.The13th, July.The15th);
-            yield return new TestCaseData(July.The10th, July.The15th);
-            yield return new TestCaseData(July.The9th, July.The15th);
-            yield return new TestCaseData(July.The16th, July.The22nd);
-            yield return new TestCaseData(July.The8th, July.The8th);
+            yield return new TestCaseData(new DateTime(2012, 7, 14), new DateTime(2012, 7, 15));
+            yield return new TestCaseData(new DateTime(2012, 7, 13), new DateTime(2012, 7, 15));
+            yield return new TestCaseData(new DateTime(2012, 7, 10), new DateTime(2012, 7, 15));
+            yield return new TestCaseData(new DateTime(2012, 7, 9), new DateTime(2012, 7, 15));
+            yield return new TestCaseData(new DateTime(2012, 7, 16), new DateTime(2012, 7, 22));
+            yield return new TestCaseData(new DateTime(2012, 7, 8), new DateTime(2012, 7, 8));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnEndOfBusinessWeek_WhenCalledOn_TestCaseSource()
         {
             // week is 9, 10, ..., 13, 14, 15 (Mon, Tue, ..., Fri, Sat, Sun) of July
-            yield return new TestCaseData(July.The14th, July.The13th);
-            yield return new TestCaseData(July.The13th, July.The13th);
-            yield return new TestCaseData(July.The10th, July.The13th);
-            yield return new TestCaseData(July.The9th, July.The13th);
-            yield return new TestCaseData(July.The16th, July.The20th);
-            yield return new TestCaseData(July.The8th, July.The6th);
+            yield return new TestCaseData(new DateTime(2012, 7, 14), new DateTime(2012, 7, 13));
+            yield return new TestCaseData(new DateTime(2012, 7, 13), new DateTime(2012, 7, 13));
+            yield return new TestCaseData(new DateTime(2012, 7, 10), new DateTime(2012, 7, 13));
+            yield return new TestCaseData(new DateTime(2012, 7, 9), new DateTime(2012, 7, 13));
+            yield return new TestCaseData(new DateTime(2012, 7, 16), new DateTime(2012, 7, 20));
+            yield return new TestCaseData(new DateTime(2012, 7, 8), new DateTime(2012, 7, 6));
         }
 
         public IEnumerable<TestCaseData> Should_ReturnNumberOfWeek_WhenCalledOn_TestCaseSource()
