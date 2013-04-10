@@ -107,6 +107,10 @@
     <Compile Include="Models\WeekItemViewModel.cs" />
     <Compile Include="Models\WeekViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\images\facebook.png" />
+    <Content Include="Content\images\linkedin.png" />
+    <Content Include="Content\images\skype.png" />
+    <Content Include="Content\images\twitter.png" />
     <Content Include="Content\logo.png" />
     <Content Include="Scripts\TeamIndexScripts.js" />
   </ItemGroup>
@@ -119,11 +123,8 @@
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\datepicker.less" />
     <Content Include="Content\images\DummyPhoto.jpg" />
-    <Content Include="Content\images\facebook.jpg" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="Content\images\LinkedIn.jpg" />
-    <Content Include="Content\images\twitter.jpg" />
     <None Include="Content\styles\month.less" />
     <Content Include="Content\styles.less" />
     <Content Include="Content\styles\admin.less" />
