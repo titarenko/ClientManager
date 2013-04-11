@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
-    [TestFixture]
+    [TestFixture, Ignore("Integration test, not intended to run after each build.")]
     public class AeEmailClientIntegrationTests
     {
         [Test]

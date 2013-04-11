@@ -3,15 +3,12 @@
 namespace BinaryStudio.ClientManager.DomainModel.Tests.Input
 {
     [TestFixture]
-
     class AeEventBasedEmailClientTest
     {
-        [Test]
-
+        [Test, Ignore("Not implemented.")]
         public void Should_RecieveMessagesFromServer_WhenThereIsAnyMessages()
         {
-            Assert.AreEqual(1,1); //Test should be here
+            Assert.Fail();
         }
-
     }
 }
